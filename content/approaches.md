@@ -18,4 +18,4 @@ The problem lies in that we can only evaluate the BGP of the query converted int
 validate this claim, maybe union doesn't work 
 {:.todo}
 
-Which come obliously with the desavantage that query with filters cannot be handled directly. It could be possible to do some first other logic to validate to validate the consistency of the filter.
+Which comes obviously with the disadvantage that query with filters cannot be handled directly. It could be possible to do some first other logic to validate the consistency of the filter.
