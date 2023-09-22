@@ -2,3 +2,5 @@ abbreviation,full
 Q,query
 LTQP,Link Traversal Query Processing
 QSC,Query Shape Containement
+BGP,Basic Graph Patterns
+S, shape
