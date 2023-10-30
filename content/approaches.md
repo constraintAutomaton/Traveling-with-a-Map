@@ -1,42 +1,61 @@
 ## Methodology
 {:#approaches}
 
+this section mix litterature review with methodology but I don't think it is super bad for the moment.
+{:.todo}
+
+
+Make a proper definition of what is a shape and what is a query, we will probably restricted ourselve to well defined shape
+{:.todo}
+
 ### Query Shape Alignment (QSA)
-We defined a query $$ Q $$ to be align with a shape $$ S $$ over the property set $$ P  = \{p_1, p_2, p_3, \cdots\} $$,
-denoted as $$ Q \parallel_{P} S $$ when the properties of $$ P $$ are defined in $$ Q $$ and $$ S $$ and the objects $$ o_i $$ in a triple $$ (s, p_i, o_i) $$ 
-associated with the property respect the constraint of $$ S $$ and $$ Q $$.
-We define a Query Shape Weak Alignment (QSWA), denoted as $$ Q \sim \parallel_{P} S $$ when the $$ o_i $$ don't necessarily respect $$ S $$.
+
+We defined a query $$ Q $$ to be aligned with a shape $$ S $$ with a degree $$ n $$ over the property set $$ P  = \{p_1, p_2, p_3, \cdots\} $$,
+denoted as $$ Q \parallel_{P, n} S $$, when the properties of $$ P $$ are defined in $$ Q $$ and in $$ S $$ and the $$ n $$ descendant terms starting with the object $$ o_i $$ associated with the properties respect the constraint of $$ S $$. 
+It has to be considered, that sometimes the constraint of the object will lead to
+the validation of a nested shape making the operation recursive.
+
+evaluate simple things for the object like if it is IRI, Literal or blank node, if equality
+{:.todo}
 
 ### Query Shape Containement (QSC)
 
 We defined $$ Q $$ to be contained inside $$ S $$ denoted as $$ Q \sqsubseteq  S $$,
 iif the answer bag of $$ Q $$ computed on any data source $$ D $$ respecting $$ S $$.
-Which is somewhat similar to definition 2.1 of [](cite:cites afariQCE).
+It is somewhat similar to the definition 2.1 of [](cite:cites afariQCE).
 
 ### Usages
 
-We aims to use the concept of query shape alignment (QSA) and query shape containement (QSC) for source selection in three contexts, 
-Link Traversal Query Processing (LTQP), Federated Querying (FQ) and Joining operations (JO).
+We aim to use the concept of query shape alignment (QSA) and query shape containment (QSC) for source selection in three contexts, 
+source selection in Link Traversal Query Processing , query planing in LTQP, and Federated Querying.
 
-#### Link Traversal Query Processing (LTQP)
+#### Source Selection in Link Traversal Query Processing (LTQP)
 
-The first one is Link Traversal Query Processing (LTQP).
-In LTQP, 
-we can reduce the query execution time, in a structure envrionnement, while keeping the same accuracy by discriminating 
-links leading to data sources using a reachability criteria [](cite:cites Hartig2012) that take as input knownledge 
-provided to the query engine [](cite:cites Taelman2023).
+In LTQP, a maj
 
-Given that an engine dereference a $$ S $$ it can pushdown its $$ Q $$ to the same level as the S encounter.
-With those two entities on the same level it can verify if $$ Q \parallel_{P} S $$ or $$ Q \sim \parallel_{P} S $$
-over at least one property of the $$ P $$ of $$ Q $$.
-If one property is align with the shape than it is possible that with the current triple store or with future data sources that
-a query results could be produce, hence why it is not necessary for $$ Q $$ to be fully align with $$ S $$
+
+
+we can reduce the query execution time, in a structured environment, by discriminating 
+links leading to data sources that surely cannot contribute to the query results [](cite:cites Taelman2023).
+This data source discrimination method consists of defining an adequate reachability criteria [](cite:cites Hartig2012);
+an adequate criteria in this context must imply a domain that includes the 
+complete results of the query and exclude a large portion of data sources that cannot contribute to the result bag [](cite:cites Taelman2023). 
+The restriction of the domain is done by allowing the engine to only dereference triple terms (leading to data sources) respecting a condition provided by the user.
+
+
+In our research, we are using the concept of QSA as our discriminatory mecanism in the reachability criteria.
+Given that an engine dereference a $$ S $$ it can pushdown its $$ Q $$ to the same level as the $$ S $$ encounter.
+With those two entities on the same level the engine can verify if $$ Q \parallel_{P, 1} S $$ over at least one property of the $$ P $$ of $$ Q $$.
+If one property is aligned with the shape than it is possible that the data source associated with $$ S $$ contribute to the result.
+It has to be noted that the operation $$ Q \parallel_{P, 0} S $$, can also be applied
+but there is a posibility that the data sources contains objects that do not respect the constraint of the query.
+
 
 find reference for pushing down 
 {:.todo}
 
-We suppose that QSWA is easier to compute than QSA, but QSWA is less discriminant and might make the engine visit data sources that contains data that will not contribute to the query answer given analysis of the full BGP or of the filter expression.
-
+Maybe we can do some link priorisation based on QSA, but it would be in potential future and we can uses as a basis the work of Ruben E.
+{:.comment}
 
 #### Federated Querying (FQ)
 
@@ -48,52 +67,82 @@ The client can send the queries  $$ q_j $$ to an enpoint $$ E_i $$ if $$ q_j \sq
 find a better name for the sort of main client
 {:.todo}
 
-it's really a thing to think about more
+it's really a thing to think about more I think it might be another subject 
+that might be tackle by this paper or me or series of papers.
 {:.todo}
 
 #### Joining operations (JO)
+One of the most important parts of database optimization is the joint ordering. 
+
+reference, talking about adaptative query planning
+{:.todo} 
+
+In LTQP there is no statistic information that is given to the query engine a priori, it operates in a mode that has been defined in the literature as Zero-Knowledge Query Planning [](cite:cites Hartig2011).
+
+maybe talk about the heuristic that are usually used, I guess we need to make the distinction between lit rev and method but for the moment IDC
+{:.todo}
+
+Given a data sources bound by shapes $$ SC = \{S_1, S_2, S_3, \cdots\} $$ where each $$ S_i $$ has a closed-world assumption
+and where the shapes are defined in a way that it is possible to determine which triple is associate to which shape then
+we can know the exact or the range of cardinalities (It has to be noted that the range can also be $$ [0, \infty[ $$) for each properties in relation to its subject of the data source (the data source is a  subset of the triple store of the query engine). 
+We can approximate the cardinality of the property inside the data source by counting the number of triples and weighting them based its cardinality and the occurrence in $$ SC $$. 
+
+To determine the apartenance of a group of triple to $$ S_i $$, it is necessary to identify a limit condition that differencitate each shape, after
+those rules established, the triples have to be group in graphs of shared relations then we can associate each group to a shape by evaluating the condition created earlier.
+
+
+I guess we can limit ourself with properties not shared because it would be
+pretty horible to define a shape that only differt in the cardinalities.
+{:.todo}
+
+I need to think it throught. I also need to think about the references of my 
+claims
+{:.todo}
+
+Nous pouvons commencer par un probleme ou il n'y a qu'une seule forme.
+{:.todo}
+
+- Qu'est-ce que je peux connaitre?
+    - Je crois qu'il est evident que je peux connaitre les cardinalite en relation au sujet que cela soit une valeur exacte ou une plage, mais je pense qu'il est simple pour le moment de suppose un monde ferme pour toute les formes afin de nous facilite la tache et voir ce qu'on peut faire dans un environnement favorable.
+- Qu'est-ce que je peux faire avec ce que je connais?
+    - Je ne sais pas vraiment en ce momment...
+- Qu'est-ce qui me manque?
+    - Dependant du point plus haut que je ne sais pas.
+- Qu'est-ce que je peux approximer? 
+    - Je pense que les cardinalite general du document peuvent etre approximer. Il sera important a mon avis d'avoir un logiciel separer et de regarder une evaluation parfait contre mon approximation.
+{:.todo}
 
 ### Resolution
 
-A Conjective Queries $$ Q $$ can be converted into an infinite number of canonical databases ($$ D_Q  = \{ d_{q1}, d_{q2}, \cdots  \}$$) by remplacing the variables of a query into a constant [](cite:cites afariQCE).
+
+#### QSA 
+
+Given $$ S $$ with a close-world assumption constraining the property set $$ PS  = \{ ps_1, ps_2, \cdots, ps_m \}$$ with the associated object constraint $$ OCS =  \{ ocs_1, ocs_2, \cdots, ocs_m \}$$ and a $$ Q $$ with the  property set $$ PQ = \{pq_{1}, pq_2, \cdots, pq_n \} $$ and the associated object constraint (either from the filter expression or by an IRI or a blank node) $$ OCQ = \{ ocq_1, ocq_2, \cdots, ocq_n \} $$,
+the engine accept a link leading to a data source associated with $$ S $$ if 
+
+$$ \exist (pq_i \in PS) \wedge ocq_i \wedge ocs_j(o_i) $$ 
+
+given that $$ o_i $$ is the object term of the property $$ pq_i$$ and $$ j $$ is the index of the property of $$ S $$ matching $$ pq_i $$.
 
 
-#### QSWA 
+In the case of a degree 0 operation than it can be simplify as 
 
-Given $$ S $$ with a close world assumption that constrain the properties set $$ PS  = \{ ps_1, ps_2, \cdots, ps_m \}$$ and a $$ Q $$ with the properties $$ PQ = \{pq_{1}, pq_2, \cdots, pq_n \} $$,
-the engine accept a link leading to a data source associated with $$ S $$ if $$ \exist (pq_i \in PS)$$.
+$$ \exist (pq_i \in PS) $$ 
+
 Given that $$ PS $$ is store in an hasmap with $$ O(1) $$ complexity for acccess than the time algorithm is O(n).
 
+It has to be noted that the cardinalities of S has not been considered because we study conjecture linked data query and
 
-#### QSA for LTQP
-
-Given $$ S $$ with a close world assumption and a that constraint the properties set $$ PS $$
-and $$ Q $$ with the properties $$ PQ = \{pq_{1}, pq_2, \cdots, pq_n \} $$.
-Considering $$ S\prime $$ a shape containing only the property $$ pq_i $$ evaluated and where the cardinality
-constraint has been lift because the <q>query triples [are not able to] catch the complete data structure</q>[](cite:cites Abbas2017) of $$ S $$.
-
-the engine accept a link leading to a data source associated with $$ S $$ if a there is a branch of the BGP containing a $$ pq_i $$
-that respect the constraint associated with a $$ ps_j = pq_i $$ considering the segment of the filter expression of $$ Q $$ in relation with the node of the branch of the BGP.
-
-For the resolution of this problem we can transform the sub BPGs into Canonical databases where the variables becomes element that respect $$ S\prime $$
-if a segment of the form of the sub BGP (segment with a lenght greater than one ) can be contained in $$ S $$ and the constant of the sub BGP respect $$ S $$. 
-If the above cannot be satify than the property cannot be aligned with $$ S $$ hence it is not possible to find contributing triple in the associated data source. 
-
-We can run QSWA first and see if there is at least a weak aligmnent then we can simply construct BGP that are inside of S
-{:.todo} 
-
-
-Modify the definition of QSA, to consider a sub lenght, make sure we take a segment of S and not the full
+there is a reference for conjecture SPARQL or linked data query
 {:.todo}
+<q>query triples [are not able to] catch the complete data structure</q>[](cite:cites Abbas2017) of $$ S $$.
 
-
-
-
-
-
+I think a demonstration of how much theoriticaly we can prune would be important
+{:.todo}
 
 ### QCS
 
+A Conjective Queries $$ Q $$ can be converted into an infinite number of canonical databases ($$ D_Q  = \{ d_{q1}, d_{q2}, \cdots  \}$$) by remplacing the variables of a query into a constant [](cite:cites afariQCE).
 
 
 Proposition X
@@ -109,7 +158,8 @@ validate this claim, maybe union doesn't work
 
 Which comes obviously with the disadvantage that query with filters cannot be handled directly. It could be possible to do some first other logic to validate the consistency of the filter.
 
-
+WIP
+{.todo}
 
 ### Approaches
 
@@ -121,3 +171,11 @@ We investigate three of them:
 2. Convert the shape into a query [](cite:cites spapeExpressionConvert, 2112.11796) and perform a shape containment validation prosedure with bag-set semantics [](cite:cites Afrati2010).
 
 3. Convert the query into a shape and perform a shape containment validation procedure [](cite:cites Staworko2018ContainmentOS).
+
+
+
+- I need to evaluate the time to parse triples vs the computing time.
+- I need to put a lot of refence to adaptative query planning.
+- One good thing about this work is that we want to be able to discriminate and do some query planning without having to ask the data provider to maintain something more given that having a shape has good benefit on it's own and if the data provider want something very loss it can also do it, and IMO without having anyways to really know what is inside a data source how can we expect and application to do something out of it. We need some sort of shema some sort of contact.
+{:.todo}
+
