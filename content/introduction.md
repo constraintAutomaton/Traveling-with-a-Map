@@ -3,7 +3,7 @@
 
 [The publication of open link data is a growing phenomenon in the recent years](https://lod-cloud.net/#diagram).
 In its most basic interpretation, it consists of publishing data in the form of triples where the first term is the subject,
-the second is the predicate and the third the object.
+the second is the predicate and the third is the object.
 Those terms can be IRIs, blank nodes or literals.
 To get more information or context about a term it is possible to find its declaration when it is an IRI or a blank node.
 For a blank node, the information has to be in the same document whereas for a IRI it can be dereferenceable hence giving a new data source
@@ -11,8 +11,8 @@ documenting the term in question.
 
 Given the potential descriptive power of IRI dereferencing a query paradigm called Link Traversal Query Processing (LTQP) [](cite:cites Hartig2014) has been developed.
 The following paradigm consists of recursively dereferencing IRI contained into the internal data source of a query engine 
-during the query execution following a lookup policy to append its base of information.
-This technique comes with multiple difficulties such as the open endlessness of the web which can be interpreted as a pseudo-infinite domain of exploration
+during the query execution using a lookup policy to append its base of information.
+This technique comes with multiple difficulties such as the open endlessness of the web, which can be interpreted as a pseudo-infinite domain of exploration,
 and the challenge of creating a query plan due to the lack of information about the data sources. 
 It has been demonstrated by Hartig [](cite:cites hartig2016walking) that in the open web the main performance bottleneck and obstacle for query completness and fast query execution time is not the query plan but the large number of the HTTP request necesarry to fullfill a query.
 

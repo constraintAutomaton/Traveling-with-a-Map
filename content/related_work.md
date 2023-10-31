@@ -8,7 +8,16 @@
 
 Link Traversal Query Processing (LTQP), is a SPARQL querying paradigm that aims at answering queries by exploring the web using the
 follow-your-nose priniple of linked data [](cite:cites hartig2016walking).
-The query execution start by the dereferencing of URLs called [seed URLs](cite:cites hartig2016walking), with the purpose of injesting their data inside an internal data source, next new data sources are obtained by recursively dereferencing particular IRIs following a user defined lookup policy called reachability criteria [](cite:cites Hartig2012).
+The query execution start by the dereferencing of URLs called [seed URLs](cite:cites hartig2016walking), with the purpose of injesting their data inside an internal data source, new data sources are obtained by recursively dereferencing particular IRIs following a user defined lookup policy called reachability criteria [](cite:cites Hartig2012).
+
+Given the lack of a priori statistical information about the data sources and also the knowledge of which data source will contribute
+to the results bag, it is challenging to create a query plan. Hence the state of the art approach has been to rely on divers heuristic [](cite:cites Hartig2014) for the join ordering.
+
+The number of HTTP request has been identified as a major performance bottleneck [](cite:cites hartig2016walking) hence the research
+
+
+We need to talk about blocking and not blocking opration "SIHJoin: Querying Remote and Local Linked Data"
+{:.todo}
 
 ### Adaptative query planing
 
