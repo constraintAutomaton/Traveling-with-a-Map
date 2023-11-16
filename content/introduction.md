@@ -5,11 +5,11 @@
 In its most basic interpretation, it consists of publishing data in the form of triples where the first term is the subject,
 the second is the predicate and the third is the object.
 Those terms can be IRIs, blank nodes or literals.
-To get more information or context about a term it is possible to find its declaration when it is an IRI or a blank node.
-For a blank node, the information has to be in the same document whereas for a IRI it can be dereferenceable hence giving a new data source
-documenting the term in question.
+To get more information or context from an IRI or blank node term we can access its declaration.
+In the case of a blank node, the information has to be in the same document whereas for a IRI the information can be at the address defined by the term.
 
-Given the potential descriptive power of IRI dereferencing a query paradigm called Link Traversal Query Processing (LTQP) [](cite:cites Hartig2014) has been developed.
+
+To take advantage of the potential descriptive power of IRI dereferencing a query paradigm called Link Traversal Query Processing (LTQP) [](cite:cites Hartig2014) has been developed.
 The following paradigm consists of recursively dereferencing IRI contained into the internal data source of a query engine 
 during the query execution using a lookup policy to append its base of information.
 This technique comes with multiple difficulties such as the open endlessness of the web, which can be interpreted as a pseudo-infinite domain of exploration,
@@ -39,3 +39,6 @@ on the state of art approach of using heuristics [](cite:cites Hartig2012).
 [the results are not presented because it is WIP]
 The paper is divided as follows, first we present the related work, following by our approach, then the
 experimental methodology, the results and discussion and a conclusion.
+
+READ Optimizing SPARQL Queries with SHACL
+{:.todo}
