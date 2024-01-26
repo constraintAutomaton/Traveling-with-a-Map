@@ -1023,6 +1023,25 @@
   isbn      = {978-3-031-47240-4},
 }
 
+@InProceedings{10.1145/1066157.1066171,
+  author    = {Babu, Shivnath and Bizarro, Pedro and DeWitt, David},
+  booktitle = {Proceedings of the 2005 ACM SIGMOD International Conference on Management of Data},
+  title     = {Proactive Re-Optimization},
+  year      = {2005},
+  address   = {New York, NY, USA},
+  pages     = {107–118},
+  publisher = {Association for Computing Machinery},
+  series    = {SIGMOD '05},
+  abstract  = {Traditional query optimizers rely on the accuracy of estimated statistics to choose good execution plans. This design often leads to suboptimal plan choices for complex queries, since errors in estimates for intermediate subexpressions grow exponentially in the presence of skewed and correlated data distributions. Reoptimization is a promising technique to cope with such mistakes. Current re-optimizers first use a traditional optimizer to pick a plan, and then react to estimation errors and resulting suboptimalities detected in the plan during execution. The effectiveness of this approach is limited because traditional optimizers choose plans unaware of issues affecting reoptimization. We address this problem using proactive reoptimization, a new approach that incorporates three techniques: i) the uncertainty in estimates of statistics is computed in the form of bounding boxes around these estimates, ii) these bounding boxes are used to pick plans that are robust to deviations of actual values from their estimates, and iii) accurate measurements of statistics are collected quickly and efficiently during query execution. We present an extensive evaluation of these techniques using a prototype proactive re-optimizer named Rio. In our experiments Rio outperforms current re-optimizers by up to a factor of three.},
+  doi       = {10.1145/1066157.1066171},
+  file      = {:papers/Proactive Re-Optimization.pdf:PDF},
+  groups    = {query planning},
+  isbn      = {1595930604},
+  location  = {Baltimore, Maryland},
+  numpages  = {12},
+  url       = {https://doi.org/10.1145/1066157.1066171},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
 
 @Comment{jabref-meta: grouping:
