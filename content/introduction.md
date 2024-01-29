@@ -3,7 +3,7 @@
 
 [The publication of open link data is a growing phenomenon in the recent years](https://lod-cloud.net/#diagram).
 Dereferencing a term in an RDF triple provide contextual information about its definition, for example dereferencing a term representing a user
-let's say a [WebID](https://www.w3.org/wiki/WebID) can provide the name of the user among other information.
+like a [WebID](https://www.w3.org/wiki/WebID) can provide the name of the user among other information.
 
 To take advantage of the potential descriptive power of IRI dereferencing a query paradigm called Link Traversal Query Processing (LTQP) [](cite:cites Hartig2014) has been developed.
 LTQP consists of recursively dereferencing IRI contained into the internal data source of a query engine 

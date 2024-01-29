@@ -5,14 +5,18 @@
 
 Link Traversal Query Processing (LTQP) is a SPARQL querying paradigm that aims at answering queries by exploring the web using the
 follow-your-nose principle of linked data [](cite:cites hartig2016walking).
-The query execution starts with the dereferencing of URLs called [<q>seed URLs</q>](cite:cites hartig2016walking), with the purpose of injecting the data of the associated linked data source inside a data store internal to the query engine. 
-New data sources are obtained by recursively dereferencing particular IRIs following a user-defined lookup policy called reachability criteria [](cite:cites Hartig2012).
+The query execution starts with the dereferencing of initial URLs called [<q>seed URLs</q>](cite:cites hartig2016walking).
+The engine then injects the data of the source inside the internal data store and execute the query.
+New data are obtained by recursively dereferencing particular IRIs following a user-defined lookup policy.
 
-The LTQP approach comes with some difficulties. The open endlessness of the web is an important one. 
-Reachability criteria and the Subweb specification [](cite:cites Bogaerts2021LinkTW), a more expressive way to formalize reachability criteria, try to
-alleviate that ordeal by restricting the search domain with pruning criteria of the link to lookup by the engine (commonly called the link queue). 
-But this approach comes with some limitations because the criteria have to be chosen carefully not to prune data sources containing relevant results or not to
-be discriminatory enough hence having little impact on the performance by allowing the engine to investigate irrelevant data sources.
+The LTQP approach comes with some difficulties. The open endlessness of the web is an important one.
+Reachability criteria [](cite:cites Hartig2012) and the Subweb specification [](cite:cites Bogaerts2021LinkTW) (a more expressive way to formalize reachability criteria)
+try to alleviate this problem by formalizing completeness conditions for traversal queries.
+Those conditions are designed in a way that they can be used easily has pruning criteria for a lookup policy while traversal. 
+Those approaches come with some limitations because the criteria have to be chosen carefully by the users not to prune data sources containing relevant results or oppositely
+not pruning enough irrelevant sources.
+
+
 Taelman [](cite:cites Taelman2023) has proposed to use the concept of Linked Data Structured Environment (LDSE) to greatly reduce the search space during LTQP.
 The method consists of defining source selectors [](cite:cites Bogaerts2021LinkTW) tied to web specification that guarantees completeness given 
 certain conditions for example a specification could state that document tied to a person must be defined by a specific IRI. 
