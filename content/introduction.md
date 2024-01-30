@@ -19,7 +19,7 @@ it is possible to attain query completeness and query planning can have an influ
 A LDSE is defined has an RDF environment where in addition to the RDF principles, specifications
 guarantee the completeness of results.
 This guarantee of completeness has the positive side effect of providing information
-that can be used to create a lookup policy following the reachability criteria method [](cite:cites verborgh2020guided, Hartig2012, Taelman2023)
+that can be used to create a lookup policy following the reachability criteria method [](cite:cites Hartig2012, Taelman2023)
 to reduce the number of HTTP requests necessary to attain completeness.
 
 In practice LDSE can be use in the context of personal data and social network among others,
@@ -31,7 +31,7 @@ RDF shape, a well known and used RDF data quality mechanism, to optimized LTQP q
 The conceptual idea of RDF shape is to describe the properties of an entity;
 for instance their class, their cardinality and constraint.
 RDF Shapes have already been used for optimizing the query planning [](cite:cites kashif2021)
-in the context of a single endpoint query,but as far as our knowledge goes, none of the studies have used them in the context of LTQP in querying in LDSE.
+in the context of a single endpoint query,but as far as our knowledge goes, none of the studies have used them in the context of LTQP of LDSE.
 
 
 
@@ -42,5 +42,10 @@ on the state of art approach of using heuristics [](cite:cites Hartig2012).
 The paper is divided as follows, first we present the related work, following by our approach, then the
 experimental methodology, the results and discussion and a conclusion.
 
+This paragraph need to be rethink a bit to make clear what I'm gonna do.
 READ Optimizing SPARQL Queries with SHACL
+{:.todo}
+
+
+I CONDIDER THE SHAPE CLOSE, THINKING ABOUT WHERE DOES THE SHAPES COME FROM
 {:.todo}
