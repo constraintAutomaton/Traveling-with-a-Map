@@ -54,6 +54,16 @@ I should reread the paper of Olaf and take better note to be sure to really docu
 {:.todo}
 
 ### Shape
+RDF shapes have been used primarly in validation and description of data [](cite:cites Gayo2018a), communicating data strutures, generating data and driving user interfaces [](cite:cites Gayo2018). 
+The two main formalism used in RDF are SHACL and ShEx.
+Both language share the a common goal of describing RDF data, but have different approach ShEx focus on describing RDF graph structure whereas SHACL
+
+
+Talk about how shapes can become queries
+{:.todo}
+
+Talk about closed and open shapes
+{:.todo}
 
 
 we are going to refer to shape too in this section or another subsection
