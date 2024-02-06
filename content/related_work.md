@@ -54,25 +54,31 @@ I should reread the paper of Olaf and take better note to be sure to really docu
 {:.todo}
 
 ### Shape
-RDF shapes have been used primarly in validation and description of data [](cite:cites Gayo2018a), communicating data strutures, generating data and driving user interfaces [](cite:cites Gayo2018). 
+RDF shapes have been used primarly in validation and description of data [](cite:cites Gayo2018a),
+communicating data strutures, generating data and driving user interfaces [](cite:cites Gayo2018).
+RDF shapes have the same role as relational and xml schemas [](cite:cites 10.1007/978-3-319-68288-4_7).
 The two main formalism used in RDF are SHACL and ShEx.
-Both language share the a common goal of describing RDF data, but have different approach ShEx focus on describing RDF graph structure whereas SHACL
+Both language share the common goal of describing RDF data, but have different approach ShEx focus on describing RDF graph structure whereas SHACL focus on describing constraint.
+For common use cases they share the same expressiveness [](cite:cites Gayo2018c) thus they can be used interchangely.
+The semantic of ShEx, is sound given that we apply some restriction to the syntaxes namely restricting the negations (mainly locally) and the recursion to avoid costy validation and uncoherent facts [](cite:cites 10.1007/978-3-319-68288-4_7).
+Shex  and SCHACL shapes can be closed or open [](cite:cites Gayo2018 Gayo2018b)
 
+
+Shapes have also been used in the context of querying.
+
+selectivity estimate,
+[](cite:cites Abbas2018)
+
+cardinality estimate with statistics
+[](cite:cites kashif2021)
+
+caracteristic set
 
 Talk about how shapes can become queries
 {:.todo}
 
-Talk about closed and open shapes
-{:.todo}
 
 
-we are going to refer to shape too in this section or another subsection
-{:.todo}
-
-
-
-We need to determine if we consider it a stream comming or somesort of window in an infinite database let's also reread the section of the book
-{:.todo}
 
 ### Query containment
 
