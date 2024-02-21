@@ -13,7 +13,7 @@ The LTQP approach comes with some difficulties.
 The open endlessness of the web is an important one.
 Reachability criteria [](cite:cites Hartig2012) and the source selectors of the Subweb specification [](cite:cites Bogaerts2021LinkTW) (a more expressive way to formalize reachability criteria)
 try to alleviate this problem by formalizing completeness conditions for traversal queries.
-Those conditions are designed in a way that they can be used easily has a lookup policy while traversal by pruning irrelevant sources. 
+Those conditions are designed in a way that they can be used easily has a lookup policy to prune irrelevant sources. 
 Those approaches come with some limitations because the criterion have to be chosen carefully by the users not to prune data sources containing relevant results or oppositely
 not pruning enough irrelevant sources.
 So it is important to clearly define what we meant by completeness in LTQP because identical absolute measurement doesn't necessarily have the same signification. 
@@ -23,7 +23,7 @@ specifications can be used to define a source selector that greatly diminush the
 
 
 Another difficulty of LTQP is the crafting of performant query plans.
-The lack of a priori statistical information about data sources and the knowledge of their potential contribution to the results bag it is difficult to
+The lack of a priori statistical information about data sources and the lack of knowledge of their potential contribution to the results bag make it difficult to
 optimize a query plan.
 Because of those limitations the current state of the art technique is the <q>Zero-Knowledge Query Planning</q> [](cite:cites Hartig2011).
 This approach relies on carefully crafted heuristic to choose the joint order resulting in fairly performant query plans [](cite:cites Hartig2011, Hartig2014).
@@ -57,20 +57,14 @@ I should reread the paper of Olaf and take better note to be sure to really docu
 RDF shapes have been used primarly in validation and description of data [](cite:cites Gayo2018a),
 communicating data strutures, generating data and driving user interfaces [](cite:cites Gayo2018).
 RDF shapes have the same role as relational and xml schemas [](cite:cites 10.1007/978-3-319-68288-4_7).
-The two main formalism used in RDF are SHACL and ShEx.
-Both language share the common goal of describing RDF data, but have different approach ShEx focus on describing RDF graph structure whereas SHACL focus on describing constraint.
+The two main formalism are SHACL and ShEx.
+Both language share the common goal of describing RDF data, but they have different approaches.
+ShEx focus on describing RDF graph structure whereas SHACL focus on describing constraints.
 For common use cases they share the same expressiveness [](cite:cites Gayo2018c) thus they can be used interchangely.
 The semantic of ShEx, is sound given that we apply some restriction to the syntaxes namely restricting the negations (mainly locally) and the recursion to avoid costy validation and uncoherent facts [](cite:cites 10.1007/978-3-319-68288-4_7).
-Shex  and SCHACL shapes can be closed or open [](cite:cites Gayo2018 Gayo2018b)
+Shex and SCHACL shapes can be closed or open [](cite:cites Gayo2018, Gayo2018b), which can have a large impact on their usage.
 
-
-Shapes have also been used in the context of querying.
-
-selectivity estimate,
-[](cite:cites Abbas2018)
-
-cardinality estimate with statistics
-[](cite:cites kashif2021)
+Shapes have also been used in the context of querying for instance selectivity estimate [](cite:cites Abbas2018) and cardinality estimate [](cite:cites kashif2021).
 
 caracteristic set
 

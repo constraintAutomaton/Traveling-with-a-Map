@@ -179,3 +179,12 @@ We investigate three of them:
 - One good thing about this work is that we want to be able to discriminate and do some query planning without having to ask the data provider to maintain something more given that having a shape has good benefit on it's own and if the data provider want something very loss it can also do it, and IMO without having anyways to really know what is inside a data source how can we expect and application to do something out of it. We need some sort of shema some sort of contact.
 {:.todo}
 
+## Discover shapes
+- Centralized file
+    - We have to discover somehow
+    - Force to be at a specific place
+        - If we know it's a pod than we can trace it back
+- The shape can be contain inside the container and pertain to it
+
+
+we have the shape inside a shape tree file and the triples are also in the storage description.

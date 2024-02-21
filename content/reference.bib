@@ -1065,6 +1065,26 @@
   url       = {https://doi.org/10.1007/978-3-031-79478-0_7},
 }
 
+@InProceedings{Mailis2019,
+  author    = {Mailis, Theofilos and Kotidis, Yannis and Nikolopoulos, Vaggelis and Kharlamov, Evgeny and Horrocks, Ian and Ioannidis, Yannis},
+  booktitle = {Proceedings of the 2019 International Conference on Management of Data},
+  title     = {An Efficient Index for RDF Query Containment},
+  year      = {2019},
+  address   = {New York, NY, USA},
+  pages     = {1499–1516},
+  publisher = {Association for Computing Machinery},
+  series    = {SIGMOD '19},
+  abstract  = {Query containment is a fundamental operation used to expedite query processing in view materialisation and query caching techniques. Since query containment has been shown to be NP-complete for arbitrary conjunctive queries on RDF graphs, we introduce a simpler form of conjunctive queries that we name f-graph queries. We first show that containment checking for f-graph queries can be solved in polynomial time. Based on this observation, we propose a novel indexing structure, named mv-index, that allows for fast containment checking between a single f-graph query and an arbitrary number of stored queries. Search is performed in polynomial time in the combined size of the query and the index. We then show how our algorithms and structures can be extended for arbitrary conjunctive queries on RDF graphs by introducing f-graph witnesses, i.e., f-graph representatives of conjunctive queries. F-graph witnesses have the following interesting property, a conjunctive query for RDF graphs is contained in another query only if its corresponding f-graph witness is also contained in it. The latter allows to use our indexing structure for the general case of conjunctive query containment. This translates in practice to microseconds or less for the containment test against hundreds of thousands of queries that are indexed within our structure.},
+  doi       = {10.1145/3299869.3319864},
+  file      = {:papers/An Efficient Index for RDF Query Containment.pdf:PDF},
+  groups    = {query containment with RDF},
+  isbn      = {9781450356435},
+  keywords  = {view materialisation, resource description framework (rdf), rdf schema, radix tree, query containment, ptime, polynomial time, database views},
+  location  = {Amsterdam, Netherlands},
+  numpages  = {18},
+  url       = {https://doi.org/10.1145/3299869.3319864},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
 
 @Comment{jabref-meta: grouping:
