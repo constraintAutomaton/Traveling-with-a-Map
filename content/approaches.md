@@ -1,3 +1,39 @@
+## Prunning
+
+The prunning of links in our approach can be is twofolds.
+The first aspect is the discovery of shape indexes and of the entries relevant to the query.
+This aspect follow the reachability criteria method.
+The second aspect is the introduction of filters into the link queue
+to prune current and future links not relevant to the query.
+Our approach can be divided into 5 steps: The discovery of a shape index document, the pushingdown of the query
+and the evaluation with the shape index, the pushing of new links and filters into the link queue.
+
+### Shape index discovery
+The discovery of the shape index is a crutial aspect of our approach.
+Indeed in
+
+### Query pushdown and shape-query aligment
+
+### Links and fitler pushing into the link queue
+
+Check if a shape index exist
+    - Dereference it
+
+pushdown the query and evaluate it with the shape associated with the shape index
+
+Push link into the link queue
+    - Direct link
+    - A set of link
+Generate filter
+    - Direct link
+    - Set of link
+
+filter in link queue
+    - On push
+    - On pop
+    - Size
+
+<!---
 ## Methodology
 {:#approaches}
 
@@ -188,3 +224,4 @@ We investigate three of them:
 
 
 we have the shape inside a shape tree file and the triples are also in the storage description.
+--->
