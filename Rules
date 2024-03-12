@@ -10,6 +10,7 @@ require 'scholarmarkdown/filter/references_to_footer'
 require 'scholarmarkdown/filter/headerids_to_section'
 require 'scholarmarkdown/filter/citation_metadata'
 require 'scholarmarkdown/preprocess/katex'
+require 'scholarmarkdown/filter/hyphenate_iri'
 
 Encoding.default_external = "UTF-8"
 
@@ -34,6 +35,7 @@ compile '/index.*' do
   filter :rubypants
   layout '/default.*'
   filter :scholar_citation_metadata
+  filter :scholar_hyphenate_iri
 end
 
 ignore '/*.md'

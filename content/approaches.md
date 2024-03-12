@@ -1,12 +1,15 @@
 ## Prunning
 
-The prunning of links in our approach can be is twofolds.
-The first aspect is the discovery of shape indexes and of the entries relevant to the query.
-This aspect follow the reachability criteria method.
-The second aspect is the introduction of filters into the link queue
-to prune current and future links not relevant to the query.
-Our approach can be divided into 5 steps: The discovery of a shape index document, the pushingdown of the query
-and the evaluation with the shape index, the pushing of new links and filters into the link queue.
+
+Our link prunning method follows the reacheability criteria method.
+We call our criteria `c_{shapeIndex}`.
+The criteria can be divided into three aspect in relation to which kind of iri it search to dereference;
+the discovery of shape indexes, the discovery of documents respecting the 
+
+shape index and the rejection of 
+documents 
+not following the condition of the index.
+In our context we chain multiple reachability criteria together, we define this chain `C ->`.
 
 ### Shape index discovery
 The discovery of the shape index is a crutial aspect of our approach.
