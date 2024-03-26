@@ -1,6 +1,7 @@
 ## Related Work
 {:#related_work}
 
+Talk about the link queue
 ### Link Traversal Query Processing
 
 LTQP is a SPARQL querying paradigm that aims at answering queries by exploring the web using the

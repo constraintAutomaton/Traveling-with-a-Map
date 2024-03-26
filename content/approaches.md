@@ -1,19 +1,28 @@
 ## Prunning
 
 
-Our link prunning method follows the reacheability criteria method.
-We call our criteria `c_{shapeIndex}`.
-The criteria can be divided into three aspect in relation to which kind of iri it search to dereference;
+Our link prunning method follows the reacheability criteria approach we denote it $$c_{shapeIndex}$$.
+This criteria can be divided into three aspect;
 the discovery of shape indexes, the discovery of documents respecting the 
+shape index and the rejection of documents not following the condition of the index.
 
-shape index and the rejection of 
-documents 
-not following the condition of the index.
-In our context we chain multiple reachability criteria together, we define this chain `C ->`.
 
 ### Shape index discovery
-The discovery of the shape index is a crutial aspect of our approach.
-Indeed in
+The discovery of the shape index is a crucial aspect of our approach.
+Indeed given the descentralized environment context an engine cannot
+assume the location of information that could be exploited to improve it's query processing.
+In a LDSE the situation is a bit different because there are some assumption that can be made.
+For exemple the [type index specification](https://solid.github.io/type-indexes/) specify
+that the type index has to be inside a <q>WebID Profile Document<\q> which solve partially the problem,
+because we cannot know the location of the WebID a priori hence the information might be not reachable or
+reacable at a time where the impact is reduced. 
+We propose another approach which is to exploit 
+
+the system is operating in a decentralized environment where the location
+of user information is not enforced there could be information exploitable for 
+faster query processing not reachable given engine policy.
+To solve this problem we propose two approach, the first one is to include 
+a triple in each file refering to a shape index maintain by a user.
 
 ### Query pushdown and shape-query aligment
 
