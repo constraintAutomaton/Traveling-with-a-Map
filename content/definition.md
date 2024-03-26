@@ -39,7 +39,6 @@ a $$P_s$$ is weakly of degree $$a$$ with a shape $$S$$ denoted $$P_s \parallel^a
 if there are $$a$$ predicates identical with a shape expression.
 More formaly  $$p_{s i}$$  where $$\exist p_{s i} \in e_j $$.
 
-
 $$P_s$$ can be strongly aligned denoted $$Q \parallel S$$ if one of the two condition are fullfil.
 The first one is all the expression of $$S$$ share all the predicate of $$P_s$$, more formally
 $$\forall e_j$$ in $$E,  \exist p_{s i} \in e_j$$.
