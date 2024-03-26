@@ -28,16 +28,22 @@ Reachability criteria can easily be composed because their input is not changed 
 and they are indepentent from one another. In an implementation an engine would simply execute them one after or in paralelel to populate
 a link queue.
 
+### Shape intersection
+Given multiple shapes $$S$$ the intersection is defined as the predicate that are in common with all those shapes.
+If we create a set $$P_i$$ of all the property $$p$$ in $$E_j \in S_i$$ than the intersection is 
+$$P_i \cap P_{i+1} \cap P_{i+2}... \cap P_{n}$$.
+
 ### Query shape aligment
 For the query shape aligment we analyse the predicate of the query with a same subject $$P_s$$.
 a $$P_s$$ is weakly of degree $$a$$ with a shape $$S$$ denoted $$P_s \parallel^a S$$ 
 if there are $$a$$ predicates identical with a shape expression.
 More formaly  $$p_{s i}$$  where $$\exist p_{s i} \in e_j $$.
+
+
 $$P_s$$ can be strongly aligned denoted $$Q \parallel S$$ if one of the two condition are fullfil.
 The first one is all the expression of $$S$$ share all the predicate of $$P_s$$, more formally
 $$\forall e_j$$ in $$E,  \exist p_{s i} \in e_j$$.
-$$P_s$$ is also strongly aligned if one of the predicate of $$P_s$$ and of $$E \in S$$ define a predicate with the value rdf type $$t$$ (`http://www.w3.org/1999/02/22-rdf-syntax-ns#type`)
-and the associated object of the predicate validate an equal constraint of the subexpression.
+$$P_s$$ is also strongly aligned if one of the predicate of $$P_s$$ and of $$E \in S$$ define a predicate with the value rdf type defined as 
+$$t$$ (`http://www.w3.org/1999/02/22-rdf-syntax-ns#type`) and the associated object of the predicate validate an equal constraint of the subexpression.
 More formaly $$\exist p_{s i} \in e_j = t \land c \in e_j \land c(o_{s i}) = true$$.
 
-### Shape intersection
