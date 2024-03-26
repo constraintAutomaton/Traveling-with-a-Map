@@ -1,6 +1,5 @@
 ## Prunning
 
-
 Our link prunning method follows the reacheability criteria approach we denote it $$c_{shapeIndex}$$.
 This criteria can be divided into three aspect;
 the discovery of shape indexes, the discovery of documents respecting the 
@@ -9,22 +8,19 @@ shape index and the rejection of documents not following the condition of the in
 
 ### Shape index discovery
 The discovery of the shape index is a crucial aspect of our approach.
-Indeed given the descentralized environment context an engine cannot
-assume the location of information that could be exploited to improve it's query processing.
-In a LDSE the situation is a bit different because there are some assumption that can be made.
-For exemple the [type index specification](https://solid.github.io/type-indexes/) specify
-that the type index has to be inside a <q>WebID Profile Document<\q> which solve partially the problem,
-because we cannot know the location of the WebID a priori hence the information might be not reachable or
-reacable at a time where the impact is reduced. 
-We propose another approach which is to exploit 
+Indeed in an descentralized environment context an engine cannot
+assume the location of information that could help the query optimization.
+In a LDSE the situation is a bit different because there are guarenty for the location of some information.
+The [type index specification](https://solid.github.io/type-indexes/) is an example of such guaranty.
+It specify that the index has to be inside a <q>WebID Profile Document</q>.
+This specification only solve partially the discovery problem, because we would
+had to know a priori the location of a <q>WebID Profile Document</q> to access the index.
+To solve this problem we propose to define query optimization related information in a document
+describing the LDSE environnent. Given LDSE has is on the web each resource has to in someway advertise that it is
+part of an LDSE and we suppose this advertisement provide a link to the description of the environment.
+For example in Solid each resource [have to in the header provide a link to description of the environement](https://solidproject.org/TR/protocol#storage-resource).   
 
-the system is operating in a decentralized environment where the location
-of user information is not enforced there could be information exploitable for 
-faster query processing not reachable given engine policy.
-To solve this problem we propose two approach, the first one is to include 
-a triple in each file refering to a shape index maintain by a user.
-
-### Query pushdown and shape-query aligment
+### Query pushdown and shape-query alignment.
 
 ### Links and fitler pushing into the link queue
 
