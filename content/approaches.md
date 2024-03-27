@@ -22,24 +22,20 @@ For example in Solid each resource [have to in the header provide a link to desc
 
 ### Query pushdown and shape-query alignment.
 
-### Links and fitler pushing into the link queue
+Given a shape index $$SI$$ and a query $$Q$$ that we divide in subject group $$P_i$$.
+For each subject group we annotate the aligment strong or weak with the shapes $$S_i \in SI$$.
+The resource iri $$IRI_i$$ associated  with a shape that are aligned with the query are directly added to
+the link queue. 
+Filters are created to exclude from the link queue resource associated with the unaligned shapes.
+The filters are used each time the link queue push or pop an iri to discards 
+iri leading to uncontributing resource already present in the link and future ones.
 
-Check if a shape index exist
-    - Dereference it
+### Adaptative reachability criteria
+From the anotation of the alignment with subject group it is possible to determine
+if we can know in a LDSE the iri of each resource to answer the query.
+If all $$P_i$$ are associated with a strong aligment with $$S$$ then we don't need to explore the rest of the environment resulting in the disactivation of all the reachability criteria exept `cMatch`.
+We can add an exeption to this rule if a subject group is aligned with no shapes and the dereferencing of the iri lead to resource outside LDSE then we stop the exploration of the rest of the environment.
 
-pushdown the query and evaluate it with the shape associated with the shape index
-
-Push link into the link queue
-    - Direct link
-    - A set of link
-Generate filter
-    - Direct link
-    - Set of link
-
-filter in link queue
-    - On push
-    - On pop
-    - Size
 
 <!---
 ## Methodology
