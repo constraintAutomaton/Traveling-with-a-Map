@@ -33,11 +33,9 @@ Given multiple shapes and a target shape $$S$$ the disciminant properties is the
 of properties in the shape that are unique from all all the properties of the shapes.
 More formaly if we have $$PS$$ the set of all the properties of the shapes and 
 $$P_{s}$$ the set of all the property of $$S$$ then the discriminant properties 
-is the complementary set $$P_{s}^c$$.
+is the complementary set $$P_{s} \sim P$$.
 
 
-If we create a set $$P_i$$ of all the property $$p$$ in $$E_j \in S_i$$ than the intersection is 
-$$P_i \cap P_{i+1} \cap P_{i+2}... \cap P_{n}$$.
 
 ### Query shape aligment
 For the query shape aligment we analyse the predicate of the query with a same subject $$P_s$$ that we call subject group.
