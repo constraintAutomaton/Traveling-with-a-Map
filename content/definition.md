@@ -15,7 +15,7 @@ disconjunction of expressions $$e_i=e_i|e_j$$, an unordered concatenation  $$e=e
 A constraint $$c$$ is enforce on the object of the targeted documents, the constraint can be an RDF type, a set of values.
 
 ### Shape index
-We define a shape index as a set of mapping $$\{R_j, R_{j+1}, R_{j+2}, R_{n} \}$$ between a resource $$s_i$$ or a set of resource $$S_i$$ and a shape, where each entries are $$(S_i, d_k) \in R_j $$.
+We define a shape index as a set of mapping $$\{R_j, R_{j+1}, R_{j+2}, R_{n} \}$$ between a set of resource iri $$IRI_i$$ and a shape, where each entries are $$(IRI_i, d_k) \in R_j $$.
 
 ### Link Queue Filters
 A link queue filter is a function $$F:iri \rightarrow \{true, false\}$$, if the function return $$true$$ it means that the link have to be filter
@@ -28,13 +28,19 @@ Reachability criteria can easily be composed because their input is not changed 
 and they are indepentent from one another. In an implementation an engine would simply execute them one after or in paralelel to populate
 a link queue.
 
-### Shape intersection
-Given multiple shapes $$S$$ the intersection is defined as the predicate that are in common with all those shapes.
+### Shape discriminant properties
+Given multiple shapes and a target shape $$S$$ the disciminant properties is the set
+of properties in the shape that are unique from all all the properties of the shapes.
+More formaly if we have $$PS$$ the set of all the properties of the shapes and 
+$$P_{s}$$ the set of all the property of $$S$$ then the discriminant properties 
+is the complementary set $$P_{s}^c$$.
+
+
 If we create a set $$P_i$$ of all the property $$p$$ in $$E_j \in S_i$$ than the intersection is 
 $$P_i \cap P_{i+1} \cap P_{i+2}... \cap P_{n}$$.
 
 ### Query shape aligment
-For the query shape aligment we analyse the predicate of the query with a same subject $$P_s$$.
+For the query shape aligment we analyse the predicate of the query with a same subject $$P_s$$ that we call subject group.
 a $$P_s$$ is weakly of degree $$a$$ with a shape $$S$$ denoted $$P_s \parallel^a S$$ 
 if there are $$a$$ predicates identical with a shape expression.
 More formaly  $$p_{s i}$$  where $$\exist p_{s i} \in e_j $$.
