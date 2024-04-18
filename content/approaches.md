@@ -36,7 +36,32 @@ if we can know in a LDSE the iri of each resource to answer the query.
 If all $$P_i$$ are associated with a strong aligment with $$S$$ then we don't need to explore the rest of the environment resulting in the disactivation of all the reachability criteria exept `cMatch`.
 We can add an exeption to this rule if a subject group is aligned with no shapes and the dereferencing of the iri lead to resource outside LDSE then we stop the exploration of the rest of the environment.
 
+## RDF serialization of a shape index
 
+concept of the domain
+
+```turtle
+@prefix si: <https://shapeIndex.com#> .
+@prefix ex: <https://exemple.com#> .
+@prefix solid: <http://www.w3.org/ns/solid/terms#> .
+
+ex:shapeIndex 
+    a si:ShapeIndex;
+    si:entry [
+        si:bindByShape ex:shape1 ;
+        si:shapeLanguage <http://www.w3.org/ns/shex> ;
+        solid:instanceContainer ex:container
+    ];
+
+    si:entry [
+        si:bindByShape ex:shape2 ;
+        si:shapeLanguage <http://www.w3.org/ns/shacl> ;
+        solid:instance ex:resource 
+    ];
+    
+    si:isComplete true ;
+    si:domain "https:exemple.com/strorage/\d*/.*" .
+```
 <!---
 ## Methodology
 {:#approaches}
