@@ -1,0 +1,17 @@
+@prefix ex: <https://example.com/>
+@prefix si: <https://shapeIndex.com#>
+@prefix solid: <http://www.w3.org/ns/solid/terms#>
+
+<index1> a si:ShapeIndex ;
+  si:domain "https://example.com/pod/.*" ;
+  si:entry [
+    si:bindByShape <https://example.com/pod/profile_shape#Profile> ;
+    solid:instanceContainer <https://example.com/pod/profile/>
+  ], [
+    si:bindByShape <https://example.com/pod/posts_shape#Post> ;
+    solid:instanceContainer <https://example.com/pod/posts/>
+  ] , [
+    si:bindByShape <https://example.com/pod/comments_shape#Comment> ;
+    solid:instanceContainer <https://example.com/pod/comments/>
+  ] ;
+  si:isComplete true .
