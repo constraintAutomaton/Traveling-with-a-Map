@@ -1,0 +1,57 @@
+\section{Related work}
+
+\sepfootnotecontent{sf:graphDomain}{
+    Where the edges are links towards a data source and the nodes data sources.
+}
+
+\subsection{Link Traversal Query Processing}
+
+LTQP is a SPARQL querying paradigm that aims at answering queries by exploring the web~\cite{hartig2016walking} using the follow-your-nose principle of linked data.
+The query execution starts with the dereferencing of initial URLs called \emph{seed URLs}~\cite{hartig2016walking} and injects the triples from the sources into an internal triple store.
+The execution is continued by recursively dereferencing links from the internal triple store while performing the join operations to deliver streaming results to the user.
+
+LTQP has some difficulties.
+The open endlessness of the web is the primary one.
+During LTQP, it is considered that the search space of the query engine is a pseudo infinite graph~\sepfootnote{sf:graphDomain} domain , where the query engine can discover data sources within a distance of one HTTP request of the already discovered graph.
+\emph{Reachability criteria}~\cite{Hartig2012} tries to alleviate this problem by defining completeness on traversal of links respecting conditions.
+A difficulty of the approach is the inability to declare the reachability outside of the internals of the query engine.
+The theoretical query language LDQL~\cite{hartigLDQL} and the subweb specifications language (SWSL)~\cite{Bogaerts2021LinkTW} are propositions to create a language to express the reachability.
+LDQL proposes to let the user along with its query define the reachability using a formalism based on nested regular expression with a formalism close to SPARQL. 
+In contrast, SWSL proposes to let the data provider define the traversal within \emph{subweb} in a way that if the engine trusts the data provider it can choose to use the traversal path proposed.
+Another approach, to define completeness is to use the structural assumption of web environments~\cite{Taelman2023}.
+``Structural assumptions act as contracts between the data provider and the query engines stipulating that within a certain subdomain of the web, information meeting a specific constraint can be found.``~\cite{tam2024opportunitiesshapebasedoptimizationlink}
+In this approach,
+
+
+Previous, LTQP research as focused on the open web however in more recent years it has focused on web environments with structure.
+Witing those web en
+
+Those approaches come with some limitations because the criterion have to be chosen carefully by the users not to prune data sources containing relevant results or oppositely
+not pruning enough irrelevant sources.
+So it is important to clearly define what we meant by completeness in LTQP because identical absolute measurement doesn't necessarily have the same signification. 
+Has proposed by Taelman [](cite:cites Taelman2023) in the case of Linked Data Structured Environment (LDSE) the [type index](https://solid.github.io/type-indexes/),
+[WedID](https://www.w3.org/wiki/WebID) and [linked data platform](https://www.w3.org/TR/ldp/)
+specifications can be used to define a source selector that greatly diminush the domain of exploration and the query execution time.
+
+\subsection{RDF data shapes}
+
+RDF data shapes have been used primarly in validation and description of data~\cite{Gayo2018a}, communicating data strutures, generating data and driving user interfaces~\cite{Gayo2018}.
+RDF shapes have the same role as relational and xml schemas~\cite{Boneva2017}.
+The two main formalism are SHACL and ShEx.
+Both language share the common goal of describing RDF data, but they have different approaches.
+ShEx focus on describing RDF graph structure whereas SHACL focus on describing constraints.
+For common use cases they share the same expressiveness~\cite{Gayo2018c} thus they can be used interchangely.
+The semantic of ShEx, is sound given that we apply some restriction to the syntaxes namely restricting the negations (mainly locally) and the recursion to avoid costy validation and uncoherent facts~\cite{Boneva2017}.
+Shex and SCHACL shapes can be closed or open~\cite{Gayo2018, Gayo2018b}, which can have a large impact on their usage.
+
+Shapes have also been used in the context of querying for instance selectivity estimate~\cite{Abbas2018} and cardinality estimate~\cite{kashif2021}.
+
+caracteristic set
+
+Talk about how shapes can become queries
+{:.todo}
+
+\subsection{Data summarisation}
+
+
+\subsection{Query containment}
