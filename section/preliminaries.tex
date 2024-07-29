@@ -12,21 +12,20 @@
 
 
 \subsection{RDF knowledge graph and SPARQL queries}
-Our works focus on conjunctive queries of RDF knowledge graph.
-A knowledge is a graph of RDF triples $t$ defined in Definition~\ref{def:triple}.
+Our work focuses on conjunctive queries $Q$ of the RDF knowledge graph.
+The graph is formed using triples $t$ defined in Definition~\ref{def:triple} where the subjects and objects are nodes and the predicates are edges.
 
 \begin{definition}[RDF Triple]\label{def:triple}
     An RDF triple $t = (s,p,o)$ is formed by a  subject term $s \in \mathcal{I} \cup \mathcal{B}$, a predicate term  $p \in \mathcal{I}$ and an object term $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$
     where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$ are respectiverly the set of every possible IRI, blank node and litterals.
 \end{definition}
 
-In our work we we consider SPARQL conjunctive query $Q$.
-We consider two parts of the query the basic graph pattern (BGP) and the filter expressions~\sepfootnote{sf:sparqlSpecification}.
-The most atomic statement of a BGP is a triple pattern $tp$ which shares some similarities with $t$.
+We consider two parts of $Q$ the basic graph pattern (BGP) define in Definition~\ref{def:bgp} and the filter expressions~\sepfootnote{sf:sparqlSpecification}.
+The atomic statement of a BGP is a triple pattern $tp$ defined at Definition~\ref{def:triplePattern}.
 
 \begin{definition}[Triple pattern]\label{def:triplePattern}
     An triple pattern $tp = (s_{tp},p_{tp},o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \cup \mathcal{V}$, 
-    a property path  $p_{tp}$ (defined in the Definition~\ref{def:propertyPath}) and an object term  $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L} \cup \mathcal{V}$ 
+    a property path  $p_{tp}$ defined in Definition~\ref{def:propertyPath} and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L} \cup \mathcal{V}$ 
     where $\mathcal{V}$ is the set of every possible variable. 
 \end{definition}
 
@@ -37,13 +36,22 @@ The most atomic statement of a BGP is a triple pattern $tp$ which shares some si
 
    The "$/$" operator chain two property path, the operate "$|$" define a possibility between $p_{tpi}$ and $p_{tpj}$.
    The "$!$", "$*$", "$+$" and "$?$" respectively represent the negation of $p_{tpi}$, the a repetition of 0 and more of $p_{tpi}$, 
-   the repeition of 1 and more of $p_{tpi}$ and the presence of absence of $p_{tpi}$.
+   the repetition of 1 and more of $p_{tpi}$ and the presence of absence of $p_{tpi}$.
 \end{definition}
 
-\begin{definition}[BGP]\label{def:propertyPath}
+\begin{definition}[BGP]\label{def:bgp}
  A BGP is a set of $tp$, \texttt{OPTIONAL} and \texttt{UNION} (both clause containing a set of $tp$).
+ The $tp$ sets can be divided into star pattern $Q_{star}$ in Definition~\ref{def:starPattern} in a way 
+ that $Q = \bigcup_{i\in S} Q_{star_i}$ given that $S$ is the set of every subject of the $tp$ in the $Q$.
 \end{definition}
 
+
+\begin{definition}[Star pattern with dependencies]\label{def:starPattern}
+We define a star pattern $Q_{star}$ as a set of $tp \in Q$ that have the same subject $Q_{star_i} = \{ tp_i| s_{tp_1} = s_{tp_2} ... = s_{tp_n}$.
+We define a star pattern with dependencies $Q_{starD}$ as the union between a star pattern from a query and the other star pattern that have a subject
+the object of the initial star pattern $Q_{starD_i} = Q_{star_i} \cup \{tp_i| o_{tp_j} = s_{tp_i} \land tp_j \in Q_{star_i} \land tp_i \in Q \}$
+(let's maybe consider the filter expression)
+\end{definition}
 
 \subsection{Reachability criteria}
 
@@ -66,5 +74,7 @@ Equation~\ref{eq:cReachabilityCriteria} express a Composite reachability criteri
 \end{equation}
 
 The derefencing operation of the query stop when during an interation of the new element of the internal triple store no new $i_d$ has to be derefenced.
+
+\subsection{Completeness in structured environments}
 
 \subsection{RDF data shapes}
