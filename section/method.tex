@@ -1,0 +1,20 @@
+\section{Approach}
+
+In this section, we are going to describe our approach starting with a formal definition of our query environments,
+the shape index, how to express RDF data shapes into relational algebra, how to solve the query containment problem
+and how to do online source selection in environments with a shape index.
+
+\subsection{Structured linked data environments}
+
+\subsection{Shape index}
+The shape shape index was already defined in one of our publication~\cite{tam2024opportunitiesshapebasedoptimizationlink}, however its definition was not formalized.
+A shape index $SI$ as three components, a mapping $M$ between RDF data shapes $s_i$ and set of ressources $R_i$ such as $M = \{s_0 \mapsto R_0, s_1 \mapsto R_1..., s_n \mapsto R_n\}$ given $n$ entries,
+a domain of actions $D$ composed by a set of URL $ID$ and
+a flag $C\rightarrow \{\mathrm{true}, \mathrm{false}\}$ indicating if the shape index has has a relation $m \in M$ for every resource $r_j$ associated with an URL $id_j \in D$. 
+The shape index can be succintly defined by the following tuple $SI = (M, D, C)$.
+
+\subsection{Expressing RDF Data shapes into relational algebra}
+
+\subsection{Query shape containment}
+
+\subsection{Online source selection in environments with a shape index}
