@@ -5,9 +5,24 @@ the shape index, how to express RDF data shapes into relational algebra, how to 
 and how to do online source selection in environments with a shape index.
 
 \subsection{Structured linked data environments}
+Our method is intented to optimize environement with structured assumptions~\cite{Taelman2023}.
+For that purpose extend and formalize the defintion from \citeauthor{Taelman2023} in a new concept that we call \emph{Structured linked data environments} $SLDE$.
+A SLDE is a graph of ressources $R_i$ located at URL $id_i$ such as it can be possible to traverse from $R_i$ to $R_j$ by dereferencing an RDF term in $R_i$ $id_j$.
+The SLDE is explicitly delimited by a set of URL $D$.
+A SLDE contain a set of structural assumption $SA$ defined in Defintion~\ref{def:structuralAssumption} such as 
+it is possible to discover to discover every $R_i \in SLDE$ starting from any $i_j$ using an arbitrary long combination of $sa$.
+
+
+\begin{definition}[Structural assumption]\label{def:structuralAssumption}
+   A structural assumption $sa$ is a function such as provided a query $Q$ (or a fragment of a query) and an IRI such as $id_i$ $SA(Q, id_i) \rightarrow I_{sa}$
+   the structural assumption provide a set of IRI leading to the resources withing the SLDE.
+\end{definition}
+
+The purpose of this definiton is to exteriorise the completness of the of results outside of the query engine to enable a more coherent comparaison
+between composite reachability criterion.
 
 \subsection{Shape index}
-The shape shape index was already defined in one of our publication~\cite{tam2024opportunitiesshapebasedoptimizationlink}, however its definition was not formalized.
+The shape index was already defined in one of our publication~\cite{tam2024opportunitiesshapebasedoptimizationlink}, however its definition was not formalized.
 A shape index $SI$ as three components, a mapping $M$ between RDF data shapes $s_i$ and set of ressources $R_i$ such as $M = \{s_0 \mapsto R_0, s_1 \mapsto R_1..., s_n \mapsto R_n\}$ given $n$ entries,
 a domain of actions $D$ composed by a set of URL $ID$ and
 a flag $C\rightarrow \{\mathrm{true}, \mathrm{false}\}$ indicating if the shape index has has a relation $m \in M$ for every resource $r_j$ associated with an URL $id_j \in D$. 
