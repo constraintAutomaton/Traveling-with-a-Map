@@ -7,6 +7,7 @@
       primaryClass={cs.DB},
       url={https://arxiv.org/abs/2407.00998}, 
 }
+
 @article{hartigLDQL,
 title = {LDQL: A query language for the Web of Linked Data},
 journal = {Journal of Web Semantics},
@@ -111,7 +112,7 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
   volume    = {7},
   doi       = {10.1007/s13740-018-0087-1},
   file      = {:papers/SPARQL Query Containment under Schema.pdf:PDF},
-  groups    = {query containment bag semantic, query containment with RDF},
+  groups    = {query containment bag semantic, query containment with RDF, query-containment with schema},
   priority  = {prio1},
   publisher = {Springer Science and Business Media {LLC}},
   url       = {https://doi.org/10.1007/s13740-018-0087-1},
@@ -345,7 +346,7 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
   abstract   = {ShEx (Shape Expressions) is a language for expressing constraints on RDF graphs. We consider the problem of SPARQL query containment in the presence of ShEx constraints. We first propose a sound and complete procedure for the problem of containment with ShEx, considering several SPARQL fragments. Particularly our procedure considers OPTIONAL query patterns, that turns out to be an important fragment to be studied with schemas. We then show the complexity bounds of our problem with respect to the fragments considered. To the best of our knowledge, this is the first work addressing SPARQL query containment in the presence of ShEx constraints.},
   comment    = {what they do is that they use the shape to transform the queries that have filters to delete them when the query will for certain don't respect the containt of the data. Given this transformation some queries can become equivalent. Also if the query is only a BGP then we can simply validate it against the shape if we delete the cardinatity of the operators.},
   file       = {:papers/SPARQL Query Containment with ShEx Constraints.pdf:PDF},
-  groups     = {query containment with RDF, query containment bag semantic},
+  groups     = {query containment with RDF, query containment bag semantic, query-containment with schema},
   isbn       = {978-3-319-66917-5},
   ranking    = {rank5},
   readstatus = {read},
@@ -362,7 +363,7 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
   publisher = {Springer International Publishing},
   abstract  = {The original SPARQL proposal was often criticized for its inability to navigate through the structure of RDF documents. For this reason property paths were introduced in SPARQL 1.1, but up to date there are no theoretical studies examining how their addition to the language affects main computational tasks such as query evaluation, query containment, and query subsumption. In this paper we tackle all of these problems and show that although the addition of property paths has no impact on query evaluation, they do make the containment and subsumption problems substantially more difficult.},
   file      = {:papers/The Semantic Web -ISWC 2015 14th International Semantic Web Conference:},
-  groups    = {query containment with RDF},
+  groups    = {query containment with RDF, query-containment with schema},
   isbn      = {978-3-319-25007-6},
 }
 
@@ -654,7 +655,7 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
   comment    = {Article très intéressant qui donne une bonne base pour mes expérience, de plus, il a beaucoup de référence qui peuvent m'être utile!},
   copyright  = {Creative Commons Attribution 4.0 International},
   doi        = {10.48550/ARXIV.2302.06933},
-  file       = {:papers/Evaluation of Link Traversal ery Execution over Decentralized Environments with Structural Assumptions.pdf:PDF},
+  file       = {:references/2302.06933v1.pdf:PDF},
   groups     = {Link traversal, Link Traversal Query Processing},
   keywords   = {Databases (cs.DB), FOS: Computer and information sciences, FOS: Computer and information sciences},
   publisher  = {arXiv},
@@ -1196,6 +1197,34 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
   url       = {https://doi.org/10.1145/3148011.3154467},
 }
 
+@InProceedings{10.1145/2745754.2745766,
+  author    = {Czerwi\'{n}ski, Wojciech and Martens, Wim and Parys, Pawel and Przybylko, Marcin},
+  booktitle = {Proceedings of the 34th ACM SIGMOD-SIGACT-SIGAI Symposium on Principles of Database Systems},
+  title     = {The (Almost) Complete Guide to Tree Pattern Containment},
+  year      = {2015},
+  address   = {New York, NY, USA},
+  pages     = {117–130},
+  publisher = {Association for Computing Machinery},
+  series    = {PODS '15},
+  abstract  = {Tree pattern queries are being investigated in database theory for more than a decade. They are a fundamental and flexible query mechanism and have been considered in the context of querying tree structured as well as graph structured data. We revisit their containment, validity, and satisfiability problem, both with and without schema information. We present a comprehensive overview of what is known about the complexity of containment and develop new techniques which allow us to obtain tractability- and hardness results for cases that have been open since the early work on tree pattern containment. For the tree pattern queries we consider in this paper, it is known that the containment problem does not depend on whether patterns are evaluated on trees or on graphs. This means that our results also shed new light on tree pattern queries on graphs.},
+  doi       = {10.1145/2745754.2745766},
+  groups    = {query-containment with schema},
+  isbn      = {9781450327572},
+  keywords  = {complexity, containment, dtd, graphs, optimization, satisfiability, schema, tree patterns, trees, validity, xml, xpath},
+  location  = {Melbourne, Victoria, Australia},
+  numpages  = {14},
+  url       = {https://doi.org/10.1145/2745754.2745766},
+}
+
+@InProceedings{fujimoto2022simple,
+  author    = {Fujimoto, Haruna and Suzuki, Nobutaka},
+  booktitle = {WEBIST},
+  title     = {A Simple Algorithm for Checking Pattern Query Containment under Shape Expression Schema.},
+  year      = {2022},
+  pages     = {278--285},
+  groups    = {query-containment with schema},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
 
 @Comment{jabref-meta: grouping:
@@ -1219,4 +1248,5 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
 1 StaticGroup:data sumary\;0\;1\;\;\;\;;
 1 StaticGroup:idea to try\;0\;1\;\;\;\;;
 1 StaticGroup:hypermedia\;0\;1\;\;\;\;;
+1 StaticGroup:query-containment with schema\;0\;1\;\;\;\;;
 }
