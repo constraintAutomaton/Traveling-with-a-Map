@@ -5,28 +5,68 @@ the shape index, how to express RDF data shapes into relational algebra, how to 
 and how to do online source selection in environments with a shape index.
 
 \subsection{Structured linked data environments}
-Our method is intented to optimize environement with structured assumptions~\cite{Taelman2023}.
-For that purpose extend and formalize the defintion from \citeauthor{Taelman2023} in a new concept that we call \emph{Structured linked data environments} $SLDE$.
-A SLDE is a graph of ressources $R_i$ located at URL $id_i$ such as it can be possible to traverse from $R_i$ to $R_j$ by dereferencing an RDF term in $R_i$ $id_j$.
-The SLDE is explicitly delimited by a set of URL $D$.
-A SLDE contain a set of structural assumption $SA$ defined in Defintion~\ref{def:structuralAssumption} such as 
-it is possible to discover to discover every $R_i \in SLDE$ starting from any $i_j$ using an arbitrary long combination of $sa$.
+The web from a holistic perspective does not have a structure exploitable by the engine for query optimization.
+In the web any document can be published at any location and there is no trust mechanism to guide source selection.
+From a closer perspective data publisher can implicitly or explicitly organize its data publication in a way that a query engine could exploit it.
+With that intuition \citeauthor{Taelman2023} propose the notion of \emph{structural assumptions}~\cite{Taelman2023} to guide query engines towards 
+relevant data source given that the query engine decides to trust the data from publishers following selected web specifications.
+They have shown that using this web model the execution time of queries targetting principally data concerned with the web specifications can 
+be reduced to the extent where query planning becomes the bottleneck of some queries as opposed to the execution of HTTP requests~\cite{Taelman2023}.
+We propose to formalize an abstract definition of \emph{structural assumptions} and to create a notion of \emph{Structured linked data environments}
+to define bounded web subdomain where multiple \emph{structural assumptions} are enforced and result completeness withing this domain is defined.
+A notion of results completeness is important for the comparison of the execution of queries with different reachability criteria.
+Reachability criteria already defines completeness but it is from the perspective of the traversal of links in the internal data sources, hence
+it cannot properly capture if a criteria is better than another to get the same results as if we traversed the whole Structured linked data environments.
+For instance, using reachability criteria such as $CNone$~\cite{Hartig2012} from the perspective of traversal completeness would produce the same completeness of
+any criteria able to finish the query execution, because the completeness definition is internal hence they cannot easily be compared with each other.
+In the open web is it not practically possible to find an external objective notion to based on completeness~\cite{Hartig2012} however we propose that in Structured linked data environments
+with the engine trusting those publishers and queries related to them it is possible.
+
+\iffalse
+While BQPs are syntactic objects, we shall use them as a represen-
+tation of Linked Data queries which have a certain semantics. In the
+remainder of this section we define this semantics. Due to the open-
+ness and distributed nature of Webs such as the WWW we cannot
+guarantee query results that are complete w.r.t. all Linked Data on
+a Web. Nonetheless, we aim to provide a well-defined semantics.
+Consequently, we have to limit our understanding of completeness.
+However, instead of restricting ourselves to data from a fixed set
+of sources selected or discovered beforehand, we introduce an ap-
+proach that allows a query to make use of previously unknown data
+and sources. Our definition of query semantics is based on a two-
+phase approach: First, we define the part of a Web of Linked Data
+that is reached by traversing links using the identifiers in a query
+as a starting point. Then, we formalize the result of such a query
+as the set of all valuations that map the query to a subset of all
+data in the reachable part of the Web. Notice, while this two-phase
+approach provides for a straightforward definition of the query se-
+mantics in our model, it does not correspond to the actual query
+execution strategy of integrating the traversal of data links into the
+query execution process as illustrated in Section 2.
+\fi
+
+A Structured linked data environments 
+\begin{equation}
+E_{ld} = (SA=\{ sa_1, sa_2...sa_n\}, D)
+\end{equation}
+is a set of structural assumption $SA$ where structural assumption are defined at Definition~\ref{def:structuralAssumption},
+with an associated set of URL $D$, call domain defining the region of the web where the structural assumptions are valid and the space where the data publisher as published its data in relation to $E_{ld}$.
 
 
 \begin{definition}[Structural assumption]\label{def:structuralAssumption}
-   A structural assumption $sa$ is a function such as provided a query $Q$ (or a fragment of a query) and an IRI such as $id_i$ $SA(Q, id_i) \rightarrow I_{sa}$
-   the structural assumption provide a set of IRI leading to the resources withing the SLDE.
+   A structural assumption $sa$ is a function such as provided a query $Q$ and an set of IRI $I_{i} \in D$ known by the engine such as $SA(Q, I_{i}) \rightarrow (I_{sa}, I_{nsa})$
+   given that $I_{sa}$ is a set of IRI inside $D$ respecting a specific structure of $E_{ld}$ with regards to the known topology of the $E_{ld}$ and $I_{nsa}$ are the IRI.
 \end{definition}
-
-The purpose of this definiton is to exteriorise the completness of the of results outside of the query engine to enable a more coherent comparaison
-between composite reachability criterion.
 
 \subsection{Shape index}
 The shape index was already defined in one of our publication~\cite{tam2024opportunitiesshapebasedoptimizationlink}, however its definition was not formalized.
 A shape index $SI$ as three components, a mapping $M$ between RDF data shapes $s_i$ and set of ressources $R_i$ such as $M = \{s_0 \mapsto R_0, s_1 \mapsto R_1..., s_n \mapsto R_n\}$ given $n$ entries,
 a domain of actions $D$ composed by a set of URL $ID$ and
 a flag $C\rightarrow \{\mathrm{true}, \mathrm{false}\}$ indicating if the shape index has has a relation $m \in M$ for every resource $r_j$ associated with an URL $id_j \in D$. 
-The shape index can be succintly defined by the following tuple $SI = (M, D, C)$.
+The shape index can be succintly defined by the following tuple 
+\begin{equation}
+SI = (M, D, C)
+\end{equation}.
 
 \subsection{Expressing RDF Data shapes into relational algebra}
 
