@@ -5,22 +5,99 @@ the shape index, how to express RDF data shapes into relational algebra, how to 
 and how to do online source selection in environments with a shape index.
 
 \subsection{Structured linked data environments}
-The web from a holistic perspective does not have a structure exploitable by the engine for query optimization.
-In the web any document can be published at any location and there is no trust mechanism to guide source selection.
-From a closer perspective data publisher can implicitly or explicitly organize its data publication in a way that a query engine could exploit it.
-With that intuition \citeauthor{Taelman2023} propose the notion of \emph{structural assumptions}~\cite{Taelman2023} to guide query engines towards 
-relevant data source given that the query engine decides to trust the data from publishers following selected web specifications.
+The web from a global perspective does not have a structure exploitable by the engine for query optimization.
+on the web any document can be published at any location and there is no trust mechanism to guide source selection.
+From the perpective of small web subdomain data publishers can implicitly or explicitly organize their data publication in a way that a query engine could exploit 
+its organization for query optimization.
+With that intuition \citeauthor{Taelman2023} propose the notion of \emph{structural assumptions}~\cite{Taelman2023} based on the subweb specifications(SWS)~\cite{Bogaerts2021LinkTW}
+to guide query engines towards relevant data source given that the query engine decides to trust the data from publishers following selected web specifications.
 They have shown that using this web model the execution time of queries targetting principally data concerned with the web specifications can 
 be reduced to the extent where query planning becomes the bottleneck of some queries as opposed to the execution of HTTP requests~\cite{Taelman2023}.
-We propose to formalize an abstract definition of \emph{structural assumptions} and to create a notion of \emph{Structured linked data environments}
-to define bounded web subdomain where multiple \emph{structural assumptions} are enforced and result completeness withing this domain is defined.
+We propose to extend the formalization of \citeauthor{Taelman2023} by formaly define a \emph{structured data vaults} $SDV$ , \emph{structural assumptions} $sa$ and result completeness 
+using the SWS as a foundation.
+
+A structured data vaults is in essence a set of structured assumptions that are affecting a certain domain of IRI of the world wide web.
+This concept shares some similarities with specification-annotated world~\cite{Bogaerts2021LinkTW} however its data selectors (Structural assumptions in our model) can target a subset of
+its Web of Linked Data~\cite{Bogaerts2021LinkTW}.
+It is defines as follow:
+
+\begin{definition}[Structured data vaults]\label{def:structuredDataVaults}
+A structured data vaults is defined by the tuple~\newline $SDV = (W_{SDV}, SA = \{\sigma_{sa_1}(W_1, Q), \sigma_{sa_2}(W_2, Q)...\sigma_{s_n}(W_n, Q)\})$ given 
+$n$ structural assumption $\sigma_{sa_i}$ where $W_i  \subseteq W_{SDV}$ and $W_{SDV} = \bigcup_{i=0}^{n}W_i$.
+\end{definition}
+
+A Structural assumption share similarities to a source selector~\cite{Bogaerts2021LinkTW} how they are tie to a structured data vaults as they cannot be associated with 
+Web of Linked Data larger than their $SDV$, additionally in this formalization the query from the user is provided to the entity effectively giving the ability to 
+pushdown queries for source selection. We define a structural assumption as follow:
+
+\begin{definition}[Structural assumption]\label{def:structuralAssumption}
+A Structural assumption is a function $\sigma_{sa}(W,Q) \rightarrow (I_{sa}\in I_D, I_{nsa} \in I_D)$ that considering a Web of Linked Data~\cite{Bogaerts2021LinkTW} $W \subseteq W_{SDV}$ 
+where IRI $i_i \in I_D$ are mapped to resources $d_i \in D$ and a query $Q$ returns a set of IRI $I_{sa}$ respecting the a segment of the structure of publication of 
+its associated $SDV$ and a set of IRI $I_{nsa}$ denoting IRI not contributing to the query result considering withing the $SDV$.
+\end{definition}
+
+From those defintions and we define a results based completeness notion to better evaluate the performance of engine following different reachability criteria.
+Reachability criteria already defines completeness but it is from the perspective of the traversal of links in the internal data sources,
+they have been defined as such because in the open web is it not possible to guarantee results completness~\cite{Hartig2012}.
+This ``limitation''~\cite{Hartig2012} on the notion of completeness can be to some extent alleviated with the SWS formalizum.
+Withing a structured data vaults an internal data store 
+
+$R_{sa}$ is complete given that the internal data store to produce the  
+
+\begin{equation}
+   R_{sa} = \bigcup_{\sigma_{sa} \in SA} \sigma_{sa}(Q)_1 
+\end{equation}
+map the iri to the documents to the triple and care for the bag semantic
+
+
+For 
+
+The question of why not simply use the subsweb specifications defined entities?
+
+WE NEED TO PUT THE SUBWEB SPECIFICATION IN THE PRELIMINARIES.
+
+\iffalse
+We propose to formalize an abstract definition of \emph{structural assumptions} and to create a notion of \emph{Structured linked data environments}(SLDE)
+to be able to define them more precisely and propose a related notion of result completeness.
 A notion of results completeness is important for the comparison of the execution of queries with different reachability criteria.
-Reachability criteria already defines completeness but it is from the perspective of the traversal of links in the internal data sources, hence
-it cannot properly capture if a criteria is better than another to get the same results as if we traversed the whole Structured linked data environments.
-For instance, using reachability criteria such as $CNone$~\cite{Hartig2012} from the perspective of traversal completeness would produce the same completeness of
-any criteria able to finish the query execution, because the completeness definition is internal hence they cannot easily be compared with each other.
-In the open web is it not practically possible to find an external objective notion to based on completeness~\cite{Hartig2012} however we propose that in Structured linked data environments
-with the engine trusting those publishers and queries related to them it is possible.
+Reachability criteria already defines completeness but it is from the perspective of the traversal of links in the internal data sources,
+they have been defined as such because in the open web is it not possible to guarantee results completness~\cite{Hartig2012}.
+This ``limitation'' on the notion of completeness can be to some extent alleviated with the concept of Structured linked data environments.
+
+A Structured linked data environments 
+\begin{equation}
+E_{ld} = (SA=\{ sa_1, sa_2...sa_n\}, D)
+\end{equation}
+is a set of structural assumption $SA$  defined at Definition~\ref{def:structuralAssumption},
+with an associated domain $D$ in the form of set of URL defining the control web region of the data publisher and the outer limit of application of the structural assumption in $E_{ld}$.
+$SA$ is made as such that given an access policy it is possible to find all the results 
+
+\begin{equation}
+R_{sa} = \bigcup_{sa \in SA \land i_j \in D} sa(Q, I_{i} = \{i_1, i_2 ..., i_j\}) 
+\end{equation}
+
+by evaluation every $sa$ until no new $I_{sa}$ are provided. 
+In most cases an $sa$ only need to be evaluated one time because it will be independent of $I_i$ and it is the only variable element of the equation.
+
+
+
+\begin{definition}[Structural assumption]\label{def:structuralAssumption}
+   A structural assumption $sa(Q, I_{i}) \rightarrow (I_{sa}, I_{nsa})$ is a function that provided a query $Q$ and an set of IRI $I_{i} \in D$ known by the query engine 
+   returns a set of IRI $I_{sa}$ containing IRI in $D$ respecting the condition of the structural assumption and a set of IRI $I_{nsa}$ containing IRI in $D$ not respecting
+   the condition of the assumption.
+   It has to be noted that a $sa$ can be agnostic to either $Q$ (for example the LDP specification~\cite{Taelman2023}) or $I_i$ (for example the type index~\cite{Taelman2023}) but not both.  
+\end{definition}
+
+
+
+The completness of results given the traversal of $n$ SLDE for the result bag $R$ is defined by 
+
+\begin{equation}
+   R   \sqsubseteq  \biguplus_{i=0}^{n} \bigcup_{sa \in SA_i} sa 
+\end{equation}
+
+It has to be noted that it can be difficult in practice to find $n$ because a reachability criteria because different reachability criteria might 
+
 
 \iffalse
 While BQPs are syntactic objects, we shall use them as a represen-
@@ -45,18 +122,9 @@ execution strategy of integrating the traversal of data links into the
 query execution process as illustrated in Section 2.
 \fi
 
-A Structured linked data environments 
-\begin{equation}
-E_{ld} = (SA=\{ sa_1, sa_2...sa_n\}, D)
-\end{equation}
-is a set of structural assumption $SA$ where structural assumption are defined at Definition~\ref{def:structuralAssumption},
-with an associated set of URL $D$, call domain defining the region of the web where the structural assumptions are valid and the space where the data publisher as published its data in relation to $E_{ld}$.
 
 
-\begin{definition}[Structural assumption]\label{def:structuralAssumption}
-   A structural assumption $sa$ is a function such as provided a query $Q$ and an set of IRI $I_{i} \in D$ known by the engine such as $SA(Q, I_{i}) \rightarrow (I_{sa}, I_{nsa})$
-   given that $I_{sa}$ is a set of IRI inside $D$ respecting a specific structure of $E_{ld}$ with regards to the known topology of the $E_{ld}$ and $I_{nsa}$ are the IRI.
-\end{definition}
+\fi
 
 \subsection{Shape index}
 The shape index was already defined in one of our publication~\cite{tam2024opportunitiesshapebasedoptimizationlink}, however its definition was not formalized.
@@ -69,7 +137,15 @@ SI = (M, D, C)
 \end{equation}.
 
 \subsection{Expressing RDF Data shapes into relational algebra}
+... 
+Like the paper of Delva
 
 \subsection{Query shape containment}
+...
+define the math of the containment
+
 
 \subsection{Online source selection in environments with a shape index}
+
+The shape index by solving the query containment problem can be expressed as a structural assumption.
+... define the algorithm
