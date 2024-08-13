@@ -45,8 +45,8 @@ The atomic statement of a BGP is a triple pattern $tp$ defined at Definition~\re
 \end{definition}
 
 \begin{definition}[BGP]\label{def:bgp}
- A BGP $B$ is a set of $tp$, \texttt{OPTIONAL} and \texttt{UNION} (both clause containing a set of $tp$).
- The $tp$ sets can be divided into star pattern $Q_{star}$ defined in Definition~\ref{def:starPattern} in a way 
+ A BGP $B$ is a set of $tp$, \texttt{OPTIONAL} and \texttt{UNION} (both clause containing a sets of $tp$).
+ $tp$ sets can be divided into star pattern $Q_{star}$ defined in Definition~\ref{def:starPattern} in a way 
  that $Q = \bigcup_{i\in S} Q_{star_i}$ given that $S$ is the set of every subject of the $tp$ in the $Q$.
 \end{definition}
 
@@ -56,9 +56,9 @@ The atomic statement of a BGP is a triple pattern $tp$ defined at Definition~\re
 \end{definition}
 
 \begin{definition}[Star pattern with dependencies]\label{def:starPattern}
-We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject $Q_{star_i} = \{ tp_i| s_{tp_1} = s_{tp_2} ... = s_{tp_n}\}$.
-We define a star pattern with dependencies $Q_{starD}$ as the union between a star pattern from a query and the other star pattern that have a subject
-the object of the initial star pattern $Q_{starD_i} = Q_{star_i} \cup \{tp_i| o_{tp_j} = s_{tp_i} \land tp_j \in Q_{star_i} \land tp_i \in Q \}$.
+We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject such has $Q_{star} = \{ tp\in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_n}\}$.
+We define a star pattern with dependencies $Q_{starD}$ as the union between a star pattern $Q_{star} \in Q$ and other star patterns having as subjects
+the objects of the initial star pattern such as $Q_{starD} = Q_{star} \cup \{tp \in Q| o_{i} = s_{tp} \land o_{i}\in tp_i \land tp_i  \in Q_{star}\}$.
 \end{definition}
 
 \subsection{Reachability criteria}
