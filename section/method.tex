@@ -5,15 +5,15 @@ the shape index, how to express RDF data shapes into relational algebra, how to 
 and how to do online source selection in environments with a shape index.
 
 \subsection{Structured linked data environments}
-The web from a global perspective does not have a structure exploitable by the engine for query optimization.
-on the web any document can be published at any location and there is no trust mechanism to guide source selection.
-From the perpective of small web subdomain data publishers can implicitly or explicitly organize their data publication in a way that a query engine could exploit 
+The web from a holistic perspective does not have a structure exploitable by the engine for query optimization.
+On the web, any document can be published at any location with no trust mechanism to guide source selection.
+From the perspective of small web subsection data publishers can implicitly or explicitly organize their data publication in a way that a query engine could exploit 
 its organization for query optimization.
-With that intuition \citeauthor{Taelman2023} propose the notion of \emph{structural assumptions}~\cite{Taelman2023} based on the subweb specifications(SWS)~\cite{Bogaerts2021LinkTW}
+With that intuition \citeauthor{Taelman2023} propose the notion of \emph{structural assumptions}~\cite{Taelman2023} formalized using the subweb specifications(SWS)~\cite{Bogaerts2021LinkTW}
 to guide query engines towards relevant data source given that the query engine decides to trust the data from publishers following selected web specifications.
-They have shown that using this web model the execution time of queries targetting principally data concerned with the web specifications can 
-be reduced to the extent where query planning becomes the bottleneck of some queries as opposed to the execution of HTTP requests~\cite{Taelman2023}.
-We propose to extend the formalization of \citeauthor{Taelman2023} by formaly define a \emph{structured data vaults} $SDV$ , \emph{structural assumptions} $sa$ and result completeness 
+They have shown that using this web model the execution time of queries targetting principally data interacting with the structural assumptions it is possible to 
+reduce query execution time to the extent where query planning becomes the bottleneck of some queries as opposed to the execution of HTTP requests like other studies proposes~\cite{Taelman2023, hartig2016walking}.
+We propose to extend the formalization of \citeauthor{Taelman2023} by formaly define a \emph{structured data vaults} $SDV$ , a new more abstract definition of \emph{structural assumptions} $sa$ and result completeness 
 using the SWS as a foundation.
 
 A structured data vaults is in essence a set of structured assumptions that are affecting a certain domain of IRI of the world wide web.
@@ -26,10 +26,14 @@ A structured data vaults is defined by the tuple~\newline $SDV = (W_{SDV}, SA = 
 $n$ structural assumption $\sigma_{sa_i}$ where $W_i  \subseteq W_{SDV}$ and $W_{SDV} = \bigcup_{i=0}^{n}W_i$.
 \end{definition}
 
-A Structural assumption share similarities to a source selector~\cite{Bogaerts2021LinkTW} how they are tie to a structured data vaults as they cannot be associated with 
-Web of Linked Data larger than their $SDV$, additionally in this formalization the query from the user is provided to the entity effectively giving the ability to 
-pushdown queries for source selection. We define a structural assumption as follow:
+A Structural assumption share similarities to a source selector~\cite{Bogaerts2021LinkTW}.
+Structural assumption differs from source selectors as they take a query from the user as a parameter
+effectively giving the ability to pushdown queries to the level of source selection.
+Additionally, it has the ability to indicate links that surely will not contribute to the query execution hence 
+not functioning as a link discovery mechanism but also has link pruning.
+We define a structural assumption as follows:
 
+(WE NEED TO DEFINE Web of link data)
 \begin{definition}[Structural assumption]\label{def:structuralAssumption}
 A Structural assumption is a function $\sigma_{sa}(W,Q) \rightarrow (I_{sa}\in I_D, I_{nsa} \in I_D)$ that considering a Web of Linked Data~\cite{Bogaerts2021LinkTW} $W \subseteq W_{SDV}$ 
 where IRI $i_i \in I_D$ are mapped to resources $d_i \in D$ and a query $Q$ returns a set of IRI $I_{sa}$ respecting the a segment of the structure of publication of 
@@ -50,9 +54,11 @@ $R_{sa}$ is complete given that the internal data store to produce the
 map the iri to the documents to the triple and care for the bag semantic
 
 
-For 
-
-The question of why not simply use the subsweb specifications defined entities?
+The objective of this new formalization is to first provide a formal definition of the ``data vault'' from \citeauthor{Taelman2023} and secondly give more liberty to the data publisher about the structural assumption they want to provide.
+Some structural assumption are virtually cost-free for the data provider such as publishing its data following the LDP specification.
+However, some others might be more costly such as providing statistical information about data published in a vault.
+Additionally, some files in the vault might intentionally not be as structured as others in such a way that documenting some structured information about the 
+data might make less sense. Hence to encapsulate those practical real-world concerns we have endeavored to extend the previous formalization.
 
 WE NEED TO PUT THE SUBWEB SPECIFICATION IN THE PRELIMINARIES.
 
