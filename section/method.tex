@@ -143,12 +143,32 @@ SI = (M, D, C)
 \end{equation}.
 
 \subsection{Expressing RDF Data shapes into relational algebra}
-... 
-Like the paper of Delva
+The constraint of shapes $e_i$ intuitively be threated as segments of a star pattern query~\cite{delva2023}.
+\citeauthor{spapeExpressionConvert} has written an informative document on the transformation of ShEx shapes into
+Select SPARQL queries for validation purposes. 
+In this paper we propose to formalize a similar approach but in the form of a simpler \texttt{SELECT} SPARQL query.
+
+\begin{prop}
+   In a shape expression $e_i$ the $p$ with combination of the $r$ are transform into a triple pattern $tp$ with a cardinality property path.
+   Such as $Q_{e_i}(x,o) = (x, p^r, o)$.
+\end{prop}
+
 
 \subsection{Query shape containment}
-...
-define the math of the containment
+The query shape containment problem is similar to the query containment problem as it 
+try to determine if the possible answers of the star pattern with dependencies query are contained in any instance of data respecting an RDF data shape.
+We can divide the query shape contaiment problem into two category the \emph{strict} and \emph{loose} containment.
+The difference between the problems lies into their handling of the union of queries, optional triple patterns and cardinality of property path.
+
+
+We consider an RDF data shapes as start pattern with dependencies such as 
+\begin{equation}
+   Q_{shape} = Q_{body} \bigvee Q_{nested body}
+\end{equation}
+because the subject of a shape is always a single variable 
+
+CITE FOR PROPERTY PATH PARTICULARLY THE NEGATION \cite{Kostylev2015}
+
 
 
 \subsection{Online source selection in environments with a shape index}
