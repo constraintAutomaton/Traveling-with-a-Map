@@ -143,16 +143,43 @@ SI = (M, D, C)
 \end{equation}.
 
 \subsection{Expressing RDF Data shapes into relational algebra}
-The constraint of shapes $e_i$ intuitively be threated as segments of a star pattern query~\cite{delva2023}.
+A shape expression $e_i$ can be intuitively treated as a segment of a star pattern query~\cite{delva2023}.
+A common approach to do shape validation on RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, spapeExpressionConvert}
 \citeauthor{spapeExpressionConvert} has written an informative document on the transformation of ShEx shapes into
-Select SPARQL queries for validation purposes. 
-In this paper we propose to formalize a similar approach but in the form of a simpler \texttt{SELECT} SPARQL query.
+\texttt{SELECT} SPARQL queries for validation purposes. 
+In this paper we propose to formalize a similar approach but in the form of a simpler conjunctive query (\texttt{SELECT} SPARQL query) in relational algebra~\cite{cyganiak2005relational, Angles2008}.
 
-\begin{prop}
-   In a shape expression $e_i$ the $p$ with combination of the $r$ are transform into a triple pattern $tp$ with a cardinality property path.
-   Such as $Q_{e_i}(x,o) = (x, p^r, o)$.
+INSPIRE YOURSELF BY Corman2019 style
+
+\begin{prop}\label{prop:triplePattern}
+   In a shape expression $e_i$, $p$ with the combination of $r$ can be transformed into a triple pattern $tp$ with a cardinality property path.
+   Such as $Q_{e_i}(x,o) = (x, p^r, o)$. 
+   We suppose a hypothetical extension of the cardinality property path where a user can define any range cardinality property path where $^r$ is a range.
 \end{prop}
 
+\begin{prop}
+   In a shape expression $e_i$ the $c$ is transform into a filter expression if $c$ target a RDF type for instance the type of $o$ must be a string or
+   a comparison with a litteral for instance $o=3$ such as by combining with Proposition \ref{prop:triplePattern} $Q_{e_i}(x,o) = \sigma(x, p^r, o), c(o)$.
+   If $c$ target a shape then $Q_{e_i}(x,o) = \sigma(x, p^{r_{1}}, o_1) \bowtie \sigma(o_1, p_1^{r_2}, o_2)$.
+\end{prop}
+
+\begin{prop}
+   In a disjunction shape expression $e_i = e_j|e_k$ then the expression can be transform into the union between two queries
+   $Q_{e_i}(x,o)= Q_{e_j}(x,o_j) \cup Q_{e_k}(x,o_k)$.
+\end{prop}
+
+\begin{prop}
+   In a shape expression when $n= \mathrm{true}$ then $\neg Q_{e_i}(x,o)$.
+\end{prop}
+
+\begin{prop}
+   A shape $S$ is transform into $Q_{E} = Q_{e_1} \bowtie Q_{e_2} ... \bowtie Q_{e_{n_e}}$ given $n_e$ shape expressions and a close shapes $op = \mathrm{false}$.
+\end{prop}
+
+\begin{prop}
+   A shape $S$ is transform into $Q_{E} = \sigma(x, p, o) -  (Q_{e_1} \bowtie Q_{e_2} ... \bowtie Q_{e_{n_e}}) \forall n \in e_i = \mathrm{true} $ where $Q_{e_i}$ 
+   $x,p, o \in \mathcal{V}$ given $n_e$ shape expressions and $S$ is an open shapes $op = \mathrm{true}$.
+\end{prop}
 
 \subsection{Query shape containment}
 The query shape containment problem is similar to the query containment problem as it 
