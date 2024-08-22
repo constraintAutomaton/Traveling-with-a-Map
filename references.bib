@@ -1253,6 +1253,58 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
   url           = {https://arxiv.org/abs/2110.11709},
 }
 
+@Article{cyganiak2005relational,
+  author  = {Cyganiak, Richard},
+  journal = {Digital Media Systems Laboratory HP Laboratories Bristol. HPL-2005-170},
+  title   = {A relational algebra for SPARQL},
+  year    = {2005},
+  number  = {9},
+  volume  = {35},
+  file    = {:references/A relational algebra for SPARQL.pdf:PDF},
+  groups  = {SPARQL},
+}
+
+@InProceedings{Angles2008,
+  author    = {Angles, Renzo and Gutierrez, Claudio},
+  booktitle = {The Semantic Web - ISWC 2008},
+  title     = {The Expressive Power of SPARQL},
+  year      = {2008},
+  address   = {Berlin, Heidelberg},
+  editor    = {Sheth, Amit and Staab, Steffen and Dean, Mike and Paolucci, Massimo and Maynard, Diana and Finin, Timothy and Thirunarayan, Krishnaprasad},
+  pages     = {114--129},
+  publisher = {Springer Berlin Heidelberg},
+  abstract  = {This paper studies the expressive power of SPARQL. The main result is that SPARQL and non-recursive safe Datalog with negation have equivalent expressive power, and hence, by classical results, SPARQL is equivalent from an expressiveness point of view to Relational Algebra. We present explicit generic rules of the transformations in both directions. Among other findings of the paper are the proof that negation can be simulated in SPARQL, that non-safe filters are superfluous, and that current SPARQL W3C semantics can be simplified to a standard compositional one.},
+  file      = {:references/The Expressive Power of SPARQL.pdf:PDF},
+  groups    = {SPARQL},
+  isbn      = {978-3-540-88564-1},
+}
+
+@Misc{labragayo2017validatingdescribinglinkeddata,
+  author        = {Jose-Emilio Labra-Gayo and Eric Prud'hommeaux and Harold Solbrig and Iovka Boneva},
+  title         = {Validating and describing linked data portals using shapes},
+  year          = {2017},
+  archiveprefix = {arXiv},
+  eprint        = {1701.08924},
+  groups        = {shape},
+  primaryclass  = {cs.DB},
+  url           = {https://arxiv.org/abs/1701.08924},
+}
+
+@InProceedings{Corman2019,
+  author    = {Corman, Julien and Florenzano, Fernando and Reutter, Juan L. and Savkovi{\'{c}}, Ognjen},
+  booktitle = {The Semantic Web -- ISWC 2019},
+  title     = {Validating Shacl Constraints over a Sparql Endpoint},
+  year      = {2019},
+  address   = {Cham},
+  editor    = {Ghidini, Chiara and Hartig, Olaf and Maleshkova, Maria and Sv{\'a}tek, Vojt{\v{e}}ch and Cruz, Isabel and Hogan, Aidan and Song, Jie and Lefran{\c{c}}ois, Maxime and Gandon, Fabien},
+  pages     = {145--163},
+  publisher = {Springer International Publishing},
+  abstract  = {shacl (Shapes Constraint Language) is a specification for describing and validating RDF graphs that has recently become a W3C recommendation. While the language is gaining traction in the industry, algorithms for shacl constraint validation are still at an early stage. A first challenge comes from the fact that RDF graphs are often exposed as sparql endpoints, and therefore only accessible via queries. Another difficulty is the absence of guidelines about the way recursive constraints should be handled. In this paper, we provide algorithms for validating a graph against a shacl schema, which can be executed over a sparql endpoint. We first investigate the possibility of validating a graph through a single query for non-recursive constraints. Then for the recursive case, since the problem has been shown to be NP-hard, we propose a strategy that consists in evaluating a small number of sparql queries over the endpoint, and using the answers to build a set of propositional formulas that are passed to a SAT solver. Finally, we show that the process can be optimized when dealing with recursive but tractable fragments of shacl, without the need for an external solver. We also present a proof-of-concept evaluation of this last approach.},
+  file      = {:references/Validating Shacl Constraints over a Sparql Endpoint.pdf:PDF},
+  groups    = {shape},
+  isbn      = {978-3-030-30793-6},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
 
 @Comment{jabref-meta: grouping:
@@ -1278,4 +1330,5 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
 1 StaticGroup:hypermedia\;0\;1\;\;\;\;;
 1 StaticGroup:query-containment with schema\;0\;1\;\;\;\;;
 1 StaticGroup:convertion shape to query\;0\;1\;\;\;\;;
+1 StaticGroup:SPARQL\;0\;1\;\;\;\;;
 }
