@@ -12,6 +12,14 @@
     \href{https://www.w3.org/TR/sparql11-query/\#PropertyPathPatterns}{https://www.w3.org/TR/sparql11-query/\#PropertyPathPatterns}
 }
 
+\sepfootnotecontent{sf:recursiveShape}{
+    In this formulation we ignore "inverse constraints" such as
+    inverse triple constraint in ShEx \href{https://shex.io/shex-primer/index.html\#inverse-properties}{https://shex.io/shex-primer/index.html\#inverse-properties}
+    and SCHACL Inverse Paths \href{https://www.w3.org/TR/shacl/\#property-path-inverse}{https://www.w3.org/TR/shacl/\#property-path-inverse} to avoid recurse 
+    shape schemas~\cite{Corman2019}.
+}
+
+
 \subsection{RDF knowledge graph and SPARQL queries}
 Our work focuses on conjunctive queries $Q$ of RDF knowledge graph.
 An RDF knowledge graph is composed of triples $t$ defined in Definition~\ref{def:triple} where the subjects and objects are nodes of the graph and the predicates are the edges.
@@ -86,27 +94,28 @@ Equation~\ref{eq:cReachabilityCriteria} formalize a composite reachability crite
 The derefencing operation of the query stop when during an interation of the new element of the internal triple store no new $i_d$ has to be derefenced.
 
 \subsection{RDF data shapes}
-RDF data shapes are schema on a set of RDF graphs defining constraints on the predicate and object with the same subject, thus it can be interpreted as constraints on star patterns.
-In this formalization, we make no distinction between the shapes languages, but it is strongly inspired by ShEx~\cite{Gayo2018}.
+RDF data shapes similar to data schema are constraints on RDF graphs.
+They define the predicate, and the object triples with the same subject must respected.
+We can interpret them as defining a schema on star patterns or star patterns with dependencies.
+We propose an abstract shape formalization. Thus, we make no distinction between the shapes languages, but it is strongly inspired by ShEx~\cite{Gayo2018}.~\sepfootnote{sf:recursiveShape}
 
 We define a shape
 \begin{equation}
-S = (E, op \in \{\mathrm{true},\mathrm{false}\})
+S := (E, op \in \{\mathrm{true},\mathrm{false}\})
 \end{equation}
 
-similarly to \citeauthor{Abbas2018}.
-$E$ is a set of shape expression, $op$ describes whether the shape is opened or closed.
-An open shape allowed the presence of non-contradicting properties not defined in $E$.
-A shape expression 
+with some similarities to \citeauthor{Abbas2018} definition.
+$E$ is a set of shape expressions, $op$ describing whether the shape is opened or closed.
+An open shape allowed the presence of non-contradicting properties not defined in $E$ in an RDF graph $\mathcal{G}$.
+A shape expression is defined by
 \begin{align}
-    e_i = (p, c, r, n) \\
-    e_i = e_j|e_k
+ e_i ::= (p, c, r, n) | (e_j|e_k)
 \end{align}
 .
-is a tuple of constraints on the predicate and the object of one triple of a set of triples must respect. 
-A shape expressions define a predicate $p$ constraint,
+$e_i$ is a tuple of constraints on the predicate and the object of one triple of an RDF graph must respect. 
+A shape expressions define a predicate $p$ constraint that the star pattern in $\mathcal{G}$ must possess,
 a constraint on the object $c(o) \rightarrow \{\mathrm{true}, \mathrm{false}\}$.
-The $c$ constraint can target the RDF type of an object, that the object respects a shape or literal comparison.
-$r = [\mathbb{R}_+, \mathbb{R}_+^*]$ is a constraint on the range of cardinality of the predicate similar to cardinality property paths.
+The $c$ constraint can target the RDF type of an object, that the object must respects a shape or literal comparison.
+$r = [\mathbb{R}_+, \mathbb{R}_+^*]$ is a range constraint on the number of object.
 The shape expression can be a negation $n \in \{\mathrm{true}, \mathrm{false}\}$ meaning that the constraint $e_i$ must not be satisfied.
 A shape expression can also be a disjunction, between two other shape expressions.
