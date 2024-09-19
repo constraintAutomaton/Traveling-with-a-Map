@@ -142,14 +142,20 @@ The shape index can be succintly defined by the following tuple
 SI = (M, D, C)
 \end{equation}.
 
-\subsection{Expressing RDF Data shapes into relational algebra}
-A shape expression $e_i$ can be intuitively treated as a segment of a star pattern query~\cite{delva2023}.
-A common approach to do shape validation on RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, spapeExpressionConvert}
+\subsection{Expressing RDF Data shapes into SPARQL algebra}
+A shape expression $e_i$ can be intuitively treated as a segment of a query~\cite{delva2023} more precisely of a star pattern with dependencies query.
+A common approach to do shape validation on RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, spapeExpressionConvert}.
 \citeauthor{spapeExpressionConvert} has written an informative document on the transformation of ShEx shapes into
 \texttt{SELECT} SPARQL queries for validation purposes. 
-In this paper we propose to formalize a similar approach but in the form of a simpler conjunctive query (\texttt{SELECT} SPARQL query) in relational algebra~\cite{cyganiak2005relational, Angles2008}.
+In this paper, we propose formalizing a similar approach but converting our shape formalism into SPARQL algebra for use in a query shape containment algorithm.
+We are looking into defining a query $Q = q_i \bowtie q_{i+1} ... \bowtie q_n$ that is a translation of every shape expression $e$ in a way that given a subgraph of triple $g$ if the 
+subgraph is validated by the $e$ then the response of $q_i \in Q$ is $\mathcal{G}$ and on otherwise the response is $\emptyset$.
+Thus given an $S$ validating a graph $\mathcal{G} \in d$ in a database $d$ then $\llbracket Q \rrbracket^{\mathcal{G}} = \mathcal{G} \in d$ otherwise an empty set will be returned.
 
 INSPIRE YOURSELF BY Corman2019 style
+
+!!add having count in the query definition for the cardinalities!!
+https://www.w3.org/TR/sparql11-query/#sparqlHavingClause
 
 \begin{prop}\label{prop:triplePattern}
    In a shape expression $e_i$, $p$ with the combination of $r$ can be transformed into a triple pattern $tp$ with a cardinality property path.
