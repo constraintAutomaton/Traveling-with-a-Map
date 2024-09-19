@@ -51,7 +51,7 @@ One can simply execute `make main.pdf` or `make` to produce the PDF version if `
         - SPARQL variance, resemblance with XP path
         - Property path implication
         - A bit on complexity (why it does not matter much for some cases because of the size of the instance,
-            why false negatives are not so bad)
+            ***why false negatives are not so bad)
 - Preliminaries
     - RDF knowledge graph and SPARQL queries
         - RDF triple
@@ -64,7 +64,7 @@ One can simply execute `make main.pdf` or `make` to produce the PDF version if `
 - Foundation
     - Structured linked data environments
         - Definition of data vault as a subweb with multiple structural assumptions. Those structural assumptions might describe the whole data vault or not, but the combination of them all should make the entire vault traversable regardless of the query
-        - Define the completeness of the data vault explicitly and the completeness of LTQP overall, considering the data vault (we make more explicit the separation between the structure of a data vault and the reachability of the engine; we have completeness of traversal of the engine and the completeness of results of the pod)
+        - Define the completeness of the data vault explicitly and the completeness of LTQP overall, considering the data vault (we make more explicit the separation between the structure of a data vault and the reachability of the engine; we have completeness of traversal of the engine and the completeness of results of the pod) (one file...define completeness)
             - We want a means to really compare different reachability criteria, at least in the context of data vault
     - Reachability criteria extended
         - Composite reachability criteria (we combine multiple of them)
@@ -82,12 +82,14 @@ One can simply execute `make main.pdf` or `make` to produce the PDF version if `
     - Online source selection in environments with a shape index
         - Shape index as a structural assumption
         - Query shape containment with shape index as reachability criteria
-- Implementation
-    - Schema of the algorithm with shape index
-    - Link Queue filters (related to prunnig reachability criteria)
-- Results
-    - See experiments section
-- Discussion
+- Evaluation
+    - Experiment setup (link to research questions)
+    - Implementation
+        - Schema of the algorithm with shape index
+        - Link Queue filters (related to prunnig reachability criteria)
+    - Results
+        - See experiments section
+    - Discussion (link to research questions)
 - Conclusion
 
 ### Research question
@@ -106,7 +108,7 @@ One can simply execute `make main.pdf` or `make` to produce the PDF version if `
 - How does the size of the internal data store impact the query execution time compared to the number of HTTP requests?
 
 ### Experiments
-- Baseline Datadump
+- Baseline Datadump (maybe not the optimal execution)
 - Baseline LTQP
     - Type index
     - LDP
@@ -134,15 +136,24 @@ One can simply execute `make main.pdf` or `make` to produce the PDF version if `
 We also want to see if this is within the current time expectation for social media queries.
 
 #### Metric
-- Percentage of useful links dereferenced
+- Percentage of useful links dereferenced *
 - Link Queue Occupancy
-- Query execution
-- Number of HTTP requests
-- Deficiency metric
+- Query execution *
+- Number of HTTP requests *
+- Deficiency metric *
 - R3 metric
-- Size of the internal triple store
+- Size of the internal triple store (*)
 
 #### Derived measurements
 - Correlation between the query execution time and the size of the internal triple store
 - Correlation between Query execution times and the number of HTTP request
 - Correlation between the query execution times, the size of the internal triple store, and the number of HTTP request
+
+#### More data inside the pods
+idea
+
+- Bookmarks
+- Pictures + metadata
+- Likes on websites
+- Movies
+- Reviews (things)
