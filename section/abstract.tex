@@ -1,16 +1,25 @@
 \begin{abstract}
     % Context     
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    % Need        
-    Vestibulum finibus dignissim augue, id pellentesque est facilisis non.
-    % Task        
-    Donec fringilla dolor non neque iaculis blandit.
+    Link traversal queries are notoriously slow.
+    % Need
+    The main bottleneck of this query paradigm is the pseudo-infinite traversal search space.
+    % Task
+    Using data publication structure, traversal queries can be made faster by creating a finite search domain.
+    Yet, the search domain can remain needlessly large regarding specific queries, hindering query engine performance.    
     % Object      
-    Praesent aliquet eleifend iaculis.
+    In this paper, we propose a lightweight and low-maintenance data summary method called a \emph{Shape Index} leveraging 
+    the descriptive power of RDF data shapes with
+    an associated query-shape containment algorithm for online source selection during link traversal queries.
+    We formalize our approach and evaluate its impact on different query processing metrics considering multiple 
+    level of detail of data summarisation in the network.  
     % Findings    
-    Quisque pellentesque at odio ac bibendum.
-    % Conclusion  
-    Pellentesque imperdiet felis urna, quis facilisis lacus gravida non.
+    We show that the use of this simple data sumarization can have a significant positive impact on query execution,
+    and that our algorithm as low overhead and is easlily adaptative when part of the network does not expose the index.
+    % Conclusion
+    Given the performance gain and its low maintenance a shape index can be in the context 
+    of the publication of descentralized RDF dataset a good low-cost way to improve query performance.
     % Perspectives
-    Donec quis lectus eget sem tempor tristique pellentesque in dolor.
+    Given our results, it would be interesting to explore the creation of a more restrictive algorithm by handling filter expression for source selection or a more detailed shape index by formalizing the 
+    absence of RDF subgraphs respecting a particular shape and, more interestingly, investigating the use of a
+    shape index for adaptative query planning during link traversal queries.
 \end{abstract}
