@@ -4,23 +4,24 @@
     % Need
     The main bottleneck of this query paradigm is the pseudo-infinite traversal search space.
     % Task
-    Using data publication structure, traversal queries can be made faster by creating a finite search domain.
-    Yet, the search domain can remain needlessly large regarding particular queries, hindering query engine performance.    
+    Using the structure of the data publication, traversal queries can be made faster by imposing a finite domain.
+    Yet, the search domain can remain needlessly large when considering that multiple documents may not be query-relevant.
     % Object      
-    In this paper, we propose a lightweight and low-maintenance data summary method called a \emph{Shape Index} leveraging 
-    the descriptive power of RDF data shapes with
-    an associated query-shape containment algorithm for online source selection during link traversal queries.
-    We formalize our approach and evaluate its impact on different query processing metrics considering multiple 
+    This paper proposes a lightweight and low-maintenance data summary method for decentralized RDF documents called a \emph{Shape Index}.
+    The shape index leverages the descriptive power of RDF data shapes, simple mapping to a set of RDF resources, to summarise a decentralized RDF dataset.
+    With this simple information, we propose a query-shape containment algorithm for online source selection during link traversal queries.
+    In this paper, we formalize our approach, evaluate its impact on different query processing metrics, and consider multiple 
     level of detail of data summarisation in the network.  
     % Findings    
-    We show that the use of this simple data sumarization can have a significant positive impact on query execution,
-    and that our algorithm as low overhead and is easlily adaptative when part of the network does not expose the index.
+    We show that the use of this simple data summarization can reduce the query execution time and the network usage of queries where a significant number of 
+    sources were not query-relevant while having minimal impact on the query execution time of queries, necessitating a large portion of the document in the datasets of the networks.
+    We also show that the relation between the decrease in the number of HTTP requests performed is correlated but not linear with the reduction in query execution time,
+    leading us to the same conclusion as the state of the art: better query planning in link traversal queries could positively impact query execution time.
     % Conclusion
     Given the performance gain of our algorithm and the low maintenance of shape indexes, its usage in the context 
     of the publication of decentralized RDF datasets is an effective, low-cost way to improve query performance with 
     little computational power from the data provider.
     % Perspectives
-    Given our results, it would be interesting to explore the creation of a more restrictive algorithm by handling filter expression for source selection or a more detailed shape index by formalizing the 
-    absence of RDF subgraphs respecting a particular shape and, more interestingly, investigating the use of a
-    shape index for adaptative query planning during link traversal queries.
+    The paper leaves open the questions of performing query-shape containment problems with filter expression for more selective source selection, 
+    of using negative entries in the shape index in the source selection process and the shape index for adaptative query planning.
 \end{abstract}
