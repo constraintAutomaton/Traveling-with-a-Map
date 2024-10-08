@@ -1,5 +1,13 @@
 \section{Approach}
 
+\sepfootnotecontent{sf:shapeTarget}{
+   It has to be noted that the concept of target and map of SHACL and ShEx does not apply, since it is always the whole knowledge graph that has to be valid.
+}
+
+\sepfootnotecontent{sf:shapeIndexURL}{
+   \url{https://constraintautomaton.github.io/shape-index-specification/}
+}
+
 In this section, we are going to describe our approach starting with a formal definition of our query environments,
 the shape index, how to express RDF data shapes into relational algebra, how to solve the query containment problem
 and how to do online source selection in environments with a shape index.
@@ -133,14 +141,20 @@ query execution process as illustrated in Section 2.
 \fi
 
 \subsection{Shape index}
-The shape index was already defined in one of our publication~\cite{tam2024opportunitiesshapebasedoptimizationlink}, however its definition was not formalized.
-A shape index $SI$ as three components, a mapping $M$ between RDF data shapes $s_i$ and set of ressources $R_i$ such as $M = \{s_0 \mapsto R_0, s_1 \mapsto R_1..., s_n \mapsto R_n\}$ given $n$ entries,
-a domain of actions $D$ composed by a set of URL $ID$ and
-a flag $C\rightarrow \{\mathrm{true}, \mathrm{false}\}$ indicating if the shape index has has a relation $m \in M$ for every resource $r_j$ associated with an URL $id_j \in D$. 
-The shape index can be succintly defined by the following tuple 
-\begin{equation}
-SI = (M, D, C)
-\end{equation}.
+The concept of a shape index was already describe in our publication \citetitle {tam2024opportunitiesshapebasedoptimizationlink}. 
+However, it was not formalized.
+A shape index $SI = (M, D)$, is a tuple where $M = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}$ is a mapping between RDF shapes and a set of IRI 
+and where $D = IRI_0 \cup (\bigcup\limits_{i=1}^{n} IRI_i)$ is the domain of application of the index.
+$IRI_0$ is the set of IRI that are inside of the domain of the index but not present in the IRI set of the mapping such that 
+$iri \in IRI_0 \iff \nexists iri \in M(s_i)$.
+When $IRI_0 = \emptyset$ then the shape index describe each ressources of its domain and is denoted as a \emph{complete shape index}. 
+
+A mapping between a shape and a set of IRI has some implication.
+when a shape is mapped to a set of $IRI$ then every triple of the knowledge graph $g$ such as $iri \mapsto g \land iri \in IRI$
+are validated by the shape $s(g) = \text{true}$.~\sepfootnote{sf:shapeTarget}
+A shape mapping given that the shape is close also design an exclusivity in the presence of the of $g$ inside the mapped $IRI$ such that 
+given $G = \bigcup\limits_{j=1}^{n} g_j$  where $g_j$ is the knowledge graph behind every ressource of $IRI$ then $s(g) = true \iff g \mapsto iri \in IRI$.
+A web specification is also available online.~\sepfootnote{sf:shapeIndexURL}
 
 \subsection{Expressing RDF Data shapes into SPARQL algebra}
 A shape expression $e_i$ can be intuitively treated as a segment of a query~\cite{delva2023} more precisely of a star pattern with dependencies query.
@@ -155,7 +169,7 @@ Thus given an $S$ validating a graph $\mathcal{G} \in d$ in a database $d$ then 
 INSPIRE YOURSELF BY Corman2019 style
 
 !!add having count in the query definition for the cardinalities!!
-https://www.w3.org/TR/sparql11-query/#sparqlHavingClause
+https://www.w3.org/TR/sparql11-query\#sparqlHavingClause
 
 \begin{prop}\label{prop:triplePattern}
    In a shape expression $e_i$, $p$ with the combination of $r$ can be transformed into a triple pattern $tp$ with a cardinality property path.
