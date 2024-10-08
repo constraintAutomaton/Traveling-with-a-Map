@@ -50,8 +50,7 @@ One can simply execute `make main.pdf` or `make` to produce the PDF version if `
         - Defining the main problem
         - SPARQL variance, resemblance with XP path
         - Property path implication
-        - A bit on complexity (why it does not matter much for some cases because of the size of the instance,
-            ***why false negatives are not so bad)
+        - A bit on complexity (why it does not matter much for some cases because of the size of the instance)
 - Preliminaries
     - RDF knowledge graph and SPARQL queries
         - RDF triple
@@ -61,17 +60,18 @@ One can simply execute `make main.pdf` or `make` to produce the PDF version if `
         - Filter expression
     - Reachability criteria
     - RDF data shapes
+    - Decentralized knowledge graph
 - Foundation
     - Structured linked data environments
-        - Definition of data vault as a subweb with multiple structural assumptions. Those structural assumptions might describe the whole data vault or not, but the combination of them all should make the entire vault traversable regardless of the query
-        - Define the completeness of the data vault explicitly and the completeness of LTQP overall, considering the data vault (we make more explicit the separation between the structure of a data vault and the reachability of the engine; we have completeness of traversal of the engine and the completeness of results of the pod) (one file...define completeness)
-            - We want a means to really compare different reachability criteria, at least in the context of data vault
+        - Description of what it is
+        - Why it improve query execution time in a formal way (reduction of the size of the knowledge graph while not affecting query results)
+        - Completeness of results vs completeness of traversal
+
     - Reachability criteria extended
         - Composite reachability criteria (we combine multiple of them)
         - Pruning and discovery reachability criteria
     - Shape index
-        - The formal definition is similar to the previous paper in a way. 
- Link to the specification, too
+        - The formal definition is similar to the previous paper in a way with a link to the specification. 
     - Expressing RDF Data shapes into SPARQL Algebra
     - Query shape containment
         - Definition
@@ -136,17 +136,19 @@ One can simply execute `make main.pdf` or `make` to produce the PDF version if `
 We also want to see if this is within the current time expectation for social media queries.
 
 #### Metric
+* mean that is important for the paper
+
 - Percentage of useful links dereferenced *
 - Link Queue Occupancy
 - Query execution *
 - Number of HTTP requests *
 - Deficiency metric *
 - R3 metric
-- Size of the internal triple store (*)
+- Size of the internal triple store
 
 #### Derived measurements
 - Correlation between the query execution time and the size of the internal triple store
-- Correlation between Query execution times and the number of HTTP request
+- Correlation between Query execution times and the number of HTTP request *
 - Correlation between the query execution times, the size of the internal triple store, and the number of HTTP request
 
 #### More data inside the pods
