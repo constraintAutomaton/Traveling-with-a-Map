@@ -2,12 +2,12 @@ SOURCE = main.tex references.bib section/*.tex makefile
 PACKAGE=acmart
 
 main.pdf: $(SOURCE)
-	pdflatex main $(PACKAGE).dtx
+	pdflatex main
 	- bibtex main
 	biber main
-	pdflatex main $(PACKAGE).dtx
+	pdflatex main
 	biber main
-	pdflatex main $(PACKAGE).dtx
+	pdflatex main
 	while ( grep -q '^LaTeX Warning: Label(s) may have changed' main.log) \
 	do pdflatex $<; done
 	

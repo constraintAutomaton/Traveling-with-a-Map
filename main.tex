@@ -1,58 +1,26 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.21 of 2022/01/12
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage[T1]{fontenc}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encondings may result in incorrect characters.
+%
+\usepackage{graphicx}
 
-\documentclass[sigconf, anonymous, review, natbib=false]{acmart}
-
-%%
-%% \BibTeX command to typeset BibTeX logo in the docs
-\AtBeginDocument{%
-  \providecommand\BibTeX{{%
-    Bib\TeX}}}
-
-%% Rights management information.  This information is sent to you
-%% when you complete the rights form.  These commands have SAMPLE
-%% values in them; it is your responsibility as an author to replace
-%% the commands and values with those provided to you when you
-%% complete the rights form.
-\setcopyright{acmlicensed}
-\copyrightyear{2024}
-
-
-
-%%
-%% Submission ID.
-%% Use this when submitting an article to a sponsored event. You'll
-%% receive a unique submission ID from the organizers
-%% of the event, and this ID should be used as the parameter to this command.
-%%\acmSubmissionID{123-A56-BU3}
-
-%%
-%% For managing citations, it is recommended to use bibliography
-%% files in BibTeX format.
-%%
-%% You can then either use BibTeX with the ACM-Reference-Format style,
-%% or BibLaTeX with the acmnumeric or acmauthoryear sytles, that include
-%% support for advanced citation of software artefact from the
-%% biblatex-software package, also separately available on CTAN.
-%%
-%% Look at the sample-*-biblatex.tex files for templates showcasing
-%% the biblatex styles.
-%%
-
-
-%%
-%% The majority of ACM publications use numbered citations and
-%% references, obtained by selecting the acmnumeric BibLaTeX style.
-%% The acmauthoryear BibLaTeX style switches to the "author year" style.
-%%
-%% If you are preparing content for an event
-%% sponsored by ACM SIGGRAPH, you must use the acmauthoryear style of
-%% citations and references.
-%%
-%% Bibliography style
-\RequirePackage[
-  datamodel=acmdatamodel,
-  style=acmnumeric,
-  ]{biblatex}
-
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following two lines
+% to display URLs in blue roman font according to Springer's eBook style:
+%\usepackage{color}
+%\renewcommand\UrlFont{\color{blue}\rmfamily}
+%\urlstyle{rm}
+%
+\usepackage{biblatex}
 %% Declare bibliography sources (one \addbibresource command per source)
 \addbibresource{references.bib}
 
@@ -63,57 +31,38 @@
 \lstset{breaklines=true}
 
 \usepackage{svg}
-\usepackage{graphicx}
 \usepackage{sepfootnotes}
 \usepackage{amsmath}
 \usepackage{stmaryrd}
-\usepackage{breakurl}
+\usepackage{amsfonts}
+\usepackage{amssymb}
 
 
 \newtheorem{prop}{Proposition}
 \newtheorem{axiom}{Axiom}
 
 \begin{document}
-
-
+%
 \title{Traveling with a Map: Optimizing the Search Space of Link Traversal Queries Using RDF Data Shapes}
-
-\author{Bryan-Elliott Tam}
-\email{bryanelliott.tam@ugent.com}
-\affiliation{%
-  \institution{Gent Universiteit}
-  \city{Ghent}
-  \country{Belgium}
-}
-
-\author{Ruben Taelman}
-\email{ruben.taelman@ugent.be}
-\affiliation{%
-  \institution{Gent Universiteit}
-  \city{Ghent}
-  \country{Belgium}
-}
-\author{Pieter Colpaert}
-\email{pieter.colpaert@ugent.be}
-\affiliation{%
-  \institution{Gent Universiteit}
-  \city{Ghent}
-  \country{Belgium}
-}
-
+%
+%\titlerunning{Abbreviated paper title}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{Bryan-Elliott Tam\inst{1}\orcidID{0000-0003-3467-9755} \and
+Ruben Taelman\inst{1}\orcidID{0000-0001-5118-256X} \and
+Pieter Colpaert\inst{1}\orcidID{0000-0001-6917-2167}}
+%
+\authorrunning{B. Author et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+\institute{Universiteit Gent, Ghent, Belgium \\
+\email{\{firstname.lastname\}@ugent.be}}
+%
+\maketitle              % typeset the header of the contribution
+%
 \input{section/abstract}
-
-%%
-%% Keywords. The author(s) should pick words that accurately describe
-%% the work being presented. Separate the keywords with commas.
-\keywords{Linked data,
-Link Traversal Query Processing,
-Query containment,
-RDF data shapes,
-Data summarisation,
-Descentralized environments}
-
-\maketitle
 
 \input{section/introduction}
 \input{section/reasearch_question}
@@ -124,7 +73,4 @@ Descentralized environments}
 \printbibliography
 
 \end{document}
-\endinput
 
-%%
-%% End of file
