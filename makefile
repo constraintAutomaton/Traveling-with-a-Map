@@ -1,5 +1,4 @@
 SOURCE = main.tex references.bib section/*.tex makefile
-PACKAGE=acmart
 
 main.pdf: $(SOURCE)
 	pdflatex main
