@@ -9,13 +9,13 @@
 }
 
 \sepfootnotecontent{sf:propertyPathAlgebra}{
-    \url{https://www.w3.org/TR/sparql11-query\#PropertyPathPatterns}
+    \url{https://www.w3.org/TR/sparql11-query##PropertyPathPatterns}
 }
 
 \sepfootnotecontent{sf:recursiveShape}{
     In this formulation we ignore "inverse constraints" such as
-    inverse triple constraint in ShEx \url{https://shex.io/shex-primer/index.html\#inverse-properties}
-    and SCHACL Inverse Paths \url{https://www.w3.org/TR/shacl/\#property-path-inverse} to avoid recurse 
+    inverse triple constraint in ShEx \url{https://shex.io/shex-primer/index.html##inverse-properties}
+    and SCHACL Inverse Paths \url{https://www.w3.org/TR/shacl##property-path-inverse} to avoid recurse 
     shape schemas~\cite{Corman2019}.
 }
 
@@ -29,7 +29,7 @@ An RDF knowledge graph is composed of triples $t$ defined in Definition~\ref{def
     where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$ are respectiverly the set of every possible IRI, blank node~\sepfootnote{sf:blankNode} and litteral.
 \end{definition}
 
-We consider two parts of $Q$~\sepfootnote{sf:sparqlSpecification} the basic graph pattern (BGP) defined in Definition~\ref{def:bgp} and the filter expressions as defined in Defintion~\ref{def:filterExpression}.
+We define the basic graph pattern (BGP) of $Q$~\sepfootnote{sf:sparqlSpecification} in Definition~\ref{def:bgp}.
 The atomic statement of a BGP is a triple pattern $tp$ defined at Definition~\ref{def:triplePattern}.
 
 \begin{definition}[Triple pattern]\label{def:triplePattern}
@@ -51,8 +51,8 @@ The atomic statement of a BGP is a triple pattern $tp$ defined at Definition~\re
    the repetition of 1 and more of $p_{tpi}$ and the presence of absence of $p_{tpi}$.
 \end{definition}
 
-Property path can be interpreted in term of relational algebra for SPARQL evaluation as define by \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2)~\sepfootnote{sf:propertyPathAlgebra}.
-Notably, the alternative operator can be interpreted as a union and the sequence as another triple pattern.
+Property paths can be represented in SPARQL algebra as defined by \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2)~\sepfootnote{sf:propertyPathAlgebra}.
+Notably, the alternative operator can be interpreted as a union, and the sequence operator as a chain of triple pattern.
 
 \begin{definition}[BGP]\label{def:bgp}
  A BGP $B$ is a set of $tp$, \texttt{OPTIONAL} and \texttt{UNION} (both clause containing a sets of $tp$).
@@ -60,10 +60,6 @@ Notably, the alternative operator can be interpreted as a union and the sequence
  that $Q = Q_{star_{i-1}} \bowtie Q_{star_i} \forall i \in S$ given that $S$ is the set of every subject of the $tp$ in the $Q$.
 \end{definition}
 
-\begin{definition}[Filter expression]\label{def:filterExpression}
-    A filter expression $F \rightarrow \{\mathrm{true}, \mathrm{false}\}$ is chain of boolean expressions $f_i(p_1, p_2...,p_n) \rightarrow \{\mathrm{true}, \mathrm{false}\}$ such that 
-    $p_i \in \mathcal{I} \cup \mathcal{L} \cup (\mathcal{V}\in Q)$.
-\end{definition}
 
 \begin{definition}[Star pattern with dependencies]\label{def:starPattern}
 We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject such has $Q_{star} = \{ tp\in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_n}\}$.
@@ -101,7 +97,7 @@ We propose an abstract shape formalization. Thus, we make no distinction between
 
 We define a shape
 \begin{equation}
-S := (E, op \in \{\mathrm{true},\mathrm{false}\})
+S = (E, op \in \{\mathrm{true},\mathrm{false}\})
 \end{equation}
 
 with some similarities to \citeauthor{Abbas2018} definition.
@@ -109,16 +105,26 @@ $E$ is a set of shape expressions, $op$ describing whether the shape is opened o
 An open shape allowed the presence of non-contradicting properties not defined in $E$ in an RDF graph $\mathcal{G}$.
 A shape expression is defined by
 \begin{align}
- e_i ::= (p, c, r, n) | (e_j|e_k)
+ e_i ::= (p, c, ra, n) | (e_j|e_k)
 \end{align}
 .
 $e_i$ is a tuple of constraints on the predicate and the object of one triple of an RDF graph must respect. 
 A shape expressions define a predicate $p$ constraint that the star pattern in $\mathcal{G}$ must possess,
 a constraint on the object $c(o) \rightarrow \{\mathrm{true}, \mathrm{false}\}$.
 The $c$ constraint can target the RDF type of an object, that the object must respects a shape or literal comparison.
-$r = [\mathbb{R}_+, \mathbb{R}_{+}^{*}]$ is a range constraint on the number of object.
+$ra = [\mathbb{R}_+, \mathbb{R}_{+}^{*}[$ is a range constraint on the number of object.
 The shape expression can be a negation $n \in \{\mathrm{true}, \mathrm{false}\}$ meaning that the constraint $e_i$ must not be satisfied.
 A shape expression can also be a disjunction, between two other shape expressions.
 
+We also define an evaluation function returning $\mathrm{true}$ if a knowledge graph (KG) $G$ is validated by a shape $S$. 
 
-DEFINE A DECENTRALIZED knowledge graph.
+\begin{equation}
+    SE(S, G) \rightarrow \{\mathrm{true}, \mathrm{false}\}
+\end{equation}
+
+
+\subsection{Descentralized Knowledge Graph}
+We define a decentralized knowledge graph (DKG) as a knowledge graph (KG) $G$ that is materialized in a network of resources $R$.
+A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is mapped to an IRI $iri_i$.
+The network forms a graph where the resources $r$ are the nodes and the $iri_j \in t \in g$ are the edges connecting the network.
+The KG $G$ is formed by the union of all the $g \in r$, such that $G = \bigcup_{i=0}^{n}g_i$ given $n$ resources.
