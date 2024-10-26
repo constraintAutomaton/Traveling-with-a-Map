@@ -649,19 +649,17 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
 }
 
 @Misc{Taelman2023,
-  author     = {Taelman, Ruben and Verborgh, Ruben},
-  title      = {Evaluation of Link Traversal Query Execution over Decentralized Environments with Structural Assumptions},
-  year       = {2023},
-  comment    = {Article très intéressant qui donne une bonne base pour mes expérience, de plus, il a beaucoup de référence qui peuvent m'être utile!},
-  copyright  = {Creative Commons Attribution 4.0 International},
-  doi        = {10.48550/ARXIV.2302.06933},
-  file       = {:references/2302.06933v1.pdf:PDF},
-  groups     = {Link traversal, Link Traversal Query Processing},
-  keywords   = {Databases (cs.DB), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  publisher  = {arXiv},
-  ranking    = {rank5},
-  readstatus = {read},
-  url        = {https://arxiv.org/abs/2302.06933},
+  author    = {Taelman, Ruben and Verborgh, Ruben},
+  title     = {Link Traversal Query Processing Over Decentralized Environments with Structural Assumptions},
+  year      = {2023},
+  abstract  = {To counter societal and economic problems caused by data silos on the Web, efforts such as Solid strive to reclaim private data by storing it in permissioned documents over a large number of personal vaults across the Web. Building applications on top of such a decentralized Knowledge Graph involves significant technical challenges: centralized aggregation prior to query processing is impossible for legal reasons, and current federated querying techniques cannot handle this large scale of distribution at the expected performance. We propose an extension to Link Traversal Query Processing (LTQP) that incorporates structural properties within decentralized environments to tackle their unprecedented scale. In this article, we analyze the structural properties of the Solid decentralization ecosystem that are relevant for query execution, we introduce novel LTQP algorithms leveraging these structural properties, and evaluate their effectiveness. Our experiments indicate that these new algorithms obtain correct results in the order of seconds, which existing algorithms cannot achieve. This work reveals that a traversal-based querying method using structural assumptions can be effective for large-scale decentralization, but that advances are needed in the area of query planning for LTQP to handle more complex queries. These insights open the door to query-driven decentralized applications, in which declarative queries shield developers from the inherent complexity of a decentralized landscape.},
+  address   = {Cham},
+  booktitle = {The Semantic Web -- ISWC 2023},
+  editor    = {Payne, Terry R. and Presutti, Valentina and Qi, Guilin and Poveda-Villal{\'o}n, Mar{\'i}a and Stoilos, Giorgos and Hollink, Laura and Kaoudi, Zoi and Cheng, Gong and Li, Juanzi},
+  groups    = {Link traversal, Link Traversal Query Processing},
+  isbn      = {978-3-031-47240-4},
+  pages     = {3--22},
+  publisher = {Springer Nature Switzerland},
 }
 
 @Misc{hartig2016walking,
@@ -952,7 +950,7 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
   url    = {https://api.semanticscholar.org/CorpusID:56854840},
 }
 
-@InProceedings{10.1145/1772690.1772733,
+@InProceedings{Harth2010,
   author    = {Harth, Andreas and Hose, Katja and Karnstedt, Marcel and Polleres, Axel and Sattler, Kai-Uwe and Umbrich, J\"{u}rgen},
   booktitle = {Proceedings of the 19th International Conference on World Wide Web},
   title     = {Data Summaries for On-Demand Queries over Linked Data},
@@ -1315,6 +1313,49 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
   url       = {https://rubeneschauzier.github.io/QuWeDa2023-Link-Queue-Analysis-Camera-Ready/QuWeDa_2023_Link_Queue_Analysis_Final.pdf},
 }
 
+@InProceedings{Stuckenschmidt2004,
+  author    = {Stuckenschmidt, Heiner and Vdovjak, Richard and Houben, Geert-Jan and Broekstra, Jeen},
+  booktitle = {Proceedings of the 13th International Conference on World Wide Web},
+  title     = {Index structures and algorithms for querying distributed RDF repositories},
+  year      = {2004},
+  address   = {New York, NY, USA},
+  pages     = {631–639},
+  publisher = {Association for Computing Machinery},
+  series    = {WWW '04},
+  abstract  = {A technical infrastructure for storing, querying and managing RDFdata is a key element in the current semantic web development. Systems like Jena, Sesame or the ICS-FORTH RDF Suite are widelyused for building semantic web applications. Currently, none ofthese systems supports the integrated querying of distributed RDF repositories. We consider this a major shortcoming since the semanticweb is distributed by nature. In this paper we present an architecture for querying distributed RDF repositories by extending the existing Sesame system. We discuss the implications of our architectureand propose an index structure as well as algorithms forquery processing and optimization in such a distributed context.},
+  doi       = {10.1145/988672.988758},
+  groups    = {source selection},
+  isbn      = {158113844X},
+  keywords  = {optimization, index structures, RDF querying},
+  location  = {New York, NY, USA},
+  numpages  = {9},
+  url       = {https://doi.org/10.1145/988672.988758},
+}
+
+@InCollection{Doan2012,
+  author    = {AnHai Doan and Alon Halevy and Zachary Ives},
+  booktitle = {Principles of Data Integration},
+  publisher = {Morgan Kaufmann},
+  title     = {2 - Manipulating Query Expressions},
+  year      = {2012},
+  address   = {Boston},
+  editor    = {AnHai Doan and Alon Halevy and Zachary Ives},
+  isbn      = {978-0-12-416044-6},
+  pages     = {21-63},
+  doi       = {https://doi.org/10.1016/B978-0-12-416044-6.00002-8},
+  file      = {:references/Manipulating Query Expressions.pdf:PDF},
+  groups    = {query containment with RDF},
+  url       = {https://www.sciencedirect.com/science/article/pii/B9780124160446000028},
+}
+
+@InProceedings{papadaki2018interactive,
+  author    = {Papadaki, Maria-Evangelia and Papadakos, Panagiotis and Mountantonakis, Michalis and Tzitzikas, Yannis},
+  booktitle = {EDBT/ICDT Workshops},
+  title     = {An Interactive 3D Visualization for the LOD Cloud.},
+  year      = {2018},
+  pages     = {100--103},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
 
 @Comment{jabref-meta: grouping:
@@ -1341,4 +1382,5 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
 1 StaticGroup:query-containment with schema\;0\;1\;\;\;\;;
 1 StaticGroup:convertion shape to query\;0\;1\;\;\;\;;
 1 StaticGroup:SPARQL\;0\;1\;\;\;\;;
+1 StaticGroup:source selection\;0\;1\;\;\;\;;
 }
