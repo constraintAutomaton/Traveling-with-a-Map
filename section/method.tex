@@ -17,11 +17,10 @@ in a way that a query engine could exploit its organization for query optimizati
 The concept of \emph{structural assumptions}~\cite{Taelman2023} has been theorized to optimize queries by exploiting the local structure of decentralized RDF datasets where the data providers 
 guarantee the completeness of results related to their statement in a specific set of resources in an IRI domain~\cite{Bogaerts2021LinkTW}.
 
-Structural assumptions have been shown to reduce the query execution time of multiple queries to the extent where the bottleneck of specific queries is not the number of HTTP requests but the suboptimal query plan~\cite{Taelman2023, eschauzier_quweda_linkqueue_2023}.
+Structural assumptions have been shown to reduce the query execution time of multiple queries to the extent that the bottleneck of specific queries is not the number of HTTP requests but the suboptimal query plan~\cite{Taelman2023, eschauzier_quweda_linkqueue_2023}.
 We can formalize the use of structural assumption to reduce query execution time as follows.
-A query is executed over a DKG $G$ form by the union of all the $g \in r$ in the network $R$ of datasets having \emph{structural properties}~\cite{Taelman2023}.
-The query engine has to build a KG $G^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ using reachability criteria and structural assumptions 
-such as
+A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in the network $R$ of datasets having \emph{structural properties}~\cite{Taelman2023}.
+The query engine has to build a KG $G^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
 
 \begin{equation}\label{eq:subsetDKG}
 G^{\prime} \subseteq G
@@ -33,20 +32,22 @@ and
    [\![ Q ]\!]^{G^{\prime}} = [\![ Q ]\!]^{G}
 \end{equation}
 .
-Because the $g \in G^{\prime}$ can only be acquired from the dereferencing of resources $r$, then a smaller $G^\prime$ implies that a lesser number of HTTP requests has been performed to answer a query
-while returning the same results.
-HTTP requests can be slow and unpredictable~\cite {hartig2016walking}; thus, executing less of them to answer a query can lead to a reduction of query execution time.
-Additionally, a smaller internal data store leads to fewer triples to process during the joining operations.
+Because the $g \in G^{\prime}$ can only be acquired from the dereferencing of resources $r \in R$, a smaller $G^\prime$ implies that a lesser number of HTTP requests has been performed to answer a query
+returning the same results.
+HTTP requests can be slow and unpredictable~\cite{hartig2016walking}; thus, executing fewer requests to answer a query can lead to a reduction of query execution time.
+Additionally, a smaller internal data store leads to fewer triples to process during the joining operations, which can further contribute to the reduction of query execution time.
 The concept of structural assumption can also be used to define completeness differently than in the literature.
-The state-of-the-art defined LTQP query completeness based on the acquisition of a set of resources derived from a reachability criteria~\cite{Hartig2012}.
+The state-of-the-art defined LTQP query completeness in relation to the acquisition of a set of resources derived from a reachability criterion~\cite{Hartig2012}.
 However, the understanding of such completeness serves the purpose of defining query termination~\cite{Hartig2012}.
-The definition Reachability criteria do not have the capacity to provide a metric to compare the performance of multiple traversal policies aims 
-at reducing the size of $G^{\prime}$ while providing the same query results as defined by equations~\ref{eq:subsetDKG} and~\ref{eq:evalQueryStructuralAssumption}.
-In the context of the World Wide Web (WWW), defining completeness based on results is not possible without the acquisition of the whole web due to the lack of guarantee about the location of the data; however,
-in the context of a decentralized dataset with structural properties and associated structural assumptions, the traversal completeness of those datasets is defined outside of the query engine and thus can serve as a 
-stable comparison concept regardless of the traversal policy of the query engine.
-Such 
-
+The definition of reachability criteria cannot provide a metric to compare the performance of multiple traversal policies
+when considering reducing the size of the internal triple store $G^{\prime}$ while maintaining the same completeness of results.
+In the context of the World Wide Web (WWW), defining completeness based on results is not possible because it necessitate the acquisition of the whole web.
+However, in the context of a decentralized dataset with structural properties and associated structural assumptions,
+the traversal completeness of those datasets is defined outside of the query engine and thus can serve as a 
+stable comparison concept regardless of the traversal policy of the engine.
+Hence, for each dataset with structural properties, it is possible to compute a theoretical result completeness.
+If we suppose a finite network of connected datasets that are discoverable with a specified reachability criterion such as \texttt{cmatch},
+Then, it is possible to establish the completeness of the subset of the query targeting information in the network.
 
 
 
@@ -108,10 +109,18 @@ such that given $G = \bigcup\limits_{j=1}^{n} g_j$ where $g_j$ is the knowledge 
 then $SE(s, g) = true \iff g \mapsto iri \in IRI$.
 A web specification of the shape index is also available online.~\sepfootnote{sf:shapeIndexURL}
 
+\subsection{Online source selection in environments with a shape index}
+To make use of the shape index...
 
 \subsection{Expressing RDF Data shapes into SPARQL algebra}
+
+\iffalse
+LET CHANGE THE ARGUMENT SO THAT WE CONSIDER OPEN SHAPES AS SPO QUERY
+\fi
+
 A shape expression $e_i$ can be intuitively treated as a segment of a query~\cite{delva2023} more precisely of a star pattern with dependencies query.
 A common approach for shape validation over an RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, spapeExpressionConvert}.
+In this paper we ignore recursive shapes because they cannot be expressed with a single SPARQL query~\cite{Corman2019}. 
 
 We are looking into transforming every $e_i$ into a $q_i$ such that an RDF data shape $S$ would be transform into a $Q = q_i \bowtie q_{i+1} ... \bowtie q_n$.
 $Q$ must have the property that given a KG $G$ then 
@@ -119,8 +128,16 @@ $Q$ must have the property that given a KG $G$ then
 \begin{equation}\label{eq:shapeSPARQL}
    SE(S,G) = \mathrm{true} \iff [\![ Q ]\!]^{G} =  G
 \end{equation}
-For every $G$ so.
-We define in the following lines the transformation of a shape $S$ into a query $Q$ using the transformation $T(S,?x \in \mathcal{V})$. 
+For every $G$.
+
+The intuition behind equation~\ref{eq:shapeSPARQL} is that we are looking to produce a query that simulates the behavior of a shape.
+A shape can only return $\mathrm{true}$ or $\mathrm{false}$ based on whether or not $G$ is validated by it.
+It is natural to consider that the constraints of the shapes combine triple patterns and filter expression (and having clauses) segments.
+Thus, if we can establish a mapping between those formulations, a query targeting a KG $G$ should return $G$ if every triple of the 
+KG respects the constraint of the shape.
+
+We define in the following lines the transformation of a shape $S$ into a query $Q$ using the transformation $T(S,?x)$ and $q = t(e, ?x)$ where every 
+symbol with a $?$ prefix is a variable in $\mathcal{V}$. 
 
 
 \iffalse
@@ -131,35 +148,83 @@ https://www.w3.org/TR/sparql11-query\#sparqlHavingClause
 \fi
 
 \begin{prop}\label{prop:triplePattern}
-   In a shape expression $e_i$, $p$ with the combination of $r$ can be transformed into a query with one triple pattern with an associated \texttt{HAVING(COUNT(?o))} statement on the object of triple pattern.
-   Such as $Q_{e_i} = \beta_{(|?o| \geq r[0] \land |?o| > r[1])}(?x, p, ?o)$, where we use $\beta$ for the  \texttt{HAVING} clause and $|?o|$ for the \texttt{COUNT} clause. 
+   In a shape expression $e_i$, $p$ and $r$ can be transformed into a query consisting of one triple pattern with an associated \texttt{HAVING(COUNT(?o))} statement on the object of triple pattern,
+   such that $Q_{e_i} = \beta_{(|?o| \geq r[0] \land |?o| > r[1])}(?x, p, ?o)$, where $\beta$ is a \texttt{HAVING} clause and $|?o|$ is a \texttt{COUNT} clause. 
 \end{prop}
 
 \begin{prop}
    In a shape expression $e_i$ , $c$ can be transformed into a filter expression targeting $?o$ if the constraint is a comparison or enforce a type on an object such that
-   $q_{i} = \sigma{c(?o)}(?x, p, ?o)$. 
-   If $c$ enforce a shape on $?o$ then $q_i$ must be form by the join of a query derived by $e_i$ with $c = \mathrm{true}$ and a query dervided from the shape of $c$ where $?o$ is the subject 
-   such that $q_{i}= \sigma{c(?o)}(?x, p, ?o) \bowtie T(S_c,?o)$ given $S_c$ is the shape related to $c$.
+   $q_{i} = \sigma_{c(?o)}(?x, p, ?o)$. 
+   If $c$ enforces a shape on $?o$, then $q_i$ must be formed by the join of a query derived by $e_i$ with $c = \mathrm{true}$ and a query derived from the shape targeted in $c$ where $?o$ is the subject 
+   such that $q_{i}= (?x, p, ?o) \bowtie T(S_c,?o)$ given $S_c$ is the shape related to $c$.
 \end{prop}
 
 \begin{prop}
-   In a shape expression $e_i = e_j|e_k$ then the expression can be transform into the union between two queries
-   $Q_{e_i}(x,o)= Q_{e_j}(x,o_j) \cup Q_{e_k}(x,o_k)$.
+   In a shape expression $e_i = e_j|e_k$ the expression can be transform into the union between two queries
+   $q_{i} = t(e_j, ?x) \cup t(e_k, ?x)$.
 \end{prop}
 
 \begin{prop}
-   In a shape expression when $n= \mathrm{true}$ then $\neg Q_{e_i}(x,o)$.
+   In a shape expression $e$ when $n= \mathrm{true}$ then the query $q_i$ must be negated such that $\neg q_i$.
 \end{prop}
 
 \begin{prop}
-   A shape $S$ is transform into $Q_{E} = Q_{e_1} \bowtie Q_{e_2} ... \bowtie Q_{e_{n_e}}$ given $n_e$ shape expressions and a close shapes $op = \mathrm{false}$.
+   A shape closed shape ($op = \mathrm{false}$) $S$ can be transform into $Q = t(e_1, ?x) \bowtie t(e_2, ?x) ... \bowtie t(e_{n_e}, ?x)$ given $n_e$ shape expressions.
 \end{prop}
 
 \begin{prop}
-   A open shape $S$ ($op = \mathrm{true}$) is transform into $Q_{E} = (?x, ?p, ?o) -  (Q_{e_1} \bowtie Q_{e_2} ... \bowtie Q_{e_{n_e}}| n\in e_i = \mathrm{true}) $ where $Q_{e_i}$.
+   A open shape $S$ ($op = \mathrm{true}$) is transform into $Q = (?x, ?p, ?o) -  (t(e_1, ?x) \bowtie  t(e_2, ?x) ... \bowtie t(e_{n_e}, ?x)| n\in e_i = \mathrm{true}) $ where $Q_{e_i}$.
 \end{prop}
 
 \subsection{Query shape containment}
+
+To perform our source selection, we compute a query shape containment problem. 
+This problem involves determining if a star pattern with dependencies $q_i$ from a query $Q = q_1 \bowtie q_2 ... \bowtie q_n$ is contained inside a shape transformed into a query $Q_s$. 
+The previous section shows that $Q_s$ follows a query template of a star pattern with dependencies, where the subjects and objects are always variables, and the predicate is always an IRI.
+In this paper, we will ignore the filter expressions and clauses and use this query template to solve the query containment problem.
+We are presenting two variances of the query shape containment problem, one for general source discovery that we denote \emph{loose} containment $\sqsubseteq_l$ and 
+another denote \emph{strict} $\sqsubseteq$ that could be used for determining information similar to exclusive group~\cite{Schwarte2011}. 
+Intuitively, the query containment problem does not seem suited for online source selection because its complexity is NP-complete~\cite{Spasi2023}.
+However, the complexity is in terms of the size of both queries, which tend to be small.
+Additionally, in practical use cases, polynomial algorithms exist~\cite{Doan2012}; 
+thus, it is a valid mechanism for source selection, and our experiment results will further demonstrate this proposition.
+
+\begin{definition}[Loose containment]\label{def:looseContainment}
+We define a losse containment between a query $q_i$ and a shape $Q_s$ as determining if one path $q_{pi} \subseteq q_i$ of the query $q_i = \bigcup_{i=0}^{n} q_{pi}$ given $n$ path is contained in 
+$Q_s$ such has $\exists (q_{pi} \sqsubseteq  Q_s) = q_{i} \sqsubseteq_l  Q_s$.
+\end{definition}
+
+The loose containment problem is used to determine if part of a query is contained in shape,
+it is necessary to determine if at least one path is contained inside a shape to avoid losing potential partial results.
+Due to the exclusivity constraint of the shape index, the engine has a guarantee that a path $q_{pi} \sqsubseteq Q_s$ will be located at a specific location in the domain of a shape index.
+A simpler possibility for source selection without avoiding the loss of partial results is to use property matching;
+however, this method is less selective because RDF vocabulary tends to be reused by multiple entities~\cite{Stuckenschmidt2004, Harth2010},
+which can lead to selecting multiple sources that would be query-relevant.
+There are some particularities that property paths introduce in the query containment problem~\cite{Kostylev2015}.
+As presented in the preliminaries, most property paths can be rewritten into SPARQL algebra; with the use of an alternative path "$/$", multiple unions can be added to the query.
+The property that changes the most the query containment problem is the negative path ("$!$")~\cite{Kostylev2015},
+however, in our context, negative paths have little effect because we are looking for one path that is contained inside $Q_s$.
+
+\iffalse
+LET MAKE AN ALGORITHM and analyse the complexity
+\fi
+
+
+\begin{definition}[Strict containment]\label{def:strictContainment}
+We define a strict containment between a query $q_i$ and a shape $Q_s$ when $q_i$ is contain in $Q_s$ such has $q_{i} \sqsubseteq Q_s$.
+\end{definition}
+
+The version of the query containment is algorith have the same definition than a classic query containment problem, however due to the 
+particular query template of $Q_s$, the complexity of the problem is simpler.
+
+This problem could be used in the context of federated query to determine exclusive groups, given that the federation exposes a shape index, 
+also, in the context of LTQP, where some data source would have a SPARQL interface, this concept of containment could be used to send a large segment of the query to the endpoint 
+minimizing communication and joining operation costs of the client engine.
+
+With this version, the negative path also has a lesser impact than the noted typical query containment problem because the container query 
+always have a single IRI as its predicate; hence, a $q_i$ using a negated property path will be contained in $Q_s$.
+
+\iffalse
 The query shape containment problem is similar to the query containment problem as it 
 try to determine if the possible answers of the star pattern with dependencies query are contained in any instance of data respecting an RDF data shape.
 We can divide the query shape contaiment problem into two category the \emph{strict} and \emph{loose} containment.
@@ -175,8 +240,6 @@ because the subject of a shape is always a single variable
 CITE FOR PROPERTY PATH PARTICULARLY THE NEGATION \cite{Kostylev2015}
 
 
-
-\subsection{Online source selection in environments with a shape index}
-
 The shape index by solving the query containment problem can be expressed as a structural assumption.
 ... define the algorithm
+\fi
