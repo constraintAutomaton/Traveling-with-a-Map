@@ -18,8 +18,9 @@ The concept of \emph{structural assumptions}~\cite{Taelman2023} has been theoriz
 guarantee the completeness of results related to their statement in a specific set of resources in an IRI domain~\cite{Bogaerts2021LinkTW}.
 
 Structural assumptions have been shown to reduce the query execution time of multiple queries to the extent that the bottleneck of specific queries is not the number of HTTP requests but the suboptimal query plan~\cite{Taelman2023, eschauzier_quweda_linkqueue_2023}.
-We can formalize the use of structural assumption to reduce query execution time as follows.
-A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in the network $R$ of datasets having \emph{structural properties}~\cite{Taelman2023}.
+We propose to reduce the number of HTTP request furthermore by using more restricting reachability criteria~\cite{Hartig2012} while keeping the same completeness of results.
+We formalize our general approach as follow.
+A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in the network $R$.
 The query engine has to build a KG $G^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
 
 \begin{equation}\label{eq:subsetDKG}
@@ -36,11 +37,18 @@ Because the $g \in G^{\prime}$ can only be acquired from the dereferencing of re
 returning the same results.
 HTTP requests can be slow and unpredictable~\cite{hartig2016walking}; thus, executing fewer requests to answer a query can lead to a reduction of query execution time.
 Additionally, a smaller internal data store leads to fewer triples to process during the joining operations, which can further contribute to the reduction of query execution time.
-The concept of structural assumption can also be used to define completeness differently than in the literature.
-The state-of-the-art defined LTQP query completeness in relation to the acquisition of a set of resources derived from a reachability criterion~\cite{Hartig2012}.
-However, the understanding of such completeness serves the purpose of defining query termination~\cite{Hartig2012}.
-The definition of reachability criteria cannot provide a metric to compare the performance of multiple traversal policies
-when considering reducing the size of the internal triple store $G^{\prime}$ while maintaining the same completeness of results.
+
+To define our less selective reachability, we propose extending the reachability criteria to chain them in a concept called \emph{Composite reachability criteria} as they are boolean functions.
+In this form, a reachability criterion ($cp_i$) is said to \emph{prune} links if it is chained with an \emph{and} operator, and ($cd_i$) is said to \emph{discover} links if it chain with an \emph{or} operator.
+Equation~\ref{eq:cReachabilityCriteria} formalize a composite reachability criterion $C$ with $nd$ discovery criteria and $np$ prunning criteria.
+
+\begin{equation}\label{eq:cReachabilityCriteria}
+    C(t, i_d, B)  = \bigvee_{i=0}^{nd}cd_i(t, i_d, B) \land \bigvee_{j=0}^{np}cp_j(t, i_d, B)
+\end{equation}
+
+We aim to define less restrictive criteria by appending a composite reachability criterion with a pruning criterion, taking advantage of data summaries captured during the traversal.
+
+\iffalse
 In the context of the World Wide Web (WWW), defining completeness based on results is not possible because it necessitate the acquisition of the whole web.
 However, in the context of a decentralized dataset with structural properties and associated structural assumptions,
 the traversal completeness of those datasets is defined outside of the query engine and thus can serve as a 
@@ -58,6 +66,9 @@ This, metric
 \begin{equation}\label{eq:metricResult}
    [\![ Q ]\!]^{G^{\prime}} = [\![ Q ]\!]^{G}
 \end{equation}
+
+\fi 
+
 
 
 \iffalse
@@ -92,10 +103,21 @@ Hartig2012
 \fi
 
 
-\subsection{Shape index}
-The concept of a shape index was already described in our publication \citetitle{tam2024opportunitiesshapebasedoptimizationlink}. 
+\subsection{Shape Index}
+The summary that we propose is a Shape Index.
+It consists of mapping the content of a decentralized dataset with RDF data shapes.
+Because the web is a highly dynamic environment and data providers might need a high degree of flexibility, it is possible to use open shapes or to map part of the dataset with shapes.
+In practice, a shape index could look something like this: A data provider exposes personal data containing movie recommendations, bookmark metadata, friendliest data, and various personal data.
+The data provider might have a more or less structured movie recommendation sub-dataset; thus, they use an open shape; they might have structured bookmarks and friendliest, thus they 
+use close shapes, and their data might change drastically over time, and part might have a non-trivial privacy policy; thus, they decide not to map it with a shape. 
+
+The concept of a shape index was already described in the publication \citetitle{tam2024opportunitiesshapebasedoptimizationlink}. 
 However, it was not formalized.
-A shape index $SI = (M, D)$, is a tuple where $M = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}$ is a mapping between RDF shapes and a set of IRI 
+A shape index 
+\begin{equation}\label{eq:shapeIndex}
+   SI = (M, D)
+\end{equation}
+, is a tuple where $M = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}$ is a mapping between RDF shapes and a set of IRI 
 and where $D = IRI_0 \cup (\bigcup\limits_{i=1}^{n} IRI_i)$ is the domain of the index.
 $IRI_0$ is the set of IRI that is inside of the domain of the index but where the IRI is not mapped in $M$
 such that $iri \in IRI_0 \iff \nexists iri \in M(s_i)$.
@@ -114,29 +136,26 @@ To make use of the shape index...
 
 \subsection{Expressing RDF Data shapes into SPARQL algebra}
 
-\iffalse
-LET CHANGE THE ARGUMENT SO THAT WE CONSIDER OPEN SHAPES AS SPO QUERY
-\fi
-
 A shape expression $e_i$ can be intuitively treated as a segment of a query~\cite{delva2023} more precisely of a star pattern with dependencies query.
 A common approach for shape validation over an RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, spapeExpressionConvert}.
 In this paper we ignore recursive shapes because they cannot be expressed with a single SPARQL query~\cite{Corman2019}. 
 
-We are looking into transforming every $e_i$ into a $q_i$ such that an RDF data shape $S$ would be transform into a $Q = q_i \bowtie q_{i+1} ... \bowtie q_n$.
+We are looking into transforming every $e_i$ into a $q_i$ such that an RDF data shape $S$ would be transform into a $Q_s = q_i \bowtie q_{i+1} ... \bowtie q_n$.
 $Q$ must have the property that given a KG $G$ then 
 
 \begin{equation}\label{eq:shapeSPARQL}
-   SE(S,G) = \mathrm{true} \iff [\![ Q ]\!]^{G} =  G
+   SE(S,G) = \mathrm{true} \iff [\![ Q_s ]\!]^{G} =  G
 \end{equation}
 For every $G$.
-
+Our definition is aimed at close shapes because we are not looking into validating data but into containment, since an open shape can validate 
+for any KG that contains at least the constraint specified by $S$, we consider that if we neglect negative statements, any query can be contained in such a shape.
 The intuition behind equation~\ref{eq:shapeSPARQL} is that we are looking to produce a query that simulates the behavior of a shape.
 A shape can only return $\mathrm{true}$ or $\mathrm{false}$ based on whether or not $G$ is validated by it.
 It is natural to consider that the constraints of the shapes combine triple patterns and filter expression (and having clauses) segments.
 Thus, if we can establish a mapping between those formulations, a query targeting a KG $G$ should return $G$ if every triple of the 
 KG respects the constraint of the shape.
 
-We define in the following lines the transformation of a shape $S$ into a query $Q$ using the transformation $T(S,?x)$ and $q = t(e, ?x)$ where every 
+We define in the following lines the transformation of a shape $S$ into a query $Q_s$ using the transformation $T(S,?x)$ and $q = t(e, ?x)$ where every 
 symbol with a $?$ prefix is a variable in $\mathcal{V}$. 
 
 
@@ -148,8 +167,8 @@ https://www.w3.org/TR/sparql11-query\#sparqlHavingClause
 \fi
 
 \begin{prop}\label{prop:triplePattern}
-   In a shape expression $e_i$, $p$ and $r$ can be transformed into a query consisting of one triple pattern with an associated \texttt{HAVING(COUNT(?o))} statement on the object of triple pattern,
-   such that $Q_{e_i} = \beta_{(|?o| \geq r[0] \land |?o| > r[1])}(?x, p, ?o)$, where $\beta$ is a \texttt{HAVING} clause and $|?o|$ is a \texttt{COUNT} clause. 
+   In a shape expression $e_i$, $p$ and $rs$ can be transformed into a query consisting of one triple pattern with an associated \texttt{HAVING(COUNT(?o))} statement on the object of triple pattern,
+   such that $Q_{e_i} = \beta_{(|?o| \geq rs[0] \land |?o| > rs[1])}(?x, p, ?o)$, where $\beta$ is a \texttt{HAVING} clause and $|?o|$ is a \texttt{COUNT} clause. 
 \end{prop}
 
 \begin{prop}
