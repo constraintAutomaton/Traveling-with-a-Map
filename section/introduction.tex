@@ -21,25 +21,25 @@ and the challenge of creating an efficient query plan due to the lack of informa
 It has been demonstrated by ~\citeauthor{hartig2016walking} that in the open web the main performance bottleneck and obstacle for query completeness and fast query execution time is not the query plan but the large number of the HTTP request necessary to fulfill a query.
 
 From another perspective, and not disproving ~\citeauthor{hartig2016walking}, 
-~\citeauthor{Taelman2023} has demonstrated that in a Linked Data Structured Environment (LDSE),
+~\citeauthor{Taelman2023} has demonstrated that in a Structured Linked Data Environment (SLDE),
 it is possible to attain query completeness.
 Furthermore, query planning could significantly influence the speed of execution.
-A LDSE is defined has an RDF environment where in addition to the RDF principles, specifications
+A SLDE is defined has an RDF environment where in addition to the RDF principles, specifications
 guarantee the completeness of results.
 This guarantee of completeness has the positive side effect of providing information
 that can be used to create a lookup policy following a mix of the reachability criteria method~\cite{Hartig2012, Taelman2023} and the subweb specifications~\cite{Bogaerts2021LinkTW}
 to reduce the number of HTTP requests necessary to attain completeness.
 
-In practice LDSE can be use in the context of personal data and social network among others,
+In practice SLDE can be use in the context of personal data and social network among others,
 an exemple of an environment respecting those constraints is the linked data protocol Solid~\cite{Taelman2023} and TREE datasets~\cite{tam_iswc_traversalsensortree_2024}.
-The work of Taelman~\cite{Taelman2023} indicate that there are multiple optimizations possible in LTQP in the context LDSE as opposed to the
+The work of Taelman~\cite{Taelman2023} indicate that there are multiple optimizations possible in LTQP in the context SLDE as opposed to the
 more pessimist conclusion of the work of ~\citeauthor{hartig2016walking} (it has to be stressed that it was not in the same context).
 This paper position itself has a continuation of the work of \citeauthor{Taelman2023} and the short introduction of \citeauthor{tam2024opportunitiesshapebasedoptimizationlink} 
-by presenting RDF data shape, a well-known and used RDF data quality mechanism, as a means to optimize LTQP queries in the context of LDSE.
+by presenting RDF data shape, a well-known and used RDF data quality mechanism, as a means to optimize LTQP queries in the context of SLDE.
 The conceptual idea of RDF data shape is to describe the properties of an entity;
 for instance the type of the property, their cardinalities and constraints.
 RDF data Shapes have already been used for optimizing the query planning~\cite{kashif2021}
-in the context of a single endpoint query,but as far as our knowledge goes, none of the studies have used them in the context of LTQP of LDSE.
+in the context of a single endpoint query,but as far as our knowledge goes, none of the studies have used them in the context of LTQP of SLDE.
 
 In this work we present how descentralized RDF datasets can be summarized by mapping between RDF data shapes with RDF ressources 
 to help the discrimination of irrelevant data sources by performing an online query shape containment problem.
