@@ -36,6 +36,10 @@
 \usepackage{stmaryrd}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
 
 
 \newtheorem{prop}{Proposition}
@@ -43,7 +47,7 @@
 
 \begin{document}
 %
-\title{Traveling with a Map: Optimizing the Search Space of Link Traversal Queries Using RDF Data Shapes}
+\title{Traveling with a Map: Reducing the Search Space of Link Traversal Queries Using RDF Data Shapes}
 \titlerunning{Traveling with a Map}
 %
 %\titlerunning{Abbreviated paper title}
@@ -71,6 +75,8 @@ Pieter Colpaert\inst{1}\orcidID{0000-0001-6917-2167}}
 \input{section/implementation}
 \input{section/experiment}
 %\input{section/related_work}
+
+DO NOT FORGET THE ACKNOWLEDGMENTS!!!
 
 \printbibliography
 
