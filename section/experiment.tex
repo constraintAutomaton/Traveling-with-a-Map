@@ -1,1 +1,41 @@
 \section{Experiment}
+
+\sepfootnotecontent{sf:implementationComunica}{
+\url{https://github.com/constraintAutomaton/comunica-feature-link-traversal/tree/feature/shapeIndex}
+}
+
+\sepfootnotecontent{sf:implementationQueryShapeContainment}{
+   \url{https://github.com/constraintAutomaton/query-shape-detection}
+}
+
+\sepfootnotecontent{sf:shapeIndexGenerator}{
+   \url{https://github.com/constraintAutomaton/rdf-dataset-fragmenter.js/tree/feature/shape-index-fragmentation-strategy}
+}
+
+\subsection{Implementation}
+We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}. 
+We chose Comunica for its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in multiple LTQP studies, 
+including our prior experiment with the shape index concept~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
+Our implementation of our reachability criteria and the link queue filter is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape containment solver.~\sepfootnote{sf:implementationQueryShapeContainment}
+
+\subsection{Experimental setup}
+We use the social benchmark Solidbench~\cite{Taelman2023} which is based on the LDBC benchmark~\cite{Angles2020} to evaluate our contribution.
+We created an open source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in Solidbench based on user-provided mapping between ShEx shapes and data model objects.
+Additionally, our module offers the functionality to generate incomplete shape indexes reproducibly using user-defined probability and a random seed.
+
+We design the following experiments to analyze and evaluate our approach:
+
+\begin{itemize}
+   \item Evaluation of the execution time and results of our query-shape containment algorithm with the shapes used in the study.
+   \item Evaluation of a network where each dataset exposes a shape index where each data model entries are described with a shape. 
+   There are three experiments: one in which the shapes are the most descriptive, one in which the shapes do not refer to other shapes outside of what is hosted by the dataset, and one in which the shapes provide a minimal description of the data mode.
+   \item Evaluation of a network where 0\%, 20\%, 50\%, and 80\% of the shape index entries are present in the datasets, meaning that some shape indexes are complete, incomplete, or missing.
+   \item Evaluation of the sources needed to evaluate each query independently of the network topology and evaluation of the performance of our engine using a \texttt{CNone}~\cite{Hartig2012}(no links are followed) reachability given that the link queue has been injected with the source the required sources.
+ \end{itemize}
+
+To run our experiments we used a machine with the Os Ubuntu 20.04.6 LTS with cpu 2x Hexacore Intel E5645 (2.4GHz) CPU and 24GB RAM.
+
+\iffalse
+102x pcgen3 nodes
+https://doc.ilabt.imec.be/ilabt/virtualwall/hardware.html#virtual-wall-2
+\fi
