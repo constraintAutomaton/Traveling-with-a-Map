@@ -1,26 +1,23 @@
 \begin{abstract}
     % Context     
-    Link traversal queries are notoriously slow, primarily due to their expansive search space.
+    Centralization of web information causes legal and ethical problems, particularly in the context of social applications.
     % Need
+    A potential technical solution is to promote the publication of large-scale decentralized datasets and providing the tools to keep similar querying performance expectation.
+    Link Traversal Query Processing (LTQP) is a promising paradigm to query networks of descentralized datasets without the need
+    to maintain potentially costly and restrictive federations.
+    However, this querying paradigm is difficult to use in practice due to its long query execution time and high data usage.
     % Task
-    By leveraging the structure of the publication of data and trust policies, traversal queries can be made faster by imposing a manageable finite domaine.
-    Yet, the search space can remain needlessly large when considering that multiple documents may not be query-relevant.
-    % Object      
-    This paper proposes a lightweight, low-maintenance data summary method for decentralized RDF documents called a \emph{Shape Index}.
-    The shape index leverages the descriptive power of RDF data shapes by mapping them to sets of RDF resources to summarise decentralized RDF datasets.
-    With this simple information, we propose to use a query-shape containment problem as a mechanism for online source selection during link traversal queries
-    to reduce query-irrelevant documents acquisition.
-    This paper formalizes our approach and evaluates its impact on different query-processing metrics with multiple scenarios. 
-    % Findings    
-    We show that this simple data summarization can reduce the query execution time and network usage of queries where a significant number of sources are not query-relevant 
-    while not producing a large overhead.    
+    We propose a lightweight, low-maintenance data summary method for decentralized RDF documents called a \emph{Shape Index}.
+    This method use RDF data shapes to summarise decentralized RDF datasets with the aim of reducing the search space and data usage of queries by identifying irrelevant data sources.
+    % Object
+    This paper formalizes and evaluates the Shape Index data summarisation approach and a \emph{query-shape containment} problem to reduce query execution time and data usage of traversal queries.
+     % Findings
+    Shape-based data summarisation can reduce the query execution time and network usage of traversal queries without producing a large overhead.   
     Our findings also indicate that the relation between the decrease in the number of HTTP requests correlated none linearly with the reduction in query execution time,
-    leading us to the same conclusion as the state of the art about the proposition that better query planning could positively impact the query execution time of link traversal queries.
+    leading us to the same conclusion as the state of the art about the potential usefulness of better query planning in traversal queries.
     % Conclusion
-    With low provider maintenance and computational requirements, the Shape Index offers an effective, scalable means of improving query performance for decentralized RDF datasets.
-    % Perspectives
-    The paper leaves open the questions of performing query-shape containment problems with filter expression for more selective source selection, 
-    of using negative entries in the shape index in the source selection process and the shape index for adaptative query planning.
+    The performance gain and low maintenance cost of shape indexes make our approach and algoritm an ideal candidate for selective queries over structured descentlized datasets.
+
 
 \keywords{Linked data,
 Link Traversal Query Processing,
