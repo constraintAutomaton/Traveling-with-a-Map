@@ -2,47 +2,52 @@
 \sepfootnotecontent{sf:webID}{
     \url{https://www.w3.org/wiki/WebID}
 }
+\sepfootnotecontent{sf:dataSovereignty}{
+    \url{https://digital-strategy.ec.europa.eu/en/policies/strategy-data}
+}
 
-The publication of open link data has been a growing phenomenon in recent years~\cite{papadaki2018interactive}.
+Data sovereignty attempts to define a more just definition of ownership and usage of personal data.
+It can be defined as ``the self-determination of individuals and organizations concerning to the use of their data''~\cite{verstraete2022solid},
+which in practice can be interpreted as the power to choose where one's data is stored and who has access to it~\cite{verstraete2022solid}.
+Multiple studies have denoted problems of ownership, democracy, reinforcement of inequality, and antagonism between users and owners of web social applications~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
+Decentralizing web data is probably an insufficient propostion~\cite{9663788, Curran2016ch1}, however, it is an integral part of a project like data sovereignty.
+
 Linked data has the potential to create seamless decentralized databases through the use of dereferenciable IRIs.
 These IRIs allow access to additional databases containing information relevant to the IRI.
 For example, dereferencing a term representing a user like a WebID~\sepfootnote{sf:webID} can provide the name of the user, among other information, without having 
 to store this information locally.
 Such data publication paradigm gives the opportunity to potentially break down data silos~\cite{verstraete2022solid},
 and empowers users by reducing the need for indexing strategies to find relevant information about a term. 
-Furthermore,  it can help address legal and ethical concerns around data centralization, a topic of actuality in multiple world regions.
-Despite  of those potentials, most SPARQL query processing is carried out with centralized setups or federations of endpoints.
+Furthermore, it can help address legal and ethical concerns around data centralization, a topic of actuality in multiple world regions.
+Despite of those potentials, most SPARQL query processing is carried out with centralized setups or federations of endpoints.
 
 To take advantage of the potential descriptive power of IRI dereferencing a query paradigm called Link Traversal Query Processing (LTQP)~\cite{Hartig2012} has been developed.
 LTQP consists of recursively dereferencing IRI contained into the internal data source of a query engine during its query execution to expand its base of information.
 A lookup policy can be used to limit the search domain of the query.
 LTQP has multiple difficulties such as the open endlessness of the web, which can be interpreted as a pseudo-infinite domain of exploration,
 and the challenge of creating an efficient query plan due to the lack of information about the data sources. 
-It has been demonstrated by ~\citeauthor{hartig2016walking} that in the open web the main performance bottleneck and obstacle for query completeness and fast query execution time is not the query plan but the large number of the HTTP request necessary to fulfill a query.
+It has been demonstrated by \citeauthor{hartig2016walking} that in the open web the main performance bottleneck and obstacle for query completeness and fast query execution time is not the query plan but the large number of the HTTP request necessary to fulfill a query.
 
-From another perspective, and not disproving ~\citeauthor{hartig2016walking}, 
-~\citeauthor{Taelman2023} has demonstrated that in a Structured Linked Data Environment (SLDE),
+From another perspective, and not disproving \citeauthor{hartig2016walking}, \citeauthor{Taelman2023} has demonstrated that in a Structured Linked Data Environment (SLDE),
 it is possible to attain query completeness.
 Furthermore, query planning could significantly influence the speed of execution.
 A SLDE is defined has an RDF environment where in addition to the RDF principles, specifications
 guarantee the completeness of results.
 This guarantee of completeness has the positive side effect of providing information
-that can be used to create a lookup policy following a mix of the reachability criteria method~\cite{Hartig2012, Taelman2023} and the subweb specifications~\cite{Bogaerts2021LinkTW}
-to reduce the number of HTTP requests necessary to attain completeness.
+that can be used to create a lookup policy to reduce the number of HTTP requests necessary to attain completeness.
 
 In practice SLDE can be use in the context of personal data and social network among others,
-an exemple of an environment respecting those constraints is the linked data protocol Solid~\cite{Taelman2023} and TREE datasets~\cite{tam_iswc_traversalsensortree_2024}.
+exemples of environments respecting those constraints are dataset following the Solid protocol~\cite{Taelman2023} and TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
 The work of Taelman~\cite{Taelman2023} indicate that there are multiple optimizations possible in LTQP in the context SLDE as opposed to the
-more pessimist conclusion of the work of ~\citeauthor{hartig2016walking} (it has to be stressed that it was not in the same context).
-This paper position itself has a continuation of the work of \citeauthor{Taelman2023} and the short introduction of \citeauthor{tam2024opportunitiesshapebasedoptimizationlink} 
-by presenting RDF data shape, a well-known and used RDF data quality mechanism, as a means to optimize LTQP queries in the context of SLDE.
+more pessimist conclusion of the work of ~\citeauthor{hartig2016walking}.
+This paper formalize the concept of \emph{Shape Index} and \emph{query-shape contaiment}~\cite{tam2024opportunitiesshapebasedoptimizationlink} for online source selection in LTQP.
+The shape index concept relly on RDF data shapes.
 The conceptual idea of RDF data shape is to describe the properties of an entity;
 for instance the type of the property, their cardinalities and constraints.
 RDF data Shapes have already been used for optimizing the query planning~\cite{kashif2021}
-in the context of a single endpoint query,but as far as our knowledge goes, none of the studies have used them in the context of LTQP of SLDE.
+in the context of a single endpoint query, but as far as our knowledge goes, none of the studies have used them in the context of LTQP of SLDE.
+We propose to transform them into queries to perform a query containment problem and determine when a source is not query relevant.
 
-In this work we present how descentralized RDF datasets can be summarized by mapping between RDF data shapes with RDF ressources 
-to help the discrimination of irrelevant data sources by performing an online query shape containment problem.
 We formulated reasearch questions to guide our study:
 Can our method reduce the ratio of non-contributing data source dereferenced?
 How does the diminution of HTTP request affect the query execution time?
