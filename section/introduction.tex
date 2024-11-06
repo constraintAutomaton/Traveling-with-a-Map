@@ -48,7 +48,14 @@ RDF data Shapes have already been used for optimizing the query planning~\cite{k
 in the context of a single endpoint query, but as far as our knowledge goes, none of the studies have used them in the context of LTQP of SLDE.
 We propose to transform them into queries to perform a query containment problem and determine when a source is not query relevant.
 
-We formulated reasearch questions to guide our study:
+We formulated this research question to guide our study:
+Can a link traversal query engine use shape indexes in networks of decentralized datasets to reduce the number of HTTP requests while maintaining the same completeness of results, and does this reduction of HTTP requests lead to a decrease in query execution time?
+We also made the following hypotheses:
+Using shape indexes will reduce the number of non-contributing data sources acquired;
+a more detailed shape will provide a higher reduction in the number of HTTP requests;
+a \emph{complete} shape index will have a higher positive impact on performance with most queries;
+a shape index approach can be adaptative, so not every dataset in the network needs to have an index to see a performance improvement.
+\iffalse
 Can our method reduce the ratio of non-contributing data source dereferenced?
 How does the diminution of HTTP request affect the query execution time?
 How does the level of detail of the shapes impact the performances?
@@ -57,6 +64,4 @@ How does the ratio of subdomains containing an index influence global performanc
 How does the fragmentation of the subdomain impact the performance?
 How does the quantity of non-query contributing resources impact the performances?
 What is the ideal query execution time if we only dereferenced contributing data sources?
-
-The paper is divided as follows, first we present the related work, following by our approach, then the
-experimental methodology, the results and discussion and a conclusion.
+\fi
