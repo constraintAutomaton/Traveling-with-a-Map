@@ -21,7 +21,7 @@
 
 
 \subsection{RDF knowledge graph and SPARQL queries}
-Our work focuses on conjunctive queries $Q$ of RDF knowledge graph.
+Our work focuses on conjunctive and disjunctive queries $Q$ of RDF knowledge graph.
 An RDF knowledge graph is composed of triples $t$ defined in Definition~\ref{def:triple} where the subjects and objects are nodes of the graph and the predicates are the edges.
 
 \begin{definition}[RDF Triple]\label{def:triple}
@@ -40,6 +40,7 @@ The atomic statement of a BGP is a triple pattern $tp$ defined at Definition~\re
 
 \begin{definition}[Property path]\label{def:propertyPath}
    A property path $p_{tp}$~\cite{Kostylev2015} is an expression that describe the route of predicate $p$ from $s_{tp}$ to $o_{tp}$.
+   \iffalse
    A property path in $tp$ is defined as follow:
    \begin{equation}
     p_{tp} ::= p \in \mathcal{I} | (p_{tpi}/p_{tpj}) | (p_{tpi}|p_{tpj}) | p_{tpi}* | p_{tpi}+ | p_{tpi}? | !p_{tpi}| p_{tpi}^{-}
@@ -49,6 +50,7 @@ The atomic statement of a BGP is a triple pattern $tp$ defined at Definition~\re
    The "$!$" represent the negation of a path $p_{tpi}$ such as $p_{tpi} = \mathcal{I} \setminus p_{tpi}$.
    The "$*$", "$+$" and "$?$", refered to in this paper as \emph{cardinality property paths}, are respectively; the repetition of 0 and more of $p_{tpi}$, 
    the repetition of 1 and more of $p_{tpi}$ and the presence or absence of $p_{tpi}$.
+   \fi
 \end{definition}
 
 Property paths can be represented in SPARQL algebra as defined by \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2).~\sepfootnote{sf:propertyPathAlgebra}
@@ -62,7 +64,7 @@ Notably, the alternative operator can be interpreted as a union, and the sequenc
 
 
 \begin{definition}[Star pattern with dependencies]\label{def:starPattern}
-We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject such has $Q_{star} = \{ tp\in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_n}\}$.
+We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject such has $Q_{star} = \{ tp\in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_n}\}$~\cite{Karim2020}.
 We define a star pattern with dependencies $Q_{starD}$ as the union between a star pattern $Q_{star} \in Q$ and other star patterns having as subjects
 the objects of the initial star pattern such as $Q_{starD} = Q_{star} \cup \{tp_i \in Q| o_{i} = s_{tp} \land o_{i}\in tp_i \land tp_i  \in Q_{star}\}$.
 We also use the same terminology when dealing with triples instead of triple patterns.
@@ -80,14 +82,14 @@ A formalization is presented in equation~\ref{eq:reachabilityCriteria}.
 c_i(t, iri, B) \rightarrow \{\mathrm{true}, \mathrm{false}\}
 \end{equation}
 
-The engine's dereferencing operation stops when, during an iteration with the new element of the internal triple store, no new $iri$ has to be dereferenced.
+The engine's dereferencing operation stops when, during an iteration of the new triples in the internal triple store, no new $iri$ has to be dereferenced.
 
 \subsection{RDF data shapes}
 RDF data shapes similar to data schema are constraints on RDF graphs.
-They define the predicate, and the object triples with the same subject must respected.
+They define the predicate, and the object a term with the same subject must respected.
 We can interpret them as defining a schema on star patterns with dependencies.
 We propose an abstract shape formalization. 
-Thus, we make no distinction between the shapes languages, but it is strongly inspired by ShEx~\cite{Gayo2018}.~\sepfootnote{sf:recursiveShape}
+Thus, we make no distinction between the shapes languages, however, it is strongly inspired by ShEx~\cite{Gayo2018}.~\sepfootnote{sf:recursiveShape}
 
 We define a shape
 \begin{equation}
@@ -96,21 +98,22 @@ S = (E, op \in \{\mathrm{true},\mathrm{false}\})
 
 with some similarities to \citeauthor{Abbas2018} definition.
 $E = \{e_1, e_2 ..., e_{n}\}$ is a set of shape expressions given $n$ shape expression $e_i$, $op$ describing whether the shape is opened or closed.
-An open shape allowed the presence of non-contradicting properties not defined in $E$ in a knowledge graph (KG) $G$
+An open shape allowed the presence of non-contradicting properties (with consideration of negative properties) not defined in $E$ in a knowledge graph (KG) $G$
 A shape expression is defined by
 \begin{align}
  e_i ::= (p, c, rs, n) | (e_j|e_k)
 \end{align}
 .
-$e_i$ is a tuple of constraints on the predicate and the object of one triple of a star pattern in a KG. 
-A shape expressions define a predicate $p$ constraint that the star pattern in $G$ must possess,
-a constraint on the object $c(o) \rightarrow \{\mathrm{true}, \mathrm{false}\}$.
-The $c$ constraint can target the RDF type of an object, that the object must respects a shape or a literal comparison.
-$rs = [\mathbb{R}_+, \mathbb{R}_{+}^{*}[$ is a range constraint on the number of object.
+$e_i$ is a tuple of constraints on the predicate and the object of one triple of a star pattern with dependencies in a KG. 
+A shape expressions define a predicate $p$ constraint that the star pattern with dependencies in $G$ must possess.
+It also define a constraint on the object $c(o) \rightarrow \{\mathrm{true}, \mathrm{false}\}$.
+The $c$ constraint can enforce an RDF type on an object, that the object must respects a shape or a literal comparison.
+$rs = \{x \in \mathbb{R}_+ | a < x < b \}$ is a range constraint on the number of object.
 The shape expression can be a negation $n \in \{\mathrm{true}, \mathrm{false}\}$ meaning that the constraint $e_i$ must not be satisfied.
 A shape expression can also be a disjunction, between two other shape expressions.
 
-We also define an evaluation function returning $\mathrm{true}$ if a knowledge graph (KG) $G$ is validated by a shape $S$. 
+We also define an evaluation function returning $\mathrm{true}$ if a knowledge graph (KG) $G$ is validated by a shape $S$, 
+meaning that no triple in $G$ makes a star pattern with dependencies in $G$, invalidates the constraint of $S$.
 
 \begin{equation}
     SE(S, G) \rightarrow \{\mathrm{true}, \mathrm{false}\}
