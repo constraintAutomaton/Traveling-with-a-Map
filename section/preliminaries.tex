@@ -65,8 +65,14 @@ Notably, the alternative operator can be interpreted as a union, and the sequenc
 
 \begin{definition}[Star pattern with dependencies]\label{def:starPattern}
 We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject such has $Q_{star} = \{ tp\in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_n}\}$~\cite{Karim2020}.
-We define a star pattern with dependencies $Q_{starD}$ as the union between a star pattern $Q_{star} \in Q$ and other star patterns having as subjects
-the objects of the initial star pattern such as $Q_{starD} = Q_{star} \cup \{tp_i \in Q| o_{i} = s_{tp} \land o_{i}\in tp_i \land tp_i  \in Q_{star}\}$.
+We define a star pattern with 1 deep dependency $Q_{star1D}$ as the union between a star pattern $Q_{star} \in Q$ and other star patterns having as subjects
+the objects of the initial star pattern such as
+\begin{equation}\label{eq:starPattern1D}
+    Q_{star1D} = Q_{star} \cup \{tp \in Q| o_{0} \in tp_{star} = s_{tp1} \land s_{tp_1} = s_{tp_2} ... = s_{tp_n}\}
+\end{equation}
+.
+A star pattern with dependencies has $n$ dependencies and apply recursively equation \label{eq:starPattern1D}
+
 We also use the same terminology when dealing with triples instead of triple patterns.
 \end{definition}
 

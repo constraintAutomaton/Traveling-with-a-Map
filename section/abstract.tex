@@ -2,20 +2,18 @@
     % Context     
     Centralization of web information causes legal and ethical problems, particularly in the context of social applications.
     % Need
-    A potential technical solution is to promote the publication of large-scale decentralized datasets and providing the tools to keep similar querying performance expectation.
+    A potential technical solution to alleviate this problem is to promote the large-scale publication of decentralized datasets and provide tools to maintain similar querying performance expectations as centralized systems.
     Link Traversal Query Processing (LTQP) is a promising paradigm to query networks of descentralized datasets without the need
     to maintain potentially costly and restrictive federations.
     However, this querying paradigm is difficult to use in practice due to its long query execution time and high data usage.
     % Task
     We propose a lightweight, low-maintenance data summary method for decentralized RDF documents called a \emph{Shape Index}.
-    This method use RDF data shapes to summarise decentralized RDF datasets with the aim of reducing the search space and data usage of queries by identifying irrelevant data sources.
+    This method use RDF data shapes to summarise decentralized RDF datasets with the aim of reducing the search space and data usage of queries by identifying irrelevant data sources during query execution.
     % Object
     This paper formalizes and evaluates the Shape Index data summarisation approach and a \emph{query-shape containment} problem to reduce query execution time and data usage of traversal queries.
      % Findings
-    Shape-based data summarisation can reduce the query execution time and network usage of traversal queries without producing a large overhead.   
-    Our findings also indicate that the relation between the decrease in the number of HTTP requests correlated none linearly with the reduction in query execution time,
-    leading us to the same conclusion as the state of the art about the potential usefulness of better query planning in traversal queries.
-    % Conclusion
+    Shape-based data summarisation can reduce the query execution time and network usage of selective traversal queries.
+    Our findings also indicate that the reduction in the number of HTTP requests is linearly correlated for queries benefiting from the shape index, but non-linearly correlated for queries that are significantly negatively affected by this approach.    % Conclusion
     The performance gain and low maintenance cost of shape indexes make our approach and algoritm an ideal candidate for selective queries over structured descentlized datasets.
 
 

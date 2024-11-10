@@ -6,20 +6,22 @@
     \url{https://digital-strategy.ec.europa.eu/en/policies/strategy-data}
 }
 
-Data sovereignty attempts to define a more just definition of ownership and usage of personal data.
+Data sovereignty attempts to define a more just definition of personal data ownership in terms of data usage and storage.
 It can be defined as ``the self-determination of individuals and organizations concerning to the use of their data''~\cite{verstraete2022solid},
 which in practice can be interpreted as the power to choose where one's data is stored and who has access to it~\cite{verstraete2022solid}.
 Multiple studies have denoted problems of ownership, democracy, reinforcement of inequality, and antagonism between users and owners of web social applications~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
-Decentralizing web data is probably an insufficient propostion~\cite{9663788, Curran2016ch1}, however, it is an integral part of a project like data sovereignty.
+Several authors consider decentralizing web data an insufficient solution~\cite{9663788, Curran2016ch1}; however, it can still be an integral component of initiatives focused on data sovereignty.
 
 Linked data has the potential to create seamless decentralized databases through the use of dereferenciable IRIs.
 These IRIs allow access to additional databases containing information relevant to the IRI.
 For example, dereferencing a term representing a user like a WebID~\sepfootnote{sf:webID} can provide the name of the user, among other information, without having 
 to store this information locally.
+\iffalse
 Such data publication paradigm gives the opportunity to potentially break down data silos~\cite{verstraete2022solid},
 and empowers users by reducing the need for indexing strategies to find relevant information about a term. 
 Furthermore, it can help address legal and ethical concerns around data centralization, a topic of actuality in multiple world regions.
-Despite of those potentials, most SPARQL query processing is carried out with centralized setups or federations of endpoints.
+\fi
+Despite these potential advantages, most SPARQL query processing is conducted using centralized setups or federations of endpoints, partly due to performance issues with traversal queries.
 
 To take advantage of the potential descriptive power of IRI dereferencing a query paradigm called Link Traversal Query Processing (LTQP)~\cite{Hartig2012} has been developed.
 LTQP consists of recursively dereferencing IRI contained into the internal data source of a query engine during its query execution to expand its base of information.
@@ -38,22 +40,20 @@ that can be used to create a lookup policy to reduce the number of HTTP requests
 
 In practice SLDE can be use in the context of personal data and social network among others,
 exemples of environments respecting those constraints are dataset following the Solid protocol~\cite{Taelman2023} and TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
-The work of Taelman~\cite{Taelman2023} indicate that there are multiple optimizations possible in LTQP in the context SLDE as opposed to the
+The work of ~\citeauthor{Taelman2023} indicate that there are multiple optimizations possible in LTQP in the context SLDE as opposed to the
 more pessimist conclusion of the work of ~\citeauthor{hartig2016walking}.
-This paper formalize the concept of \emph{Shape Index} and \emph{query-shape contaiment}~\cite{tam2024opportunitiesshapebasedoptimizationlink} for online source selection in LTQP.
-The shape index concept relly on RDF data shapes.
-The conceptual idea of RDF data shape is to describe the properties of an entity;
-for instance the type of the property, their cardinalities and constraints.
-RDF data Shapes have already been used for optimizing the query planning~\cite{kashif2021}
-in the context of a single endpoint query, but as far as our knowledge goes, none of the studies have used them in the context of LTQP of SLDE.
-We propose to transform them into queries to perform a query containment problem and determine when a source is not query relevant.
+In line with this research direction, this paper formalizes the concepts of the \emph{Shape Index} and \emph{query-shape containment}~\cite{tam2024opportunitiesshapebasedoptimizationlink} to enable a query and data aware mechanism for reducing the search domain of link traversal queries.
+The shape index concept relies on RDF data shapes; the conceptual idea of RDF data shapes is to describe the properties of an entity.
+We propose to use them in an index to describe decentralized datasets.
+Because shapes and queries share similarities, we propose transforming shapes into queries to perform a query containment problem
+and assist our source selection.
 
-We formulated this research question to guide our study:
+To guide our study, we formulated this research question:
 Can a link traversal query engine use shape indexes in networks of decentralized datasets to reduce the number of HTTP requests while maintaining the same completeness of results, and does this reduction of HTTP requests lead to a decrease in query execution time?
-We also made the following hypotheses:
+We formulate the following hypotheses:
 Using shape indexes will reduce the number of non-contributing data sources acquired;
-a more detailed shape will provide a higher reduction in the number of HTTP requests;
-a \emph{complete} shape index will have a higher positive impact on performance with most queries;
+more detailed shapes will provide a higher reduction in the number of HTTP requests;
+a \emph{complete} shape index will reduce the number of HTTP requests and the query execution time than an \emph{incomplete} shape index;
 a shape index approach can be adaptative, so not every dataset in the network needs to have an index to see a performance improvement.
 \iffalse
 Can our method reduce the ratio of non-contributing data source dereferenced?
