@@ -64,22 +64,25 @@ Notably, the alternative operator can be interpreted as a union, and the sequenc
 
 
 \begin{definition}[Star pattern with dependencies]\label{def:starPattern}
-We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject such has $Q_{star} = \{ tp\in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_n}\}$~\cite{Karim2020}.
-We define a star pattern with 1 deep dependency $Q_{star1D}$ as the union between a star pattern $Q_{star} \in Q$ and other star patterns having as subjects
-the objects of the initial star pattern such as
-\begin{equation}\label{eq:starPattern1D}
-    Q_{star1D} = Q_{star} \cup \{tp \in Q| o_{0} \in tp_{star} = s_{tp1} \land s_{tp_1} = s_{tp_2} ... = s_{tp_n}\}
-\end{equation}
-.
-A star pattern with dependencies has $n$ dependencies and apply recursively equation \label{eq:starPattern1D}
-
-We also use the same terminology when dealing with triples instead of triple patterns.
+    We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject such that $Q_{star} = \{ tp_i \in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_m}\}$~\cite{Karim2020}.
+    We define a star pattern with dependencies $Q_{starD}$ as the union between a root star pattern $Q_{star}$ and the $n$ deep star pattern
+    that having as a subject term, the object of the star pattern $Q_{starD_{i-1}}$ where $n$ is the dept where no new star pattern can be generated.
+    More formally, we define $Q_{starD}$ as
+    \begin{multline}\label{eq:starPattern1D}
+     Q_{starD_0} = Q_{star} \\
+     Q_{starD_1} = Q_{starD_0} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starD_0}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_1}}\} \\
+     Q_{starD_2} = Q_{starD_1} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starD_1}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_2}}\} \\
+     \dotsm \\
+     Q_{starD} = Q_{starD_{n-1}} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starD_{n-1}}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_n}}\}
+    \end{multline},
+    where $m_i$ is the number of triple pattern in the star pattern $i$.
+    We also use the same terminology when dealing with triples instead of triple patterns.
 \end{definition}
 
 \subsection{Reachability criteria}
 
 \emph{Reachability criteria} are boolean functions ($c_i$) restricting the dereferencing of links from the internal data source of the query engine.
-They take as parameters an RDF triple $t$ from the internal triple store, a dereferenceable IRI $iri$ from $t$, and the basic query pattern $B$ from the query~\cite{Hartig2012}.
+They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and the basic query pattern $B$ from the query~\cite{Hartig2012}.
 If $c_i$ returns $true$, the query engine must try to dereference $iri$.
 A formalization is presented in equation~\ref{eq:reachabilityCriteria}.
 
@@ -88,14 +91,13 @@ A formalization is presented in equation~\ref{eq:reachabilityCriteria}.
 c_i(t, iri, B) \rightarrow \{\mathrm{true}, \mathrm{false}\}
 \end{equation}
 
-The engine's dereferencing operation stops when, during an iteration of the new triples in the internal triple store, no new $iri$ has to be dereferenced.
+The engine's dereferencing operation stops when no new $iri$ has to be dereferenced during an iteration of the new triples in the internal triple store.
 
 \subsection{RDF data shapes}
-RDF data shapes similar to data schema are constraints on RDF graphs.
-They define the predicate, and the object a term with the same subject must respected.
-We can interpret them as defining a schema on star patterns with dependencies.
-We propose an abstract shape formalization. 
-Thus, we make no distinction between the shapes languages, however, it is strongly inspired by ShEx~\cite{Gayo2018}.~\sepfootnote{sf:recursiveShape}
+RDF data shapes, similar to data schemas, are constraints applied to RDF graphs.
+These shapes specify conditions that the predicates and objects of terms with the same subject must satisfy.
+ We can interpret these shapes as defining a schema for star patterns with dependencies. 
+ In this work, we propose an abstract formalization of shapes and make no distinction between different shape languages.~\sepfootnote{sf:recursiveShape}
 
 We define a shape
 \begin{equation}
@@ -103,17 +105,20 @@ S = (E, op \in \{\mathrm{true},\mathrm{false}\})
 \end{equation}
 
 with some similarities to \citeauthor{Abbas2018} definition.
-$E = \{e_1, e_2 ..., e_{n}\}$ is a set of shape expressions given $n$ shape expression $e_i$, $op$ describing whether the shape is opened or closed.
-An open shape allowed the presence of non-contradicting properties (with consideration of negative properties) not defined in $E$ in a knowledge graph (KG) $G$
+$E = \{e_1, e_2 ..., e_{n}\}$ is a set of $n$ shape expression $e_i$.
+Shape expressions are constraint on the triples in a knowledge graph (KG) $G$.
+For a KG to satisfy a given shape, it must validate each expression $e_i \in E$ in the shape definition.
+$op$ describes whether a shape is open or close.
+An open shape allowed the presence of non-contradicting properties (with consideration of negative properties) not defined in $E$ in $G$.
 A shape expression is defined by
 \begin{align}
  e_i ::= (p, c, rs, n) | (e_j|e_k)
 \end{align}
 .
 $e_i$ is a tuple of constraints on the predicate and the object of one triple of a star pattern with dependencies in a KG. 
-A shape expressions define a predicate $p$ constraint that the star pattern with dependencies in $G$ must possess.
+A shape expressions define a predicate $p$ constraint that each star pattern with dependencies in $G$ must possess.
 It also define a constraint on the object $c(o) \rightarrow \{\mathrm{true}, \mathrm{false}\}$.
-The $c$ constraint can enforce an RDF type on an object, that the object must respects a shape or a literal comparison.
+The $c$ constraint can enforce an RDF type, shape or a literal comparison that the object term must respect.
 $rs = \{x \in \mathbb{R}_+ | a < x < b \}$ is a range constraint on the number of object.
 The shape expression can be a negation $n \in \{\mathrm{true}, \mathrm{false}\}$ meaning that the constraint $e_i$ must not be satisfied.
 A shape expression can also be a disjunction, between two other shape expressions.
