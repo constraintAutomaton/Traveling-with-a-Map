@@ -66,14 +66,14 @@ Notably, the alternative operator can be interpreted as a union, and the sequenc
 \begin{definition}[Star pattern with dependencies]\label{def:starPattern}
     We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject such that $Q_{star} = \{ tp_i \in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_m}\}$~\cite{Karim2020}.
     We define a star pattern with dependencies $Q_{starD}$ as the union between a root star pattern $Q_{star}$ and the $n$ deep star pattern
-    that having as a subject term, the object of the star pattern $Q_{starD_{i-1}}$ where $n$ is the dept where no new star pattern can be generated.
+    that having as a subject term, the object of the star pattern $Q_{starDp_{i-1}}$ where $n$ is the dept where no new star pattern can be generated.
     More formally, we define $Q_{starD}$ as
     \begin{multline}\label{eq:starPattern1D}
-     Q_{starD_0} = Q_{star} \\
-     Q_{starD_1} = Q_{starD_0} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starD_0}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_1}}\} \\
-     Q_{starD_2} = Q_{starD_1} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starD_1}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_2}}\} \\
+     Q_{starDp_0} = Q_{star} \\
+     Q_{starDp_1} = Q_{starDp_0} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starDp_0}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_1}}\} \\
+     Q_{starDp_2} = Q_{starDp_1} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starDp_1}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_2}}\} \\
      \dotsm \\
-     Q_{starD} = Q_{starD_{n-1}} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starD_{n-1}}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_n}}\}
+     Q_{starD} = Q_{starDp_{n-1}} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starDp_{n-1}}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_n}}\}
     \end{multline},
     where $m_i$ is the number of triple pattern in the star pattern $i$.
     We also use the same terminology when dealing with triples instead of triple patterns.
@@ -123,13 +123,9 @@ $rs = \{x \in \mathbb{R}_+ | a < x < b \}$ is a range constraint on the number o
 The shape expression can be a negation $n \in \{\mathrm{true}, \mathrm{false}\}$ meaning that the constraint $e_i$ must not be satisfied.
 A shape expression can also be a disjunction, between two other shape expressions.
 
-We also define an evaluation function returning $\mathrm{true}$ if a knowledge graph (KG) $G$ is validated by a shape $S$, 
-meaning that no triple in $G$ makes a star pattern with dependencies in $G$, invalidates the constraint of $S$.
-
-\begin{equation}
-    SE(S, G) \rightarrow \{\mathrm{true}, \mathrm{false}\}
-\end{equation}
-
+We denote a KG $G$ to satisify a shape $S$ by $G \models S$.
+For $G$ to satisfy $S$ then when dividing $G$ in star pattern with dependencies such that $G = \bigcup Q_{starD}$,
+the shape must validate each $Q_{starD_i}$ given that the root of the validation is the subject term of $Q_{star} \in Q_{starD_i}$.
 
 \subsection{Decentralized Knowledge Graph}
 We define a decentralized knowledge graph (DKG) as a knowledge graph (KG) $G$ materialized in a network of resources $R$.
