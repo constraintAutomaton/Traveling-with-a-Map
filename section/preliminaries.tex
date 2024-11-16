@@ -26,15 +26,24 @@ An RDF knowledge graph is composed of triples $t$ defined in Definition~\ref{def
 
 \begin{definition}[RDF Triple]\label{def:triple}
     An RDF triple $t = (s,p,o)$ is formed by a subject term $s \in \mathcal{I} \cup \mathcal{B}$, a predicate term  $p \in \mathcal{I}$ and an object term $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$
-    where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$ are respectiverly the set of every possible IRI, blank node~\sepfootnote{sf:blankNode} and litteral.
+    where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$ are respectiverly the set of every possible IRI, blank node~\sepfootnote{sf:blankNode} and literal.
 \end{definition}
 
+\begin{definition}[Triple pattern]\label{def:triplePattern}
+    A triple pattern $tp = (s_{tp},p_{tp},o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
+    a property path  $p_{tp}$ as defined by  \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2).~\sepfootnote{sf:propertyPathAlgebra} 
+    and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V}$ 
+    where $\mathcal{V}$ is the set of every possible variable. 
+\end{definition}
+
+\iffalse
 We define the basic graph pattern (BGP) of $Q$~\sepfootnote{sf:sparqlSpecification} in Definition~\ref{def:bgp}.
 The atomic statement of a BGP is a triple pattern $tp$ defined at Definition~\ref{def:triplePattern}.
 
 \begin{definition}[Triple pattern]\label{def:triplePattern}
     A triple pattern $tp = (s_{tp},p_{tp},o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
-    a property path  $p_{tp}$ defined in Definition~\ref{def:propertyPath} and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V}$ 
+    a property path  $p_{tp}$ as defined by  \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2).~\sepfootnote{sf:propertyPathAlgebra} 
+    and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V}$ 
     where $\mathcal{V}$ is the set of every possible variable. 
 \end{definition}
 
@@ -61,21 +70,32 @@ Notably, the alternative operator can be interpreted as a union, and the sequenc
  $tp$ sets can be divided into star pattern $Q_{star}$ defined in Definition~\ref{def:starPattern} in a way 
  that $Q = Q_{star_{i-1}} \bowtie Q_{star_i} \forall i \in S$ given that $S$ is the set of every subject of the $tp$ in the $Q$.
 \end{definition}
+\fi
 
-
-\begin{definition}[Star pattern with dependencies]\label{def:starPattern}
-    We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject such that $Q_{star} = \{ tp_i \in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_m}\}$~\cite{Karim2020}.
-    We define a star pattern with dependencies $Q_{starD}$ as the union between a root star pattern $Q_{star}$ and the $n$ deep star pattern
-    that having as a subject term, the object of the star pattern $Q_{starDp_{i-1}}$ where $n$ is the dept where no new star pattern can be generated.
+\begin{definition}[Recursive Star pattern]\label{def:starPattern}
+    We define a star pattern $Q_{star}$ as a set of $tp \in Q$ with the same subject such that $Q_{star} = \{ tp_i \in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_m}\}$~\cite{Karim2020}
+    where $m$ is the number of identical subjects.
+    We define a recursive star pattern $Q_{starR}$ as the union between a root star pattern $Q_{star}$ and the $n$ deep star patterns
+    having as a subject term, an object of the star pattern $Q_{starDp_{i-1,j}}$ where $n$ is the dept where no new star pattern can be generated,
+    $i$ is the dept of the star pattern and $j$ is the index labeling the subject of the star pattern.
+    We define $OS$ as a funtion return a set of every objects of the $tp$ in a star pattern.
     More formally, we define $Q_{starD}$ as
-    \begin{multline}\label{eq:starPattern1D}
-     Q_{starDp_0} = Q_{star} \\
-     Q_{starDp_1} = Q_{starDp_0} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starDp_0}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_1}}\} \\
-     Q_{starDp_2} = Q_{starDp_1} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starDp_1}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_2}}\} \\
-     \dotsm \\
-     Q_{starD} = Q_{starDp_{n-1}} \cup \{tp_i \in Q| \forall o_{tp} \in tp_{ Q_{starDp_{n-1}}} = s_{tp_1} \land s_{tp_2} = s_{tp_3} ... = s_{tp_{m_n}}\}
-    \end{multline},
+    \begin{equation}
+        FQ(s) = Q_{starRl} = \{tp_i \in Q| s_{tp_1} = s_{tp_2} ... = s_{tp_m}\}
+    \end{equation}
+
+    \begin{multline}
+        Q_{starRp_0} = \{Q_{star}\} \\
+        Q_{starRp_1} = \{FQ(o) |\forall o \in \bigcup OS(Q_{starRp0})\} \\
+        Q_{starRp_2} = \{FQ(o)|\forall o \in OS(Q_{starRp1})\} \\
+        Q_{starRp_i} = \{FQ(o)|\forall o \in OS(Q_{starRp_{i-1}})\} \\
+    \end{multline}
+
+    \begin{equation}
+        Q_{starD}= \bigcup Q_{starRp}
+    \end{equation},
     where $m_i$ is the number of triple pattern in the star pattern $i$.
+    $RS(Q_{starD})$ is a function giving the the subject variable of the $Q_{star} \in Q_{starD}$
     We also use the same terminology when dealing with triples instead of triple patterns.
 \end{definition}
 

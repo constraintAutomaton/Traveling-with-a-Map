@@ -117,6 +117,11 @@ Hartig2012
 \subsection{Shape Index}
 We propose to use a descentralized dataset summary method as the support mechanism for our prunning reachability crition, called Shape Index~\cite{tam2024opportunitiesshapebasedoptimizationlink}.
 It consists of mapping the content of a decentralized dataset with RDF data shapes.
+The intuition behind the proposal is that rendering implicit RDF schema explicit is not costly for data providers in the context of the publication of decentralized datasets,
+moreover, the cost of this action on the part of the data publisher has benefits for the discovery of their data and client-side query performance, thus making the proposition of simply publishing the data without server-side support for querying more realistic for practical applications.
+RDF does not enforce schema on its data; however, due to the nature of the object model and the structure of the formalism, there is often
+an implicit schema on RDF databases~\cite{Neumann2011CharacteristicSA} as for the second claim, our experimental data will try to prove the querying performance that source selection using 
+such mechanism can gain.
 Because the web is a highly dynamic environment and data providers might need high flexibility, shape indexes enable open shapes as mapping keys.
 In practice, a shape index could look like this: A data provider exposes personal data containing movie recommendations, bookmark metadata and friend lists.
 The data provider might have a more or less structured movie recommendation sub-dataset; thus, they use an open shape; they might have structured bookmarks and friend list, thus they 
@@ -129,7 +134,7 @@ A shape index
    SI = (M, D)
 \end{equation}
 , is a tuple where $M = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}$ is a mapping between RDF shapes and a set of IRI 
-and where $D = \bigcup\limits_{i=1}^{n} IRI_i$ is the domain of the index.
+and $D = \bigcup\limits_{i=1}^{n} IRI_i$ is the domain of the index.
 A shape index \emph{must} map every resource in $D$.
 We denote a shape index as \emph{complete} when every shape $s_i \in M$ is closed and \emph{incomplete} otherwise.
 
@@ -163,8 +168,8 @@ To determine $IRI_d$ and $IRI_p$ a query-shape containement ($\sqsubseteq_{qs}$)
 The problem is defined at section \ref{sec:containment}.
 We define
 \begin{gather}
-   IRI_d = \bigcup \{ M_i(s_j) | \forall (Q_{starD} \in B) \sqsubseteq_{qs}  s_j \} \\
-   IRI_p = \bigcup \{ M_i(s_j) | \forall (Q_{starD} \in B) \not\sqsubseteq_{qs}  s_j \}
+   IRI_d = \bigcup \{ M_i(s_j) | \exists B \sqsubseteq_{qs}  s_j \in \text{Dom}(M_i) \} \\
+   IRI_p = \bigcup \{ M_i(s_j) | \not\exists B \sqsubseteq_{qs}  s_j \in \text{Dom}(M_i) \}
 \end{gather}
 given a shape index $SI_i$ with a mapping $M_i$.
 From those sets of links we define two new reachability criteria;
@@ -282,12 +287,72 @@ https://github.com/MaximeJakubowski/ssf_project/blob/master/ssf/sparql_conforman
 \subsection{Query shape containment}\label{sec:containment}
 
 We propose to perform a form of query-shape containment as a source selection mechanism.
-We start the analysis by dividing a query $Q$ into its star pattern with dependencies $q_{starD_i}$ such that $Q = q_{starD_0} \bowtie q_{starD_1} ... \bowtie q_{starD_n}$
-and transforming a shape $S$ into a query $Q_s$ via the transformation $T$ define in the previous section.
+Intuitively, the query containment problem does not seem suited for online source selection because its complexity is NP-complete~\cite{Spasi2023}.
+However, the complexity is in terms of the size of both queries, which tend to be small.
+Additionally, in practical use cases, polynomial algorithms exist~\cite{Doan2012}.
+In our use case, the container query follows a template that also diminishes the complexity, because the predicates will always be 
+IRI because the query can always be interpreted as a one star pattern with dependencies.
 
+We consider that a query $Q$ is contain into a shape $S$ denoted $Q \sqsubseteq_{qs} S$, if there exist a path of a star pattern with dependencies in $Q$ 
+that is contain in $Q_s = T(S)$.
+By a path we mean that for each union statement $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$ the query is contained in at least one $q_i$ if we 
+consider that $Q = Q_{body} \cup \bigcup Q_u$ and similarly with $Q_s$ and that $q_i$ cannot contain a union statement.
+In this paper we ignore filter expressions and as part of the analysis we also ignore "cardinality" constraint 
+which mean \texttt{GROUP BY} and \texttt{HAVING} clauses.
+We ignore those segments because we are not looking into finding data sources that can fully answer a segment of a query,
+but data sources can contribute to the query answer, thus, the analysis of cardinality could impact the query result completeness.
 
+We start the analysis by dividing the queries $Q$ and $Q_s$ into its its main body, and the its union statement in the form of 
+$Q = Q_{\text{body}} \cup Q_{\text{unions}}$ where $Q_{\text{unions}} = \bigcup Q_u$.
+We then divide the queries into star pattern with their dependencies in the form of a graph encoded with mapping with consideration for the union statement using the algorithm~\ref{alg:divideQuery}.
 
+\begin{algorithm}
+   \caption{Division of the query into mapping of properties}\label{alg:divideQuery}
+   \begin{algorithmic}
+      \REQUIRE A Query $Q = Q_{\text{body}} \cup Q_{\text{unions}}$
+      \ENSURE $star\_pattern\_map$ a map of every star pattern in the body of the query indexed by there subject and $union\_star\_pattern$ a set of map of all star pattern in the union set of the query of the query
 
+      \STATE $union\_star\_pattern \leftarrow \{\}$
+      \STATE $star\_pattern\_map \leftarrow \{ ?s \mapsto q_{star}| \forall ?s = RS(q_{star}) \land q_{star} \in Q_{\text{body}} \}$ % O(n)
+
+      \FORALL{$Q_u \in Q_{\text{unions}}$} % O(m)
+         \STATE $star\_pattern\_map\_path \leftarrow \{\}$ %O(m_n)
+         \FORALL {$q_u \in Q_u$}
+            \STATE $star\_pattern\_map\_local \leftarrow \{ ?s \mapsto q_{starD}| \forall ?s = RS(q_{starD}) \land q_{starD} \in Q_{u1} \}$ % O(m_n_s)
+            \STATE $star\_pattern\_map\_path \leftarrow star\_pattern\_map\_path \cup \{star\_pattern\_map\_local\}$ 
+         \ENDFOR
+        \STATE $union\_star\_pattern \leftarrow union\_star\_pattern \cup \{ star\_pattern\_map\_path \}$
+      \ENDFOR
+   \end{algorithmic}
+\end{algorithm}
+
+After having this this structure for $Q$ and $Q_s$
+
+\begin{algorithm}
+   \caption{Division of the query into mapping of properties ($isContain$)}\label{alg:divideQuery}
+   \begin{algorithmic}
+      \REQUIRE A Query $Q = Q_{\text{body}} \cup Q_{\text{unions}}$
+      \ENSURE \TRUE $ $ or \FALSE $ $ whether the query is contained in the shape
+
+      \FORALL{$tp \in star\_pattern\_map\_q$} % O(n)
+         \IF{$p_{tp} \in star\_pattern\_map\_q$ \OR $p_{tp} \in star\_pattern\_map\_q$ }
+            \STATE $o_q \leftarrow star\_pattern\_map\_q(o_{tp})$
+            \STATE $o_s \leftarrow star\_pattern\_map\_s(o_{tp})$
+            \IF{$\exists o_q$ \AND $\exists o_s$}
+               \STATE $ nested\_contain \leftarrow isContain(o_q, o_s)$
+               \IF{\NOT $nested\_contain$}
+                  \RETURN \FALSE
+               \ENDIF 
+            \ENDIF
+         \ELSE
+            \RETURN \FALSE
+         \ENDIF
+      \ENDFOR
+      \RETURN \TRUE
+   \end{algorithmic}
+\end{algorithm}
+
+\iffalse
 The previous section shows that $Q_s$ follows a query template of a star pattern with dependencies, where the subjects and objects are always variables, and the predicate is always an IRI.
 In this paper, we will ignore the filter expressions and clauses and use this query template to solve the query containment problem.
 We are presenting two variances of the query shape containment problem, one for general source discovery that we denote \emph{loose} containment $\sqsubseteq_l$ and 
@@ -296,6 +361,10 @@ Intuitively, the query containment problem does not seem suited for online sourc
 However, the complexity is in terms of the size of both queries, which tend to be small.
 Additionally, in practical use cases, polynomial algorithms exist~\cite{Doan2012}; 
 thus, it is a valid mechanism for source selection, and our experiment results will further demonstrate this proposition.
+
+
+
+
 
 \begin{definition}[Loose containment]\label{def:looseContainment}
 We define a losse containment between a query $q_i$ and a shape $Q_s$ as determining if one path $q_{pi} \subseteq q_i$ of the query $q_i = \bigcup_{i=0}^{n} q_{pi}$ given $n$ path is contained in 
@@ -350,4 +419,5 @@ CITE FOR PROPERTY PATH PARTICULARLY THE NEGATION \cite{Kostylev2015}
 
 The shape index by solving the query containment problem can be expressed as a structural assumption.
 ... define the algorithm
+\fi
 \fi

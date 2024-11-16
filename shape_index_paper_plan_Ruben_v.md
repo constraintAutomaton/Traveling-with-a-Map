@@ -1,31 +1,32 @@
-# Query shape containment LTQP
+# Traveling with a Map: Optimizing the Search Space of Link Traversal Queries Using RDF Data Shapes
 
-## Building a PDF
-The authors compiled the PDF version using `pdflatex` (you can use your favorite latex compiler).
-We created a `makefile` to facilitate the building of the PDF version.
-One can simply execute `make main.pdf` or `make` to produce the PDF version if `pdflatex` and the other dependencies of the [TeX Live](https://tug.org/texlive/) suite are installed on the machine of the user.
+## Abstract
 
-## TO DO paper (not in order)
-
-- [ ] Building a tool to fragment the data of [Solidbench](https://github.com/SolidBench/SolidBench.js) in a way that each pod has one file 
-- [ ] Improve [sparql-benchmark-runner.js](https://github.com/comunica/sparql-benchmark-runner.js) statistic to make significance and variance analysis
-- [x] **not fully working with some property path combination but good enough for most cases, limitation to be listed, question of implementation and time and not method** Finish the implementation of SPARQL property path, nested queries and the small optimization in [Query Shape Detection](https://github.com/constraintAutomaton/query-shape-detection/tree/main)
-    - [x] Propose a negative shape index entry
-- [ ] Finish the literature review
-- [ ] Make a proof for time complexity and overhead (empirical but I want the theoretical)
-- [ ] Provide an analysis of the link queue
-    - [ ] Percentage of useful resources
-    - [ ] Ruben E. Metric, diefficienty
-- [X] Implement the priotisation
-- [ ] Analyze versatility
-    - [ ] Open/close shapes
-    - [ ] Percentage of the pod with a shape
-    - [ ] More or less descriptive shapes
-- [ ] Formalize the completeness differently than the reachability criteria
-    - [ ] Make queries with one endpoint in a HDT
-- [ ] Check the impact of HTTP request vs size of the internal data store
-- [x] Define composite reachability criteria
-    - [x] Reachability criterion created from the combination of multiple criteria
+% Context     
+    Link traversal queries are notoriously slow.
+    % Need
+    The main bottleneck of this query paradigm is the pseudo-infinite traversal search space.
+    % Task
+    Using the structure of the data publication, traversal queries can be made faster by imposing a finite domain.
+    Yet, the search domain can remain needlessly large when considering that multiple documents may not be query-relevant.
+    % Object      
+    This paper proposes a lightweight and low-maintenance data summary method for decentralized RDF documents called a \emph{Shape Index}.
+    The shape index leverages the descriptive power of RDF data shapes, simple mapping to a set of RDF resources, to summarise a decentralized RDF dataset.
+    With this simple information, we propose a query-shape containment algorithm for online source selection during link traversal queries.
+    In this paper, we formalize our approach, evaluate its impact on different query processing metrics, and consider multiple 
+    level of detail of data summarisation in the network.  
+    % Findings    
+    We show that the use of this simple data summarization can reduce the query execution time and the network usage of queries where a significant number of 
+    sources were not query-relevant while having minimal impact on the query execution time of queries, necessitating a large portion of the document in the datasets of the networks.
+    We also show that the relation between the decrease in the number of HTTP requests performed is correlated but not linear with the reduction in query execution time,
+    leading us to the same conclusion as the state of the art: better query planning in link traversal queries could positively impact query execution time.
+    % Conclusion
+    Given the performance gain of our algorithm and the low maintenance of shape indexes, its usage in the context 
+    of the publication of decentralized RDF datasets is an effective, low-cost way to improve query performance with 
+    little computational power from the data provider.
+    % Perspectives
+    The paper leaves open the questions of performing query-shape containment problems with filter expression for more selective source selection, 
+    of using negative entries in the shape index in the source selection process and the shape index for adaptative query planning.
 
 ## Plan
 
@@ -108,29 +109,31 @@ One can simply execute `make main.pdf` or `make` to produce the PDF version if `
 - How does the size of the internal data store impact the query execution time compared to the number of HTTP requests?
 
 ### Experiments
-- [ ] Baseline Datadump (maybe not the optimal execution)
+- Baseline Datadump (maybe not the optimal execution)
 - Baseline LTQP
-    - [ ] Type index
-    - [ ] LDP
-    - [ ] type index + LDP
-    - [ ] Type index with missing type index same has missing shape index (see experiment below)
-    - [ ] Type index + LDP with missing type index same has missing shape index (see experiment below)
+    - Type index
+    - LDP
+    - type index + LDP
+    - Type index with missing type index same has missing shape index (see experiment below)
+    - Type index + LDP with missing type index same has missing shape index (see experiment below)
 - Best case scenario (with and without prioritization)
-    - [ ] Complete shape index in every pod, with closed shapes for everything with precise constraints
-- Versability test (with and without prioritization)
-    - [ ] Not descriptive constraints
-        - [ ] 50%
-        - [ ] 100%
-    - Shape in a ratio of the networks
-        - [] 80%
-        - [] 50%
-        - [] 20%
-    - [ ] Mutliple fragmentation type
-- Worst case scenario
-    - [ ] 20% of the network has a shape in the network that is closed (we can do nothing with open shapes) with no descriptive constraints
-- [ ] Oracle for source selection, so we do a "federated query" instead of LTQP
-- [ ] One file by pods
+    - Complete shape index in every pod, with closed shapes for everything with precise constraints
+- Oracle for source selection, so we do a "federated query" instead of LTQP
 - Empiric measurement of the containment algorithm
+- Versability test (with and without prioritization)
+    - Open shapes
+    - Not descriptive constraints 
+        - 50%
+        - 100%
+    - Shape in a ratio of the networks
+        - 80%
+        - 50%
+        - 20%
+        - 0%
+    - Mutliple fragmentation type
+- Worst case scenario
+    - 20% of the network has a shape in the network that is closed (we can do nothing with open shapes) with no descriptive constraints
+- One file by pods X
 
 We also want to see if this is within the current time expectation for social media queries.
 
