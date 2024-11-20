@@ -1,0 +1,14 @@
+\section{Conclusion}
+
+We proposed optimizing the search space of traversal queries by leveraging a shape index, which is a mapping between RDF shapes and a set of resources, as a mechanism for source selection.
+The primary mechanism for source selection that we propose is to execute a query-shape containment problem similar to the classic query containment problem; we also 
+propose an extension of the reachability criteria concept to include the sources' pruning.
+From our experiment for highly selective queries, we can notice a high improvement in query execution time with a marginal decrease in the performance of nonselective queries 
+and an important degradation of performance for queries that do not exploit the structural properties of datasets.
+We have also shown that our approach is adaptative and can operate in networks with partial shape index information or shapes with minimally described shapes and still benefit
+from the information provided by the network to reduce the execution time.
+Shape indexes are small descriptive summaries of decentralized datasets; this work did not discuss their production. However,
+there exists work in the literature for automatic generation of RDF datashapes~\cite{fernandez2023extracting}, we also 
+did not discuss their maintenance, but work in the literature for shape-based data integration also exists~\cite{LabraGayo2023}.
+Given the descriptive power of shapes and their used in centralized setting~\cite{kashif2021} for query planning, interesting future work could be to investigate adaptatively
+query planning in LTQP~\cite{taelman2024towards} using shapes.   
