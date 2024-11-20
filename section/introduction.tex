@@ -15,7 +15,7 @@ Several authors consider decentralizing web data an insufficient solution~\cite{
 Linked data has the potential to create seamless decentralized databases through the use of dereferenciable IRIs.
 These IRIs allow access to additional databases containing information relevant to the IRI.
 For example, dereferencing a term representing a user like a WebID~\sepfootnote{sf:webID} can provide the name of the user, among other information, without having 
-to store this information locally.
+to store the information locally.
 \iffalse
 Such data publication paradigm gives the opportunity to potentially break down data silos~\cite{verstraete2022solid},
 and empowers users by reducing the need for indexing strategies to find relevant information about a term. 
@@ -43,15 +43,18 @@ exemples of environments respecting those constraints are dataset following the 
 The work of ~\citeauthor{Taelman2023} indicate that there are multiple optimizations possible in LTQP in the context SLDE as opposed to the
 more pessimist conclusion of the work of ~\citeauthor{hartig2016walking}.
 In line with this research direction, this paper formalizes the concepts of the \emph{Shape Index} and \emph{query-shape containment}~\cite{tam2024opportunitiesshapebasedoptimizationlink} to enable a query and data aware mechanism for reducing the search domain of link traversal queries.
+\iffalse
 The shape index concept relies on RDF data shapes; the conceptual idea of RDF data shapes is to describe the properties of an entity.
 We propose to use them in an index to describe decentralized datasets.
 Because shapes and queries share similarities, we propose transforming shapes into queries to perform a query containment problem
 and assist our source selection.
-
+\fi
 To guide our study, we formulated this research question:
 Can a link traversal query engine use shape indexes in networks of decentralized datasets to reduce the number of HTTP requests while maintaining the same completeness of results, and does this reduction of HTTP requests lead to a decrease in query execution time?
 We formulate the following hypotheses:
 Using shape indexes will reduce the number of non-contributing data sources acquired;
+there is a linear relationship between the reduction of the number of HTTP requests and the reduction of query execution time;
+executing a query-shape containment is negligible in the context of social media applications; 
 more detailed shapes will provide a higher reduction in the number of HTTP requests;
 a \emph{complete} shape index will reduce the number of HTTP requests and the query execution time than an \emph{incomplete} shape index;
 a shape index approach can be adaptative, so not every dataset in the network needs to have an index to see a performance improvement.
