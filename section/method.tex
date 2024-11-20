@@ -1,9 +1,5 @@
 \section{Approach}
 
-\sepfootnotecontent{sf:shapeTarget}{
-   It has to be noted that the concept of target and map of SHACL and ShEx does not apply, since it is always the whole knowledge graph that has to be valid.
-}
-
 \sepfootnotecontent{sf:shapeIndexURL}{
    \url{https://constraintautomaton.github.io/shape-index-specification/}
 }
@@ -16,8 +12,7 @@
 \subsection{Structured Linked Data Environments and Completeness}\label{sec:slde}
 From a holistic perspective, the web does not have a structure exploitable by query engines for optimization.
 On the web, any document can be published at any location, and there is no index or trust mechanism to guide source selection.
-Furthermore, there is no official mechanism for providing summary information about the content of data sources before their acquisition.
-From a local perspective, a perspective where the web is divided into small subsections controlled by data providers, data publishers can implicitly or explicitly organize their data  
+From a perspective where the web is divided into small subsections controlled by data providers, data publishers can implicitly or explicitly organize their data  
 in a way that a query engine could exploit its organization for optimization.
 The concept of \emph{structural assumptions}~\cite{Taelman2023} has been theorized to optimize queries by exploiting the local structure of decentralized RDF datasets where the data providers 
 guarantee the completeness of results related to their statement in a specific set of resources in an IRI domain~\cite{Bogaerts2021LinkTW}.
@@ -44,17 +39,14 @@ HTTP requests can be slow and unpredictable~\cite{hartig2016walking}; thus, exec
 Additionally, a smaller internal data store leads to fewer triples to process during the joining operations, which can further contribute to the reduction of query execution time.
 
 To define a less selective reachability to produce $G^{\prime}$, we propose extending the reachability criteria by formalizing chain of criterion in a concept called \emph{composite reachability criteria}.
-In this form, a reachability criterion ($cp_i$) is said to \emph{prune} links if it is chained with an \emph{and} operator, and ($cd_i$) is said to \emph{discover} links if it chain with an \emph{or} operator.
+In this form, a reachability criterion $cp_i$ is said to \emph{prune} links and $cd_i$ is said to \emph{discover} links.
 A reachability $cp_i \in C$ should act upon all the links that have yet to be dereferenced as well as on the incoming links.
 Equation~\ref{eq:cReachabilityCriteria} formalize a composite reachability criterion $C$ with $nd$ discovery criteria and $np$ prunning criteria.
 
 \begin{equation}\label{eq:cReachabilityCriteria}
     C(t, i_d, B)  = \bigvee Cd \land \bigvee Cp
 \end{equation}
-where $Cd$ is the set of every $cd_i(t, i_d, B)$ and $Cp$ the set of every $cp_i(t, i_d, B)$ used by the engine. 
-
-We pose that a query engine can change its reachability criterion during the execution and that a change in  reachability affect not only the future link follow,
-but also the links that has not been dereferenced.
+where $Cd$ is the set of every $cd_i(t, i_d, B)$ and $Cp$ the set of every $cp_i(t, i_d, B)$ used by the engine.
 \iffalse
 Maybe refer to the link queue here in a footnote.
 \fi
@@ -140,7 +132,7 @@ We denote a shape index as \emph{complete} when every shape $s_i \in M$ is close
 
 A mapping between a shape and a set of IRI has implications in the distribution of the data in $D$.
 when a shape is mapped to a set of $IRI$ then every triple of the knowledge graph $g^{\prime}$ such as $iri \mapsto g^{\prime} \in r \land iri \in IRI$
-are validated by the shape such that $g^{\prime} \models s$.~\sepfootnote{sf:shapeTarget}
+are validated by the shape such that $g^{\prime} \models s$.
 Given that the shape mapping a set of IRI $IRI_i$ is close, then every set of triple in the resource associated with $D$ respecting the shape must be in a resource mapped to an IRI in $IRI_i$, 
 such that given $G = \bigcup\limits_{j=1}^{n} g_j$ where $g_j$ is the knowledge graph containing every triple inside of the document with the IRI in the mapping $M$
 then $g \models s \iff g \mapsto iri \in IRI$.
