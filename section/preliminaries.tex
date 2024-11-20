@@ -42,7 +42,7 @@ SPARQL queries are performed over knowledge graphs (KG), composed of triples $t$
 
 \begin{definition}[RDF Triple]\label{def:triple}
     An RDF triple $t = (s,p,o)$ is formed by a subject term $s \in \mathcal{I} \cup \mathcal{B}$, a predicate term  $p \in \mathcal{I}$ and an object term $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$
-    where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$ are respectiverly the set of every possible IRI, blank node~\sepfootnote{sf:blankNode} and literal.
+    where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$ are respectiverly the set of every possible IRI, blank node and literal.
 \end{definition}
 
 \iffalse
@@ -96,8 +96,11 @@ We also define star patterns and tree star patterns at Definition ~\ref{def:star
     \begin{equation}
         O_{star}: q \in Q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
     \end{equation}
-    .
-    
+    and a function returning the subject of a star pattern
+    \begin{equation}
+        S_{star}: q \in Q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
+    \end{equation}
+
     We then define $Q_{starT}$ given a  set of partial tree star patterns $Q_{starPT}$
     \begin{equation}
         Q_{starT} = \bigcup_{q \in Q_{starPT}} q
@@ -112,8 +115,8 @@ We also define star patterns and tree star patterns at Definition ~\ref{def:star
         \end{cases}
     \end{equation}
     . 
-    We apply a similar definition for triples where we replace the query $Q$ by a KG $G$ and where the object 
-    cannot be $v \in \mathcal{V}$.
+    We propose a similar definition for the context of KG where we replace the query $Q$ by a KG $G$ and where the object 
+    cannot be $v \in \mathcal{V}$ we denote it a tree star.
 
 \end{definition}
 
@@ -131,37 +134,40 @@ A query engine dereferencing operation stops when no new $iri$ has to be derefer
 
 \subsection{RDF data shapes}
 RDF data shapes, similar to data schemas, are constraints applied to RDF graphs.
-Shapes specify conditions that the predicate and object terms of tree star patterns must respect.
-In this work, we propose an abstract formalization of shapes and make no distinction between different shape languages.~\sepfootnote{sf:recursiveShape}
+In our context, shapes specify conditions that tree stars predicate and object terms must respect.
+This work proposes an abstract formalization of shapes without distinction between different shape languages.
 
 We define a shape
 \begin{equation}
 S = (E, op \in \{\mathrm{true},\mathrm{false}\})
 \end{equation}
 
-with some similarities to \citeauthor{Abbas2018} definition.
-$E = \{e_1, e_2 ..., e_{n}\}$ is a set of $n$ shape expression $e_i$.
-Shape expressions are constraint on the triples of each tree star pattern in $G$.
-For a KG to satisfy a given shape, it must validate each expression $e_i \in E$ in the shape definition.
-$op$ describes whether a shape is open or close.
-An open shape allowed the presence of non-contradicting properties (with consideration of negative properties) not defined in $E$ in a KG $G$.
-A shape expression is defined by
-\begin{align}
- e_i ::= (p, c, rs, n) | (e_j|e_k)
-\end{align}
-.
-$e_i$ is a tuple of constraints on the predicate and the object terms of the tree star patterns in a KG. 
-A shape expressions define a predicate $p$ constraint on each tree star pattern in a KG.
-It also define a constraint on the object terms $c(o) \rightarrow \{\mathrm{true}, \mathrm{false}\}$ of the tree star patterns.
-The $c$ constraint can enforce an RDF type, a shape or a literal comparison.
-$rs = \{x \in \mathbb{R}_+ | a < x < b \}$ is a range on the number of triples the contraints $p$ and $c$ must apply in a tree star pattern.
-The shape expression can be a negation $n \in \{\mathrm{true}, \mathrm{false}\}$ meaning that the constraint $e_i$ must not be satisfied.
-A shape expression can also be a disjunction, between two other shape expressions.
+$E = \{e_1, e_2 ..., e_{n}\}$ is a set of $n$ shape expressions $e_i$.
+Shape expressions are constraints on the triples of each tree star in $G$.
+A KG must validate each expression $e \in E$ in the shape definition to satisfy a given shape.
+$op$ describes whether a shape is open or closed.
+An open shape allows extra undefined properties, respecting the shape expressions.
+We define a set of constraint
+\begin{equation}
+    st = \{pc_p, oc_f, rs^a_b, n\}
+\end{equation}
+$pc_p$ and $oc_f$ are respectively constraint 
+$c: t \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{B}  \rightarrow \{\mathrm{true}, \mathrm{false}\}$
+on the predicate and the object of a tree star where the constraint is respected when returning $\mathrm{true}$.
+$pc_p$ evaluates if a predicate term in a triple part of a tree star equals an IRI $p$.
+$oc_f$ can enforce on the object of a tree star an RDF type, a shape, or a literal comparison on the object of a triple part of a tree star.
+$rs^a_b = \{x \in \mathbb{N}_+ | a < x < b \}$ is a range on the number of triples in a tree star that must respect the $pc_p$ and $oc_f$ constraint.
+$n \in \{\mathrm{true}, \mathrm{false}\}$ denote a negation of the constraint $pc_p$ and $oc_f$. 
 
-We denote a KG $G$ to satisify a shape $S$ by $G \models S$.
-For $G$ to satisfy $S$ then when dividing $G$ in tree star pattern such that $G = \bigcup_{q \in Q_{starT} q} $, given 
-$Q_{starT}$ being all the tree star pattern in $G$,
-the shape must validate each $Q_{starT_i}$ with as validation root the $Q_{star_s} \in Q_{starT_i}$.
+A shape expression is defined by
+\begin{equation}
+ e_i ::= st \mid (e_j|e_k)
+\end{equation}
+where "$|$" denotes a disjunction between two shape expressions.
+
+For $G$ to satisfy $S$, $G$ has to be analyzed as the union of all its tree stars such that $G = \bigcup_{g \in G_{starT}} g$.
+With this perspective on $G$, the constraints $c$ in $e_i$ have to be evaluated on the triples $T = \{t| t \in G_{star_s} \in G_{starT_i}\}$ of the root tree star of every $G_{starT}$.
+If all the constraints are satisfied for every $G_{starT}$, then $G$ satisfies $S$ denoted by $G \models S$.
 
 \subsection{Decentralized Knowledge Graph}
 We define a decentralized knowledge graph (DKG) as a knowledge graph (KG) $G$ materialized in a network of resources $R$.
