@@ -1,4 +1,4 @@
-SOURCE = main.tex references.bib section/*.tex table/*.tex makefile 
+SOURCE = main.tex references.bib section/*.tex makefile analysis/artefact/**/*
 
 main.pdf: $(SOURCE)
 	pdflatex main
