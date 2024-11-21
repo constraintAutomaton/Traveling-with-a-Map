@@ -143,28 +143,30 @@ S = (E, op \in \{\mathrm{true},\mathrm{false}\})
 \end{equation}
 
 $E = \{e_1, e_2 ..., e_{n}\}$ is a set of $n$ shape expressions $e_i$.
-Shape expressions are constraints on the triples of each tree star in $G$.
+Shape expressions are constraints on the triples of tree star.
 $op$ describes whether a shape is open or closed.
-An open shape allows extra undefined properties, respecting the shape expressions.
-We define an evaluation function 
+Before defining what an open and a close shape means, we define an evaluation function 
 \begin{equation}
     Ve(e, op, G_{starT_i}) \rightarrow \{\mathrm{true}, \mathrm{false} \}
 \end{equation}
-taking a shape expression $e$, a boolean $op$ to determine if the shape is open or closed, and a tree star $G_{starT}$.
-This function determine if $G_{starT_i}$ satify $e$ by returning $\mathrm{true}$.
+taking a shape expression $e$, a boolean $op$ to determine if the shape is open or closed, and a tree star $G_{starT_i}$.
+$Ve$ determines if $G_{starT_i}$ satisfies $e$.
+In a closed shape, every triple in $G_{starT_i}$ must contribute to the validation of $Ve$.
+In contrast, for an open shape, $G_{starT_i}$ may contain additional triples that are not involved in the validation of $Ve$.
 We define a tuple of constraint
 \begin{equation}
     st = (pc_p, oc_f, rs^a_b, n)
 \end{equation}
-$pc_p$ and $oc_f$ are respectively constraint 
-$sc(G_{starT_i})  \rightarrow \{\mathrm{true}, \mathrm{false}\}$
+$pc_p$ and $oc_f$ are respectively constraint,
+$sc(G_{starT_i})  \rightarrow \{\mathrm{true}, \mathrm{false}\}$,
 on the predicate and the object of a triple in a $G_{starT_i}$.
 $pc_p$ evaluates if a predicate term in a triple in a $G_{starT_i}$ is equals to an IRI $p$.
-$oc_f$ evaluates if an object term of a triple in a $G_{starT_i}$ is of an RDF type, validate a shape by creating 
-a $G_{starT_i}^{\prime}$ where $G_{star_i} \in G_{starT_i}^{\prime}$ have as a subject term the targeted object term or 
-if it satisfy a literal comparison.
-$rs^a_b = \{x \in \mathbb{N}_+ | a < x < b \}$ is a range on the number of triples in a tree star that must respect both $pc_p$ and $oc_f$.
-$n \in \{\mathrm{true}, \mathrm{false}\}$ indicate that no triple in a $G_{starT_i}$ must respect both $pc_p$ and $oc_f$. 
+$oc_f$ evaluates if an object term of a triple in a $G_{starT_i}$ validate three possible scenerario defined by $f$.
+Either it validate that the object term targeted by $oc_f$ is of an RDF type or satisfy a literal comparison.
+Or it validate that a shape defined by $f$ is satisfied given that we consider as a tree shape 
+$G_{starT_i}^{\prime}$ where $BQ_{star}(o) \in G_{starT_i}^{\prime}$ and $o$ is the object term of targeted by $oc_f$.
+$rs^a_b = \{x \in \mathbb{N}_+ | a < x < b \}$ is a range interpreted by $Ve$ as the number of triples in a tree star that must respect both $pc_p$ and $oc_f$.
+$n \in \{\mathrm{true}, \mathrm{false}\}$ is an indication to $Ve$ when $\mathrm{true}$ that no triple in a $G_{starT_i}$ must respect both $pc_p$ and $oc_f$. 
 
 A shape expression is defined by
 \begin{equation}
@@ -172,12 +174,12 @@ A shape expression is defined by
 \end{equation}
 where "$|$" denotes a disjunction between two shape expressions.
 
-For $G$ to satisfy $S$, $G$ has to be analyzed as the union of all its tree stars such that $G = \bigcup_{g \in G_{starT}} g$ and that the largest possible $g \in G_{starT}$ are formed.
-With this perspective on $G$, for each $e \in E$ part of $S$ and each $G_{starT_i}$ the function $Ve$ is evaluated.
-If all the constraints are satisfied for every $G_{starT_i}$, then $G$ satisfies $S$ denoted by $G \models S$.
+For $G$ to satisfy $S$, $G$ has to be analyzed as the union of all its tree stars such that $G = \bigcup_{g \in G_{starT}} g$ where $G_{starT}$ is the set of every tree star in $G$
+and each tree star are defined in a way that no $Q_{starPT_i}$ are shared by any $G_{starT_i}$.
+$G$ satisfies $S$ is defined by $G \models S \iff Ve(e,G_{starT_i}, op\in S)$  for every $G_{starT_i} \in G$ and every $e \in E$ given $E \in S$.
 
 \subsection{Decentralized Knowledge Graph}
-We define a decentralized knowledge graph (DKG) as a knowledge graph (KG) $G$ materialized in a network of resources $R$.
 A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is mapped to an IRI $iri_i$.
+We define a decentralized knowledge graph (DKG) as a KG $G$ materialized in a network of resources $R$.
 The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in t \in g$ are directed edges starting from $r_i$ to $r_j$.
 $G$ is formed by the union of all the $g \in r$, such that $G = \bigcup_{i=0}^{n}g_i$ given $n$ resources.

@@ -13,7 +13,7 @@
 
 
 Figure~\ref{fig:compApproach} shows that the shape index can, with multiple queries, perform better or comparably to the state-of-the-art (type index with LDP approach), with queries requiring as little as 13\% (S1) of the execution time.
-The queries that perform best are those where the number of HTTP requests decreased the most.
+Queries that perform best are those where the number of HTTP requests decreased the most.
 The Appendix displays plots of the number of HTTP requests by query template and presents the statistical significance for each query instance.
 Query templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
 We notice that query template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
@@ -23,9 +23,9 @@ This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows
 However, those queries were already fast, with the state-of-the-art approach being executed in approximately 0.30\% of the timeout.
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 
-The empirical evaluation of the query-containment algorithm shows that its execution with the more detailed shapes of our experiment is negligible, with a maximum execution of 4.655 ms (0.0039\% of the timeout), as presented in table~\ref{tab:queryShapeContainmentEval}.
+The empirical evaluation of the query-containment algorithm shows that its execution with the more detailed shapes of our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout), as presented in table~\ref{tab:queryShapeContainmentEval}.
 This result is expected because the algorithm's time complexity is ("TO INSERT"), and the experiments' shapes and queries are small, not deeply nested instances.
-This shows that most of the overhead for this approach is not this algorithm but is probably the state retention for the pruning reachability criteria in the form of filters in the link queue.
+This shows that most of the overhead for this approach is not this algorithm but is probably the state retention for the pruning reachability criteria.
 
 \begin{figure}[htbp]
     \centering
@@ -53,23 +53,24 @@ This shows that most of the overhead for this approach is not this algorithm but
 \end{figure}
 
 To determine the relationship between the reduction of HTTP requests and the query execution time, we evaluated their ratio using 
-the data of our experiments with the state-of-the-art results, the type index, and the LDP specification as the baseline.
-This analysis is reported through Figure~\ref{fig:http_req_exec_time_cor}.
+the data of our experiments with the state-of-the-art results as the baseline.
+We use Figure~\ref{fig:http_req_exec_time_cor} as a tool of analysis.
 The relationship between HTTP request and query execution time can be divided into two regimes.
 In the first regime (left figure), where the shape index approach reduces the number of HTTP requests, we notice a positive linear correlation with a
 Pearson correlation coefficient (PCC) of 0.83 and a high statistical significance given a p-value of 2.94E-93.
-We also notice that below a ratio of approximately 0.83 of HTTP requests, the shape index approach did not guarantee a reduction in query execution time.
+We also notice that below a ratio of approximately 0.83 of HTTP requests, the shape index approach did not guarantee a reduction in query execution time
+which can be an indication of the overhead of the approach.
 In the second regime (right figure), the shape index increases the number of HTTP requests.
 We notice a weaker positive linear correlation with a PCC of 0.43 and a high but far lower statistical significance given a p-value of 1.16E-04.
 The overall correlation between reducing HTTP requests and query execution time is positively linear, with a PCC of 0.55 and a high statistical significance with a p-value of 6.18E-35.
 It is difficult to explain why the data operate in two regimes. 
 A possible explanation can be the lack of samples when the shape index approach performs poorly.
-However, we can also notice that the relationship between the two variables in the first regime is closer to one-on-one than in the second regime, where the ratio of HTTP requests has less of an impact.
+However, we can also notice that the relationship between the two variables in the first regime is closer to one-on-one (slope of approximately 0.92) than in the second regime (slope of approximately 0.04), where the ratio of HTTP requests has less of an impact.
 This observation can lead us to question how complex the queries are in that regime; we can notice that the queries where the shape index increases vastly in the number 
 of HTTP requests are the queries from the S4 template. 
-However, this query was already answered quickly and consisted of only four triple patterns and a union statement (with the alternative property path), so the query is simple. 
+However, those queries were already answered quickly and consisted of only four triple patterns and a union statement (with the alternative property path). 
 Thus, it is possible that the number of HTTP requests has less of an impact because it is easier for the engine to perform the join operation upon reception of the data than when processing more complex queries.
-With this current experiment and data, it is impossible to give a conclusive answer.
+However, with this current experiment and data, it is impossible to give a conclusive answer.
 
 \begin{figure}[htbp]
     \centering
