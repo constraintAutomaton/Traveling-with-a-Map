@@ -12,16 +12,16 @@
 \end{figure}
 
 
-Figure~\ref{fig:compApproach} shows that the shape index is able, with multiple queries, to perform better or as similarly as the state-of-the-art with queries taking as low as 13\% (S1) of the execution time than the state of the art.
-The queries that performed best were those where the number of HTTP requests decreased the most.
-The annex displays plots of the number of HTTP requests by query template and presents the statistical significance for each query instance.
-Queries templates D6 and D7 show no reduction because those queries request every document following the shape containing interesting information of the datasets of the network, thus
-our approach is unproductive.
+Figure~\ref{fig:compApproach} shows that the shape index can, with multiple queries, perform better or comparably to the state-of-the-art (type index with LDP approach), with queries requiring as little as 13\% (S1) of the execution time.
+The queries that perform best are those where the number of HTTP requests decreased the most.
+The Appendix displays plots of the number of HTTP requests by query template and presents the statistical significance for each query instance.
+Query templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
 We notice that query template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
-The reason is that with the other approaches, only the reachability \texttt{Cmatch} was used to obtain completeness, so the structural properties of the dataset were not used; with the shape index, we always force the usage of this property of the datasets leading to extra HTTP requests and more processing.
-It can be further illustrated by looking at table~\ref{tab:ratioUsefulResources} where we see that for those queries, the state-of-the-art have a ratio of useful resource dereferenced of 100\% compared to 6\% with the shape index approach.
+The poor performance is due to the fact that other approaches rely solely on the reachability \texttt{Cmatch} to achieve completeness, without leveraging the structural properties of the dataset. 
+In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
+This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the state-of-the-art achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
 However, those queries were already fast, with the state-of-the-art approach being executed in approximately 0.30\% of the timeout.
-However, these results still show a category of network and queries for which our approach is not suited.
+Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 
 The empirical evaluation of the query-containment algorithm shows that its execution with the more detailed shapes of our experiment is negligible, with a maximum execution of 4.655 ms (0.0039\% of the timeout), as presented in table~\ref{tab:queryShapeContainmentEval}.
 This result is expected because the algorithm's time complexity is ("TO INSERT"), and the experiments' shapes and queries are small, not deeply nested instances.
@@ -119,6 +119,11 @@ Most queries do not necessitate complete information about the data model to dis
 had its own resource; thus, more detailed shapes can necessitate more HTTP requests to obtain the full information.
 Query template S1 behaves differently from the other queries because more information about the data model was needed to perform a similar source selection than our baseline
 which led to an increase in execution time of up to 9 times.
-It has to be noted that each shape in our experiment was inside its own ressource; thus, the variations that is observed are not the product of the 
-the overhead of the algorithm but of the execution of extra HTTP requests.
-A potential solution could be to store shapes into a single resource; however, it can hinder maintainability.  
+Looking back at b), the approach with 80\% of the entries completed performed much worse, which seems counterintuitive.
+However, with the understanding that S1 is highly sensitive to the level of detail of the shape (notice that the lost of performance is also around nine times) and considering that 
+the missing entries were assigned randomly;
+we have five instances for each query;
+It was a chance that led to incomplete entries being the most impactful for source selection for one query.
+Additionally, with this experiment, even if a shape index is dereferenced with all its associated shapes, there is no guarantee that
+the entry necessary for better source selection is present, which can, in some circumstances, lead to a higher loss of performance than
+with the experiment of a).

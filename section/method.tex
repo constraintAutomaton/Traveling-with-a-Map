@@ -212,6 +212,7 @@ $cd_{si}$ and $cp_{si}$ to the corresponding set.
 A shape expression $e_i$ can be intuitively treated as a segment of a query~\cite{delva2023}.
 A common approach for shape validation over an RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.~\sepfootnote{sf:ssf_project}
 
+\iffalse
 For our query-shape containment problem we are looking into transforming our shapes $S$ into queries $Q_s =  q_i \bowtie q_{i+1} ... \bowtie q_n$ by transforming each $e_i$ of $s$ in a $q_i$.
 We are looking into creating a query $Q_s$ with the following property
 \begin{equation}\label{eq:shapeSPARQL}
@@ -225,6 +226,7 @@ The intuition behind equation~\ref{eq:shapeSPARQL} is that we are looking to pro
 It is natural from the definition of shape languages. It has been shown in the literature that shape constraint can be transformed into a combination of triple patterns, filter expressions, and other SPARQL fragments.
 Thus, if we can establish a mapping between the constraints of $S$ in terms of query fragments, a query targeting $G$ should return $G$ if every triple of the 
 $G$ respects the constraint of the shape.
+\fi
 We define in the following lines the transformation of a shape $S$ into a query $Q_s$ using the transformation $T(S,?x)$ and $t(e_i, ?x) = q_i$ where every 
 symbol with a $?$ prefix is a variable in $\mathcal{V}$.
 
@@ -248,7 +250,7 @@ https://github.com/MaximeJakubowski/ssf_project/blob/master/ssf/sparql_conforman
 \begin{prop}\label{prop:triplePattern}
    In a shape expression $e_i$, $p$ and $rs$ can be transformed into a query consisting of one triple pattern with an associated \texttt{GROUP BY ?x HAVING(COUNT(?o))} statement on the object of triple pattern,
    such that
-   $Q_{e_i} = \beta_{?x, (|?o| \in rs)}(?x, p, ?o)$,
+   $Q_{e_i} = \beta_{?x, (|?o| \in rs^a_b)}(?x, p, ?o)$,
    where $\beta$ is a \texttt{GROUP BY ?x HAVING} clause and $|?o|$ is a \texttt{COUNT} clause. 
 \end{prop}
 
@@ -283,16 +285,21 @@ Intuitively, the query containment problem does not seem suited for online sourc
 However, the complexity is in terms of the size of both queries, which tend to be small.
 Additionally, in practical use cases, polynomial algorithms exist~\cite{Doan2012}.
 In our use case, the container query follows a template that also diminishes the complexity, because the predicates will always be 
-IRI because the query can always be interpreted as a one star pattern with dependencies.
+IRI and the subject and object always variables.
 
 We consider that a query $Q$ is contain into a shape $S$ denoted $Q \sqsubseteq_{qs} S$, if there exist a path of a star pattern with dependencies in $Q$ 
 that is contain in $Q_s = T(S)$.
 By a path we mean that for each union statement $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$ the query is contained in at least one $q_i$ if we 
-consider that $Q = Q_{body} \cup \bigcup Q_u$ and similarly with $Q_s$ and that $q_i$ cannot contain a union statement.
+consider that $Q = Q_{body} \cup \bigcup Q_u$ and similarly with $Q_s$.
+We also consider that $q_i$ cannot contain a union statement.
+In our containment problem we ignore "cardinality" constraint which are translated in 
+fragments of the form \texttt{GROUP BY ?x HAVING(COUNT(?o))}.
+We ignore those segments because we are not looking into finding data sources that can fully answer a segment of a query,
+but data sources can contribute to the query answer, thus, thus partial cardinality.
+
 In this paper we ignore filter expressions and as part of the analysis we also ignore "cardinality" constraint 
 which mean \texttt{GROUP BY} and \texttt{HAVING} clauses.
-We ignore those segments because we are not looking into finding data sources that can fully answer a segment of a query,
-but data sources can contribute to the query answer, thus, the analysis of cardinality could impact the query result completeness.
+
 
 We start the analysis by dividing the queries $Q$ and $Q_s$ into its its main body, and the its union statement in the form of 
 $Q = Q_{\text{body}} \cup Q_{\text{unions}}$ where $Q_{\text{unions}} = \bigcup Q_u$.
