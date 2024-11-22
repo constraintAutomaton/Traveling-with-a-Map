@@ -4,3 +4,31 @@
 \input{analysis/artefact/query_containment_execution_time/fully_bounded/table_query_shape_containment_exec}
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources}
+
+\begin{algorithm}
+    \caption{Determine if a query is contained in a shape ($isContain$)}\label{alg:containment}
+    \begin{algorithmic}
+       \REQUIRE  $Q = Q_{\text{body}} \cup Q_{\text{unions}}$, $Q_s$
+       \ENSURE \TRUE\ or \FALSE\ whether the tree star is contained in the shape
+       
+       \STATE divide $Q_{\text{body}}$ into $Q_{starT}$
+       \STATE $mainBodyContain \gets \FALSE$
+ 
+       \FORALL{$Q_{starT_i} \in Q_{star}$}
+          \FORALL{$q \in Q_{starT_i}$}
+             \STATE $mainBodyContain \gets mainBodyContain \lor isContain_{T}(q, Q_{\text{starT}_i}, Q_s, \{\})$
+          \ENDFOR
+       \ENDFOR
+ 
+       \IF{$mainBodyContain$}
+          \FORALL{$Q_u \in  Q_{\text{unions}}$}
+             \IF{\NOT $isContain(Q_u, Q_s)$}
+                \RETURN \FALSE
+             \ENDIF
+          \ENDFOR
+       \ELSE
+          \RETURN \FALSE
+       \ENDIF
+       \RETURN \TRUE
+    \end{algorithmic}
+ \end{algorithm}

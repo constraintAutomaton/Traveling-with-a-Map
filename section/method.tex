@@ -282,145 +282,76 @@ https://github.com/MaximeJakubowski/ssf_project/blob/master/ssf/sparql_conforman
    where given $n_{eo}$ negative $e_i$.
 \end{prop}
 
-\subsection{Query shape containment}\label{sec:containment}
+\subsection{Query Shape Containment}\label{sec:containment}
 
-We propose to perform a form of query-shape containment as a source selection mechanism.
-Intuitively, the query containment problem does not seem suited for online source selection because its complexity is NP-complete~\cite{Spasi2023}.
-However, the complexity is in terms of the size of both queries, which tend to be small.
-Additionally, in practical use cases, polynomial algorithms exist~\cite{Doan2012}.
-In our use case, the container query follows a template that also diminishes the complexity, because the predicates will always be 
-IRI and the subject and object always variables.
+We propose using query containment as a source selection mechanism.
+While query containment is intuitively unsuitable for online source selection due to its NP-complete complexity~\cite{Spasi2023}, the complexity depends on the size of the queries, which are typically small.
+Moreover, practical use cases can employ polynomial algorithms~\cite{Doan2012}.
+In our context, the container query (the shape) follows a template that reduces complexity further, as predicates are always IRIs, and subjects and objects are always variables.
 
-We consider that a query $Q$ is contain into a shape $S$ denoted $Q \sqsubseteq_{qs} S$, if there exist a path of a star pattern with dependencies in $Q$ 
-that is contain in $Q_s = T(S)$.
+We consider that a query $Q$ is contain into a shape $S$ denoted $Q \sqsubseteq_{qs} S$,
+if when divided the $Q$ in tree star pattern there exist a path that is contained in $Q_s = T(S, ?x)$ where $?x$ is the variable of the body of the shape.
 By a path we mean that for each union statement $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$ the query is contained in at least one $q_i$ if we 
 consider that $Q = Q_{body} \cup \bigcup Q_u$ and similarly with $Q_s$.
 We also consider that $q_i$ cannot contain a union statement.
-In our containment problem we ignore "cardinality" constraint which are translated in 
+In our containment problem we ignore "cardinality constraint" which are translated in 
 fragments of the form \texttt{GROUP BY ?x HAVING(COUNT(?o))}.
 We ignore those segments because we are not looking into finding data sources that can fully answer a segment of a query,
-but data sources can contribute to the query answer, thus, thus partial cardinality.
-
-In this paper we ignore filter expressions and as part of the analysis we also ignore "cardinality" constraint 
-which mean \texttt{GROUP BY} and \texttt{HAVING} clauses.
+but ignore data sources that are not query-relevant, considering the constraints of the shape index.
+In this paper, we ignore filter expressions.
+While evaluating filter expressions would increase the algorithm's time complexity, it would also improve the precision of source selection.
+However, ignoring them does not affect the completeness of results in our context.
+Therefore, the tradeoff of including them in the resolution warrants an analysis.
 
 
 We start the analysis by dividing the queries $Q$ and $Q_s$ into its its main body, and the its union statement in the form of 
 $Q = Q_{\text{body}} \cup Q_{\text{unions}}$ where $Q_{\text{unions}} = \bigcup Q_u$.
-We then divide the queries into star pattern with their dependencies in the form of a graph encoded with mapping with consideration for the union statement using the algorithm~\ref{alg:divideQuery}.
+We then divide the the query $Q_{\text{body}}$ and the queries of $Q_u$ into tree star pattern.
+Using Algorithm~\ref{alg:containment}, we perform the following operation.
 
+
+We notice that the complexity of Algorithm~\ref{alg:containment} is $O(n_{tp}^2 \times n_{union}^2)$.
+
+
+% https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)
 \begin{algorithm}
-   \caption{Division of the query into mapping of properties}\label{alg:divideQuery}
+   \caption{Determine if a tree star pattern is contained ($isContain_{T}$)}\label{alg:containmentTree}
    \begin{algorithmic}
-      \REQUIRE A Query $Q = Q_{\text{body}} \cup Q_{\text{unions}}$
-      \ENSURE $star\_pattern\_map$ a map of every star pattern in the body of the query indexed by there subject and $union\_star\_pattern$ a set of map of all star pattern in the union set of the query of the query
+      \REQUIRE  $Q_{star}$, $Q_{starT_i}$, $Q_s = Q_{s\text{body}} \cup Q_{s\text{unions}}$ and $MS$
+      \ENSURE \TRUE $ $ or \FALSE $ $ whether the tree star is contained in the shape
 
-      \STATE $union\_star\_pattern \leftarrow \{\}$
-      \STATE $star\_pattern\_map \leftarrow \{ ?s \mapsto q_{star}| \forall ?s = RS(q_{star}) \land q_{star} \in Q_{\text{body}} \}$ % O(n)
+      \IF{$S_{star}(Q_{star}) \in MS$}
+         \RETURN \TRUE
+      \ENDIF 
 
-      \FORALL{$Q_u \in Q_{\text{unions}}$} % O(m)
-         \STATE $star\_pattern\_map\_path \leftarrow \{\}$ %O(m_n)
-         \FORALL {$q_u \in Q_u$}
-            \STATE $star\_pattern\_map\_local \leftarrow \{ ?s \mapsto q_{starD}| \forall ?s = RS(q_{starD}) \land q_{starD} \in Q_{u1} \}$ % O(m_n_s)
-            \STATE $star\_pattern\_map\_path \leftarrow star\_pattern\_map\_path \cup \{star\_pattern\_map\_local\}$ 
-         \ENDFOR
-        \STATE $union\_star\_pattern \leftarrow union\_star\_pattern \cup \{ star\_pattern\_map\_path \}$
-      \ENDFOR
-   \end{algorithmic}
-\end{algorithm}
-
-After having this this structure for $Q$ and $Q_s$
-
-\begin{algorithm}
-   \caption{Division of the query into mapping of properties ($isContain$)}\label{alg:divideQuery}
-   \begin{algorithmic}
-      \REQUIRE A Query $Q = Q_{\text{body}} \cup Q_{\text{unions}}$
-      \ENSURE \TRUE $ $ or \FALSE $ $ whether the query is contained in the shape
-
-      \FORALL{$tp \in star\_pattern\_map\_q$} % O(n)
-         \IF{$p_{tp} \in star\_pattern\_map\_q$ \OR $p_{tp} \in star\_pattern\_map\_q$ }
-            \STATE $o_q \leftarrow star\_pattern\_map\_q(o_{tp})$
-            \STATE $o_s \leftarrow star\_pattern\_map\_s(o_{tp})$
-            \IF{$\exists o_q$ \AND $\exists o_s$}
-               \STATE $ nested\_contain \leftarrow isContain(o_q, o_s)$
-               \IF{\NOT $nested\_contain$}
-                  \RETURN \FALSE
-               \ENDIF 
+      \FORALL{$tp \in Q_{star}$} % O(n_star)
+         \IF{\NOT $match(tp, Q_{s\text{body}})$}
+            \STATE $hasOnePath \gets $ \FALSE
+            \FORALL{$q_{us} \in Q_{s\text{unions}}$}
+               \IF{$isContain_{T}(Q_{star}, Q_{starT_i}, q_{us})$}
+                  \STATE $hasOnePath \gets $ \TRUE
+               \ENDIF
+            \ENDFOR
+            \IF{\NOT $hasOnePath$}
+               \RETURN \FALSE
             \ENDIF
          \ELSE
-            \RETURN \FALSE
+            %eval nested
+            \IF{$O(tp) \in  S_{star}(Q_{starT_i})$}
+               \STATE $Q_{star}^{\prime} = Q_{star_{O(tp)}} \in Q_{starT_i}$
+               \IF{\NOT $isContain_{T}(Q_{star}^{\prime}, Q_{starT_i}, Q_s)$}
+                  \RETURN \FALSE
+               \ENDIF
+            \ENDIF
+            %
          \ENDIF
       \ENDFOR
+
+      \STATE $MS \gets MS \cup S_{star}(Q_{star})$
       \RETURN \TRUE
    \end{algorithmic}
 \end{algorithm}
 
-\iffalse
-The previous section shows that $Q_s$ follows a query template of a star pattern with dependencies, where the subjects and objects are always variables, and the predicate is always an IRI.
-In this paper, we will ignore the filter expressions and clauses and use this query template to solve the query containment problem.
-We are presenting two variances of the query shape containment problem, one for general source discovery that we denote \emph{loose} containment $\sqsubseteq_l$ and 
-another denote \emph{strict} $\sqsubseteq$ that could be used for determining information similar to exclusive group~\cite{Schwarte2011}. 
-Intuitively, the query containment problem does not seem suited for online source selection because its complexity is NP-complete~\cite{Spasi2023}.
-However, the complexity is in terms of the size of both queries, which tend to be small.
-Additionally, in practical use cases, polynomial algorithms exist~\cite{Doan2012}; 
-thus, it is a valid mechanism for source selection, and our experiment results will further demonstrate this proposition.
 
 
-
-
-
-\begin{definition}[Loose containment]\label{def:looseContainment}
-We define a losse containment between a query $q_i$ and a shape $Q_s$ as determining if one path $q_{pi} \subseteq q_i$ of the query $q_i = \bigcup_{i=0}^{n} q_{pi}$ given $n$ path is contained in 
-$Q_s$ such has $\exists (q_{pi} \sqsubseteq  Q_s) = q_{i} \sqsubseteq_l  Q_s$.
-\end{definition}
-
-The loose containment problem is used to determine if part of a query is contained in shape,
-it is necessary to determine if at least one path is contained inside a shape to avoid losing potential partial results.
-Due to the exclusivity constraint of the shape index, the engine has a guarantee that a path $q_{pi} \sqsubseteq Q_s$ will be located at a specific location in the domain of a shape index.
-A simpler possibility for source selection without avoiding the loss of partial results is to use property matching;
-however, this method is less selective because RDF vocabulary tends to be reused by multiple entities~\cite{Stuckenschmidt2004, Harth2010},
-which can lead to selecting multiple sources that would be query-relevant.
-There are some particularities that property paths introduce in the query containment problem~\cite{Kostylev2015}.
-As presented in the preliminaries, most property paths can be rewritten into SPARQL algebra; with the use of an alternative path "$/$", multiple unions can be added to the query.
-The property that changes the most the query containment problem is the negative path ("$!$")~\cite{Kostylev2015},
-however, in our context, negative paths have little effect because we are looking for one path that is contained inside $Q_s$.
-
-\iffalse
-LET MAKE AN ALGORITHM and analyse the complexity
-\fi
-
-
-\begin{definition}[Strict containment]\label{def:strictContainment}
-We define a strict containment between a query $q_i$ and a shape $Q_s$ when $q_i$ is contain in $Q_s$ such has $q_{i} \sqsubseteq Q_s$.
-\end{definition}
-
-The version of the query containment is algorith have the same definition than a classic query containment problem, however due to the 
-particular query template of $Q_s$, the complexity of the problem is simpler.
-
-This problem could be used in the context of federated query to determine exclusive groups, given that the federation exposes a shape index, 
-also, in the context of LTQP, where some data source would have a SPARQL interface, this concept of containment could be used to send a large segment of the query to the endpoint 
-minimizing communication and joining operation costs of the client engine.
-
-With this version, the negative path also has a lesser impact than the noted typical query containment problem because the container query 
-always have a single IRI as its predicate; hence, a $q_i$ using a negated property path will be contained in $Q_s$.
-
-\iffalse
-The query shape containment problem is similar to the query containment problem as it 
-try to determine if the possible answers of the star pattern with dependencies query are contained in any instance of data respecting an RDF data shape.
-We can divide the query shape contaiment problem into two category the \emph{strict} and \emph{loose} containment.
-The difference between the problems lies into their handling of the union of queries, optional triple patterns and cardinality of property path.
-
-
-We consider an RDF data shapes as start pattern with dependencies such as 
-\begin{equation}
-   Q_{shape} = Q_{body} \bigvee Q_{nested body}
-\end{equation}
-because the subject of a shape is always a single variable 
-
-CITE FOR PROPERTY PATH PARTICULARLY THE NEGATION \cite{Kostylev2015}
-
-
-The shape index by solving the query containment problem can be expressed as a structural assumption.
-... define the algorithm
-\fi
-\fi
+% CITE FOR PROPERTY PATH PARTICULARLY THE NEGATION \cite{Kostylev2015}

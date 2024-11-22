@@ -34,12 +34,14 @@ The core element of a SPARQL query and knowledge graph (KG) are respectively the
     $p \in \mathcal{I}$ and $o \in o_{tp} \setminus \mathcal{V}$
 \end{definition}
 
-We also define access function to get the subject of a triple pattern $tp$ or a triple $t$, 
+We also define two access function to get respectively the subject and object of a triple pattern $tp$ or a triple $t$,
 
 \begin{equation}
-    S: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
-\end{equation}
-
+    \begin{aligned}
+        S: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V} \\
+        O: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
+    \end{aligned}
+ \end{equation}
 \iffalse
 We define the basic graph pattern (BGP) of $Q$~\sepfootnote{sf:sparqlSpecification} in Definition~\ref{def:bgp}.
 The atomic statement of a BGP is a triple pattern $tp$ defined at Definition~\ref{def:triplePattern}.
@@ -91,10 +93,6 @@ Our approach relies on analyzing star patterns and tree star patterns defined in
     \begin{equation}
         O_{star}: q \in Q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
     \end{equation}
-    and a function returning the subject of a star pattern
-    \begin{equation}
-        S_{star}: q \in Q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
-    \end{equation}
 
     We then define $Q_{starT}$ given a  set of partial tree star patterns $Q_{starPT}$
     \begin{equation}
@@ -109,6 +107,12 @@ Our approach relies on analyzing star patterns and tree star patterns defined in
             \{BQ_{star}(o)| o \in \bigcup_{q \in Q_{starPT_{i-1}}} O_{star}(q)\} & \text{if } i>1
         \end{cases}
     \end{equation}
+
+    We also define a function returning the subjects of the $Q_{star_s}$ of a $Q_{starT}$
+    \begin{equation}
+        S_{star}: q \in Q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
+    \end{equation}
+    
     We propose a similar definition for the context of KG where we replace the query $Q$ by a KG $G$ and where the object 
     cannot be a $v \in \mathcal{V}$. 
     We denote this structure a tree star.

@@ -24,7 +24,7 @@ However, those queries were already fast, with the state-of-the-art approach bei
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 
 The empirical evaluation of the query-containment algorithm shows that its execution with the more detailed shapes of our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout), as presented in table~\ref{tab:queryShapeContainmentEval}.
-This result is expected because the algorithm's time complexity is ("TO INSERT"), and the experiments' shapes and queries are small, not deeply nested instances.
+This result is expected because the algorithm's time complexity is polynomial, and the experiments' shapes and queries are small, not deeply nested instances.
 This shows that most of the overhead for this approach is not this algorithm but is probably the state retention for the pruning reachability criteria.
 
 \begin{figure}[htbp]
