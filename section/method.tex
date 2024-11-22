@@ -115,70 +115,65 @@ Hartig2012
 
 
 \subsection{Shape Index}
-We propose to use a descentralized dataset summary method as the support mechanism for our prunning reachability crition, called Shape Index~\cite{tam2024opportunitiesshapebasedoptimizationlink}.
-It consists of mapping the content of a decentralized dataset with RDF data shapes.
-The intuition behind the proposal is that rendering implicit RDF schema explicit is not costly for data providers in the context of the publication of decentralized datasets,
-moreover, the cost of this action on the part of the data publisher has benefits for the discovery of their data and client-side query performance, thus making the proposition of simply publishing the data without server-side support for querying more realistic for practical applications.
-RDF does not enforce schema on its data; however, due to the nature of the object model and the structure of the formalism, there is often
-an implicit schema on RDF databases~\cite{Neumann2011CharacteristicSA} as for the second claim, our experimental data will try to prove the querying performance that source selection using 
-such mechanism can gain.
-Because the web is a highly dynamic environment and data providers might need high flexibility, shape indexes enable open shapes as mapping keys.
-In practice, a shape index could look like this: A data provider exposes personal data containing movie recommendations, bookmark metadata and friend lists.
-The data provider might have a more or less structured movie recommendation sub-dataset; thus, they use an open shape; they might have structured bookmarks and friend list, thus they 
-use close shapes.
 
-The concept of a shape index was already described in the publication \citetitle{tam2024opportunitiesshapebasedoptimizationlink}. 
-However, we made some modifications and formalize it.
+
+We propose using a decentralized dataset summary method, called the shape index~\cite{tam2024opportunitiesshapebasedoptimizationlink}, as the support mechanism for our pruning reachability criterion.
+This method involves mapping the content of a decentralized dataset using RDF data shapes.
+The intuition behind this approach is that rendering explicit RDF schemas is not overly costly for data providers when publishing decentralized datasets.
+Although RDF does not enforce schemas on its data, the nature of the usually modeled objects and formalism often results in implicit schemas~\cite{Neumann2011CharacteristicSA}.
+Additionally, the cost of making these schemas explicit should be evaluated in the context of the data's intended usage.
+First, mapping and documenting decentralized data improves its discoverability which is a common objective when publishing RDF data.
+Second, embedding this information within datasets facilitates client-side query engines processing, potentially reducing reliance on costly SPARQL endpoints~\cite{aranda2013}.
+Since the web is a highly dynamic environment where data providers require flexibility, shape indexes support open shapes as mapping keys.
+For example, a data provider might expose personal data such as movie recommendations, bookmark metadata, and friend lists.
+The provider might use open shapes for movie recommendation data because it is less structured, and might employ closed shapes for bookmark and friend list data.
+
 A shape index 
 \begin{equation}\label{eq:shapeIndex}
-   SI = (M, D)
+   SI = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}
 \end{equation}
-, is a tuple where $M = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}$ is a mapping between RDF shapes and a set of IRI 
-and $D = \bigcup\limits_{i=1}^{n} IRI_i$ is the domain of the index.
+, is a mapping between RDF data shapes and a set of IRI given $n$ entries.
+The domain of a shape index is defined by $D = \bigcup\limits_{i=1}^{n} \bigcup_{iri \in IRI_i} iri$.
 A shape index \emph{must} map every resource in $D$.
-We denote a shape index as \emph{complete} when every shape $s_i \in M$ is closed and \emph{incomplete} otherwise.
-
+We denote a shape index as \emph{complete} when every shape $s_i \in SI$ is closed and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRI has implications in the distribution of the data in $D$.
-when a shape is mapped to a set of $IRI$ then every triple of the knowledge graph $g^{\prime}$ such as $iri \mapsto g^{\prime} \in r \land iri \in IRI$
-are validated by the shape such that $g^{\prime} \models s$.
-Given that the shape mapping a set of IRI $IRI_i$ is close, then every set of triple in the resource associated with $D$ respecting the shape must be in a resource mapped to an IRI in $IRI_i$, 
-such that given $G = \bigcup\limits_{j=1}^{n} g_j$ where $g_j$ is the knowledge graph containing every triple inside of the document with the IRI in the mapping $M$
-then $g \models s \iff g \mapsto iri \in IRI$.
+When a shape $s$ is mapped to an $IRI$ then the KG $G = \{g | iri \mapsto r \land g \in r \land iri \in IRI\}$ satisfy $s$.
+Given that the shape mapping a set of IRI is close, then every set of triple in the resource associated with $D$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
 A web specification of the shape index is also available online.~\sepfootnote{sf:shapeIndexURL}
 
-\subsection{Online source selection in environments with a shape index}
+\subsection{Online Source Selection in Shape Index Documented Datasets}
 
-A decentralized dataset exposing a shape index give the opportunity to a query engine to reduce its search domain by evaluating which resources are query-relevant.
-The shape descriptions and the constraint on the distribution of the data make it so that within a domain $D$ of a shape index $SI$, the query engine can
-determine a priori to the traversal of $D$, which subdomain $d \subseteq D$ will contain data that is query relevant.
+A decentralized dataset exposing a shape index provides a query engine with the opportunity to reduce its search domain by evaluating which resources are query-relevant.
+The shape descriptions and constraints on the distribution of the data allow the query engine, 
+within a domain $D$ of a shape index $SI$ to determine a priori—before traversing $D$ which subdomain $d \subseteq D$ contains data that is query-relevant.
 To formalize our approach, we use the concept of composite reachability criteria described in section~\ref{sec:slde} and of the source selectors of the subweb specification formalization~\cite{Bogaerts2021LinkTW, Taelman2023}.
 
-We pose that a query engine has a composite reachability $C_t$ at any time $t$ able to query an SLDE, such as if the engine were not to change its reachability
-until $t_f$ the end of the query execution such that the equation \ref{eq:evalQueryStructuralAssumption} would still hold when considering that $G$ from equation \ref{eq:subsetDKG} is aquire with the reachability 
-at the beginning of the execution $C_{0}$.
-
-
-We pose that $C_0$ has at least a discovery criteria $cd_{\text{shape index}}$ that follow links leading to shape indexes.
-Let's consider that the predicate \texttt{si:shapeIndexLocation} indicate that the object of the triple is the location of the shape index 
-of the dataset, thus we can define a criterion $cd_{\text{shape index}} = \{o|\forall s \langle \text{si:shapeIndexLocation} \rangle \}$.
-
-A reachability $C_{tsi}$ is created after the dereferencing of a shape index.
+We propose that a query engine has a composite reachability $C_t$ at any time $t$ able to query an SLDE.
+$C_t$ is defined as such that if the engine were not to change its reachability
+until $t_f$ the end of the query execution, the completeness of results,
+as defined in Equation~\ref{eq:evalQueryStructuralAssumption},
+will remain consistent with the results obtained using the reachability at the beginning of execution, $C_{0}$.
+We propose that $C_0$ has at least a discovery criteria $cd_{\text{shape index}}$ that follow links leading to shape indexes.
+Let us consider that the predicate \texttt{si:shapeIndexLocation} indicates that the object of the triple is the location of the shape index 
+of the dataset, thus we can define the criterion $cd_{\text{shape index}} = \{o|\forall s \langle \text{si:shapeIndexLocation} \rangle \}$.
+A reachability $C_{tsi_i}$ is created after the dereferencing of a shape index.
 This reachability must accept the links $IRI_d$ that are query relevant, and prune the links $IRI_p$.
 To determine $IRI_d$ and $IRI_p$ a query-shape containement ($\sqsubseteq_{qs}$) is performed.
 The problem is defined at section \ref{sec:containment}.
-We define
-\begin{gather}
-   IRI_d = \bigcup \{ M_i(s_j) | \exists B \sqsubseteq_{qs}  s_j \in \text{Dom}(M_i) \} \\
-   IRI_p = \bigcup \{ M_i(s_j) | \not\exists B \sqsubseteq_{qs}  s_j \in \text{Dom}(M_i) \}
-\end{gather}
-given a shape index $SI_i$ with a mapping $M_i$.
+We define 
+$IRI_d = \{ \bigcup_{iri \in SI_i(s_j)} iri | \exists B \sqsubseteq_{qs}  s_j \in SI_i \}$ and 
+$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | \not\exists B \sqsubseteq_{qs}  s_j \in SI_i \}$
+
+given a shape index $SI_i$.
 From those sets of links we define two new reachability criteria;
-\begin{gather}
-   cd_{si}(t, i_d, B) = i_d \in IRI_d \\
-   cp_{si}(t, i_d, B) = i_d \not\in IRI_p
-\end{gather}
+\begin{equation}
+   \begin{aligned}
+       cd_{si}(t, i_d, B) &= i_d \in IRI_d \\
+       cp_{si}(t, i_d, B) &= i_d \notin IRI_p
+   \end{aligned}
+\end{equation}
 .
-the new reachability $C_{tsi}$ is created by taking the $Cd$ and $Cp$ of $C_{tsi - 1}$ and adding
+the new reachability $C_{tsi_i}$ is created by taking the $Cd$ and $Cp$ of $C_{tsi - 1}$ and adding
 $cd_{si}$ and $cp_{si}$ to the corresponding set. 
 
 \iffalse
@@ -238,7 +233,6 @@ $G$ respects the constraint of the shape.
 We define in the following lines the transformation of a shape $S$ into a query $Q_s$ using the transformation $T(S,?x)$ and $t(e_i, ?x) = q_i$ where every 
 symbol with a $?$ prefix is a variable in $\mathcal{V}$.
 
-
 \iffalse
 INSPIRE YOURSELF BY Corman2019 style
 
@@ -256,17 +250,18 @@ https://github.com/MaximeJakubowski/ssf_project/blob/master/ssf/sparql_conforman
 \fi
 
 \begin{prop}\label{prop:triplePattern}
-   In a shape expression $e_i$, $p$ and $rs$ can be transformed into a query consisting of one triple pattern with an associated \texttt{GROUP BY ?x HAVING(COUNT(?o))} statement on the object of triple pattern,
+   A shape expression $e_i = st$ given $rs^a_b = st_3$ and $p$ is the predicate from $pc_p = st_1$
+   can be transformed into a query consisting of one triple pattern with an associated \texttt{GROUP BY ?x HAVING(COUNT(?o))} statement on the object of triple pattern,
    such that
    $Q_{e_i} = \beta_{?x, (|?o| \in rs^a_b)}(?x, p, ?o)$,
    where $\beta$ is a \texttt{GROUP BY ?x HAVING} clause and $|?o|$ is a \texttt{COUNT} clause. 
 \end{prop}
 
 \begin{prop}
-   In a shape expression $e_i$ , $c$ can be transformed into a filter expression targeting $?o$ if the constraint is a comparison or enforce a type on an object such that
-   $q_{i} = \sigma_{c(?o)}(?x, p, ?o)$. 
-   If $c$ enforces a shape on $?o$, then $q_i$ must be formed by the join of a query derived by $e_i$ with $c = \mathrm{true}$ and a query derived from the shape targeted in $c$ where $?o$ is the subject 
-   such that $q_{i}= (?x, p, ?o) \bowtie T(S_c,?o)$ given $S_c$ is the shape related to $c$.
+   In a shape expression $e_i$ , $oc_f = st_2$ can be transformed into a filter expression targeting $?o$ if the constraint validates an RDF type or a literal comparison.
+   This transformation takes the form $q_{i} = \sigma_{oc_f((?x, p, ?o))}(?x, p, ?o)$ where $\sigma$ represent the filter expression applid on $?o$.
+   If $oc_f$ validates a shape on $?o$, then $q_i$ must be formed by joining a query derived from $e_i$ with $oc_f = \mathrm{true}$ and a query derived from the shape targeted by $oc_f$ 
+   where $?o$ is the subject such that $q_{i}= (?x, p, ?o) \bowtie T(S_{oc_f},?o)$ given $S_{oc_f}$ is the shape related to $oc_f$.
 \end{prop}
 
 \begin{prop}
@@ -275,15 +270,16 @@ https://github.com/MaximeJakubowski/ssf_project/blob/master/ssf/sparql_conforman
 \end{prop}
 
 \begin{prop}
-   In a shape expression $e$ when $n= \mathrm{true}$ then the query $q_i$ must be negated such that $\neg q_i$.
+   In a shape expression $e_i = st$ when $st_4 = n = \mathrm{true}$ then the query $q_i$ must be negated such that $\neg q_i$ and $\beta$ statement set to $\mathrm{true}$.
 \end{prop}
 
 \begin{prop}
-   A shape closed shape ($op = \mathrm{false}$) $S$ can be transform into $Q = t(e_1, ?x) \bowtie t(e_2, ?x) ... \bowtie t(e_{n_e}, ?x)$ given $n_e$ shape expressions.
+   A shape closed shape ($op = \mathrm{false}$) $S$ can be transform into $Q = t(e_1, ?x) \bowtie t(e_2, ?x) ... \bowtie t(e_{n_{ec}}, ?x)$ given $n_{ec}$ shape expressions.
 \end{prop}
 
 \begin{prop}
-   A open shape $S$ ($op = \mathrm{true}$) is transform into $Q = (?x, ?p, ?o) -  (t(e_1, ?x) \bowtie  t(e_2, ?x) ... \bowtie t(e_{n_e}, ?x)| n\in e_i = \mathrm{true}) $ where $Q_{e_i}$.
+   A open shape $S$ ($op = \mathrm{true}$) is transform into $Q = (?x, ?p, ?o) -  (t(e_1, ?x) \bowtie  t(e_2, ?x) ... \bowtie t(e_{n_{eo}}, ?x)) $
+   where given $n_{eo}$ negative $e_i$.
 \end{prop}
 
 \subsection{Query shape containment}\label{sec:containment}
