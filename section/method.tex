@@ -27,11 +27,7 @@ A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in a
 The query engine has to build a KG $G^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
 $G^{\prime} \subseteq G$ to answer its query.
 We are trying to solve an optimization problem where another query engine build a KG
-
-\begin{equation}\label{eq:subsetDKG}
-   G^{\prime\prime} \subseteq G^{\prime}
-\end{equation}
-
+$G^{\prime\prime} \subseteq G^{\prime}$
 smaller than the one produced with a specific traversal completeness policy
 by defining a reachability criterion $C_{mr}$.
 Because we focus on maintaining the same results completeness then when using $C_{mr}$ the following equation must hold
@@ -133,7 +129,7 @@ A shape index
    SI = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}
 \end{equation}
 , is a mapping between RDF data shapes and a set of IRI given $n$ entries.
-The domain of a shape index is defined by $D = \bigcup\limits_{i=1}^{n} \bigcup_{iri \in IRI_i} iri$.
+The domain of a shape index is defined by $D = \bigcup_{i=1}^{n} \bigcup_{iri \in IRI_i} iri$.
 A shape index \emph{must} map every resource in $D$.
 We denote a shape index as \emph{complete} when every shape $s_i \in SI$ is closed and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRI has implications in the distribution of the data in $D$.
@@ -338,8 +334,7 @@ We notice that the complexity of Algorithm~\ref{alg:containment} is $O(n_{tp}^2 
          \ELSE
             %eval nested
             \IF{$O(tp) \in  S_{star}(Q_{starT_i})$}
-               \STATE $Q_{star}^{\prime} = Q_{star_{O(tp)}} \in Q_{starT_i}$
-               \IF{\NOT $isContain_{T}(Q_{star}^{\prime}, Q_{starT_i}, Q_s)$}
+               \IF{\NOT $isContain_{T}(Q_{star_{O(tp)}} \in Q_{starT_i}, Q_{starT_i}, Q_s)$}
                   \RETURN \FALSE
                \ENDIF
             \ENDIF
