@@ -13,32 +13,40 @@
 From a holistic perspective, the web does not have a structure exploitable by query engines for optimization.
 On the web, any document can be published at any location, and there is no index or trust mechanism to guide source selection.
 From a perspective where the web is divided into small subsections controlled by data providers, data publishers can implicitly or explicitly organize their data  
-in a way that a query engine could exploit its organization for optimization.
-The concept of \emph{structural assumptions}~\cite{Taelman2023} has been theorized to optimize queries by exploiting the local structure of decentralized RDF datasets where the data providers 
-guarantee the completeness of results related to their statement in a specific set of resources in an IRI domain~\cite{Bogaerts2021LinkTW}.
-
+in a way that query engines could exploit its organization for optimization.
+The concept of \emph{structural assumptions}~\cite{Taelman2023} has been theorized to optimize queries by exploiting the local structure of decentralized RDF datasets.
+These assumptions rely on data providers guaranteeing the completeness of results for their statements within a specific set of resources in an IRI domain~\cite{Bogaerts2021LinkTW}.
 Structural assumptions have been shown to reduce the query execution time of multiple queries to the extent that the bottleneck of specific queries is not the number of HTTP requests but the suboptimal query plan~\cite{Taelman2023, eschauzier_quweda_linkqueue_2023}.
-We propose to reduce the number of HTTP requests by using more restricting reachability criteria~\cite{Hartig2012} while ensuring the same completeness of results.
-We formalize our general approach as follow.
-A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in the network $R$.
+Structural assumptions define completeness of traversal of SLDE in the same paradigm as reachability criteria~\cite{Hartig2012}.
+We propose to put our focus on the completeness of results when considering that the completeness of traversal has been fixed.
+Placing our focus on results allows us to investigate ways to optimize the search space of link traversal queries.
+Our approach consists of defining more restricting reachability criteria~\cite{Hartig2012} while ensuring the same completeness of results as with less restricting criteria.
+
+We formalize our approach as follow.
+A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in a network $R$.
 The query engine has to build a KG $G^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
+$G^{\prime} \subseteq G$ to answer its query.
+We are trying to solve an optimization problem where another query engine build a KG
 
 \begin{equation}\label{eq:subsetDKG}
-G^{\prime} \subseteq G
+   G^{\prime\prime} \subseteq G^{\prime}
 \end{equation}
 
-and 
+smaller than the one produced with a specific traversal completeness policy
+by defining a reachability criterion $C_{mr}$.
+Because we focus on maintaining the same results completeness then when using $C_{mr}$ the following equation must hold
 
 \begin{equation}\label{eq:evalQueryStructuralAssumption}
-   [\![ Q ]\!]^{G^{\prime}} = [\![ Q ]\!]^{G}
+   [\![ Q ]\!]^{G^{\prime\prime}} = [\![ Q ]\!]^{G^{\prime}}
 \end{equation}
-.
-Because the $g \in G^{\prime}$ can only be acquired from the dereferencing of resources $r \in R$, a smaller $G^\prime$ implies that a lesser number of HTTP requests has been performed to answer a query
-returning the same results.
-HTTP requests can be slow and unpredictable~\cite{hartig2016walking}; thus, executing fewer requests to answer a query can lead to a reduction of query execution time.
-Additionally, a smaller internal data store leads to fewer triples to process during the joining operations, which can further contribute to the reduction of query execution time.
+for any $G^{\prime}$.
 
-To define a less selective reachability to produce $G^{\prime}$, we propose extending the reachability criteria by formalizing chain of criterion in a concept called \emph{composite reachability criteria}.
+Because the $g \in G^{\prime}$ can only be acquired from the dereferencing of resources $r \in R$, a smaller $G^\prime$ implies that a lesser number of HTTP requests has been performed to answer a query.
+Naturally, query execution is faster with a smaller KG instance.
+Additionally, HTTP requests can be slow and unpredictable~\cite{hartig2016walking}, making them a significant factor in overall query execution time. 
+Thus, the benefit of reducing the number of HTTP is twofold.
+
+To define a less selective reachability to produce $G^{\prime\prime}$, we propose extending the reachability criteria by formalizing chain of criterion in a concept called \emph{composite reachability criteria}.
 In this form, a reachability criterion $cp_i$ is said to \emph{prune} links and $cd_i$ is said to \emph{discover} links.
 A reachability $cp_i \in C$ should act upon all the links that have yet to be dereferenced as well as on the incoming links.
 Equation~\ref{eq:cReachabilityCriteria} formalize a composite reachability criterion $C$ with $nd$ discovery criteria and $np$ prunning criteria.

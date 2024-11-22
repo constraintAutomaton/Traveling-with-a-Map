@@ -75,23 +75,23 @@ However, with this current experiment and data, it is impossible to give a concl
 \begin{figure}[htbp]
     \centering
     % First figure
-    \begin{minipage}{0.32\textwidth}
+    \begin{minipage}[t]{0.33\textwidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/variation_percentage_shape_index/reduction_query_execution_time}
         \caption*{a) Percentage of shape index in the network}
         \label{fig:varPercentShapeIndex}
-    \end{minipage}
-    \hfill
+    \end{minipage}%
+    %\hspace{-0.5em}%
     % Second figure
-    \begin{minipage}{0.32\textwidth}
+    \begin{minipage}[t]{0.33\textwidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/variation_percentage_entry_shape_index/reduction_query_execution_time}
         \caption*{b) Percentage of entries having open shapes}
         \label{fig:varPercentEntries}
-    \end{minipage}
-    \hfill
+    \end{minipage}%
+    %\hspace{-0.5em}%
     % Third figure
-    \begin{minipage}{0.32\textwidth}
+    \begin{minipage}[t]{0.33\textwidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/variation_detail_shape/reduction_query_execution_time}
         \caption*{c) Level of detail of the shapes}
@@ -99,13 +99,11 @@ However, with this current experiment and data, it is impossible to give a concl
     \end{minipage}
 
     % General caption
-    \caption{Setups with less shape index information tend to perform worse where the shape index perform
-    better against the other approaches in similar relative proportions.
-    %We also observe that having a higher percentage of open shapes have generally a less negative impact than 
-    %on performance compared to having a lower percentage of datasets without shape indexes.
-    }
+    \caption{Setups with less shape index information tend to perform worse where the shape index performs
+    better against the other approaches in similar relative proportions.}
     \label{fig:adaptShapeIndex}
 \end{figure}
+
 
 The last part of the results analysis is the shape index's approach adaptivity.
 For this analysis, we analyze what happens when we reduce the shape index information in the network and compare the results,

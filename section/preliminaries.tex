@@ -22,28 +22,23 @@
 
 \subsection{RDF knowledge graph and SPARQL queries}
 Our work focuses on conjunctive and disjunctive queries $Q$ of RDF knowledge graph.
-The core element of a SPARQL query is the triple pattern which is define at Definition~\ref{def:triplePattern}.
+The core element of a SPARQL query and knowledge graph (KG) are respectively the triple pattern and the triple which define at Definition~\ref{def:triplePattern}.
 
-\begin{definition}[Triple pattern]\label{def:triplePattern}
-    A triple pattern $tp = (s, p , o)$ is formed by a subject term $s \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
-    a property path  $p$ as defined by  \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2).~\sepfootnote{sf:propertyPathAlgebra} 
-    and an object term  $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V} \cup \mathcal{B}$.
+\begin{definition}[Triple pattern and Triple]\label{def:triplePattern}
+    A triple pattern $tp = (s_{tp}, p_{tp} , o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
+    a property path  $p_{tp}$ as defined by  \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2).~\sepfootnote{sf:propertyPathAlgebra} 
+    and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V} \cup \mathcal{B}$.
+    Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$, $\mathcal{V}$ are respectiverly the set of every possible IRI, blank node, literal and variable.
+    An RDF triple $t = (s,p,o)$ is similar to a triple pattern, 
+    where $s \in s_{tp} \setminus \mathcal{V}$,
+    $p \in \mathcal{I}$ and $o \in o_{tp} \setminus \mathcal{V}$
 \end{definition}
 
-We also define access function to get the subject of a triple pattern $tp$, 
+We also define access function to get the subject of a triple pattern $tp$ or a triple $t$, 
 
 \begin{equation}
     S: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
 \end{equation}
-
-.
-SPARQL queries are performed over knowledge graphs (KG), composed of triples $t$ defined in Definition~\ref{def:triple} where the subjects and objects are graph nodes and the predicates are the edges.
-
-\begin{definition}[RDF Triple]\label{def:triple}
-    An RDF triple $t = (s,p,o)$ is formed by a subject term $s \in \mathcal{I} \cup \mathcal{B}$, a predicate term  $p \in \mathcal{I}$ and an object term $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$
-    where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$ are respectiverly the set of every possible IRI, blank node and literal.
-    We denote the set of all triples $\mathcal{T}$
-\end{definition}
 
 \iffalse
 We define the basic graph pattern (BGP) of $Q$~\sepfootnote{sf:sparqlSpecification} in Definition~\ref{def:bgp}.
@@ -81,7 +76,7 @@ Notably, the alternative operator can be interpreted as a union, and the sequenc
 \end{definition}
 \fi
 
-We also define star patterns and tree star patterns at Definition ~\ref{def:starPattern}.
+Our approach relies on analyzing star patterns and tree star patterns defined in Definition~\ref{def:starPattern}.
 
 \begin{definition}[Tree Star Pattern]\label{def:starPattern}
     We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
@@ -114,9 +109,9 @@ We also define star patterns and tree star patterns at Definition ~\ref{def:star
             \{BQ_{star}(o)| o \in \bigcup_{q \in Q_{starPT_{i-1}}} O_{star}(q)\} & \text{if } i>1
         \end{cases}
     \end{equation}
-    . 
     We propose a similar definition for the context of KG where we replace the query $Q$ by a KG $G$ and where the object 
-    cannot be $v \in \mathcal{V}$ we denote it a tree star.
+    cannot be a $v \in \mathcal{V}$. 
+    We denote this structure a tree star.
 
 \end{definition}
 
@@ -155,7 +150,7 @@ In a closed shape, every triple in $G_{starT_i}$ must contribute to the validati
 In contrast, for an open shape, $G_{starT_i}$ may contain additional triples that are not involved in the validation of $Ve$.
 We define a tuple of constraint
 \begin{equation}
-    st = (pc_p, oc_f, rs^a_b, n)
+    st = (pc_p, oc_f, rs^a_b, n \in \{\mathrm{true}, \mathrm{false}\})
 \end{equation}
 $pc_p$ and $oc_f$ are respectively constraint,
 $sc(G_{starT_i})  \rightarrow \{\mathrm{true}, \mathrm{false}\}$,
@@ -166,7 +161,7 @@ Either it validate that the object term targeted by $oc_f$ is of an RDF type or 
 Or it validate that a shape defined by $f$ is satisfied given that we consider as a tree shape 
 $G_{starT_i}^{\prime}$ where $BQ_{star}(o) \in G_{starT_i}^{\prime}$ and $o$ is the object term of targeted by $oc_f$.
 $rs^a_b = \{x \in \mathbb{N}_+ | a < x < b \}$ is a range interpreted by $Ve$ as the number of triples in a tree star that must respect both $pc_p$ and $oc_f$.
-$n \in \{\mathrm{true}, \mathrm{false}\}$ is an indication to $Ve$ when $\mathrm{true}$ that no triple in a $G_{starT_i}$ must respect both $pc_p$ and $oc_f$. 
+$n$ is an indication to $Ve$ when $\mathrm{true}$ that no triple in a $G_{starT_i}$ must respect both $pc_p$ and $oc_f$. 
 
 A shape expression is defined by
 \begin{equation}
