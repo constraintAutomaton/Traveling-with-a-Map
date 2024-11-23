@@ -286,23 +286,28 @@ Moreover, practical use cases can employ polynomial algorithms~\cite{Doan2012}.
 In our context, the container query (the shape) follows a template that reduces complexity further, as predicates are always IRIs, and subjects and objects are always variables.
 
 We consider that a query $Q$ is contain into a shape $S$ denoted $Q \sqsubseteq_{qs} S$,
-if when divided the $Q$ in tree star pattern there exist a path that is contained in $Q_s = T(S, ?x)$ where $?x$ is the variable of the body of the shape.
-By a path we mean that for each union statement $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$ the query is contained in at least one $q_i$ if we 
-consider that $Q = Q_{body} \cup \bigcup Q_u$ and similarly with $Q_s$.
+if when $Q$ is analyse in term of its tree star patterns there exist a path that is contained in $Q_s = T(S, ?x)$ where $?x$ is the variable of the body of the shape.
+By a path we mean that for each union statement $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$ the query is contained in at least one $q_i$ 
+and the body of the query if we consider that $Q = Q_{body} \cup Q_{\text{unions}}$, where $Q_{\text{unions}} = \bigcup Q_u$, $Q_{body}$ is the Basic Graph Pattern of the query and the $Q_u$ Union Graph Patterns.
 We also consider that $q_i$ cannot contain a union statement.
 In our containment problem we ignore "cardinality constraint" which are translated in 
 fragments of the form \texttt{GROUP BY ?x HAVING(COUNT(?o))}.
-We ignore those segments because we are not looking into finding data sources that can fully answer a segment of a query,
-but ignore data sources that are not query-relevant, considering the constraints of the shape index.
-In this paper, we ignore filter expressions.
+We ignore these segments because our focus is not on identifying data sources that can fully answer a specific segment of a query.
+Instead, we are disregarding data sources that are irrelevant to the query, given the constraints imposed by the shape index.
+Additionally, in this paper, we do not consider filter expressions.
+
+\iffalse
 While evaluating filter expressions would increase the algorithm's time complexity, it would also improve the precision of source selection.
 However, ignoring them does not affect the completeness of results in our context.
 Therefore, the tradeoff of including them in the resolution warrants an analysis.
-
+\fi
 
 We start the analysis by dividing the queries $Q$ and $Q_s$ into its its main body, and the its union statement in the form of 
-$Q = Q_{\text{body}} \cup Q_{\text{unions}}$ where $Q_{\text{unions}} = \bigcup Q_u$.
-We then divide the the query $Q_{\text{body}}$ and the queries of $Q_u$ into tree star pattern.
+$Q = Q_{\text{body}} \cup Q_{\text{unions}}$.
+We then divide the the query $Q_{\text{body}}$ and the queries of $Q_u$ into tree star pattern in a way that no $Q_{starPT_i}$ are shared by any $G_{starT_i}$.
+Then we are evaluating if  
+
+We define the function $isContain_{T}$ in 
 Using Algorithm~\ref{alg:containment}, we perform the following operation.
 
 
