@@ -341,14 +341,13 @@ Therefore, the tradeoff of including them in the resolution warrants an analysis
 \end{algorithm}
 
 
-We define the function $isContain_{T}$ defined in Algorithm~\ref{alg:containment} to evaluate if a $Q_{star_i}$ is contained in $Q_s$.
+We define the function $isContain_{T}$ defined in Algorithm~\ref{alg:containmentTree} to evaluate if a $Q_{star_i}$ is contained in $Q_s$.
 The algorithm is recursive and on its first call $Q_star$ must be the root of the $Q_{star_i}$ and $MS$ must be an empty set, 
 this set is used not to duplicate containment calculations.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp}^2 \times n_{union}^2)$
 where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$ and $n_{union}$ the number of UGP in $Q_s$.
 To solve $Q \sqsubseteq_{qs} S$ we need to consider the $n_{starT}$ tree star from the BGP with their $n_{starTu}$ segment in the UGP
-and evaluate them using Algorithm~\ref{alg:containmentTree}.
 This operation results in a polynomial time complexity of $O(n_{tp}^2 \times n_{union}^2 \times n_{starT} \times n_{starTu})$.
-
+In the \nameref{sec:appendix} Algorithm~\ref{alg:containment} present the full resolution.
 
 % CITE FOR PROPERTY PATH PARTICULARLY THE NEGATION \cite{Kostylev2015}
