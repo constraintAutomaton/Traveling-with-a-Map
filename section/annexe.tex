@@ -1,34 +1,55 @@
 \section*{Appendix}
 
+\subsection*{Algorithm}
+
+\begin{algorithm}
+    \caption{Determine if a query is contained in a shape ($isContain$)}\label{alg:containment}
+    \begin{algorithmic}
+      \REQUIRE  $Q = Q_{\text{body}} \cup Q_{\text{unions}}$, $Q_s$
+      \ENSURE \TRUE\ or \FALSE\ whether the tree star is contained in the shape
+         \STATE $Q_{starT} \gets divideQStarT(Q_{\text{body}})$
+         \STATE $Q_{starTU} \gets \{\}$
+         \FORALL{$Q_u \in Q_{\text{unions}}$}
+            \STATE $Q_{starTUP} \gets \{\}$
+            \FORALL{$q_i \in Q_U$}
+               \STATE $Q_{starTUP} \gets Q_{starTUP} \cup divideQStarT(q_i) $
+            \ENDFOR
+            \STATE $Q_{starTU} \gets Q_{starTU} \cup Q_{starTUP}$
+         \ENDFOR
+
+         \FORALL{$Q_{starT_i} \in \{q|Q_{starT}(s), \forall s \in \text{DOM}(Q_{starT})\}$}
+            \STATE $s_{qStar} \gets S_{star}(Q_{star_i})$
+            \STATE $bodyContained \gets isContain_{T}(Q_{star_i} \in Q_{starT_i}, Q_{starT_i}, Q_s, \{\})$
+            
+            \STATE $allBranchContained \gets $ \TRUE
+            \FORALL{$q_{branch} \in Q_{starTU}$}
+               \FORALL{$q_i \in q_{branch}$}
+                  \STATE $branchContained \gets $ \FALSE
+                  \IF{$\exists q_i(s_{qStar})$}
+                     \STATE $branchContained \gets branchContained \lor isContain_{T}(Q_{star_i} \in q_i(s_{qStar}), q_i(s_{qStar}), Q_s, \{\})$
+                  \ENDIF
+                  \STATE $allBranchContained \gets allBranchContained \land branchContained$
+               \ENDFOR
+            \ENDFOR
+            \IF{$bodyContained$ \AND $allBranchContained$}
+               \RETURN \TRUE
+            \ENDIF
+         \ENDFOR
+      \RETURN \FALSE
+    \end{algorithmic}
+ \end{algorithm}
+
+$divideQStarT$ is a function that divides a query into a set of mapping.
+The subject of the $Q_star \in Q_starT_i$ are the keys and the associated tree star pattern are the values.
+
+\FloatBarrier
+
+\subsection*{Tables}
+
+\input{analysis/artefact/statistical_significance/comparaisonStateOfTheArt}
 
 \input{analysis/artefact/query_containment_execution_time/fully_bounded/table_query_shape_containment_exec}
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources}
 
-\begin{algorithm}
-    \caption{Determine if a query is contained in a shape ($isContain$)}\label{alg:containment}
-    \begin{algorithmic}
-       \REQUIRE  $Q = Q_{\text{body}} \cup Q_{\text{unions}}$, $Q_s$
-       \ENSURE \TRUE\ or \FALSE\ whether the tree star is contained in the shape
-       
-       \STATE divide $Q_{\text{body}}$ into $Q_{starT}$
-       \STATE $mainBodyContain \gets \FALSE$
- 
-       \FORALL{$Q_{starT_i} \in Q_{star}$}
-          \FORALL{$q \in Q_{starT_i}$}
-             \STATE $mainBodyContain \gets mainBodyContain \lor isContain_{T}(q, Q_{\text{starT}_i}, Q_s, \{\})$
-          \ENDFOR
-       \ENDFOR
- 
-       \IF{$mainBodyContain$}
-          \FORALL{$Q_u \in  Q_{\text{unions}}$}
-             \IF{\NOT $isContain(Q_u, Q_s)$}
-                \RETURN \FALSE
-             \ENDIF
-          \ENDFOR
-       \ELSE
-          \RETURN \FALSE
-       \ENDIF
-       \RETURN \TRUE
-    \end{algorithmic}
- \end{algorithm}
+\FloatBarrier
