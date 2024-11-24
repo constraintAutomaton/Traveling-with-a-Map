@@ -23,7 +23,8 @@ This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows
 However, those queries were already fast, with the state-of-the-art approach being executed in approximately 0.30\% of the timeout.
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 
-The empirical evaluation of the query-containment algorithm shows that its execution with the more detailed shapes of our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout), as presented in table~\ref{tab:queryShapeContainmentEval}.
+The empirical evaluation of the query-containment algorithm shows that its execution with the more detailed shapes of our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
+The table of results is available in the complementary material.
 This result is expected because the algorithm's time complexity is polynomial, and the experiments' shapes and queries are small, not deeply nested instances.
 This shows that most of the overhead for this approach is not this algorithm but is probably the state retention for the pruning reachability criteria.
 
@@ -75,7 +76,7 @@ However, with this current experiment and data, it is impossible to give a concl
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{analysis/artefact/variation_shape_index_all/plot}
+    \includegraphics[width=1\linewidth]{analysis/artefact/variation_shape_index_all/plot}
     \caption{Setups with less shape index information tend to perform worse where the shape index performs
     better against the other approaches in similar relative proportions.
     }

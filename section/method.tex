@@ -285,11 +285,11 @@ While query containment is intuitively unsuitable for online source selection du
 Moreover, practical use cases can employ polynomial algorithms~\cite{Doan2012}.
 In our context, the container query (the shape) follows a template that reduces complexity further, as predicates are always IRIs, and subjects and objects are always variables.
 
-We consider that a query $Q$ is contain into a shape $S$ denoted $Q \sqsubseteq_{qs} S$,
-if when $Q$ is analyse in term of its tree star patterns there exist a path that is contained in $Q_s = T(S, ?x)$ where $?x$ is the variable of the body of the shape.
-By a path we mean that for each union statement $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$ the query is contained in at least one $q_i$ 
-and the body of the query if we consider that $Q = Q_{body} \cup Q_{\text{unions}}$, where $Q_{\text{unions}} = \bigcup Q_u$, $Q_{body}$ is the Basic Graph Pattern of the query and the $Q_u$ Union Graph Patterns.
-We also consider that $q_i$ cannot contain a union statement.
+We consider that a query $Q$ is contained into a shape $S$ denoted $Q \sqsubseteq_{qs} S$, if a tree star pattern in $Q$ is contained in $Q_s = T(S, ?x)$ where $?x$ is the variable of the subject of the body of the shape.
+For a tree star pattern to be contained, we need to consider the two parts of $Q = Q_{body} \cup Q_{\text{unions}}$.
+$Q_{body}$ is Basic Graph Pattern (BGP) of the query and $Q_{\text{unions}} = \bigcup Q_u$ are the Union Graph Patterns (UGP) where $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$.
+A tree star pattern $Q_{star_i}$ is contained in $Q_s$ its segment in $Q_{body}$ is contained in $Q_s$ and at least one segment of the tree star in $q_i$ in each $Q_u$ is contained in $Q_s$.
+If $Q_{star_i}$ is not a part of an $Q_u$, then the $Q_u$ is ignored.
 In our containment problem we ignore "cardinality constraint" which are translated in 
 fragments of the form \texttt{GROUP BY ?x HAVING(COUNT(?o))}.
 We ignore these segments because our focus is not on identifying data sources that can fully answer a specific segment of a query.
@@ -302,20 +302,8 @@ However, ignoring them does not affect the completeness of results in our contex
 Therefore, the tradeoff of including them in the resolution warrants an analysis.
 \fi
 
-We start the analysis by dividing the queries $Q$ and $Q_s$ into its its main body, and the its union statement in the form of 
-$Q = Q_{\text{body}} \cup Q_{\text{unions}}$.
-We then divide the the query $Q_{\text{body}}$ and the queries of $Q_u$ into tree star pattern in a way that no $Q_{starPT_i}$ are shared by any $G_{starT_i}$.
-Then we are evaluating if  
-
-We define the function $isContain_{T}$ in 
-Using Algorithm~\ref{alg:containment}, we perform the following operation.
-
-
-We notice that the complexity of Algorithm~\ref{alg:containment} is $O(n_{tp}^2 \times n_{union}^2)$.
-
-
 % https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)
-\begin{algorithm}
+\begin{algorithm}[h]
    \caption{Determine if a tree star pattern is contained ($isContain_{T}$)}\label{alg:containmentTree}
    \begin{algorithmic}
       \REQUIRE  $Q_{star}$, $Q_{starT_i}$, $Q_s = Q_{s\text{body}} \cup Q_{s\text{unions}}$ and $MS$
@@ -352,6 +340,15 @@ We notice that the complexity of Algorithm~\ref{alg:containment} is $O(n_{tp}^2 
    \end{algorithmic}
 \end{algorithm}
 
+
+We define the function $isContain_{T}$ defined in Algorithm~\ref{alg:containment} to evaluate if a $Q_{star_i}$ is contained in $Q_s$.
+The algorithm is recursive and on its first call $Q_star$ must be the root of the $Q_{star_i}$ and $MS$ must be an empty set, 
+this set is used not to duplicate containment calculations.
+We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp}^2 \times n_{union}^2)$
+where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$ and $n_{union}$ the number of UGP in $Q_s$.
+To solve $Q \sqsubseteq_{qs} S$ we need to consider the $n_{starT}$ tree star from the BGP with their $n_{starTu}$ segment in the UGP
+and evaluate them using Algorithm~\ref{alg:containmentTree}.
+This operation results in a polynomial time complexity of $O(n_{tp}^2 \times n_{union}^2 \times n_{starT} \times n_{starTu})$.
 
 
 % CITE FOR PROPERTY PATH PARTICULARLY THE NEGATION \cite{Kostylev2015}
