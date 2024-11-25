@@ -21,8 +21,8 @@
 
 
 \subsection{RDF knowledge graph and SPARQL queries}
-Our work focuses on conjunctive and disjunctive queries $Q$ of RDF knowledge graph.
-The core element of a SPARQL query and knowledge graph (KG) are respectively the triple pattern and the triple which define at Definition~\ref{def:triplePattern}.
+Our work focuses on conjunctive and disjunctive queries of RDF knowledge graph (KG).
+The core element of a SPARQL query and a KG are respectively the triple pattern and the triple which define at Definition~\ref{def:triplePattern}.
 
 \begin{definition}[Triple pattern and Triple]\label{def:triplePattern}
     A triple pattern $tp = (s_{tp}, p_{tp} , o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
@@ -31,10 +31,10 @@ The core element of a SPARQL query and knowledge graph (KG) are respectively the
     Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$, $\mathcal{V}$ are respectiverly the set of every possible IRI, blank node, literal and variable.
     An RDF triple $t = (s,p,o)$ is similar to a triple pattern, 
     where $s \in s_{tp} \setminus \mathcal{V}$,
-    $p \in \mathcal{I}$ and $o \in o_{tp} \setminus \mathcal{V}$
+    $p \in \mathcal{I}$ and $o \in o_{tp} \setminus \mathcal{V}$.
 \end{definition}
 
-We also define two access function to get respectively the subject and object of a triple pattern $tp$ or a triple $t$,
+We also define two access function to get respectively the subject and object of a triple pattern $tp$ or a triple $t$ while ignoring literals,
 
 \begin{equation}
     \begin{aligned}
@@ -78,7 +78,7 @@ Notably, the alternative operator can be interpreted as a union, and the sequenc
 \end{definition}
 \fi
 
-Our approach relies on analyzing star patterns and tree star patterns defined in Definition~\ref{def:starPattern}.
+The approach of this paper relies on analyzing star patterns and tree star patterns defined in Definition~\ref{def:starPattern}.
 
 \begin{definition}[Tree Star Pattern]\label{def:starPattern}
     We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
@@ -104,13 +104,13 @@ Our approach relies on analyzing star patterns and tree star patterns defined in
             Q_{starPT_i} =
         \begin{cases}
             \{Q_{star_s}\} & \text{if } i = 1 \\
-            \{BQ_{star}(o)| o \in \bigcup_{q \in Q_{starPT_{i-1}}} O_{star}(q)\} & \text{if } i>1
+            \{BQ_{star}(o)| o \in \bigcup\limits_{q \in Q_{starPT_{i-1}}} O_{star}(q)\} & \text{if } i>1
         \end{cases}
     \end{equation}
 
-    We also define a function returning the subjects of the $Q_{star_s}$ of a $Q_{starT}$
+    We also define a function returning the subjects of the $Q_{starPT_i}$ of a $Q_{starT}$
     \begin{equation}
-        S_{star}: q \in Q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
+        S_{star}: q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
     \end{equation}
 
     We propose a similar definition for the context of KG where we replace the query $Q$ by a KG $G$ and where the object 
@@ -119,10 +119,10 @@ Our approach relies on analyzing star patterns and tree star patterns defined in
 
 \end{definition}
 
-\subsection{Reachability criteria}
+\subsection{Reachability Criteria}
 
 \emph{Reachability criteria} are boolean functions ($c_i$) restricting the dereferencing of links from the internal data source of the query engine.
-They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and the basic query pattern $B$ from the query~\cite{Hartig2012}.
+They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and the query $B$~\cite{Hartig2012}.
 If $c_i$ returns $true$, the query engine must try to dereference $iri$.
 More formally
 \begin{equation}\label{eq:reachabilityCriteria}
@@ -131,9 +131,9 @@ c_i(t, iri, B) \rightarrow \{\mathrm{true}, \mathrm{false}\}
 .
 A query engine dereferencing operation stops when no new $iri$ has to be dereferenced during an iteration of the new triples in the internal triple store.
 
-\subsection{RDF data shapes}
+\subsection{RDF Data Shapes}
 RDF data shapes, similar to data schemas, are constraints applied to RDF graphs.
-In our context, shapes specify conditions that tree stars predicate and object terms must respect.
+In our context, shapes specify conditions that tree stars must respect.
 This work proposes an abstract formalization of shapes without distinction between different shape languages.
 
 We define a shape
@@ -142,8 +142,8 @@ S = (E, op \in \{\mathrm{true},\mathrm{false}\})
 \end{equation}
 
 $E = \{e_1, e_2 ..., e_{n}\}$ is a set of $n$ shape expressions $e_i$.
-Shape expressions are constraints on the triples of tree star.
-$op$ describes whether a shape is open ($\mathrm{true}$) or closed.
+Shape expressions are constraints on the triples of tree stars.
+$op$ describes whether a shape is open denoted by $\mathrm{true}$ or closed.
 Before defining what an open and a close shape means, we define an evaluation function 
 $Ve(e, op, G_{starT_i}) \rightarrow \{\mathrm{true}, \mathrm{false} \}$
 taking a shape expression $e$, a boolean $op$ to determine if the shape is open or closed, and a tree star $G_{starT_i}$.
@@ -160,9 +160,9 @@ on the predicate and the object of a triple in a $G_{starT_i}$.
 $pc_p$ evaluates if a predicate term in a triple in a $G_{starT_i}$ is equals to an IRI $p$.
 $oc_f$ evaluates if an object term of a triple in a $G_{starT_i}$ validate three possible scenerario defined by $f$.
 Either it validate that the object term targeted by $oc_f$ is of an RDF type or satisfy a literal comparison.
-Or it validate that a shape defined by $f$ is satisfied given that we consider as a tree shape 
+Or it validate that a shape defined by $f$ is satisfied given that we consider as a tree star 
 $G_{starT_i}^{\prime}$ where $BQ_{star}(o) \in G_{starT_i}^{\prime}$ and $o$ is the object term of targeted by $oc_f$.
-$rs^a_b = \{x \in \mathbb{N}_+ | a < x < b \}$ is a range interpreted by $Ve$ as the number of triples in a tree star that must respect both $pc_p$ and $oc_f$.
+$rs^a_b = \{x \in \mathbb{N}_+ | a < x < b \}$ is a range interpreted by $Ve$ as the number of triples in a tree star that both $pc_p$ and $oc_f$ must respect.
 $n$ is an indication to $Ve$ when $\mathrm{true}$ that no triple in a $G_{starT_i}$ must respect both $pc_p$ and $oc_f$. 
 
 A shape expression is defined by
@@ -176,7 +176,7 @@ and each tree star are defined in a way that no $G_{starPT_i}$ are shared by any
 $G$ satisfies $S$ is defined by $G \models S \iff Ve(e,G_{starT_i}, op\in S)$  for every $G_{starT_i} \in G$ and every $e \in E$ given $E \in S$.
 
 \subsection{Decentralized Knowledge Graph}
-A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is mapped to an IRI $iri_i$.
 We define a decentralized knowledge graph (DKG) as a KG $G$ materialized in a network of resources $R$.
+A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is mapped to an IRI $iri_i$.
 The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in t \in g$ are directed edges starting from $r_i$ to $r_j$.
 $G$ is formed by the union of all the $g \in r$, such that $G = \bigcup_{i=0}^{n}g_i$ given $n$ resources.

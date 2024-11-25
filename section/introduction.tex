@@ -6,7 +6,7 @@
     \url{https://digital-strategy.ec.europa.eu/en/policies/strategy-data}
 }
 
-Data sovereignty attempts to define a more just definition of personal data ownership in terms of data usage and storage.
+Data sovereignty seeks to establish a more just definition of personal data ownership in terms of data usage and storage.
 It can be defined as ``the self-determination of individuals and organizations concerning to the use of their data''~\cite{verstraete2022solid},
 which in practice can be interpreted as the power to choose where one's data is stored and who has access to it~\cite{verstraete2022solid}.
 Multiple studies have denoted problems of ownership, democracy, reinforcement of inequality, and antagonism between users and owners of web social applications~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
@@ -16,39 +16,33 @@ Linked data has the potential to create seamless decentralized databases through
 These IRIs allow access to additional databases containing information relevant to the IRI.
 For example, dereferencing a term representing a user like a WebID~\sepfootnote{sf:webID} can provide the name of the user, among other information, without having 
 to store the information locally.
-\iffalse
-Such data publication paradigm gives the opportunity to potentially break down data silos~\cite{verstraete2022solid},
-and empowers users by reducing the need for indexing strategies to find relevant information about a term. 
-Furthermore, it can help address legal and ethical concerns around data centralization, a topic of actuality in multiple world regions.
-\fi
 Despite these potential advantages, most SPARQL query processing is conducted using centralized setups or federations of endpoints, partly due to performance issues with traversal queries.
 
-To take advantage of the potential descriptive power of IRI dereferencing a query paradigm called Link Traversal Query Processing (LTQP)~\cite{Hartig2012} has been developed.
-LTQP consists of recursively dereferencing IRI contained into the internal data source of a query engine during its query execution to expand its base of information.
-A lookup policy can be used to limit the search domain of the query.
-LTQP has multiple difficulties such as the open endlessness of the web, which can be interpreted as a pseudo-infinite domain of exploration,
-and the challenge of creating an efficient query plan due to the lack of information about the data sources. 
-It has been demonstrated by \citeauthor{hartig2016walking} that in the open web the main performance bottleneck and obstacle for query completeness and fast query execution time is not the query plan but the large number of the HTTP request necessary to fulfill a query.
+A query paradigm called Link Traversal Query Processing (LTQP)~\cite{Hartig2012} has been developed to leverage the potential descriptive power of IRI dereferencing.
+LTQP consists of recursively dereference IRI contained in a query engine's internal data source during query execution to expand its base of information.
+To manage the scope of exploration, a lookup policy can be employed to limit the search domain of the query.
+LTQP has multiple difficulties, such as the open endlessness of the web, which can be interpreted as a pseudo-infinite domain of exploration,
+and the challenge of creating an efficient query plan with the lack of information about the data sources. 
+Research by \citeauthor{hartig2016walking} has demonstrated that in the open web, the primary performance bottleneck and obstacle to query completeness and rapid execution is not the query plan itself but the large number of HTTP requests required to fulfill a query.
 
-From another perspective, and not disproving \citeauthor{hartig2016walking}, \citeauthor{Taelman2023} has demonstrated that in a Structured Linked Data Environment (SLDE),
-it is possible to attain query completeness.
-Furthermore, query planning could significantly influence the speed of execution.
-A SLDE is defined has an RDF environment where in addition to the RDF principles, specifications
-guarantee the completeness of results.
+From another perspective, and without contradicting \citeauthor{hartig2016walking}, \citeauthor{Taelman2023} has demonstrated that in Structured Linked Data Environments (SLDE),
+it is possible to attain query completeness for various types of practical queries.
+Moreover, they showed that query planning could significantly influence the execution time.
+An SLDE is defined as an RDF environment where specifications guarantee the completeness of results in addition to the RDF principles.
 This guarantee of completeness has the positive side effect of providing information
 that can be used to create a lookup policy to reduce the number of HTTP requests necessary to attain completeness.
-
-In practice SLDE can be use in the context of personal data and social network among others,
-exemples of environments respecting those constraints are dataset following the Solid protocol~\cite{Taelman2023} and TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
-The work of ~\citeauthor{Taelman2023} indicate that there are multiple optimizations possible in LTQP in the context SLDE as opposed to the
+In practice, SLDE can be used in the context of personal data and social networks, among others,
+examples of environments that adhere to these constraints are datasets following the Solid protocol~\cite{Taelman2023} and the TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
+The work of ~\citeauthor{Taelman2023} indicates that there are multiple optimizations possible in LTQP in the context of SLDE as opposed to the
 more pessimist conclusion of the work of ~\citeauthor{hartig2016walking}.
-In line with this research direction, this paper formalizes the concepts of the \emph{Shape Index} and \emph{query-shape containment}~\cite{tam2024opportunitiesshapebasedoptimizationlink} to enable a query and data aware mechanism for reducing the search domain of link traversal queries.
+In line with this research direction, this paper formalizes the concepts of the \emph{Shape Index} and \emph{query-shape containment}~\cite{tam2024opportunitiesshapebasedoptimizationlink} to enable a query and data-aware mechanism for reducing the search domain of link traversal queries.
 \iffalse
 The shape index concept relies on RDF data shapes; the conceptual idea of RDF data shapes is to describe the properties of an entity.
 We propose to use them in an index to describe decentralized datasets.
 Because shapes and queries share similarities, we propose transforming shapes into queries to perform a query containment problem
 and assist our source selection.
 \fi
+
 To guide our study, we formulated this research question:
 Can a link traversal query engine use shape indexes in networks of decentralized datasets to reduce the number of HTTP requests while maintaining the same completeness of results, and does this reduction of HTTP requests lead to a decrease in query execution time?
 We formulate the following hypotheses:

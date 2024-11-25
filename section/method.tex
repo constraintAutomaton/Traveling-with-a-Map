@@ -22,15 +22,16 @@ We propose to put our focus on the completeness of results when considering that
 Placing our focus on results allows us to investigate ways to optimize the search space of link traversal queries.
 Our approach consists of defining more restricting reachability criteria~\cite{Hartig2012} while ensuring the same completeness of results as with less restricting criteria.
 
-We formalize our approach as follow.
+
+We formalize our approach as follows.
 A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in a network $R$.
 The query engine has to build a KG $G^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
 $G^{\prime} \subseteq G$ to answer its query.
-We are trying to solve an optimization problem where another query engine build a KG
+We are trying to solve an optimization problem where another query engine builds a KG
 $G^{\prime\prime} \subseteq G^{\prime}$
 smaller than the one produced with a specific traversal completeness policy
 by defining a reachability criterion $C_{mr}$.
-Because we focus on maintaining the same results completeness then when using $C_{mr}$ the following equation must hold
+Because we focus on maintaining the same results completeness, then when using $C_{mr}$ the following equation must hold
 
 \begin{equation}\label{eq:evalQueryStructuralAssumption}
    [\![ Q ]\!]^{G^{\prime\prime}} = [\![ Q ]\!]^{G^{\prime}}
@@ -40,15 +41,15 @@ for any $G^{\prime}$.
 Because the $g \in G^{\prime}$ can only be acquired from the dereferencing of resources $r \in R$, a smaller $G^\prime$ implies that a lesser number of HTTP requests has been performed to answer a query.
 Naturally, query execution is faster with a smaller KG instance.
 Additionally, HTTP requests can be slow and unpredictable~\cite{hartig2016walking}, making them a significant factor in overall query execution time. 
-Thus, the benefit of reducing the number of HTTP is twofold.
+Thus, the benefit of reducing the number of HTTP request is twofold.
 
-To define a less selective reachability to produce $G^{\prime\prime}$, we propose extending the reachability criteria by formalizing chain of criterion in a concept called \emph{composite reachability criteria}.
-In this form, a reachability criterion $cp_i$ is said to \emph{prune} links and $cd_i$ is said to \emph{discover} links.
+To define less selective reachabilities to produce $G^{\prime\prime}$, we propose extending the reachability criteria by formalizing a chain of criteria in a concept called \emph{composite reachability criteria}.
+In this form, a reachability criterion $cp_i$ is said to \emph{prune} links, and $cd_i$ is said to \emph{discover} links.
 A reachability $cp_i \in C$ should act upon all the links that have yet to be dereferenced as well as on the incoming links.
-Equation~\ref{eq:cReachabilityCriteria} formalize a composite reachability criterion $C$ with $nd$ discovery criteria and $np$ prunning criteria.
+Equation~\ref{eq:cReachabilityCriteria} formalizes a composite reachability criterion $C$ with $nd$ discovery criteria and $np$ pruning criteria.
 
 \begin{equation}\label{eq:cReachabilityCriteria}
-    C(t, i_d, B)  = \bigvee Cd \land \bigvee Cp
+   C(t, i_d, B) = \bigvee_{cd \in Cd} cd(t, i_d, B) \mathrel{\land} \bigwedge_{cp \in Cp} \, cp(t, i_d, B)
 \end{equation}
 where $Cd$ is the set of every $cd_i(t, i_d, B)$ and $Cp$ the set of every $cp_i(t, i_d, B)$ used by the engine.
 \iffalse
@@ -112,17 +113,16 @@ Hartig2012
 
 \subsection{Shape Index}
 
-
 We propose using a decentralized dataset summary method, called the shape index~\cite{tam2024opportunitiesshapebasedoptimizationlink}, as the support mechanism for our pruning reachability criterion.
 This method involves mapping the content of a decentralized dataset using RDF data shapes.
-The intuition behind this approach is that rendering explicit RDF schemas is not overly costly for data providers when publishing decentralized datasets.
+The intuition behind this approach is that rendering explicit RDF schemas is relatively inexpensive for data providers when publishing decentralized datasets.
 Although RDF does not enforce schemas on its data, the nature of the usually modeled objects and formalism often results in implicit schemas~\cite{Neumann2011CharacteristicSA}.
 Additionally, the cost of making these schemas explicit should be evaluated in the context of the data's intended usage.
-First, mapping and documenting decentralized data improves its discoverability which is a common objective when publishing RDF data.
-Second, embedding this information within datasets facilitates client-side query engines processing, potentially reducing reliance on costly SPARQL endpoints~\cite{aranda2013}.
+First, mapping and documenting decentralized data improves its discoverability, which is a common objective when publishing RDF data.
+Second, embedding this information within datasets facilitates client-side query engine processing, potentially reducing reliance on costly SPARQL endpoints~\cite{aranda2013}.
 Since the web is a highly dynamic environment where data providers require flexibility, shape indexes support open shapes as mapping keys.
 For example, a data provider might expose personal data such as movie recommendations, bookmark metadata, and friend lists.
-The provider might use open shapes for movie recommendation data because it is less structured, and might employ closed shapes for bookmark and friend list data.
+The provider might use open shapes for movie recommendation data because they are less structured and employ closed shapes for bookmark and friend list data.
 
 A shape index 
 \begin{equation}\label{eq:shapeIndex}
@@ -141,24 +141,24 @@ A web specification of the shape index is also available online.~\sepfootnote{sf
 
 A decentralized dataset exposing a shape index provides a query engine with the opportunity to reduce its search domain by evaluating which resources are query-relevant.
 The shape descriptions and constraints on the distribution of the data allow the query engine, 
-within a domain $D$ of a shape index $SI$ to determine a priori—before traversing $D$ which subdomain $d \subseteq D$ contains data that is query-relevant.
+within a domain $D$ of a shape index $SI$ to determine a priori before traversing $D$ which subdomain $d \subseteq D$ contains data that is query-relevant.
 To formalize our approach, we use the concept of composite reachability criteria described in section~\ref{sec:slde} and of the source selectors of the subweb specification formalization~\cite{Bogaerts2021LinkTW, Taelman2023}.
 
-We propose that a query engine has a composite reachability $C_t$ at any time $t$ able to query an SLDE.
+We propose that a query engine with composite reachability $C_t$ at any time $t$ can query an SLDE with completeness of results.
 $C_t$ is defined as such that if the engine were not to change its reachability
-until $t_f$ the end of the query execution, the completeness of results,
+until $t_f$, the end of the query execution, the completeness of results,
 as defined in Equation~\ref{eq:evalQueryStructuralAssumption},
 will remain consistent with the results obtained using the reachability at the beginning of execution, $C_{0}$.
-We propose that $C_0$ has at least a discovery criteria $cd_{\text{shape index}}$ that follow links leading to shape indexes.
+We propose that $C_0$ must have a discovery criteria $cd_{\text{shape index}}$ that follow links leading to shape indexes.
 Let us consider that the predicate \texttt{si:shapeIndexLocation} indicates that the object of the triple is the location of the shape index 
 of the dataset, thus we can define the criterion $cd_{\text{shape index}} = \{o|\forall s \langle \text{si:shapeIndexLocation} \rangle \}$.
-A reachability $C_{tsi_i}$ is created after the dereferencing of a shape index.
-This reachability must accept the links $IRI_d$ that are query relevant, and prune the links $IRI_p$.
+A reachability $C_{tsi_i}$ is created after dereferencing a shape index.
+This reachability must accept the links $IRI_d$ that are query-relevant and prune the links $IRI_p$.
 To determine $IRI_d$ and $IRI_p$ a query-shape containement ($\sqsubseteq_{qs}$) is performed.
-The problem is defined at section \ref{sec:containment}.
+The problem is defined in section \ref{sec:containment}.
 We define 
-$IRI_d = \{ \bigcup_{iri \in SI_i(s_j)} iri | \exists B \sqsubseteq_{qs}  s_j \in SI_i \}$ and 
-$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | \not\exists B \sqsubseteq_{qs}  s_j \in SI_i \}$
+$IRI_d = \{ \bigcup_{iri \in SI_i(s_j)} iri | \exists B \sqsubseteq_{qs}  s_j, s_j \in SI_i \}$ and 
+$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | \nexists B \sqsubseteq_{qs}  s_j, s_j \in SI_i \}$
 
 given a shape index $SI_i$.
 From those sets of links we define two new reachability criteria;
@@ -171,40 +171,6 @@ From those sets of links we define two new reachability criteria;
 .
 the new reachability $C_{tsi_i}$ is created by taking the $Cd$ and $Cp$ of $C_{tsi - 1}$ and adding
 $cd_{si}$ and $cp_{si}$ to the corresponding set. 
-
-\iffalse
-\begin{algorithm}
-   \caption{Dynamic reachability generation algorithm with a shape index}\label{alg:shapeIndex}
-   \begin{algorithmic}
-      \REQUIRE Given a Shape Index $(M, D)$ and a query $Q$
-      \ENSURE $IRI_d$ a set of IRI leading to query relevant sources and $IRI_p$ a set of IRI leading to non query relevant sources
-
-      \STATE Divide the $Q$ into a set of star pattern with dependencies $Q_{sd}$ such that $Q = q_{sd,1}  \bowtie q_{sd,2} ... \bowtie q_{sd,n}$ given $n$  $q_{sd,i}$.
-      \STATE $IRI_d = \{\}$
-      \STATE $ContainedQueries = \{\}$
-      \STATE $IRI_p = \{\}$
-
-      \FORALL{$q_{sd} \in Q_{sd}$}
-         \FORALL{$(s, iri) \in M$}
-            \IF{$q_{sd} \sqsubseteq_l T(s)$}
-               \STATE $IRI_d = IRI_d \cup \{iri\}$
-               \STATE $ContainedQueries = ContainedQueries \cup \{q_{sd}\}$   
-            \ENDIF
-         \ENDFOR
-      \ENDFOR
-      
-      
-
-      \IF{$(IRI_0 \in D) = \emptyset$ \OR $Q_{sd} \setminus containedQueries = \emptyset$}
-         \STATE $IRI_p = D \setminus IRI_d$
-      \ELSE
-         \STATE $IRI_m = \{\text{Codomain of }m_i(s)| \forall m_i \in M \}$
-         \STATE $IRI_p = IRI_m \setminus IRI_d$
-      \ENDIF
-   \end{algorithmic}
-\end{algorithm}
-\fi
-
 
 \subsection{Expressing RDF Data shapes into SPARQL algebra}\label{sec:shape2SPARQL}
 
@@ -266,34 +232,36 @@ https://github.com/MaximeJakubowski/ssf_project/blob/master/ssf/sparql_conforman
 \end{prop}
 
 \begin{prop}
-   In a shape expression $e_i = st$ when $st_4 = n = \mathrm{true}$ then the query $q_i$ must be negated such that $\neg q_i$ and $\beta$ statement set to $\mathrm{true}$.
+   In a shape expression $e_i = st$ when $st_4 = n = \mathrm{true}$ then the query $q_i$ must be negated such that $\neg q_i$ and $\beta$ statements ignored.
 \end{prop}
 
 \begin{prop}
-   A shape closed shape ($op = \mathrm{false}$) $S$ can be transform into $Q = t(e_1, ?x) \bowtie t(e_2, ?x) ... \bowtie t(e_{n_{ec}}, ?x)$ given $n_{ec}$ shape expressions.
+   A closed shape ($op = \mathrm{false}$) $S$ can be transform into $Q = t(e_1, ?x) \bowtie t(e_2, ?x) ... \bowtie t(e_{n_{ec}}, ?x)$ given $n_{ec}$ shape expressions.
 \end{prop}
 
 \begin{prop}
    A open shape $S$ ($op = \mathrm{true}$) is transform into $Q = (?x, ?p, ?o) -  (t(e_1, ?x) \bowtie  t(e_2, ?x) ... \bowtie t(e_{n_{eo}}, ?x)) $
-   where given $n_{eo}$ negative $e_i$.
+   given $n_{eo}$ negative $e_i$ (where $n = \mathrm{true}$).
 \end{prop}
 
 \subsection{Query Shape Containment}\label{sec:containment}
 
 We propose using query containment as a source selection mechanism.
-While query containment is intuitively unsuitable for online source selection due to its NP-complete complexity~\cite{Spasi2023}, the complexity depends on the size of the queries, which are typically small.
-Moreover, practical use cases can employ polynomial algorithms~\cite{Doan2012}.
-In our context, the container query (the shape) follows a template that reduces complexity further, as predicates are always IRIs, and subjects and objects are always variables.
+While query containment is intuitively unsuitable for online source selection due to its NP-complete complexity~\cite{Spasi2023}, this complexity depends on the size of the queries, which are typically small.
+Moreover, practical use cases can leverage polynomial time complexity algorithms~\cite{Doan2012}.
+In our context, the container query (the shape) follows a tree star pattern template structure where predicates are always IRIs, and subjects and objects are always variables.
+This structure can be leverage to create an algorithm with polynomial time complexity algorithms.
 
 We consider that a query $Q$ is contained into a shape $S$ denoted $Q \sqsubseteq_{qs} S$, if a tree star pattern in $Q$ is contained in $Q_s = T(S, ?x)$ where $?x$ is the variable of the subject of the body of the shape.
 For a tree star pattern to be contained, we need to consider the two parts of $Q = Q_{body} \cup Q_{\text{unions}}$.
-$Q_{body}$ is Basic Graph Pattern (BGP) of the query and $Q_{\text{unions}} = \bigcup Q_u$ are the Union Graph Patterns (UGP) where $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$.
-A tree star pattern $Q_{star_i}$ is contained in $Q_s$ its segment in $Q_{body}$ is contained in $Q_s$ and at least one segment of the tree star in $q_i$ in each $Q_u$ is contained in $Q_s$.
-If $Q_{star_i}$ is not a part of an $Q_u$, then the $Q_u$ is ignored.
+$Q_{body}$ is the Basic Graph Pattern (BGP) of the query and $Q_{\text{unions}} = \bigcup Q_u$ are the Union Graph Patterns (UGP) where $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$.
+A tree star pattern $Q_{starT_i}$ is contained in $Q_s$ if its segment in $Q_{body}$ is contained in $Q_s$ and at least one segment of the tree star pattern in $q_i$ in each $Q_u$ is contained in $Q_s$.
+If $Q_{starT_i}$ is not a part of an $Q_u$, then the $Q_u$ is ignored.
 In our containment problem we ignore "cardinality constraint" which are translated in 
 fragments of the form \texttt{GROUP BY ?x HAVING(COUNT(?o))}.
-We ignore these segments because our focus is not on identifying data sources that can fully answer a specific segment of a query.
-Instead, we are disregarding data sources that are irrelevant to the query, given the constraints imposed by the shape index.
+We ignore these segments because we are not attempting to identify sources that can fully answer a particular segment of a query.
+Instead, we attempt to disregarding data sources that are irrelevant to the query, given the constraints imposed by the shape index.
+Thus, discriminating based on cardinalities might impact query results.
 Additionally, in this paper, we do not consider filter expressions.
 
 \iffalse
@@ -317,7 +285,7 @@ Therefore, the tradeoff of including them in the resolution warrants an analysis
          \IF{\NOT $match(tp, Q_{s\text{body}})$}
             \STATE $hasOnePath \gets $ \FALSE
             \FORALL{$q_{us} \in Q_{s\text{unions}}$}
-               \IF{$isContain_{T}(Q_{star}, Q_{starT_i}, q_{us})$}
+               \IF{$isContain_{T}(Q_{star}, Q_{starT_i}, q_{us}, MS)$}
                   \STATE $hasOnePath \gets $ \TRUE
                \ENDIF
             \ENDFOR
@@ -327,7 +295,7 @@ Therefore, the tradeoff of including them in the resolution warrants an analysis
          \ELSE
             %eval nested
             \IF{$O(tp) \in  S_{star}(Q_{starT_i})$}
-               \IF{\NOT $isContain_{T}(Q_{star_{O(tp)}} \in Q_{starT_i}, Q_{starT_i}, Q_s)$}
+               \IF{\NOT $isContain_{T}(Q_{star_{O(tp)}} \in Q_{starT_i}, Q_{starT_i}, Q_s, MS)$}
                   \RETURN \FALSE
                \ENDIF
             \ENDIF
@@ -342,12 +310,11 @@ Therefore, the tradeoff of including them in the resolution warrants an analysis
 
 
 We define the function $isContain_{T}$ defined in Algorithm~\ref{alg:containmentTree} to evaluate if a $Q_{star_i}$ is contained in $Q_s$.
-The algorithm is recursive and on its first call $Q_star$ must be the root of the $Q_{star_i}$ and $MS$ must be an empty set, 
+The $match$ function evaluates if a triple pattern independent of the variable's names is in a query.
+The algorithm is recursive, and on its first call, $Q_{star}$ must be the root of the $Q_{starT_i}$, and $MS$ must be an empty set, 
 this set is used not to duplicate containment calculations.
-We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp}^2 \times n_{union}^2)$
-where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$ and $n_{union}$ the number of UGP in $Q_s$.
-To solve $Q \sqsubseteq_{qs} S$ we need to consider the $n_{starT}$ tree star from the BGP with their $n_{starTu}$ segment in the UGP
-This operation results in a polynomial time complexity of $O(n_{tp}^2 \times n_{union}^2 \times n_{starT} \times n_{starTu})$.
+We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O( n_o \times n_{tp}^2 \times n_{sunion}^2)$
+where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$, $n_{sunion}$ the number of UGP in $Q_s$ and $n_o$ the number of object term in $Q_{starT_i}$.
+To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starT}$ tree star from the BGP with their $n_{starTu}$ segment in the UGP.
+This operation results in a polynomial time complexity of $O(n_o \times n_{tp}^2 \times n_{union}^2 \times n_{starT} \times n_{starTu})$.
 In the \nameref{sec:appendix} Algorithm~\ref{alg:containment} present the full resolution.
-
-% CITE FOR PROPERTY PATH PARTICULARLY THE NEGATION \cite{Kostylev2015}

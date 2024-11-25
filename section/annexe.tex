@@ -1,22 +1,14 @@
 \section*{Appendix}\label{sec:appendix}
 
-\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources}
-
-\input{analysis/artefact/statistical_significance/comparaisonStateOfTheArt}
-
-\iffalse
-\input{analysis/artefact/query_containment_execution_time/fully_bounded/table_query_shape_containment_exec}
-\fi
-
 \begin{algorithm}
    \caption{Determine if a query is contained in a shape ($isContain$)}\label{alg:containment}
    \begin{algorithmic}
      \REQUIRE  $Q = Q_{\text{body}} \cup Q_{\text{unions}}$, $Q_s$
      \ENSURE \TRUE\ or \FALSE\ whether the tree star is contained in the shape
         \STATE $Q_{starT} \gets divideQStarT(Q_{\text{body}})$
-        \STATE $Q_{starTU} \gets \{\}$
+        \STATE $Q_{starTU} \gets \emptyset$
         \FORALL{$Q_u \in Q_{\text{unions}}$}
-           \STATE $Q_{starTUP} \gets \{\}$
+           \STATE $Q_{starTUP} \gets \emptyset$
            \FORALL{$q_i \in Q_U$}
               \STATE $Q_{starTUP} \gets Q_{starTUP} \cup divideQStarT(q_i) $
            \ENDFOR
@@ -25,14 +17,14 @@
 
         \FORALL{$Q_{starT_i} \in \{q|Q_{starT}(s), \forall s \in \text{DOM}(Q_{starT})\}$}
            \STATE $s_{qStar} \gets S_{star}(Q_{star_i})$
-           \STATE $bodyContained \gets isContain_{T}(Q_{star_i} \in Q_{starT_i}, Q_{starT_i}, Q_s, \{\})$
+           \STATE $bodyContained \gets isContain_{T}(Q_{star_i} \in Q_{starT_i}, Q_{starT_i}, Q_s, \emptyset )$
            
            \STATE $allBranchContained \gets $ \TRUE
            \FORALL{$q_{branch} \in Q_{starTU}$}
               \FORALL{$q_i \in q_{branch}$}
                  \STATE $branchContained \gets $ \FALSE
                  \IF{$\exists q_i(s_{qStar})$}
-                    \STATE $branchContained \gets branchContained \lor isContain_{T}(Q_{star_i} \in q_i(s_{qStar}), q_i(s_{qStar}), Q_s, \{\})$
+                    \STATE $branchContained \gets branchContained \lor isContain_{T}(Q_{star_i} \in q_i(s_{qStar}), q_i(s_{qStar}), Q_s, \emptyset )$
                  \ENDIF
                  \STATE $allBranchContained \gets allBranchContained \land branchContained$
               \ENDFOR
@@ -44,6 +36,16 @@
      \RETURN \FALSE
    \end{algorithmic}
 \end{algorithm}
+
+\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources}
+
+\input{analysis/artefact/statistical_significance/comparaisonStateOfTheArt}
+
+\iffalse
+\input{analysis/artefact/query_containment_execution_time/fully_bounded/table_query_shape_containment_exec}
+\fi
+
+
 
 \iffalse
 $divideQStarT$ is a function that divides a query into a set of mapping.

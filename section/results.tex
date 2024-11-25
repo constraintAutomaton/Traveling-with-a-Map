@@ -18,7 +18,7 @@ Queries that perform best are those where the number of HTTP requests decreased 
 Table~\ref{tab:statSignificanceStateOfTheArt} in the \nameref{sec:appendix} presents an analysis of the statistical significance of the query template in relation to the ratio of HTTP requests performed.
 Query templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
 We notice that query template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
-The poor performance is due to the fact that other approaches rely solely on the reachability \texttt{Cmatch} to achieve completeness, without leveraging the structural properties of the dataset. 
+The poor performance is due to the fact that other approaches rely solely on the reachability \texttt{Cmatch}~\cite{hartig2016walking} to achieve completeness, without leveraging the structural properties of the datasets. 
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
 This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the state-of-the-art achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
 However, those queries were already fast, with the state-of-the-art approach being executed in approximately 0.30\% of the timeout.
@@ -61,7 +61,7 @@ The relationship between HTTP request and query execution time can be divided in
 In the first regime (left figure), where the shape index approach reduces the number of HTTP requests, we notice a positive linear correlation with a
 Pearson correlation coefficient (PCC) of 0.84 and a high statistical significance given a p-value of 3.00-93.
 However, evaluating an $R^2$ score with an exponential best fit curve we get a score of 0.72 and 0.71 for a linear curve.
-We can also notice that at the end of the curve the curve seems to exibit more exponential behavior.
+We can notice that toward the end, the curve appears to exhibit more exponential behavior.
 Below a ratio of approximately 0.83 of HTTP requests, the shape index approach did not guarantee a reduction in query execution time.
 With this obsevation, the exponential behavior might be explained by the approach's overhead. 
 It is possible that with a small reduction of HTTP requests, the state retention required for the pruning reachability criteria could offset the gain in the reduction of HTTP requests.
@@ -89,23 +89,24 @@ However, with this current experiment and data, it is impossible to give a concl
 \end{figure}
 
 The final part of the results analysis focuses on the adaptivity of the shape index approach.
-In this analysis, we examine the impact of reducing the shape index information in the network and compare the results with a network where each dataset has a complete shape index.
+In this analysis, we examine the impact of reducing the shape index information in the network and compare the results with a network where each dataset has a complete shape index with detailed shapes.
 Figure~\ref{fig:adaptShapeIndex} presents three plots that illustrate the results of our evaluation of the approach's adaptivity.
 The plot on the right shows the variation in the percentage of shape index across the network. 
 As expected, we observe that queries that performed better in Figure~\ref{fig:compApproach} tend to perform worse with reduced shape index information, while queries that performed poorly improve. 
 Queries that were unaffected by the shape index changes remain unaffected.
 The plot in the middle shows the variation in the percentage of shape index entries using closed shapes.
 The results here are more nuanced.
-While there is a general trend for query evaluations with a lower percentage of closed shapes to behave similarly to the plot on the left, we also observe both a performance gain and a drastic performance loss for query S1 when 80\% of the shape entries are closed.
+While there is a general trend for query evaluations with a lower percentage of closed shapes to behave similarly to the plot on the left, we also observe both performance gains and a drastic performance loss for query S1 when 80\% of the shape entries are closed.
 The performance gain occurs because not every entry needs to be closed to affect query performance.
-Entries mapped to an open shape are always considered relevant if the containment resolution leads to the same conclusion then if the entry is closed the execution will be more expensive. 
+Entries mapped to an open shape are always considered relevant.
+If the containment resolution leads to the same conclusion then if the entry is closed the execution will be more expensive. 
 Additionally, shapes can be nested, and when open shapes are used, we do not need to dereference the nested shapes.
 For query S1, with 80\% of closed shape entries, the performance lost was due to random chance, as the discriminatory entries were provided with open shapes in multiple instances when looking at the raw data.
 The right plot shows the variation in the level of detail of the shapes.
 Most queries tend to perform similarly or better, with the exception of S1.
 Upon analyzing the output of our query containment algorithm, we observe that the additional information provided in our base approach does not affect the algorithm’s results.
 However, the engine needs to dereference more shapes, which improves the query execution time for certain queries.
-Query S1 is the only one where the added information can differentiate multiple parts of the datasets' domain, indicating that, in some situations, adding more information can be beneficial.
+Query S1 is the only one where the added information can discriminate multiple parts of the datasets' domain, indicating the intuitive results that, in some situations, adding more information can be beneficial.
 This sensitivity to the quality of the information in the index also helps explain the results for S1 in the middle plot. 
 In that case, the query engine still had to dereference sources from each dataset, and the information available was likely insufficient to significantly discriminate between sources.
 
