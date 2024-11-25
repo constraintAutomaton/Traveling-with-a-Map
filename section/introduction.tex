@@ -13,7 +13,7 @@ Multiple studies have denoted problems of ownership, democracy, reinforcement of
 Several authors consider decentralizing web data an insufficient solution~\cite{9663788, Curran2016ch1}; however, it can still be an integral component of initiatives focused on data sovereignty. Thus, technical research on that topic is a relevant endeavor.
 
 Linked data has the potential to create seamless decentralized databases through the use of dereferenciable IRIs.
-These IRIs allow access to additional databases containing information relevant to the IRI.
+These IRIs allow access to additional databases containing information relevant to what the IRI models.
 For example, dereferencing a term representing a user like a WebID~\sepfootnote{sf:webID} can provide the name of the user, among other information, without having 
 to store the information locally.
 Despite these potential advantages, most SPARQL query processing is conducted using centralized setups or federations of endpoints, partly due to performance issues with traversal queries.
@@ -23,7 +23,7 @@ LTQP consists of recursively dereference IRI contained in a query engine's inter
 To manage the scope of exploration, a lookup policy can be employed to limit the search domain of the query.
 LTQP has multiple difficulties, such as the open endlessness of the web, which can be interpreted as a pseudo-infinite domain of exploration,
 and the challenge of creating an efficient query plan with the lack of information about the data sources. 
-Research by \citeauthor{hartig2016walking} has demonstrated that in the open web, the primary performance bottleneck and obstacle to query completeness and rapid execution is not the query plan itself but the large number of HTTP requests required to fulfill a query.
+Research by \citeauthor{hartig2016walking} has demonstrated that in the open web, the primary performance bottleneck and obstacle to query completeness and rapid execution is the large number of HTTP requests required to fulfill a query.
 
 From another perspective, and without contradicting \citeauthor{hartig2016walking}, \citeauthor{Taelman2023} has demonstrated that in Structured Linked Data Environments (SLDE),
 it is possible to attain query completeness for various types of practical queries.
