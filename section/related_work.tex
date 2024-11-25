@@ -1,15 +1,20 @@
 \section{Related work}
 
-\sepfootnotecontent{sf:graphDomain}{
-    Where the edges are links towards a data source and the nodes data sources.
-}
+LTQP is a SPARQL querying paradigm that answers queries by exploring the web using the follow-your-nose principle~\cite{hartig2016walking}.
+Query execution begins by dereferencing \emph{seed URLs}~\cite{hartig2016walking} and injecting triples from these sources into an internal triple store.
+It then recursively dereferences links from the store while performing joins to stream results to the user.
+The main challenge is the web's open-ended nature and the lack of information for query planning.
 
-\subsection{Link Traversal Query Processing}
+RDF data shapes are used for validating, describing, and communicating data structures, as well as generating data and driving user interfaces~\cite{Gayo2018a,Gayo2018}.
+Like relational and XML schemas~\cite{Boneva2017}, the main formalisms, SHACL and ShEx, describe RDF data but differ in focus: ShEx emphasizes graph structure, while SHACL targets constraints.
+For common use cases, they are equally expressive and interchangeable~\cite{Gayo2018c}.
 
-LTQP is a SPARQL querying paradigm that aims at answering queries by exploring the web~\cite{hartig2016walking} using the follow-your-nose principle of linked data.
-The query execution starts with the dereferencing of initial URLs called \emph{seed URLs}~\cite{hartig2016walking} and injects the triples from the sources into an internal triple store.
-The execution is continued by recursively dereferencing links from the internal triple store while performing the join operations to deliver streaming results to the user.
+Source selection is a crucial challenge in decentralized querying.
+Approaches like SPARQL \texttt{SERVICE} clauses, service descriptions, basic statistics on triple counts, and histogram methods have been studied~\cite{hose2012towards, Harth2010}.
+Schemas-based indexing~\cite{Stuckenschmidt2004} has also been explored for source selection for SPARQL queries; however, they do not rely on RDF data shapes but ontologies. 
+However, most source selection methods face the limitation of assuming a small number of data sources~\cite{Harth2010}, leaving their suitability for LTQP uncertain.
 
+\iffalse
 LTQP has some difficulties.
 The open endlessness of the web is the primary one.
 During LTQP, it is considered that the search space of the query engine is a pseudo infinite graph~\sepfootnote{sf:graphDomain} domain , where the query engine can discover data sources within a distance of one HTTP request of the already discovered graph.
@@ -50,8 +55,4 @@ caracteristic set
 
 Talk about how shapes can become queries
 {:.todo}
-
-\subsection{Data summarisation}
-
-
-\subsection{Query containment}
+\fi
