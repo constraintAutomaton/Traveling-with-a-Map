@@ -163,8 +163,8 @@ This reachability must accept the links $IRI_d$ that are query-relevant and prun
 To determine $IRI_d$ and $IRI_p$ a query-shape containement ($\sqsubseteq_{qs}$) is performed.
 The problem is defined in section \ref{sec:containment}.
 We define 
-$IRI_d = \{ \bigcup_{iri \in SI_i(s_j)} iri |  B \sqsubseteq_{qs}  s_j = \mathrm{true}, s_j \in SI_i \}$ and 
-$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | B \sqsubseteq_{qs}  s_j = \mathrm{false}, s_j \in SI_i \}$
+$IRI_d = \{ \bigcup_{iri \in SI_i(s_j)} iri |  B \sqsubseteq_{qs}  s_j = \mathrm{true}, s_j \in \text{DOM}(SI_i) \}$ and 
+$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | B \sqsubseteq_{qs}  s_j = \mathrm{false}, s_j \in \text{DOM}(SI_i) \}$
 
 given a shape index $SI_i$.
 From those sets of links we define two new reachability criteria;
