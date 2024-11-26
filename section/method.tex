@@ -138,7 +138,7 @@ The domain of a shape index is defined by $D = \bigcup_{i=1}^{n} \bigcup_{iri \i
 A shape index \emph{must} map every resource in $D$.
 We denote a shape index as \emph{complete} when every shape $s_i \in SI$ is closed and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRI has implications in the distribution of the data in $D$.
-When a shape $s$ is mapped to an $IRI$ then the KG $G = \{g | iri \mapsto r \land g \in r \land iri \in IRI\}$ satisfy $s$.
+When a shape $s$ is mapped to an $IRI$ then the KG $G = \{g | g \in r, iri \mapsto r \land iri \in IRI\}$ satisfy $s$.
 Given that the shape mapping a set of IRI is close, then every set of triple in the resource associated with $D$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
 A web specification of the shape index is also available online.~\sepfootnote{sf:shapeIndexURL}
 
@@ -163,8 +163,8 @@ This reachability must accept the links $IRI_d$ that are query-relevant and prun
 To determine $IRI_d$ and $IRI_p$ a query-shape containement ($\sqsubseteq_{qs}$) is performed.
 The problem is defined in section \ref{sec:containment}.
 We define 
-$IRI_d = \{ \bigcup_{iri \in SI_i(s_j)} iri | \exists B \sqsubseteq_{qs}  s_j, s_j \in SI_i \}$ and 
-$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | \nexists B \sqsubseteq_{qs}  s_j, s_j \in SI_i \}$
+$IRI_d = \{ \bigcup_{iri \in SI_i(s_j)} iri |  B \sqsubseteq_{qs}  s_j = \mathrm{true}, s_j \in SI_i \}$ and 
+$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | B \sqsubseteq_{qs}  s_j = \mathrm{false}, s_j \in SI_i \}$
 
 given a shape index $SI_i$.
 From those sets of links we define two new reachability criteria;
