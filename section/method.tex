@@ -4,6 +4,11 @@
    \url{https://constraintautomaton.github.io/shape-index-specification/}
 }
 
+\sepfootnotecontent{sf:subwebsep}{
+   We assume an implicit conversion between the subweb specification and the formalization of reachability criteria.
+   Space constraints prevent us from detailing the conversion.
+}
+
 \sepfootnotecontent{sf:ssf_project}{
    The paper \citetitle{delva2023} additional material also proposes a script to convert SCHACL shapes into SPARQL queries.
    \url{https://github.com/MaximeJakubowski/ssf_project}
@@ -151,7 +156,8 @@ as defined in Equation~\ref{eq:evalQueryStructuralAssumption},
 will remain consistent with the results obtained using the reachability at the beginning of execution, $C_{0}$.
 We propose that $C_0$ must have a discovery criteria $cd_{\text{shape index}}$ that follow links leading to shape indexes.
 Let us consider that the predicate \texttt{si:shapeIndexLocation} indicates that the object of the triple is the location of the shape index 
-of the dataset, thus we can define the criterion $cd_{\text{shape index}} = \{o|\forall s \langle \text{si:shapeIndexLocation} \rangle \}$.
+of the dataset, thus we can define the criterion
+$cd_{\text{shape index}} = \{o|\forall s \langle \text{si:shapeIndexLocation} \rangle \}$.~\sepfootnote{sf:subwebsep}
 A reachability $C_{tsi_i}$ is created after dereferencing a shape index.
 This reachability must accept the links $IRI_d$ that are query-relevant and prune the links $IRI_p$.
 To determine $IRI_d$ and $IRI_p$ a query-shape containement ($\sqsubseteq_{qs}$) is performed.
