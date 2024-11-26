@@ -26,9 +26,9 @@ The core element of a SPARQL query and a KG are respectively the triple pattern 
 
 \begin{definition}[Triple pattern and Triple]\label{def:triplePattern}
     A triple pattern $tp = (s_{tp}, p_{tp} , o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
-    a property path  $p_{tp}$ as defined by  \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2).~\sepfootnote{sf:propertyPathAlgebra} 
+    a property path  $p_{tp}$ as defined by  \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2)~\sepfootnote{sf:propertyPathAlgebra} 
     and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V} \cup \mathcal{B}$.
-    Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$, $\mathcal{V}$ are respectiverly the set of every possible IRI, blank node, literal and variable.
+    Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$, $\mathcal{V}$ are respectively the set of every possible IRI, blank node, literal and variable.
     An RDF triple $t = (s,p,o)$ is similar to a triple pattern, 
     where $s \in s_{tp} \setminus \mathcal{V}$,
     $p \in \mathcal{I}$ and $o \in o_{tp} \setminus \mathcal{V}$.
@@ -78,9 +78,9 @@ Notably, the alternative operator can be interpreted as a union, and the sequenc
 \end{definition}
 \fi
 
-The approach of this paper relies on analyzing star patterns and tree star patterns defined in Definition~\ref{def:starPattern}.
+The approach of this paper relies on analyzing star patterns, tree star patterns and tree star defined in Definition~\ref{def:starPattern}.
 
-\begin{definition}[Tree Star Pattern]\label{def:starPattern}
+\begin{definition}[Tree Star Pattern and Tree Star]\label{def:starPattern}
     We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
     given a builder function 
     \begin{equation}
@@ -128,7 +128,6 @@ More formally
 \begin{equation}\label{eq:reachabilityCriteria}
 c_i(t, iri, B) \rightarrow \{\mathrm{true}, \mathrm{false}\}
 \end{equation}
-.
 A query engine dereferencing operation stops when no new $iri$ has to be dereferenced during an iteration of the new triples in the internal triple store.
 
 \subsection{RDF Data Shapes}
@@ -178,5 +177,5 @@ $G$ satisfies $S$ is defined by $G \models S \iff Ve(e,G_{starT_i}, op\in S)$  f
 \subsection{Decentralized Knowledge Graph}
 We define a decentralized knowledge graph (DKG) as a KG $G$ materialized in a network of resources $R$.
 A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is mapped to an IRI $iri_i$.
-The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in t \in g$ are directed edges starting from $r_i$ to $r_j$.
-$G$ is formed by the union of all the $g \in r$, such that $G = \bigcup_{i=0}^{n}g_i$ given $n$ resources.
+The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in t \in g_i$ are directed edges starting from $r_i$ to $r_j$.
+$G$ is formed by the union of all the $g \in r$, such that $G = \bigcup_{i=0}^{n}g_i$ given $n$ resources in the network.

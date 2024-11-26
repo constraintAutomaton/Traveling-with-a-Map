@@ -36,7 +36,7 @@ Because we focus on maintaining the same results completeness, then when using $
 \begin{equation}\label{eq:evalQueryStructuralAssumption}
    [\![ Q ]\!]^{G^{\prime\prime}} = [\![ Q ]\!]^{G^{\prime}}
 \end{equation}
-for any $G^{\prime}$.
+for any network $R$.
 
 Because the $g \in G^{\prime}$ can only be acquired from the dereferencing of resources $r \in R$, a smaller $G^\prime$ implies that a lesser number of HTTP requests has been performed to answer a query.
 Naturally, query execution is faster with a smaller KG instance.
@@ -116,7 +116,7 @@ Hartig2012
 We propose using a decentralized dataset summary method, called the shape index~\cite{tam2024opportunitiesshapebasedoptimizationlink}, as the support mechanism for our pruning reachability criterion.
 This method involves mapping the content of a decentralized dataset using RDF data shapes.
 The intuition behind this approach is that rendering explicit RDF schemas is relatively inexpensive for data providers when publishing decentralized datasets.
-Although RDF does not enforce schemas on its data, the nature of the usually modeled objects and formalism often results in implicit schemas~\cite{Neumann2011CharacteristicSA}.
+Although RDF does not enforce schemas on its data, the nature of the usually modeled objects and the formalism often results in implicit schemas~\cite{Neumann2011CharacteristicSA}.
 Additionally, the cost of making these schemas explicit should be evaluated in the context of the data's intended usage.
 First, mapping and documenting decentralized data improves its discoverability, which is a common objective when publishing RDF data.
 Second, embedding this information within datasets facilitates client-side query engine processing, potentially reducing reliance on costly SPARQL endpoints~\cite{aranda2013}.
@@ -255,7 +255,7 @@ This structure can be leverage to create an algorithm with polynomial time compl
 We consider that a query $Q$ is contained into a shape $S$ denoted $Q \sqsubseteq_{qs} S$, if a tree star pattern in $Q$ is contained in $Q_s = T(S, ?x)$ where $?x$ is the variable of the subject of the body of the shape.
 For a tree star pattern to be contained, we need to consider the two parts of $Q = Q_{body} \cup Q_{\text{unions}}$.
 $Q_{body}$ is the Basic Graph Pattern (BGP) of the query and $Q_{\text{unions}} = \bigcup Q_u$ are the Union Graph Patterns (UGP) where $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$.
-A tree star pattern $Q_{starT_i}$ is contained in $Q_s$ if its segment in $Q_{body}$ is contained in $Q_s$ and at least one segment of the tree star pattern in $q_i$ in each $Q_u$ is contained in $Q_s$.
+A tree star pattern $Q_{starT_i}$ is contained in $Q_s$ if its segment in $Q_{body}$ is contained in $Q_s$ and that the tree star pattern is contained in at least one $q_i$ in each $Q_u$ is contained in $Q_s$.
 If $Q_{starT_i}$ is not a part of an $Q_u$, then the $Q_u$ is ignored.
 In our containment problem we ignore "cardinality constraint" which are translated in 
 fragments of the form \texttt{GROUP BY ?x HAVING(COUNT(?o))}.
