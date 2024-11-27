@@ -1,26 +1,23 @@
 \begin{abstract}
     % Context
-    \pc{Why especially in the context of social applications? I’d just remove this.}
     Centralization of web information causes legal and ethical problems, especially in the context of social applications.
     % Need
-    \pc{We don’t need to do the act of decentralizing the data, right? The idea is that the data is organically already in multiple sources. I’d go with something like this for the two next sentences: When leaving data at their source, maintaining query performance over multiple datasets becomes a challenge, for example, with Link Traversal Query Processing that allows on to traverse the Web by following entity IRIs.}
     Large scale decentralizing of datasets offers a potential solution, but maintaining query performance remains a challenge.
     Link Traversal Query Processing (LTQP) supports decentralized querying in large scale networks but is limited by long execution times and high data usage.
     % Task
-    \pc{Is it really summarization? Wouldn’t calling it a hypermedia API work better here?}
     This paper presents the \emph{shape index}, a lightweight RDF data summarization method using RDF data shapes to reduce the search space for traversal queries.
     % Object
-    \pc{This is great!}
     In this work, we formalize and evaluate the shape index data summarisation approach and a \emph{query-shape containment} problem to detect irrelevant sources during LTQP.
     % Findings
-    \pc{summarisation → hint?}
-    \pc{Is it a traversal query? Or just a query?}
-    \pc{By how much?}
-    Shape-based data summarisation can reduce the query execution time and network usage of selective traversal queries, even in networks with missing or lower-quality information.
+    Shape-based data summarisation can reduce the query execution time and network usage of selective queries, even in networks with missing or lower-quality information.
     % Conclusion
-    \pc{But you didn’t measure the maintenance cost, did you? What makes you say that? Can we call it light-weight maybe on the basis of comparing server load or something?}
-    \pc{Decentralized: wouldn’t use that word here. Would just call it over *multiple* structured datasets.}
-    This performance gain and low maintenance cost make our approach an ideal candidates for selective queries over structured decentralized datasets.
+    This performance gain, without server involvement during querying, makes our approach ideal for selective queries in structured, decentralized datasets.
+
+
+
+
+
+
 
 
 \keywords{Linked data,
