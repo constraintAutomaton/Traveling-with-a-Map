@@ -13,10 +13,11 @@ Multiple studies have denoted problems of ownership, democracy, reinforcement of
 Several authors consider decentralizing web data an insufficient solution~\cite{9663788, Curran2016ch1}; however, it can still be an integral component of initiatives focused on data sovereignty.
 Thus, technical research on that topic is a relevant endeavor.
 
-Linked data has the potential to create seamless decentralized databases through the use of dereferenciable IRIs.
-These IRIs allow access to additional databases containing information relevant to what an IRI models.
+Linked data has the potential to create seamless decentralized databases through the use of dereferencable IRIs.
+These IRIs allow access to additional databases containing information relevant to what an IRI identifies.
 For example, dereferencing a term representing a user like a WebID~\sepfootnote{sf:webID} can provide the name of the user, among other information, without having 
 to store the information locally.
+\pc{What advantages?}
 Despite these potential advantages, most SPARQL query processing is conducted using centralized setups or federations of endpoints, partly due to performance issues with traversal queries.
 
 A query paradigm called Link Traversal Query Processing (LTQP)~\cite{Hartig2012} has been developed to leverage the potential descriptive power of IRI dereferencing.
@@ -54,12 +55,15 @@ more detailed shapes will provide a higher reduction in the number of HTTP reque
 a \emph{complete} shape index will reduce the number of HTTP requests and the query execution time than an \emph{incomplete} shape index;
 a shape index approach can be adaptative, so not every dataset in the network needs to have an index to see a performance improvement.
 \iffalse
-Can our method reduce the ratio of non-contributing data source dereferenced?
-How does the diminution of HTTP request affect the query execution time?
-How does the level of detail of the shapes impact the performances?
+\pc{Started changing these to be more concrete by changing how to by how much or what. What do you think about that? More concrete or worse?}
+By how much can this method reduce the ratio of dereferenced non-contributing data sources?
+By how much do the fewer HTTP request affect the query execution time?
+By how much does the level of detail of the shapes impact the performances?
 What is the difference in performance between a \emph{complete} and an \emph{incomplete} shape index?
 How does the ratio of subdomains containing an index influence global performances?
 How does the fragmentation of the subdomain impact the performance?
 How does the quantity of non-query contributing resources impact the performances?
 What is the ideal query execution time if we only dereferenced contributing data sources?
 \fi
+
+\pc{Very impressed by this introduction! Well done!}
