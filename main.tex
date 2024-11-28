@@ -44,6 +44,8 @@
 \usepackage{placeins}
 \usepackage{nameref}
 
+\newif\ifanonymous
+
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 
@@ -51,6 +53,8 @@
 \newtheorem{prop}{Proposition}
 
 \begin{document}
+\anonymoustrue
+
 %
 \title{Traveling with a Map: Optimizing the Search Space of Link Traversal Queries Using RDF Data Shapes}
 \titlerunning{Traveling with a Map}
@@ -59,16 +63,22 @@
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
-\author{Bryan-Elliott Tam\inst{1}\orcidID{0000-0003-3467-9755} \and
-Ruben Taelman\inst{1}\orcidID{0000-0001-5118-256X} \and
-Pieter Colpaert\inst{1}\orcidID{0000-0001-6917-2167}}
-%
-\authorrunning{B.-E. Tam et al.}
-% First names are abbreviated in the running head.
-% If there are more than two authors, 'et al.' is used.
-%
-\institute{Universiteit Gent, Ghent, Belgium \\
-\email{\{firstname.lastname\}@ugent.be}}
+\ifanonymous
+    \author{Anonymous}
+\else
+    \author{Bryan-Elliott Tam\inst{1}\orcidID{0000-0003-3467-9755} \and
+    Ruben Taelman\inst{1}\orcidID{0000-0001-5118-256X} \and
+    Pieter Colpaert\inst{1}\orcidID{0000-0001-6917-2167}}
+    %
+    \authorrunning{B.-E. Tam et al.}
+    % First names are abbreviated in the running head.
+    % If there are more than two authors, 'et al.' is used.
+    %
+    \institute{Universiteit Gent, Ghent, Belgium \\
+    \email{\{firstname.lastname\}@ugent.be}}
+\fi
+
+
 %
 \maketitle              % typeset the header of the contribution
 %
