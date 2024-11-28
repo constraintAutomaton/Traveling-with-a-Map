@@ -25,7 +25,6 @@
 \addbibresource{references.bib}
 
 %%
-
 \usepackage{listings}
 %% auto break lines
 \lstset{breaklines=true}
@@ -40,9 +39,9 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{subfig}
-\usepackage{graphicx}
 \usepackage{placeins}
 \usepackage{nameref}
+\usepackage[breaklinks=true bookmarksopen=true, bookmarksdepth=2]{hyperref}
 
 \newif\ifanonymous
 
@@ -96,6 +95,7 @@
 %DO NOT FORGET THE ACKNOWLEDGMENTS!!!
 
 \printbibliography
+\addcontentsline{toc}{section}{References}
 
 \end{document}
 
