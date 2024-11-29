@@ -24,9 +24,9 @@ LTQP consists of recursively dereference IRI contained in a query engine's inter
 To manage the scope of exploration, a lookup policy can be employed to limit the search domain of the query.
 LTQP has multiple difficulties, such as the open endlessness of the web, which can be interpreted as a pseudo-infinite domain of exploration,
 and the challenge of creating an efficient query plan with the lack of information about the data sources. 
-Research by \citeauthor{hartig2016walking} has demonstrated that in the open web, the primary performance bottleneck and obstacle to query completeness and rapid execution is the large number of HTTP requests required to fulfill a query.
+Research by \citeauthor{hartig2016walking}~\cite{hartig2016walking} has demonstrated that in the open web, the primary performance bottleneck and obstacle to query completeness and rapid execution is the large number of HTTP requests required to fulfill a query.
 
-From another perspective, and without contradicting \citeauthor{hartig2016walking}, \citeauthor{Taelman2023} has demonstrated that in Structured Linked Data Environments (SLDE),
+From another perspective, and without contradicting \citeauthor{hartig2016walking}~\cite{hartig2016walking}, \citeauthor{Taelman2023}~\cite{Taelman2023} has demonstrated that in Structured Linked Data Environments (SLDE),
 it is possible to attain query completeness for various types of practical queries.
 Moreover, they showed that query planning could significantly influence the execution time.
 An SLDE is defined as an RDF environment where specifications in addition to the RDF principles guarantee the completeness of results.
@@ -34,8 +34,8 @@ This guarantee of completeness has the positive side effect of providing informa
 that can be used to create a lookup policy to reduce the number of HTTP requests necessary to attain completeness.
 In practice, SLDE can be used in the context of personal data and social networks, among others,
 examples of environments that adhere to these constraints are datasets following the Solid protocol~\cite{Taelman2023} and the TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
-The work of ~\citeauthor{Taelman2023} indicates that there are multiple optimizations possible in LTQP in the context of SLDE as opposed to the
-more pessimist conclusion of the work of ~\citeauthor{hartig2016walking}.
+The work of ~\citeauthor{Taelman2023}~\cite{Taelman2023} indicates that there are multiple optimizations possible in LTQP in the context of SLDE as opposed to the
+more pessimist conclusion of the work of ~\citeauthor{hartig2016walking}~\cite{hartig2016walking}.
 In line with this research direction, this paper formalizes the concepts of the \emph{Shape Index} and \emph{query-shape containment}~\cite{tam2024opportunitiesshapebasedoptimizationlink} to enable a query and data-aware mechanism for reducing the search domain of link traversal queries.
 \iffalse
 The shape index concept relies on RDF data shapes; the conceptual idea of RDF data shapes is to describe the properties of an entity.
@@ -51,7 +51,7 @@ Using shape indexes will reduce the number of non-contributing data sources acqu
 there is a linear relationship between the reduction of the number of HTTP requests and the reduction of query execution time;
 executing a query-shape containment is negligible in the context of social media applications; 
 more detailed shapes will provide a higher reduction in the number of HTTP requests;
-a \emph{complete} shape index will reduce the number of HTTP requests and the query execution time than an \emph{incomplete} shape index;
+a network with more \emph{complete} shape index will reduce more the number of HTTP requests and the query execution time than one with less;
 the shape index approach can be adaptative, so not every dataset in the network needs to have an index to see a performance improvement.
 \iffalse
 \pc{Started changing these to be more concrete by changing how to by how much or what. What do you think about that? More concrete or worse?}
