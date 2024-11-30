@@ -35,12 +35,12 @@ Our approach consists of defining more restricting reachability criteria~\cite{H
 We formalize our approach as follows.
 A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in a network $R$.
 The query engine has to build a KG $G^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
-$G^{\prime} \subseteq G$ to answer its query.
+$G^{\prime} \subseteq G$ holds to answer its query.
 We are trying to solve an optimization problem where another query engine builds a KG
 $G^{\prime\prime} \subseteq G^{\prime}$
-smaller than the one produced with a specific traversal completeness policy
+potentially smaller than the one produced with a specific traversal completeness policy
 by defining a reachability criterion $C_{mr}$.
-Because we focus on maintaining the same results completeness, then when using $C_{mr}$ the following equation must hold
+We focus on maintaining the same results completeness, so when using $C_{mr}$ the following equation must hold
 
 \begin{equation}\label{eq:evalQueryStructuralAssumption}
    [\![ Q ]\!]^{G^{\prime\prime}} = [\![ Q ]\!]^{G^{\prime}}
@@ -58,9 +58,9 @@ A reachability $cp_i \in C$ should act upon all the links that have yet to be de
 Equation~\ref{eq:cReachabilityCriteria} formalizes a composite reachability criterion $C$ with $nd$ discovery criteria and $np$ pruning criteria.
 
 \begin{equation}\label{eq:cReachabilityCriteria}
-   C(t, i_d, B) = \bigvee_{cd \in Cd} cd(t, i_d, B) \mathrel{\land} \bigwedge_{cp \in Cp} \, cp(t, i_d, B)
+   C(t, iri, B) = \bigvee_{cd \in Cd} cd(t, iri, B) \mathrel{\land} \bigwedge_{cp \in Cp} \, cp(t, iri, B)
 \end{equation}
-where $Cd$ is the set of every $cd_i(t, i_d, B)$ and $Cp$ the set of every $cp_i(t, i_d, B)$ used by the engine.
+where $Cd$ is the set of every $cd_i(t, iri, B)$ and $Cp$ the set of every $cp_i(t, iri, B)$ used by the engine.
 \iffalse
 Maybe refer to the link queue here in a footnote.
 \fi
@@ -140,13 +140,13 @@ A shape index
 , is a mapping between RDF data shapes and a set of IRI given $n$ entries.
 The domain of a shape index is defined by $D = \bigcup_{i=1}^{n} \bigcup_{iri \in IRI_i} iri$.
 A shape index \emph{must} map every resource in $D$.
-We denote a shape index as \emph{complete} when every shape $s_i \in SI$ is closed and \emph{incomplete} otherwise.
+We denote a shape index as \emph{complete} when every shape $s_i \in \text{DOM}(SI)$ is closed and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRI has implications in the distribution of the data in $D$.
-When a shape $s$ is mapped to an $IRI$ then the KG $G = \{g | g \in r, iri \mapsto r \land iri \in IRI\}$ satisfy $s$.
-Given that the shape mapping a set of IRI is close, then every set of triple in the resource associated with $D$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
+When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | g \in r, iri \mapsto r \land iri \in IRI\}$ satisfy $s$.
+Given that the shape is close, then every set of triple (see the end of section \ref{sec:shape}) in the resource associated with $D$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
 A draft web specification of the shape index is also available online.~\sepfootnote{sf:shapeIndexURL}
 
-\subsection{Online Source Selection in Shape Index Documented Datasets}
+\subsection{Online Source Selection in Shape Index Documented Datasets}\label{sec:sourceSelection}
 
 A decentralized dataset exposing a shape index provides a query engine with the opportunity to reduce its search domain by evaluating which resources are query-relevant.
 The shape descriptions and constraints on the distribution of the data allow the query engine, 
@@ -174,8 +174,8 @@ given a shape index $SI_i$.
 From those sets of links we define two new reachability criteria;
 \begin{equation}
    \begin{aligned}
-       cd_{si}(t, i_d, B) &= i_d \in IRI_d \\
-       cp_{si}(t, i_d, B) &= i_d \notin IRI_p
+       cd_{si}(t, iri, B) &= iri \in IRI_d \\
+       cp_{si}(t, iri, B) &= iri \notin IRI_p
    \end{aligned}
 \end{equation}
 the new reachability $C_{tsi_i}$ is created by taking the $Cd$ and $Cp$ of $C_{tsi - 1}$ and adding
@@ -183,6 +183,7 @@ $cd_{si}$ and $cp_{si}$ to the corresponding set.
 
 \subsection{Expressing RDF Data shapes into SPARQL algebra}\label{sec:shape2SPARQL}
 
+%Before tackling the query shape containment problem, we must define how to express RDF data shapes into queries.
 A shape expression $e_i$ can be intuitively treated as a segment of a query~\cite{delva2023}.
 A common approach for shape validation over an RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.~\sepfootnote{sf:ssf_project}
 
@@ -264,7 +265,7 @@ This structure can be leverage to create an algorithm with polynomial time compl
 We consider that a query $Q$ is contained into a shape $S$ denoted $Q \sqsubseteq_{qs} S$, if a tree star pattern in $Q$ is contained in $Q_s = T(S, ?x)$ where $?x$ is the variable of the subject of the body of the shape.
 For a tree star pattern to be contained, we need to consider the two parts of $Q = Q_{body} \cup Q_{\text{unions}}$.
 $Q_{body}$ is the Basic Graph Pattern (BGP) of the query and $Q_{\text{unions}} = \bigcup Q_u$ are the Union Graph Patterns (UGP) where $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$.
-A tree star pattern $Q_{starT_i}$ is contained in $Q_s$ if its segment in $Q_{body}$ is contained in $Q_s$ and that the tree star pattern is contained in at least one $q_i$ in each $Q_u$ is contained in $Q_s$.
+A tree star pattern $Q_{starT_i}$ is contained in $Q_s$ if its segment in $Q_{body}$ is contained in $Q_s$ and if its segment in at least one $q_i$ in each $Q_u$ is contained in $Q_s$.
 If $Q_{starT_i}$ is not a part of an $Q_u$, then the $Q_u$ is ignored.
 In our containment problem we ignore "cardinality constraint" which are translated in 
 fragments of the form \texttt{GROUP BY ?x HAVING(COUNT(?o))}.
@@ -324,6 +325,8 @@ The algorithm is recursive, and on its first call, $Q_{star}$ must be the root o
 this set is used not to duplicate containment calculations.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O( n_o \times n_{tp}^2 \times n_{sunion}^2)$
 where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$, $n_{sunion}$ the number of UGP in $Q_s$ and $n_o$ the number of object term in $Q_{starT_i}$.
-To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starT}$ tree star from the BGP with their $n_{starTu}$ segment in the UGP and $n_{starTui}$ BGP in the UGP.
-This operation results in a polynomial time complexity of $O(n_o \times n_{tp}^2 \times n_{union}^2 \times n_{starT} \times n_{starTu} \times n_{starTui})$.
+To solve $Q \sqsubseteq_{qs} S$, we need to consider the number of tree stars from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
+This operation results again in a polynomial time complexity algorithm.
+%To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starT}$ tree star from the BGP with their $n_{starTu}$ segment in the UGP and $n_{starTui}$ BGP in the UGP.
+%This operation results in a polynomial time complexity of $O(n_o \times n_{tp}^2 \times n_{union}^2 \times n_{starT} \times n_{starTu} \times n_{starTui})$.
 In the \nameref{sec:appendix} Algorithm~\ref{alg:containment} present the full resolution.

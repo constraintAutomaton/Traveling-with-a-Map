@@ -46,8 +46,8 @@ First, we assessed the execution time and results of our query-shape containment
 We also compared the state-of-the-art traversal algorithm, the LDP specification and type-index, and the LDP specification~\cite{Taelman2023} with our shape index approach in a network where every dataset provides a complete shape index with the most descriptive shapes.
 Additionally, we evaluated the adaptivity of our approach by modulating the shape index information across the network.
 In one experiment, we examined the impact of query execution time in a network where 0\%, 20\%, 50\%, and 80\% of datasets exposed a shape index.
-In another experiment, we assessed the effect of having shape indexes with 20\%, 50\%, and 80\% entries using open shapes.
-In the final experiment, we evaluated the impact of using shapes that only incorporated data from the dataset itself versus shapes that provided a minimal description of the data.
+In another experiment, we assessed the effect of having shape indexes with 20\%, 50\%, and 80\% entries using closed shapes.
+In the final experiment, we evaluated the impact of using shapes that only incorporated data from the dataset itself and shapes that provided a minimal description of the data.
 For all experiments, we performed 50 repetitions and set a timeout of 2 minutes (120,000 ms).
 To run our experiments, we used a machine with Ubuntu 20.04.6 LTS, featuring a 2x Hexacore Intel E5645 CPU and 24GB of RAM.
 We provide complementary material online, including experimental setups, raw data, and additional plots and tables of our results.~\sepfootnote{sf:complementaryMaterial}

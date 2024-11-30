@@ -2,7 +2,7 @@
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
+    \includegraphics[width=0.49\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
     \caption{
         This figure compares the type index with the LDP approach against other approaches.
         The shape index approach is better or similar to the other approaches except with S4.
@@ -15,12 +15,13 @@
 Figure~\ref{fig:compApproach} shows that the shape index approach for all query templates except S4 performs better or comparably to the state-of-the-art (type index with LDP approach).
 Queries can require as little as 13\% (S1) of the execution time of the state-of-the-art.
 Queries that perform best are those where the number of HTTP requests decreased the most.
-Table~\ref{tab:statSignificanceStateOfTheArt} in the \nameref{sec:appendix} presents an analysis of the statistical significance of the query template in relation to the ratio of HTTP requests performed.
+Table~\ref{tab:statSignificanceStateOfTheArt} in the \nameref{sec:appendix} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
 Query templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
 We notice that query template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
-The poor performance is due to the fact that other approaches rely solely on the reachability \texttt{Cmatch}~\cite{hartig2016walking} to achieve completeness, without leveraging the structural properties of the datasets. 
-In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
 This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the state-of-the-art achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
+The poor performance is due to the fact that other approaches rely solely on the reachability \texttt{Cmatch}~\cite{hartig2016walking} to achieve completeness, without leveraging the structural properties of the datasets.
+In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
+It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
 However, those queries were already fast, with the state-of-the-art approach being executed in approximately 0.30\% of the timeout.
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 
@@ -77,6 +78,8 @@ of HTTP requests are the queries from the S4 template.
 However, those queries were already answered quickly and consisted of only four triple patterns and a union statement (with the alternative property path). 
 Thus, it is possible that the number of HTTP requests has less of an impact because it is easier for the engine to perform the join operation upon reception of the data than when processing more complex queries.
 However, with this current experiment and data, it is impossible to give a conclusive answer.
+% Analysis by query template? But we lack the space. In the appendix too...
+% We can also with that explain some big gap in the plot.
 
 
 \begin{figure}[h]

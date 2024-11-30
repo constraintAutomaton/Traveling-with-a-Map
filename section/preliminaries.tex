@@ -113,7 +113,7 @@ The approach of this paper relies on analyzing star patterns, tree star patterns
         S_{star}: q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
     \end{equation}
 
-    We propose a similar definition for the context of KG where we replace the query $Q$ by a KG $G$ and where the terms 
+    We propose a similar definition for the context of KGs where we replace the query $Q$ by a KG $G$ and where the terms 
     cannot be a $v \in \mathcal{V}$. 
     We denote this structure a tree star.
 
@@ -130,7 +130,7 @@ c_i(t, iri, B) \rightarrow \{\mathrm{true}, \mathrm{false}\}
 \end{equation}
 A query engine dereferencing operation stops when no new $iri$ has to be dereferenced during an iteration of the new triples in the internal triple store.
 
-\subsection{RDF Data Shapes}
+\subsection{RDF Data Shapes}\label{sec:shape}
 RDF data shapes, similar to data schemas, are constraints applied to RDF graphs.
 In our context, shapes specify conditions that tree stars must respect.
 This work proposes an abstract formalization of shapes without distinction between different shape languages.
