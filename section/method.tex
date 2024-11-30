@@ -183,10 +183,11 @@ $cd_{si}$ and $cp_{si}$ to the corresponding set.
 
 \subsection{Expressing RDF Data shapes into SPARQL algebra}\label{sec:shape2SPARQL}
 
-%Before tackling the query shape containment problem, we must define how to express RDF data shapes into queries.
+Before tackling the query shape containment problem, we must define how to express RDF data shapes into queries.
 A shape expression $e_i$ can be intuitively treated as a segment of a query~\cite{delva2023}.
 A common approach for shape validation over an RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.~\sepfootnote{sf:ssf_project}
-
+We define in the following lines the transformation of a shape $S$ into a query $Q_s$ using the transformation $T(S,?x)$ and $t(e_i, ?x) = q_i$ where every 
+symbol with a $?$ prefix is a variable in $\mathcal{V}$.
 \iffalse
 For our query-shape containment problem we are looking into transforming our shapes $S$ into queries $Q_s =  q_i \bowtie q_{i+1} ... \bowtie q_n$ by transforming each $e_i$ of $s$ in a $q_i$.
 We are looking into creating a query $Q_s$ with the following property
@@ -202,8 +203,7 @@ It is natural from the definition of shape languages. It has been shown in the l
 Thus, if we can establish a mapping between the constraints of $S$ in terms of query fragments, a query targeting $G$ should return $G$ if every triple of the 
 $G$ respects the constraint of the shape.
 \fi
-We define in the following lines the transformation of a shape $S$ into a query $Q_s$ using the transformation $T(S,?x)$ and $t(e_i, ?x) = q_i$ where every 
-symbol with a $?$ prefix is a variable in $\mathcal{V}$.
+
 
 \iffalse
 INSPIRE YOURSELF BY Corman2019 style

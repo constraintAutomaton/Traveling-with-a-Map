@@ -108,7 +108,7 @@ For query S1, with 80\% of closed shape entries, the performance lost was due to
 The right plot shows the variation in the level of detail of the shapes.
 Most queries tend to perform similarly or better, with the exception of S1.
 Upon analyzing the output of our query containment algorithm, we observe that the additional information provided in our base approach does not affect the algorithm’s results.
-However, the engine needs to dereference more shapes, which improves the query execution time for certain queries.
+However, the engine needs to dereference more shapes, which can decrease the execution time.
 Query S1 is the only one where the added information can discriminate multiple parts of the datasets' domain, indicating the intuitive results that, in some situations, adding more information can be beneficial.
 This sensitivity to the quality of the information in the index also helps explain the results for S1 in the middle plot. 
 In that case, the query engine still had to dereference sources from each dataset, and the information available was likely insufficient to significantly discriminate between sources.
