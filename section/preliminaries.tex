@@ -30,8 +30,8 @@ The core element of a SPARQL queries and a KGs are respectively the triple patte
     and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V} \cup \mathcal{B}$.
     Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$, $\mathcal{V}$ are respectively the set of every possible IRI, blank node, literal and variable.
     An RDF triple $t = (s,p,o)$ is similar to a triple pattern, 
-    where $s \in s_{tp} \setminus \mathcal{V}$,
-    $p \in \mathcal{I}$ and $o \in o_{tp} \setminus \mathcal{V}$.
+    where $s \in\mathcal{I} \cup \mathcal{B}$,
+    $p \in \mathcal{I}$ and $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{B}$.
 \end{definition}
 
 We also define two access function to get respectively the subject and object of a triple pattern $tp$ or a triple $t$ while ignoring literals,

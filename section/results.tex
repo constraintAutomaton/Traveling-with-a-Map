@@ -50,7 +50,6 @@ This suggests that the primary overhead in this approach is not from the algorit
     \caption{
         The data show two regimes in the relation between the number of HTTP requests and the execution time, 
         we see a more linear correlation on the left figure than on the right figure.
-        %The overall distribution is linear, with a PCC of 0.55 and a p-value of 6.18E-35.
         }
     \label{fig:http_req_exec_time_cor}
 \end{figure}
@@ -84,9 +83,10 @@ However, with this current experiment and data, it is impossible to give a concl
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\linewidth]{analysis/artefact/variation_shape_index_all/plot}
-    \caption{Setups with less shape index information tend to perform worse where the shape index performs
-    better against the other approaches in similar relative proportions.
+    \includegraphics[width=0.95\linewidth]{analysis/artefact/variation_shape_index_all/plot}
+    \caption{
+    Shape index approaches tend to perform less effectively with limited network information and comparatively better where the baseline shape index underperforms.
+    However, the utility of shape index information can vary depending on the specific queries and network characteristics.
     }
     \label{fig:adaptShapeIndex}
 \end{figure}
