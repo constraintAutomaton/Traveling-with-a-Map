@@ -54,8 +54,8 @@ Thus, the benefit of reducing the number of HTTP request is twofold.
 
 To define less selective reachabilities to produce $G^{\prime\prime}$, we propose extending the reachability criteria by formalizing a chain of criteria in a concept called \emph{composite reachability criteria}.
 In this form, a reachability criterion $cp_i$ is said to \emph{prune} links, and $cd_i$ is said to \emph{discover} links.
-A reachability $cp_i \in C$ should act upon all the links that have yet to be dereferenced as well as on the incoming links.
-Equation~\ref{eq:cReachabilityCriteria} formalizes a composite reachability criterion $C$ with $nd$ discovery criteria and $np$ pruning criteria.
+A reachability $cp_i$ act upon all the links that have yet to be dereferenced as well as on the incoming links.
+Equation~\ref{eq:cReachabilityCriteria} formalizes a composite reachability criterion $C$.
 
 \begin{equation}\label{eq:cReachabilityCriteria}
    C(t, iri, B) = \bigvee_{cd \in Cd} cd(t, iri, B) \mathrel{\land} \bigwedge_{cp \in Cp} \, cp(t, iri, B)
@@ -138,7 +138,7 @@ A shape index
    SI = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}
 \end{equation}
 , is a mapping between RDF data shapes and a set of IRI given $n$ entries.
-The domain of a shape index is defined by $D = \bigcup_{i=1}^{n} \bigcup_{iri \in IRI_i} iri$.
+The IRI domain of a shape index is defined by $D = \bigcup_{i=1}^{n} \bigcup_{iri \in IRI_i} iri$.
 A shape index \emph{must} map every resource in $D$.
 We denote a shape index as \emph{complete} when every shape $s_i \in \text{DOM}(SI)$ is closed and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRI has implications in the distribution of the data in $D$.
@@ -150,7 +150,7 @@ A draft web specification of the shape index is also available online.~\sepfootn
 
 A decentralized dataset exposing a shape index provides a query engine with the opportunity to reduce its search domain by evaluating which resources are query-relevant.
 The shape descriptions and constraints on the distribution of the data allow the query engine, 
-within a domain $D$ of a shape index $SI$ to determine a priori before traversing $D$ which subdomain $d \subseteq D$ contains data that is query-relevant.
+within an IRI domain $D$ of a shape index $SI$ to determine a priori before traversing $D$ which subdomain $d \subseteq D$ contains data that is query-relevant.
 To formalize our approach, we use the concept of composite reachability criteria described in section~\ref{sec:slde} and of the source selectors of the subweb specification formalization~\cite{Bogaerts2021LinkTW, Taelman2023}.
 
 We propose that a query engine with composite reachability $C_t$ at any time $t$ can query an SLDE with completeness of results.
@@ -260,7 +260,7 @@ We propose using query containment as a source selection mechanism.
 While query containment is intuitively unsuitable for online source selection due to its NP-complete complexity~\cite{Spasi2023}, this complexity depends on the size of the queries, which are typically small.
 Moreover, practical use cases can leverage polynomial time complexity algorithms~\cite{Doan2012}.
 In our context, the container query (the shape) follows a tree star pattern template structure where predicates are always IRIs, and subjects and objects are always variables.
-This structure can be leverage to create an algorithm with polynomial time complexity algorithms.
+This structure can be leverage to create an algorithm with polynomial time complexity.
 
 We consider that a query $Q$ is contained into a shape $S$ denoted $Q \sqsubseteq_{qs} S$, if a tree star pattern in $Q$ is contained in $Q_s = T(S, ?x)$ where $?x$ is the variable of the subject of the body of the shape.
 For a tree star pattern to be contained, we need to consider the two parts of $Q = Q_{body} \cup Q_{\text{unions}}$.

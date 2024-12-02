@@ -22,7 +22,7 @@
 
 \subsection{RDF knowledge graphs and SPARQL queries}
 Our work focuses on conjunctive and disjunctive queries of RDF knowledge graph~(KG) using the state-of-the-art SPARQL query language.
-The core element of a SPARQL queries and a KGs are respectively the triple pattern and the triple which define at Definition~\ref{def:triplePattern}.
+The core components of SPARQL queries and of KGs are respectively the triple patterns and the triples defined at Definition~\ref{def:triplePattern}.
 
 \begin{definition}[Triple pattern and Triple]\label{def:triplePattern}
     A triple pattern $tp = (s_{tp}, p_{tp} , o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
@@ -34,7 +34,7 @@ The core element of a SPARQL queries and a KGs are respectively the triple patte
     $p \in \mathcal{I}$ and $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{B}$.
 \end{definition}
 
-We also define two access function to get respectively the subject and object of a triple pattern $tp$ or a triple $t$ while ignoring literals,
+We also define two access functions to get respectively the subject and object term of a triple pattern $tp$ or a triple $t$ while ignoring literals,
 
 \begin{equation}
     \begin{aligned}
