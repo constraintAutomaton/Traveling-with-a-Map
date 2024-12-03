@@ -12,28 +12,31 @@ which in practice can be interpreted as the power to choose where one's data is 
 Multiple studies have denoted problems of ownership, democracy, reinforcement of inequality, and antagonism between users and owners of web social applications~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
 Several authors consider decentralizing web data an insufficient solution~\cite{9663788, Curran2016ch1}; however, it can still be an integral component of initiatives focused on data sovereignty.
 Thus, technical research on that topic is a relevant endeavor.
-Linked data has the potential to create seamless decentralized databases through the use of dereferencable IRIs.
+Linked data has the potential to create seamless decentralized databases \rt{Within ESWC, Knowledge Graph might be a better term than Database} through the use of dereferencable IRIs.
 These IRIs allow access to additional databases containing information relevant to what an IRI identifies.
 For example, dereferencing a term representing a user like a WebID~\sepfootnote{sf:webID} can provide the name of the user, among other information, without having 
-to store the information locally.
-Despite these potential advantages, most SPARQL query processing is conducted using centralized setups or federations of endpoints, partly due to performance issues with traversal queries.
+to store the information locally. \rt{I'd turn this around a bit. First say that a WebID represents a user and contains information about that user. Dereferencing that WebID can then be used to look up such information.}
+Despite these benefits, most SPARQL query processing is conducted using centralized setups or federations of endpoints \rt{Even federation is not done that much. So I would just say that mostly centralization is done.}, partly due to performance issues with traversal queries \rt{LTQP has not been introduced here yet. I'd say that querying over centralized envir are easier to optimize than decentralized envir}.
 
+\rt{This paragraph could probably be shortened a bit, and the last part about the shape index should be made longer.}
 A query paradigm called Link Traversal Query Processing (LTQP)~\cite{Hartig2012} has been developed to leverage the potential descriptive power of IRI dereferencing.
-LTQP consists of recursively dereference IRI contained in a query engine's internal data source during query execution to expand its base of information.
-To manage the scope of exploration, a lookup policy can be employed to limit the search domain of the query.
-LTQP has multiple difficulties, such as the open endlessness of the web, which can be interpreted as a pseudo-infinite domain of exploration,
-and the challenge of creating an efficient query plan with the lack of information about the data sources. 
+LTQP consists of recursively dereferencing IRIs discovered in a query engine's internal triple store during query execution to expand its base of information.
+To manage the scope of exploration, a lookup policy \rt{Do you mean reachability semantics?} can be employed to limit the search domain of the query.
+Despite LTQP being beneficial for querying decentralized Knowledge Graphs,
+it suffers from multiple difficulties, such as the open endlessness of the web, which can be interpreted as a pseudo-infinite domain of exploration,
+and the challenge of creating an efficient query plan with the lack of information about the data sources.
 Research by \citeauthor{hartig2016walking}~\cite{hartig2016walking} has demonstrated that in the open web, the primary performance bottleneck and obstacle to query completeness and rapid execution is the large number of HTTP requests required to fulfill a query.
-From another perspective, and without contradicting \citeauthor{hartig2016walking}~\cite{hartig2016walking}, \citeauthor{Taelman2023}~\cite{Taelman2023} has demonstrated that in Structured Linked Data Environments (SLDE),
-it is possible to attain query completeness for various types of practical queries.
+From another perspective, and without contradicting \citeauthor{hartig2016walking}~\cite{hartig2016walking}, \citeauthor{Taelman2023}~\cite{Taelman2023} has demonstrated that in Structured Linked Data Environments (SLDE) \rt{Taelman2023 does not introduce the term SLDE, so that is confusing to the reader. Better to stick to the existing terminology.},
+it is possible to attain query completeness for various types of practical queries \rt{Something is missing here. "... within acceptable execution times."?}.
 Moreover, they showed that query planning could significantly influence the execution time.
-An SLDE is defined as an RDF environment where specifications in addition to the RDF principles guarantee the completeness of results.
+An SLDE is defined as an RDF environment where specifications \rt{Not really specifications, but additional structural properties that exist} in addition to the RDF principles \rt{Linked Data principles. RDF principles do not exist.} guarantee the completeness of results \rt{Completeness of results is the consequence. You probably mean the discoverability of data.}.
 This guarantee of completeness has the positive side effect of providing information
 that can be used to create a lookup policy to reduce the number of HTTP requests necessary to attain completeness.
 In practice, SLDE can be used in the context of personal data and social networks, among others,
 examples of environments that adhere to these constraints are datasets following the Solid protocol~\cite{Taelman2023} and the TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
 The work of ~\citeauthor{Taelman2023}~\cite{Taelman2023} indicates that there are multiple optimizations possible in LTQP in the context of SLDE as opposed to the
-more pessimist conclusion of the work of ~\citeauthor{hartig2016walking}~\cite{hartig2016walking}.
+more pessimist conclusion of the work of ~\citeauthor{hartig2016walking}~\cite{hartig2016walking} \rt{... for Open Linked Data without structural properties}.
+\rt{This jump here is too big. Same comments as in the abstract apply, but you'll probably need a bit more sentences here.}
 In line with this research direction, this paper formalizes the concepts of the \emph{Shape Index} and \emph{query-shape containment}~\cite{tam2024opportunitiesshapebasedoptimizationlink} to enable a query and data-aware mechanism for reducing the search domain of link traversal queries.
 \iffalse
 The shape index concept relies on RDF data shapes; the conceptual idea of RDF data shapes is to describe the properties of an entity.
@@ -42,9 +45,13 @@ Because shapes and queries share similarities, we propose transforming shapes in
 and assist our source selection.
 \fi
 
+\rt{Briefly introduce the remaining article structure here.}
+
+\rt{I recommend moving this to a dedicated Problem Statement section, which you could place right before the Approach section. (Or optionally as next section before Related Work)}
 To guide our study, we formulated the following research question:
-Can a link traversal query engine use shape indexes in networks of decentralized datasets to reduce the number of HTTP requests while maintaining the same completeness of results, and does this reduction of HTTP requests lead to a decrease in query execution time?
-With the hypotheses that follow:
+\rt{These are two questions.}
+\textbf{Can a link traversal query engine \rt{Let's not talk about a specific engine, but about LTQP in general} use shape indexes \rt{Be more generic, and refer to shape-based pruning.} in networks of decentralized datasets \rt{Knowledge Graphs} to reduce the number of HTTP requests while maintaining the same completeness of results, and does this reduction of HTTP requests lead to a decrease in query execution time?}
+With the hypotheses that follow:\rt{This looks a bit disorganized. Can this be an enumeration?}
 Using shape indexes will reduce the number of non-contributing data sources acquired;
 there is a linear relationship between the reduction of the number of HTTP requests and the reduction of query execution time;
 executing a query-shape containment is negligible in the context of social media applications; 

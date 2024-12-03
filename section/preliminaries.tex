@@ -1,5 +1,7 @@
 \section{Preliminaries}
 
+\rt{It's not always clear in this section what already existed, and which things you introduce.}
+
 \sepfootnotecontent{sf:sparqlSpecification}{
     The SPARQL specification is available at the following link \url{https://www.w3.org/TR/sparql11-query/}
 }
@@ -21,8 +23,8 @@
 
 
 \subsection{RDF knowledge graphs and SPARQL queries}
-Our work focuses on conjunctive and disjunctive queries of RDF knowledge graph~(KG) using the state-of-the-art SPARQL query language.
-The core components of SPARQL queries and of KGs are respectively the triple patterns and the triples defined at Definition~\ref{def:triplePattern}.
+Our work focuses on conjunctive and disjunctive queries over RDF knowledge graphs~(KG) using the state-of-the-art SPARQL query language \rt{Cite SPARQL spec if you have space for it}.
+The core components of SPARQL queries and of KGs are respectively the triple patterns and the triples defined at Definition~\ref{def:triplePattern}. \rt{Let's introduce them separately. It's a bit confusing like this.}
 
 \begin{definition}[Triple pattern and Triple]\label{def:triplePattern}
     A triple pattern $tp = (s_{tp}, p_{tp} , o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
@@ -36,6 +38,7 @@ The core components of SPARQL queries and of KGs are respectively the triple pat
 
 We also define two access functions to get respectively the subject and object term of a triple pattern $tp$ or a triple $t$ while ignoring literals,
 
+\rt{I understand the sentence above, but not this formalization. You probably want to select all s, p, o in the tp that are an I, B, or V.}
 \begin{equation}
     \begin{aligned}
         S: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V} \\
@@ -78,7 +81,7 @@ Notably, the alternative operator can be interpreted as a union, and the sequenc
 \end{definition}
 \fi
 
-The approach of this paper relies on analyzing star patterns, tree star patterns and tree star defined in Definition~\ref{def:starPattern}.
+The approach \rt{Can you be more specific on why you need this?} of this paper relies on analyzing star patterns, tree star patterns and tree star defined in Definition~\ref{def:starPattern}.
 
 \begin{definition}[Tree Star Pattern and Tree Star]\label{def:starPattern}
     We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
@@ -109,18 +112,20 @@ The approach of this paper relies on analyzing star patterns, tree star patterns
     \end{equation}
 
     We also define a function returning the subjects of the $Q_{starPT_i}$ of a $Q_{starT}$
+    \rt{This one also looks wrong.}
     \begin{equation}
         S_{star}: q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
     \end{equation}
 
     We propose a similar definition for the context of KGs where we replace the query $Q$ by a KG $G$ and where the terms 
     cannot be a $v \in \mathcal{V}$. 
-    We denote this structure a tree star.
+    We denote this structure a tree star. \rt{Unclear why this is needed, and what this would look like.}
 
 \end{definition}
 
 \subsection{Reachability Criteria}
 
+\rt{Before explaining them, can you explain why they are needed?}
 \emph{Reachability criteria} are boolean functions ($c_i$) restricting the dereferencing of links from the internal data source of the query engine.
 They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and the query $B$~\cite{Hartig2012}.
 If $c_i$ returns $true$, the query engine must try to dereference $iri$.
@@ -128,12 +133,16 @@ More formally
 \begin{equation}\label{eq:reachabilityCriteria}
 c_i(t, iri, B) \rightarrow \{\mathrm{true}, \mathrm{false}\}
 \end{equation}
-A query engine dereferencing operation stops when no new $iri$ has to be dereferenced during an iteration of the new triples in the internal triple store.
+A query engine dereferencing operation stops when no new $iri$ has to be dereferenced during an iteration of the new triples in the internal triple store.\rt{This is not really specific to reachability criteria though. This is how the link queue works in LTQP engines.}
 
 \subsection{RDF Data Shapes}\label{sec:shape}
 RDF data shapes, similar to data schemas, are constraints applied to RDF graphs.
-In our context, shapes specify conditions that tree stars must respect.
-This work proposes an abstract formalization of shapes without distinction between different shape languages.
+In our context, shapes specify conditions that tree stars \rt{Can't we just use RDF graphs here as well? If not, why not?} must respect. \rt{in order to ...}
+Since our approach is shape-language-agnostic, we formalize abstract shapes as a basis for our approach.
+
+\rt{I think this section is potentially very dangerous. There are many shape experts out there, so if there's even a tiny mistake in this section, the whole article will get shot down because of it.}
+\rt{I wonder if we really need to formalize all of this ourselves. Are you sure this hasn't been done yet? If not, could we not somehow refer to the formalization of ShEx or SHACL, and possibly a subset that they share? Or we could even just refer to the formalization of one, and mention that our approach also applies to the other due to the subset we consider.}
+\rt{If you want to keep this, definitely ask a review from someone with a more formal background than me.}
 
 We define a shape
 \begin{equation}
@@ -143,7 +152,7 @@ S = (E, op \in \{\mathrm{true},\mathrm{false}\})
 $E = \{e_1, e_2 ..., e_{n}\}$ is a set of $n$ shape expressions $e_i$.
 Shape expressions are constraints on the triples of tree stars.
 $op$ describes whether a shape is open denoted by $\mathrm{true}$ or closed.
-Before defining what an open and a close shape means, we define an evaluation function 
+Before defining what an open and a closed shape means, we define an evaluation function 
 $Ve(e, op, G_{starT_i}) \rightarrow \{\mathrm{true}, \mathrm{false} \}$
 taking a shape expression $e$, a boolean $op$ to determine if the shape is open or closed, and a tree star $G_{starT_i}$.
 $Ve$ determines if $G_{starT_i}$ satisfies $e$.
@@ -158,8 +167,8 @@ $sc(G_{starT_i})  \rightarrow \{\mathrm{true}, \mathrm{false}\}$,
 on the predicate and the object of a triple in a $G_{starT_i}$.
 $pc_p$ evaluates if a predicate term in a triple in a $G_{starT_i}$ is equals to an IRI $p$.
 $oc_f$ evaluates if an object term of a triple in a $G_{starT_i}$ validate three possible scenerario defined by $f$.
-Either it validate that the object term targeted by $oc_f$ is of an RDF type or satisfy a literal comparison.
-Or it validate that a shape defined by $f$ is satisfied given that we consider as a tree star 
+Either it validates that the object term targeted by $oc_f$ is of an RDF type or it satisfies a literal comparison.
+Or it validates that a shape defined by $f$ is satisfied given that we consider as a tree star 
 $G_{starT_i}^{\prime}$ where $BQ_{star}(o) \in G_{starT_i}^{\prime}$ and $o$ is the object term of targeted by $oc_f$.
 $rs^a_b = \{x \in \mathbb{N}_+ | a < x < b \}$ is a range interpreted by $Ve$ as the number of triples in a tree star that both $pc_p$ and $oc_f$ must respect.
 $n$ is an indication to $Ve$ when $\mathrm{true}$ that no triple in a $G_{starT_i}$ must respect both $pc_p$ and $oc_f$. 
@@ -168,7 +177,7 @@ A shape expression is defined by
 \begin{equation}
  e ::= st \mid (e_j|e_k)
 \end{equation}
-where "$|$" denotes a disjunction between two shape expressions.
+where "$|$" denotes a disjunction between two shape expressions. \rt{What does a disjunction between two shape expressions mean? Something that also needs to be formalized?}
 
 For $G$ to satisfy $S$, $G$ has to be analyzed as the union of all its tree stars such that $G = \bigcup_{g \in G_{starT}} g$ where $G_{starT}$ is the set of every tree star in $G$
 and each tree star are defined in a way that no $G_{starPT_i}$ are shared by any $G_{starT_i}$.
@@ -176,6 +185,6 @@ $G$ satisfies $S$ is defined by $G \models S \iff Ve(e,G_{starT_i}, op\in S)$  f
 
 \subsection{Decentralized Knowledge Graph}
 We define a decentralized knowledge graph (DKG) as a KG $G$ materialized in a network of resources $R$.
-A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is mapped to an IRI $iri_i$.
+A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is mapped \rt{exposed by} to an IRI $iri_i$.
 The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in t \in g_i$ are directed edges starting from $r_i$ to $r_j$.
 $G$ is formed by the union of all the $g \in r$, such that $G = \bigcup_{i=0}^{n}g_i$ given $n$ resources in the network.

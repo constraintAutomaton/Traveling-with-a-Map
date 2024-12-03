@@ -1,4 +1,4 @@
-\section{Experiment}
+\section{Experimental Setup}
 
 \sepfootnotecontent{sf:implementationComunica}{
    \ifanonymous
@@ -33,21 +33,24 @@
 }
 
 We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}. 
-We chose Comunica for its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in multiple LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
+We chose Comunica for its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in multiple LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink} \rt{I'd expect some of these to be discussed in related work.}.
 The implementation of our reachability criteria and the link queue filter is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape containment solver.~\sepfootnote{sf:implementationQueryShapeContainment}
-We use the social benchmark Solidbench~\cite{Taelman2023} which is based on the LDBC benchmark~\cite{Angles2020} to evaluate our contribution.
-We created an open source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in Solidbench based on user-provided mapping between ShEx shapes and data model objects.
+We use SolidBench~\cite{Taelman2023}, which is based on the LDBC social network benchmark~\cite{Angles2020} to evaluate our contribution.
+We created an open source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench based on user-provided mapping between ShEx shapes and data model objects.\rt{This needs to be discussed in detail! What does the data model look like, how does it link to the shapes, examples, ...}
 
+\rt{Big problem: you've never mentioned Solid up until now!}
+
+\rt{The following is lacking many details that are necessary to understand the experimental setup. I recommend expanding this section, and perhaps creating subsections for each experiment (or an enumeration).}
 We designed several experiments to analyze and evaluate our approach.
-First, we assessed the execution time and results of our query-shape containment algorithm using the shapes from the study.
-We also compared the state-of-the-art traversal algorithm, the LDP specification and type-index, and the LDP specification~\cite{Taelman2023} with our shape index approach in a network where every dataset provides a complete shape index with the most descriptive shapes.
-Additionally, we evaluated the adaptivity of our approach by modulating the shape index information across the network.
-In one experiment, we examined the impact of query execution time in a network where 0\%, 20\%, 50\%, and 80\% of datasets exposed a shape index.
-In another experiment, we assessed the effect of having shape indexes with 20\%, 50\%, and 80\% entries using closed shapes.
-In the final experiment, we evaluated the impact of using shapes that only incorporated data from the dataset itself and shapes that provided a minimal description of the data.
+First, we measure the execution time and results of our query-shape containment algorithm using the shapes from the study \rt{Which shapes are this exactly?}.
+We also compare the state-of-the-art traversal algorithm \rt{I would not call this the state-of-the-art traversal algorithm. Just use the citation, or call it the optimal algorithm that does LTQP based on structural assumptions}, the LDP specification and type-index, and the LDP specification~\cite{Taelman2023} with our shape index approach in a network where every dataset provides a complete shape index with the most descriptive shapes.
+Additionally, we evaluate the adaptivity of our approach by modulating the shape index information across the network.\rt{Unclear what this means.}
+In one experiment, we examine the impact of query execution time in a network where 0\%, 20\%, 50\%, and 80\% of datasets \rt{What are datasets? I guess pods?} expose a shape index.
+In another experiment, we assess the effect of having shape indexes with 20\%, 50\%, and 80\% entries using closed shapes.
+In the final experiment, we evaluate the impact of using shapes that only incorporated data from the dataset itself and shapes that provided a minimal description of the data.\rt{Unclear what this means.}
 For all experiments, we performed 50 repetitions and set a timeout of 2 minutes (120,000 ms).
 To run our experiments, we used a machine with Ubuntu 20.04.6 LTS, featuring a 2x Hexacore Intel E5645 CPU and 24GB of RAM.
-We provide complementary material online, including experimental setups, raw data, and additional plots and tables of our results.~\sepfootnote{sf:complementaryMaterial}
+All our experiments are fully reproducible, and all raw data is available online~\sepfootnote{sf:complementaryMaterial}.
 
 \iffalse
 PROVIDE LINK FOR EXPERIMENTS AND SHAPES
