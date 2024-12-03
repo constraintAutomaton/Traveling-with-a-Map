@@ -1,14 +1,17 @@
 \section{Conclusion}
 
-We proposed optimizing the search space of traversal queries by leveraging a shape index, which is a mapping between RDF shapes and a set of resources, as a mechanism for source selection.
+In this article, we minimized the search space of link traversal queries by leveraging a shape index, which is a mapping between RDF shapes and a set of resources.
 The primary mechanism for source selection that we propose is to execute a query-shape containment problem similar to the classic query containment problem; we also 
 propose an extension of the reachability criteria concept to include the sources' pruning.
-From our experiment for highly selective queries, we can notice a high improvement in query execution time with a marginal decrease in the performance of nonselective queries 
-and an important degradation of performance for queries that do not exploit the structural properties of datasets.
+Our results show a significant \rt{How big?} reduction in query execution time for selective queries,
+a marginal increase for non-selective queries,
+and an significant increase for queries that do not exploit the structural properties of datasets \rt{unclear what this means}.
 We have also shown that our approach is adaptative and can operate in networks with partial shape index information or shapes with minimally described shapes and still benefit
 from the information provided by the network to reduce the execution time.
-Shape indexes are small descriptive summaries of decentralized datasets; this work did not discuss their production.
+Shape indexes are small descriptive summaries of decentralized datasets \rt{Knowledge Graphs}; this work did not discuss their production \rt{This is formulated in a weird way.}.
 However, there exists work in the literature for automatic generation of RDF data shapes~\cite{fernandez2023extracting}.
-Similarly, we did not discuss their maintenance, but shape-based data integration is a topic investigated in the literature~\cite {LabraGayo2023}.
-Given the descriptive power of shapes and their use in centralized setting~\cite{kashif2021} for query planning, interesting future work could be to investigate adaptatively
+Similarly, we did not discuss their maintenance, but shape-based data integration is a topic investigated in the literature~\cite {LabraGayo2023}. \rt{Just say that the creation and maintenance of them is not in scope here, and something for future work?}
+Given the descriptive power of shapes and their use in centralized setting~\cite{kashif2021} for query planning, interesting future work could be to investigate adaptative\rt{This will be very confusing to the reader, because you used the term Adaptive before by saying your approach is adaptive to different networks.}
 query planning in LTQP~\cite{taelman2024towards} using shapes.   
+
+\rt{I'm missing a real conclusion here. What do your results actually mean for LTQP, Solid, decentralization, the Web, and society?}
