@@ -49,7 +49,10 @@ Finally, we conclude the article.
 To guide our study we formulated the following research question.
 \textbf{Can a LTQP use shape-based pruning in networks of decentralized Knowledge Graphs to reduce the number of HTTP requests while maintaining the same completeness of results, and does this reduction of HTTP requests lead to a decrease in query execution time?}
 We formulated the following hypotheses:
-\begin{itemize}
+\newcounter{hypothesisCounter}
+\setcounter{hypothesisCounter}{1}
+
+\begin{itemize}[label=\textbf{H\arabic{hypothesisCounter}}\,\stepcounter{hypothesisCounter}]
     \item Using shape indexes will reduce the number of non-contributing data sources acquired
     \item There is a linear relationship between the reduction of the number of HTTP requests and the reduction of query execution time
     \item Executing a query-shape containment is negligible in the context of social media applications
