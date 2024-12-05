@@ -8,6 +8,14 @@
    \fi
 }
 
+\sepfootnotecontent{sf:recursiveShape}{
+    In this paper we ignore "inverse constraints" such as
+    inverse triple constraint in ShEx \url{https://shex.io/shex-primer/index.html\#inverse-properties}
+    and SHACL Inverse Paths \url{https://www.w3.org/TR/shacl\#property-path-inverse} to avoid recurse 
+    shape schemas~\cite{Corman2019}.
+    We only consider shapes that can be transformed into a single \texttt{SELECT} SPARQL query.
+}
+
 \sepfootnotecontent{sf:subwebsep}{
    We assume an implicit conversion between the subweb specification and the formalization of reachability criteria.
    Space constraints prevent us from detailing the conversion.
@@ -19,22 +27,10 @@
    \rt{This footnote seems unnecessary, since delva2023 is already cited.}
 }
 
-\subsection{Structured Linked Data Environments and Completeness}\label{sec:slde}
-\rt{This whole paragraph should have been in the introduction.}
-From a holistic perspective, the web does not have a structure exploitable by query engines for optimization.
-On the web, any document can be published at any location, and there is no index or trust mechanism to guide source selection.
-From a perspective where the web is divided into small subsections controlled by data providers, data publishers can implicitly or explicitly organize their data  
-in a way that query engines could exploit its organization for optimization.
-The concept of \emph{structural assumptions}~\cite{Taelman2023} has been theorized to optimize queries by exploiting the local structure of decentralized RDF datasets.
-These assumptions rely on data providers guaranteeing the completeness of results for their statements within a specific set of resources in an IRI domain~\cite{Bogaerts2021LinkTW}.
-Structural assumptions have been shown to reduce the query execution time of multiple queries to the extent that the bottleneck of specific queries is not the number of HTTP requests but the suboptimal query plan~\cite{Taelman2023, eschauzier_quweda_linkqueue_2023}.
-Structural assumptions define completeness of traversal of SLDE in the same paradigm as reachability criteria~\cite{Hartig2012}.
-We propose to put our focus on the completeness of results when considering that the completeness of traversal has been fixed.
-Placing our focus on results allows us to investigate ways to optimize the search space of link traversal queries.
-Our approach consists of defining more restricting reachability criteria~\cite{Hartig2012} while ensuring the same completeness of results as with less restricting criteria.
+\subsection{Descentralized environments with structural properties and completeness under prunning regime}\label{sec:slde}
 
-
-We formalize our approach as follows.
+We propose to focus LTQP on completeness of results instead completeness of traversal in the context of descentralized environments.
+To do so, we formalize our approach as follows.
 A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in a network $R$.
 The query engine has to build a KG $G^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
 $G^{\prime} \subseteq G$ holds to answer its query.
@@ -48,7 +44,6 @@ We focus on maintaining the same results completeness, so when using $C_{mr}$ th
    [\![ Q ]\!]^{G^{\prime\prime}} = [\![ Q ]\!]^{G^{\prime}}
 \end{equation}
 for any network $R$.
-
 Because the $g \in G^{\prime}$ can only be acquired from the dereferencing of resources $r \in R$, a smaller $G^\prime$ implies that a lesser number of HTTP requests has been performed to answer a query.
 Naturally, query execution is faster with a smaller KG instance.
 Additionally, HTTP requests can be slow and unpredictable~\cite{hartig2016walking}, making them a significant factor in overall query execution time. 
@@ -63,241 +58,146 @@ Equation~\ref{eq:cReachabilityCriteria} formalizes a composite reachability crit
    C(t, iri, B) = \bigvee_{cd \in Cd} cd(t, iri, B) \mathrel{\land} \bigwedge_{cp \in Cp} \, cp(t, iri, B)
 \end{equation}
 where $Cd$ is the set of every $cd_i(t, iri, B)$ and $Cp$ the set of every $cp_i(t, iri, B)$ used by the engine.
-\iffalse
-Maybe refer to the link queue here in a footnote.
-\fi
-
-\iffalse
-In the context of the World Wide Web (WWW), defining completeness based on results is not possible because it necessitate the acquisition of the whole web.
-However, in the context of a decentralized dataset with structural properties and associated structural assumptions,
-the traversal completeness of those datasets is defined outside of the query engine and thus can serve as a 
-stable comparison concept regardless of the traversal policy of the engine.
-Hence, for each dataset with structural properties, it is possible to compute a theoretical result completeness.
-If we suppose a finite network of connected datasets that are discoverable with a specified reachability criterion such as \texttt{cmatch},
-Then, it is possible to establish the completeness of the subset of the query targeting information in the network.
-
-
-
-Furthermore, having a stable traversal completeness we can create a theorical results completeness metric, by considering the descentralized dataset as a centralized one that is the union 
-of all the knowledge graph inside the ressources of the dataset $GD = \bigcup\limits_{i}^{n} g\in r_i$ given $n$ ressource $r$.
-This, metric 
-
-\begin{equation}\label{eq:metricResult}
-   [\![ Q ]\!]^{G^{\prime}} = [\![ Q ]\!]^{G}
-\end{equation}
-
-\fi 
-
-
-
-\iffalse
-While BQPs are syntactic objects, we shall use them as a represen-
-tation of Linked Data queries which have a certain semantics. In the
-remainder of this section we define this semantics. Due to the open-
-ness and distributed nature of Webs such as the WWW we cannot
-guarantee query results that are complete w.r.t. all Linked Data on
-a Web. Nonetheless, we aim to provide a well-defined semantics.
-Consequently, we have to limit our understanding of completeness.
-However, instead of restricting ourselves to data from a fixed set
-of sources selected or discovered beforehand, we introduce an ap-
-proach that allows a query to make use of previously unknown data
-and sources. Our definition of query semantics is based on a two-
-phase approach: First, we define the part of a Web of Linked Data
-that is reached by traversing links using the identifiers in a query
-as a starting point. Then, we formalize the result of such a query
-as the set of all valuations that map the query to a subset of all
-data in the reachable part of the Web. Notice, while this two-phase
-approach provides for a straightforward definition of the query se-
-mantics in our model, it does not correspond to the actual query
-execution strategy of integrating the traversal of data links into the
-query execution process as illustrated in Section 2.
-
-The analysis
-of this implementation approach is particularly interesting because
-this approach trades completeness of query results for the guarantee
-that all query executions terminate as we shall see.
-
-
-Hartig2012
-\fi
-
+This section has introduced our general concept of pruning. 
+In the next section, we present our specific shape-based approach using a shape index.
 
 \subsection{Shape Index}
 
-\rt{Part of the following paragraph should also have been in the introduction.}
-We propose using a decentralized dataset summary method, called the shape index~\cite{tam2024opportunitiesshapebasedoptimizationlink}, as the support mechanism for our pruning reachability criterion.
-This method involves mapping the content of a decentralized dataset using RDF data shapes.
-The intuition behind this approach is that rendering \rt{publishing} explicit RDF schemas is relatively inexpensive for data providers when publishing decentralized datasets. \rt{...but they could be highly beneficial for clients...}
-Although RDF does not enforce schemas on its data, the nature of the usually modeled objects and the formalism often results in implicit schemas~\cite{Neumann2011CharacteristicSA}.
-Additionally, the cost of making these schemas explicit should be evaluated in the context of the data's intended usage.
-First, mapping and documenting decentralized data improves its discoverability, which is a common objective when publishing RDF data.\rt{I don't get the point of this sentence.}
-Second, embedding this information within datasets facilitates client-side query engine processing, potentially reducing reliance on costly SPARQL endpoints~\cite{aranda2013}.\rt{You are confusing two different things here. We use shapes to prune links in LTQP. But you cite a paper saying that SPARQL endpoints have availability issues, which is unrelated.}
-Since the web is a highly dynamic environment where data providers require flexibility, shape indexes support open shapes as mapping keys.\rt{You completely lost me here :-D }
-For example, a data provider might expose personal data such as movie recommendations, bookmark metadata, and friend lists.
-The provider might use open shapes for movie recommendation data because they are less structured and employ closed shapes for bookmark and friend list data.
+Pruning in LTQP requires information about the data models of dereferenced sources.
+However, obtaining complete, up-to-date, and expensive information for each source in a large decentralized network is unrealistic.
+To address this, we propose the concept of shape indexes. 
+A shape index is a mapping between sets of RDF documents and RDF data shapes, which describe a region of the web controlled by a data provider.
+When a set of RDF documents is mapped, the associated KG must conform to the shape.
+Unlike statistics on triples, shapes are independent of the size of the knowledge graph or updates that remain compliant with the shape, making them a more cost-effective alternative for use cases where the data model remains stable. 
+Moreover, shapes support open-world assumptions, offering data providers flexibility at the cost of being unsuitable for pruning (if we do not consider negative statement).
 
-A shape index \rt{Could you first give an intuitive explanation of a shape index?}
+A shape index can be formalized as follow
 \begin{equation}\label{eq:shapeIndex}
    SI = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}
 \end{equation}
-, is a mapping between RDF data shapes and a set of IRI given $n$ entries.
-The IRI domain of a shape index is defined by $D = \bigcup_{i=1}^{n} \bigcup_{iri \in IRI_i} iri$ \rt{Isn't the domain a subset of all possible IRIs? Looks very complicated right now.}.
+given $n$ entries.
+The region of the web described by the index is defined by $D = \bigcup_{i=1}^{n} \bigcup_{iri \in IRI_i} iri$.
 A shape index \emph{must} map every resource in $D$.
-We denote a shape index as \emph{complete} when every shape $s_i \in \text{DOM}(SI)$ \rt{What is DOM?} is closed and \emph{incomplete} otherwise.
+We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ is closed and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRI has implications in the distribution of the data in $D$.
 When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | g \in r, iri \mapsto r \land iri \in IRI\}$ satisfies $s$.
-Given that the shape is closed, then every set of triples (see the end of section \ref{sec:shape}) in the resource associated with $D$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
+Given that the shape is closed, then every set of triples in the resource associated with $D$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
 We provide a technical specification of the shape index online~\sepfootnote{sf:shapeIndexURL}.
 
-\subsection{Online Source Selection in Shape Index Documented Datasets}\label{sec:sourceSelection}\rt{This title is very confusing. Source selection is a concept from SPARQL federation, not LTQP.}
+RDF shapes use the concept of targets to determine the root node for validation.
+In this work, we consider all entities in a KG within a document to conform to the same schema.
+We refer to these entities as tree stars (patterns), an extension of the existing star patterns concept in RDF.
+Star patterns consist of triples sharing the same subject.
+We extend this idea by considering all star patterns linked via the object term of a preceding star pattern, forming a tree-like structure of star patterns.
+For example, if a user has posted a comment, and that comment, among other properties, is a reply to another post, our approach encapsulates these relationships within a single conceptual framework.
+This concept serves two purposes: defining targets for validation and capturing relationships between the triple patterns of our query and the corresponding entities.
+Definition~\ref{def:starPattern} formalizes the concept.
 
-\rt{It's not really clear to me what this section is about exactly? I guess it's about pruning links using the shape index?}
+\begin{definition}[Tree Star Pattern]\label{def:starPattern}
+   We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
+   given a builder function 
+   \begin{equation}
+       BQ_{star}(s) = \{tp_i \in Q| S(tp_i) = s\}
+   \end{equation}
+   with $s \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$ then $Q_{star_s} = BQ_{star}(s)$.
+   We define a tree star pattern $Q_{starT}$ as the union between a root star pattern $Q_{star_s}$
+   and the star patterns having as subject term an object term of another star pattern in $Q_{starT}$.
+   We define a function that returns every non-literal object terms of a star pattern
+   \begin{equation}
+       O_{star}: q \in Q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
+   \end{equation}
 
+   We then define $Q_{starT}$ given a  set of partial tree star patterns $Q_{starPT}$
+   \begin{equation}
+       Q_{starT} = \bigcup_{q \in Q_{starPT}} q
+   \end{equation}
+   where $Q_{starPT}$ is formed with a root $Q_{star_s}$ by
+
+   \begin{equation}
+           Q_{starPT_i} =
+       \begin{cases}
+           \{Q_{star_s}\} & \text{if } i = 1 \\
+           \{BQ_{star}(o)| o \in \bigcup\limits_{q \in Q_{starPT_{i-1}}} O_{star}(q)\} & \text{if } i>1
+       \end{cases}
+   \end{equation}
+
+   We also define a function returning the subjects of the $Q_{starPT_i}$ of a $Q_{starT}$
+   \begin{equation}
+       S_{star}: q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
+   \end{equation}
+
+   We propose a similar definition for the context of KGs where we replace the query $Q$ by a KG $G$ and where the terms 
+   cannot be a $v \in \mathcal{V}$. 
+   We denote this structure a tree star.
+\end{definition}
+Thus, the target for the shapes in the shape index is to consider every tree star in the KG of the documents, ensuring that no partial tree stars are shared.
+
+\subsection{Link Prunning Using Shape Indexes}\label{sec:sourceSelection}
+
+In this section we make the link between the shape index and link prunning in LTQP.
 A decentralized dataset exposing a shape index provides a query engine with the opportunity to reduce its search domain by knowing which resources are query-relevant.
-The shape descriptions and constraints on the distribution of the data allow the query engine, 
-within an IRI domain $D$ of a shape index $SI$ to determine before traversing $D$ which subdomain $d \subseteq D$ contains data that is query-relevant.
-To formalize our approach, we use the concept of composite reachability criteria described in section~\ref{sec:slde} and of the source selectors of the subweb specification formalization~\cite{Bogaerts2021LinkTW, Taelman2023}.
+More formally, instead of traversing the web region $D$ associated with a shape index, the engine will traverse a subregion $d \subseteq D$, ignoring the knowable nonquery-relevant sections.
+The concept of composite reachability criteria allows us to ignore certain sources during traversal based on the knowledge acquired along the way.
+Our approach involves dynamically constructing new reachability criteria during traversal by adding pruning criterion as we discover and analyze shape indexes.
+These criteria are designed so that, they will always produce the same completeness of results as the one that was define at the beginning of the traversal.
 
-\rt{I was unable to understand the following paragraph. I recommend starting with an intuitive description, and then afterwards providing a pure formal description of it.}
-We propose that a query engine with composite reachability $C_t$ at any time $t$ can query an SLDE with completeness of results.
-$C_t$ is defined as such that if the engine were not to change its reachability
-until $t_f$ \rt{Introducing time in this formalization seems unnecessary.}, the end of the query execution, the completeness of results,
-as defined in Equation~\ref{eq:evalQueryStructuralAssumption},
-will remain consistent with the results obtained using the reachability at the beginning of execution, $C_{0}$.
-We propose that $C_0$ must have a discovery \rt{reachability?} criteria $cd_{\text{shape index}}$ that follow links leading to shape indexes.
-Let us consider that the predicate \texttt{si:shapeIndexLocation} \rt{Prefix is undefined?} indicates that the object of the triple is the location of the shape index 
-of the dataset, thus we can define the criterion
-$cd_{\text{shape index}} = \{o|\forall s \langle \text{si:shapeIndexLocation} \rangle \}$.~\sepfootnote{sf:subwebsep} \rt{Unclear what this means. I don't think this is correct.}
-A reachability $C_{tsi_i}$ is created after dereferencing a shape index.
-This reachability must accept the links $IRI_d$ that are query-relevant and prune the links $IRI_p$.
-To determine $IRI_d$ and $IRI_p$ a query-shape containement ($\sqsubseteq_{qs}$) is performed.
-The problem is defined in section \ref{sec:containment}.
-We define 
-$IRI_d = \{ \bigcup_{iri \in SI_i(s_j)} iri |  B \sqsubseteq_{qs}  s_j = \mathrm{true}, s_j \in \text{DOM}(SI_i) \}$ and 
-$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | B \sqsubseteq_{qs}  s_j = \mathrm{false}, s_j \in \text{DOM}(SI_i) \}$
-
-given a shape index $SI_i$.
-From those sets of links we define two new reachability criteria;
+More formally, let us introduce time $t$ as a factor for our reachability criteria $C_t$.
+The query execution begins with an initial reachability criterion $C_0$.
+At any time $t$, Equation~\ref{eq:evalQueryStructuralAssumption} must hold if we consider $C_t = C_{t+1} = C_{t+2} \dots = C_{tf}$ until the end of the execution $tf$, given that $G^{\prime}$ is produced using $C_0$.
+The initial criterion $C_0$ must include a discovery reachability criterion $cd_{\text{shape index}}$ that leads to a shape index document.
+After dereferencing a shape index $SI_i$ at time $tsi_i$, the query engine creates a set of links $IRI_p$, which contains the links that must be pruned.
+The links to prune are determined by evaluating the shape index to identify the set of IRIs that are not query-relevant.
+This is achieved by performing a query-shape containment check ($\sqsubseteq_{qs}$), as defined in Section~\ref{sec:containment}.
+We define
+$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | B \sqsubseteq_{qs}  s_j = \mathrm{false}, s_j \in \text{dom}(SI_i) \}$
+From this sets of links we define a pruning reachability criteria;
 \begin{equation}
-   \begin{aligned}
-       cd_{si}(t, iri, B) &= iri \in IRI_d \\
-       cp_{si}(t, iri, B) &= iri \notin IRI_p
-   \end{aligned}
+       cp_{si}(t, iri, B) = iri \notin IRI_p
 \end{equation}
-the new reachability $C_{tsi_i}$ is created by taking the $Cd$ and $Cp$ of $C_{tsi - 1}$ and adding
-$cd_{si}$ and $cp_{si}$ to the corresponding set. 
+The new reachability $C_{tsi_i + 1}$ is created by taking the $Cd$ and $Cp$ of $C_{ts_i}$ and adding
+and $cp_{si}$ to $Cp$.
 
-\subsection{Expressing RDF Data shapes into SPARQL algebra}\label{sec:shape2SPARQL}
-
-Before tackling the query shape containment problem\rt{Can you remind the reader why this is needed?}, we must define how to express RDF data shapes into queries.
-A shape expression $e_i$ can be intuitively treated as a segment of a query~\cite{delva2023}.
-A common approach for shape validation over an RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.~\sepfootnote{sf:ssf_project}
-We define in the following lines the transformation of a shape $S$ into a query $Q_s$ using the transformation $T(S,?x)$ and $t(e_i, ?x) = q_i$ where every 
-symbol with a $?$ prefix is a variable in $\mathcal{V}$.
-\iffalse
-For our query-shape containment problem we are looking into transforming our shapes $S$ into queries $Q_s =  q_i \bowtie q_{i+1} ... \bowtie q_n$ by transforming each $e_i$ of $s$ in a $q_i$.
-We are looking into creating a query $Q_s$ with the following property
-\begin{equation}\label{eq:shapeSPARQL}
-   G \models S \iff [\![ Q_s ]\!]^{G} =  G
-\end{equation}
-For every $G$.
-
-Our definition is aimed at close shapes because we are not looking into validating data but into containment since an open shape can validate 
-For any $G$ that contains at least the constraint specified by $S$, we simplify the fact that if we neglect negative statements, any query can be contained in such a shape.
-The intuition behind equation~\ref{eq:shapeSPARQL} is that we are looking to produce a query that simulates the behavior of a shape.
-It is natural from the definition of shape languages. It has been shown in the literature that shape constraint can be transformed into a combination of triple patterns, filter expressions, and other SPARQL fragments.
-Thus, if we can establish a mapping between the constraints of $S$ in terms of query fragments, a query targeting $G$ should return $G$ if every triple of the 
-$G$ respects the constraint of the shape.
-\fi
-
-
-\iffalse
-INSPIRE YOURSELF BY Corman2019 style
-
-We might want to reference that
-
-https://labra.weso.es/publication/2023_kg_subsets_pregel/
-https://labra.weso.es/publication/2024_extracting_shapes_consolidator/
-
-https://labra.weso.es/publication/2023_rdf_data_integration/
-
-ssf_project Maxime
-
-https://github.com/MaximeJakubowski/ssf_project/blob/master/ssf/sparql_conformance.py
-
-\fi
-
-\rt{Since you state that it is common to convert shapes into queries, it may be fine to just move the following to the appendix.}
-
-\begin{prop}\label{prop:triplePattern}
-   A shape expression $e_i = st$ given $rs^a_b = st_3$ and $p$ is the predicate from $pc_p = st_1$
-   can be transformed into a query consisting of one triple pattern with an associated \texttt{GROUP BY ?x HAVING(COUNT(?o))} statement on the object of triple pattern,
-   such that
-   $Q_{e_i} = \beta_{?x, (|?o| \in rs^a_b)}(?x, p, ?o)$,
-   where $\beta$ is a \texttt{GROUP BY ?x HAVING} clause and $|?o|$ is a \texttt{COUNT} clause. 
-\end{prop}
-
-\begin{prop}
-   In a shape expression $e_i$ , $oc_f = st_2$ can be transformed into a filter expression targeting $?o$ if the constraint validates an RDF type or a literal comparison.
-   This transformation takes the form $q_{i} = \sigma_{oc_f((?x, p, ?o))}(?x, p, ?o)$ where $\sigma$ represent the filter expression applid on $?o$.
-   If $oc_f$ validates a shape on $?o$, then $q_i$ must be formed by joining a query derived from $e_i$ with $oc_f = \mathrm{true}$ and a query derived from the shape targeted by $oc_f$ 
-   where $?o$ is the subject such that $q_{i}= (?x, p, ?o) \bowtie T(S_{oc_f},?o)$ given $S_{oc_f}$ is the shape related to $oc_f$.
-\end{prop}
-
-\begin{prop}
-   In a shape expression $e_i = e_j|e_k$ the expression can be transformed into the union between two queries
-   $q_{i} = t(e_j, ?x) \cup t(e_k, ?x)$.
-\end{prop}
-
-\begin{prop}
-   In a shape expression $e_i = st$ when $st_4 = n = \mathrm{true}$ then the query $q_i$ must be negated such that $\neg q_i$ and $\beta$ statements ignored.
-\end{prop}
-
-\begin{prop}
-   A closed shape ($op = \mathrm{false}$) $S$ can be transformed into $Q = t(e_1, ?x) \bowtie t(e_2, ?x) ... \bowtie t(e_{n_{ec}}, ?x)$ given $n_{ec}$ shape expressions.
-\end{prop}
-
-\begin{prop}
-   A open shape $S$ ($op = \mathrm{true}$) is transformed into $Q = (?x, ?p, ?o) -  (t(e_1, ?x) \bowtie  t(e_2, ?x) ... \bowtie t(e_{n_{eo}}, ?x)) $
-   given $n_{eo}$ negative $e_i$ (where $n = \mathrm{true}$).
-\end{prop}
 
 \subsection{Query Shape Containment}\label{sec:containment}
 
-We propose using query containment as a source selection mechanism \rt{Not source selection}.
-While query containment is intuitively unsuitable for online source selection due to its NP-complete complexity~\cite{Spasi2023}, this complexity depends on the size of the queries, which are typically small \rt{You'll need to convince the reader a bit more on this.}.
-Moreover, practical use cases can leverage polynomial time complexity algorithms~\cite{Doan2012}.
-In our context, the container query (the shape) follows a tree star pattern template structure where predicates are always IRIs, and subjects and objects are always variables. \rt{Why is this so? What if it's not?}
-This structure can be leveraged to create an algorithm with polynomial time complexity.
+To determine if a source is query-relevant we propose to perform a query-shape containment problem.
+The understanding of this problem is similar to the classic query containment problem. 
+Query containment aims at determining independent of the specific KG (database) instance if a query can be answer from the answer of another query.
+In our context we are trying to determine if a tree star pattern from our query (given no share partial tree star pattern) can be answer by any sources respecting a specific shape.
+Intuitively shapes expressions can be treated as a segment of a query~\cite{delva2023}.
+Furthermore it is a common approach for shape validation over an RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.~\sepfootnote{sf:recursiveShape}
+Let's define this transformation $T(S)$ producing a query $Q_s$.
+We consider open shapes to always represent queries that retrieve entire KGs (ignoring any negative statements). 
+This is because, under the open-world assumption, the shape defines the minimum topology of a graph.
+With this transformation to problem become similar to query containment problems.
+Query containment may intuitively seem unsuitable for dynamic reachability due to its NP-complete complexity~\cite{Spasi2023}.
+However, this complexity depends on the size of the queries, which are typically small~\cite{Doan2012}; we do not expect in most cases queries containing thousands or millions of triple patterns~\cite{Bonifati2019}.
+Additionally, practical use cases can often leverage polynomial-time algorithms~\cite{Doan2012}.
+In our context, the container query (the shape) adheres to a tree-star pattern template structure, where predicates are always IRIs.
+This structure arises because shapes predominantly describe predicate terms and object terms that are isomorphic to the specific graph.
+By exploiting this structure, it is possible to design an algorithm with polynomial time complexity.
 
-We consider that a query $Q$ is contained into a shape $S$ denoted $Q \sqsubseteq_{qs} S$, if a tree star pattern in $Q$ is contained in $Q_s = T(S, ?x)$ where $?x$ is the variable of the subject of the body of the shape.
-For a tree star pattern to be contained, we need to consider the two parts of $Q = Q_{body} \cup Q_{\text{unions}}$.
-$Q_{body}$ is the Basic Graph Pattern (BGP) of the query and $Q_{\text{unions}} = \bigcup Q_u$ are the Union Graph Patterns (UGP) where $Q_u = q_0 \cup q_1 \cup q_2 ... \cup q_n$.
-A tree star pattern $Q_{starT_i}$ is contained in $Q_s$ if its segment in $Q_{body}$ is contained in $Q_s$ and if its segment in at least one $q_i$ in each $Q_u$ is contained in $Q_s$.
-If $Q_{starT_i}$ is not a part of an $Q_u$, then the $Q_u$ is ignored.
-In our containment problem we ignore "cardinality constraints" \rt{Is this a known term? Refer to the proposition?} which are translated in 
-fragments of the form \texttt{GROUP BY ?x HAVING(COUNT(?o))}.
-We ignore these segments because we are not attempting to identify sources that can fully answer a particular segment of a query.
-Instead, we attempt to disregarding data sources that are irrelevant to the query, given the constraints imposed by the shape index.
-Thus, discriminating based on cardinalities might impact query results.
-Additionally, in this article, we do not consider filter expressions.\rt{Why not?}
-
-\iffalse
-While evaluating filter expressions would increase the algorithm's time complexity, it would also improve the precision of source selection.
-However, ignoring them does not affect the completeness of results in our context.
-Therefore, the tradeoff of including them in the resolution warrants an analysis.
-\fi
-
-\rt{Based on the current text, I was unable to understand this algorithm unfortunately. An intuitive description first could also help.}
+We consider that a query $Q$ is contained in a shape $S$, denoted as $Q \sqsubseteq_{qs} S$, if a tree star pattern in $Q$ is contained in $Q_s = T(S)$. 
+For a tree star pattern to be contained, we need to consider the two parts of $Q = Q_{\text{body}} \cup Q_{\text{unions}}$.
+$Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP), where $Q_u = q_0 \cup q_1 \cup q_2 \dots \cup q_n$.
+A tree star pattern $Q_{\text{starT}_i}$ is contained in $Q_s$ if its segment in $Q_{\text{body}}$ is contained in $Q_s$, and if its segment in at least one $q_i$ in each $Q_u$ is contained in $Q_s$. 
+If $Q_{\text{starT}_i}$ is not part of any $Q_u$, then $Q_u$ is ignored.
+In our containment problem, we ignore \texttt{GROUP BY} segments. 
+We make this choice because, in the context of shape queries, \texttt{GROUP BY} is primarily used to set a cardinality, and we are not attempting to identify sources that can fully answer specific segments of a query. 
+Instead, our goal is to disregard data sources that are irrelevant to the query, given the constraints imposed by the shape index. 
+Discriminating based on cardinalities could potentially affect query results.
+Additionally, this article does not consider filter expressions, as they can significantly increase the complexity of the problem.
+Moreover, "false" negatives do not impact the correctness of our approach. 
+However, incorporating filter expressions into future work would be an interesting direction to explore.
 
 % https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)
 \begin{algorithm}[h]
    \caption{Determine if a tree star pattern is contained ($isContain_{T}$)}\label{alg:containmentTree}
    \begin{algorithmic}
-      \REQUIRE  $Q_{star}$, $Q_{starT_i}$, $Q_s = Q_{s\text{body}} \cup Q_{s\text{unions}}$ and $MS$
+      \REQUIRE  $Q_{star}$, $Q_{starT_i}$, $Q_s = Q_{s\text{body}} \cup Q_{s\text{unions}}$ and $Eval_{star}$
       \ENSURE \TRUE $ $ or \FALSE $ $ whether the tree star is contained in the shape
 
-      \IF{$S_{star}(Q_{star}) \in MS$}
+      \IF{$S_{star}(Q_{star}) \in Eval_{star}$}
          \RETURN \TRUE
       \ENDIF 
 
@@ -305,7 +205,7 @@ Therefore, the tradeoff of including them in the resolution warrants an analysis
          \IF{\NOT $match(tp, Q_{s\text{body}})$}
             \STATE $hasOnePath \gets $ \FALSE
             \FORALL{$q_{us} \in Q_{s\text{unions}}$}
-               \IF{$isContain_{T}(Q_{star}, Q_{starT_i}, q_{us}, MS)$}
+               \IF{$isContain_{T}(Q_{star}, Q_{starT_i}, q_{us}, Eval_{star})$}
                   \STATE $hasOnePath \gets $ \TRUE
                \ENDIF
             \ENDFOR
@@ -315,7 +215,7 @@ Therefore, the tradeoff of including them in the resolution warrants an analysis
          \ELSE
             %eval nested
             \IF{$O(tp) \in  S_{star}(Q_{starT_i})$}
-               \IF{\NOT $isContain_{T}(Q_{star_{O(tp)}} \in Q_{starT_i}, Q_{starT_i}, Q_s, MS)$}
+               \IF{\NOT $isContain_{T}(Q_{star_{O(tp)}} \in Q_{starT_i}, Q_{starT_i}, Q_s, Eval_{star})$}
                   \RETURN \FALSE
                \ENDIF
             \ENDIF
@@ -323,18 +223,22 @@ Therefore, the tradeoff of including them in the resolution warrants an analysis
          \ENDIF
       \ENDFOR
 
-      \STATE $MS \gets MS \cup S_{star}(Q_{star})$
+      \STATE $Eval_{star} \gets Eval_{star} \cup S_{star}(Q_{star})$
       \RETURN \TRUE
    \end{algorithmic}
 \end{algorithm}
 
 
-We define the function $isContain_{T}$ \rt{Why is the T needed?} \rt{Do you mean isContained?} defined in Algorithm~\ref{alg:containmentTree} to evaluate if a $Q_{star_i}$ is contained in $Q_s$.
-The $match$ function evaluates if a triple pattern independent of the variable's names is in a query \rt{What does this mean?}.
-The algorithm is recursive, and on its first call, $Q_{star}$ must be the root of the $Q_{starT_i}$ \rt{What is this?}, and $MS$ \rt{What is this?} must be an empty set, 
-this set is used not to duplicate containment calculations \rt{Seems like an implementation detail that could be omitted}.
+We define the function $isContain_{T}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a tree star with a root star pattern $Q_{star_i}$ from $Q_{starT_i}$ is contained in $Q_s$. 
+The algorithm also takes a set $Eval_{star}$ to track which partial tree stars have already been evaluated.
+The algorithm works by examining each triple pattern in the root star pattern $Q_{star_i}$ and checking if an equivalent triple pattern (ignoring the variable names) can be found in the BGP of $Q_s$ using the $match$ function.
+If the triple pattern cannot be found in the BGP, the algorithm then looks into the UGPs of $Q_s$. 
+Since we assume that the union statement is not nested (perhaps through rewriting), this limits the number of recursive calls.
+If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial tree star pattern in $Q_{starT_i}$.
+If it is, the algorithm recursively applies the same procedure to this partial tree star pattern as $Q_{star_i}$.
+To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O( n_o \times n_{tp}^2 \times n_{sunion}^2)$
-where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$, $n_{sunion}$ the number of UGP \rt{What is this? BGP?} in $Q_s$ and $n_o$ the number of object term in $Q_{starT_i}$.
+where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$, $n_{sunion}$ the number of UGP in $Q_s$ and $n_o$ the number of object term in $Q_{starT_i}$.
 To solve $Q \sqsubseteq_{qs} S$, we need to consider the number of tree stars from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
 This operation results again in a polynomial time complexity algorithm.
 %To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starT}$ tree star from the BGP with their $n_{starTu}$ segment in the UGP and $n_{starTui}$ BGP in the UGP.

@@ -1,24 +1,25 @@
 \begin{abstract}
     % Context
-    Centralization of web information causes \rt{can cause} legal and ethical problems, especially in the context of social applications.
+    Centralization of web information can raise legal and ethical problems, especially in the context of social applications.
     % Need
     Decentralizing this information offers a potential solution, but maintaining query performance remains a challenge.
-    Link Traversal Query Processing (LTQP) supports decentralized querying \rt{The querying is not decentralized. We're querying over decentralized data} in large scale networks but is limited by long execution times and high data usage.
-    \rt{A sentence inbetween these two is needed to clarify the need a bit better: exec times are high because of too many unnecessary http requests that are being done.}
+    Link Traversal Query Processing (LTQP) enables querying in large-scale networks of decentralized data but suffers from long execution times and high data usage,
+    largely due to the extensive HTTP requests required for network exploration.
     % Task
-    This paper presents the \emph{shape index}, a lightweight RDF data summarization method using RDF data shapes to reduce the search space for traversal queries.\rt{From this sentence, it's not clear yet that this index is exposed as a REST/hypermedia interface.}
-    \rt{I wonder if this is really your main task. I think we can generalize this a bit and say that our task is the introduction of a shape-based link pruning approach. And this approach consists of two parts: a shape index (that exposes important metadata), and a LTQP pruning algorithm (that relies upon this metadata)}
+    This paper introduces a shape-based pruning approach to minimize the search space of traversal queries.
+    The approach utilizes \emph{shape indexes} provided by data providers in networks of decentralized knowledge graphs to reduce the search space using a \emph{query-shape containment} algorithm.  
     % Object
-    In this work, we formalize and evaluate the shape index data summarisation approach and a \emph{query-shape containment} problem to detect irrelevant sources during LTQP.\rt{And we introduce a pruning algorithm for LTQP!}
+    This work introduces link pruning in LTQP by formalizing the shape index and query-shape containment approach, and evaluates its impact on the performance of traversal queries.
     % Findings
-    Our findings show that shape-based data summarisation can reduce the query execution time \rt{of LTQP?} and network usage of selective queries \rt{By how much?}, even in networks with missing \rt{What does missing information mean?} or lower-quality information.
+    Our findings show that shape-based data summarization can reduce the query execution time and network usage of selective traversal queries by up to 2.8 times in our benchmark, even in networks with missing or less informative shapes.
     % Conclusion
-    This performance gain, without server involvement during querying \rt{But the server is involved right? For exposing the shape index? I suspect you want to say that server effort is increased only minimally? (by how much?)}, makes our approach a good candidate for selective queries in networks of structured, decentralized datasets \rt{Knowledge Graphs?}.
+    This performance gain, achieved without delegating queries to endpoints, makes our approach a strong candidate for handling selective queries in large networks of structured, decentralized Knowledge Graphs.
 
 \keywords{Linked data,
 Link Traversal Query Processing,
 RDF data shapes,
-Highly decentralized querying, \rt{"Decentralization"}
-Data summarisation \rt{Make sure to be consistent. Sometimes you use "summarisation" and sometimes "summarization"}}
+Decentralization,
+Data summarization
+}
 
 \end{abstract}

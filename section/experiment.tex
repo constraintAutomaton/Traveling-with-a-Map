@@ -1,11 +1,17 @@
 \section{Experimental Setup}
 
+\rt{I'd expect some of these to be discussed in related work.}
+
 \sepfootnotecontent{sf:implementationComunica}{
    \ifanonymous
       \url{https://anonymous.4open.science/r/comunica-feature-link-traversal-AE1C}
    \else
       \url{https://github.com/constraintAutomaton/comunica-feature-link-traversal/tree/feature/shapeIndex}
    \fi
+}
+
+\sepfootnotecontent{sf:solidbench}{
+   \url{https://github.com/SolidBench/SolidBench.js}
 }
 
 \sepfootnotecontent{sf:implementationQueryShapeContainment}{
@@ -32,13 +38,21 @@
    \fi
 }
 
-We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}. 
-We chose Comunica for its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in multiple LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink} \rt{I'd expect some of these to be discussed in related work.}.
-The implementation of our reachability criteria and the link queue filter is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape containment solver.~\sepfootnote{sf:implementationQueryShapeContainment}
-We use SolidBench~\cite{Taelman2023}, which is based on the LDBC social network benchmark~\cite{Angles2020} to evaluate our contribution.
-We created an open source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench based on user-provided mapping between ShEx shapes and data model objects.\rt{This needs to be discussed in detail! What does the data model look like, how does it link to the shapes, examples, ...}
+We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}.
+We chose Comunica due to its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
+The implementation of our reachability criteria and the link queue filter is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape containment solver~\sepfootnote{sf:implementationQueryShapeContainment}.
+We use SolidBench~\cite{Taelman2023}, based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution. 
+To facilitate this, we created an open-source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
+The shape annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
+The datasets are Solid Pods~\cite{Taelman2023}
+Each Solid Pod contains a shape index and separate files for each shape definition.
+Some shapes are nested within others. 
+For example, profiles are associated with cities, and comment are associated with posts.
+Certain data model objects are materialized in a single file, while others are distributed across multiple files, depending on the pod instance.
+The entire data model is available online~\sepfootnote{sf:solidbench}.
 
-\rt{Big problem: you've never mentioned Solid up until now!}
+
+
 
 \rt{The following is lacking many details that are necessary to understand the experimental setup. I recommend expanding this section, and perhaps creating subsections for each experiment (or an enumeration).}
 We designed several experiments to analyze and evaluate our approach.
@@ -50,11 +64,7 @@ In another experiment, we assess the effect of having shape indexes with 20\%, 5
 In the final experiment, we evaluate the impact of using shapes that only incorporated data from the dataset itself and shapes that provided a minimal description of the data.\rt{Unclear what this means.}
 For all experiments, we performed 50 repetitions and set a timeout of 2 minutes (120,000 ms).
 To run our experiments, we used a machine with Ubuntu 20.04.6 LTS, featuring a 2x Hexacore Intel E5645 CPU and 24GB of RAM.
-All our experiments are fully reproducible, and all raw data is available online~\sepfootnote{sf:complementaryMaterial}.
+All our experiments are fully reproducible, and all raw data and complementary material is available online~\sepfootnote{sf:complementaryMaterial}.
 
-\iffalse
-PROVIDE LINK FOR EXPERIMENTS AND SHAPES
+%https://doc.ilabt.imec.be/ilabt/virtualwall/hardware.html#virtual-wall-2
 
-102x pcgen3 nodes
-https://doc.ilabt.imec.be/ilabt/virtualwall/hardware.html#virtual-wall-2
-\fi

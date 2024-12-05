@@ -1,36 +1,17 @@
 \section{Preliminaries}
 
-\rt{It's not always clear in this section what already existed, and which things you introduce.}
-
-\sepfootnotecontent{sf:sparqlSpecification}{
-    The SPARQL specification is available at the following link \url{https://www.w3.org/TR/sparql11-query/}
-}
-
-\sepfootnotecontent{sf:blankNode}{
- A blank node is a unique idenfier with no IRI \url{https://www.w3.org/wiki/BlankNodes}.
-}
-
-\sepfootnotecontent{sf:propertyPathAlgebra}{
-    \url{https://www.w3.org/TR/sparql11-query\#PropertyPathPatterns}
-}
-
-\sepfootnotecontent{sf:recursiveShape}{
-    In this formulation we ignore "inverse constraints" such as
-    inverse triple constraint in ShEx \url{https://shex.io/shex-primer/index.html\#inverse-properties}
-    and SCHACL Inverse Paths \url{https://www.w3.org/TR/shacl\#property-path-inverse} to avoid recurse 
-    shape schemas~\cite{Corman2019}.
-}
-
-
 \subsection{RDF knowledge graphs and SPARQL queries}
-Our work focuses on conjunctive and disjunctive queries over RDF knowledge graphs~(KG) using the state-of-the-art SPARQL query language \rt{Cite SPARQL spec if you have space for it}.
-The core components of SPARQL queries and of KGs are respectively the triple patterns and the triples defined at Definition~\ref{def:triplePattern}. \rt{Let's introduce them separately. It's a bit confusing like this.}
+Our work focuses on conjunctive and disjunctive queries over RDF knowledge graphs~(KG) using the state-of-the-art SPARQL query language~\cite{w3SPARQLQuery}.
+The core components of SPARQL queries and of KGs are respectively the triple patterns and the triples defined at Definition~\ref{def:triplePattern} and ~\ref{def:triple}.
 
-\begin{definition}[Triple pattern and Triple]\label{def:triplePattern}
-    A triple pattern $tp = (s_{tp}, p_{tp} , o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
-    a property path  $p_{tp}$ as defined by  \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2)~\sepfootnote{sf:propertyPathAlgebra} 
+\begin{definition}[Triple pattern]\label{def:triplePattern}
+    A triple pattern $tp = (s_{tp}, p_{tp}, o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
+    a property path  $p_{tp}$ as defined by  \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2)~\cite{w3SPARQLQuery} 
     and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V} \cup \mathcal{B}$.
     Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$, $\mathcal{V}$ are respectively the set of every possible IRI, blank node, literal and variable.
+\end{definition}
+
+\begin{definition}[Triple]\label{def:triple}
     An RDF triple $t = (s,p,o)$ is similar to a triple pattern, 
     where $s \in\mathcal{I} \cup \mathcal{B}$,
     $p \in \mathcal{I}$ and $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{B}$.
@@ -38,153 +19,27 @@ The core components of SPARQL queries and of KGs are respectively the triple pat
 
 We also define two access functions to get respectively the subject and object term of a triple pattern $tp$ or a triple $t$ while ignoring literals,
 
-\rt{I understand the sentence above, but not this formalization. You probably want to select all s, p, o in the tp that are an I, B, or V.}
 \begin{equation}
     \begin{aligned}
         S: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V} \\
         O: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
     \end{aligned}
  \end{equation}
-\iffalse
-We define the basic graph pattern (BGP) of $Q$~\sepfootnote{sf:sparqlSpecification} in Definition~\ref{def:bgp}.
-The atomic statement of a BGP is a triple pattern $tp$ defined at Definition~\ref{def:triplePattern}.
-
-\begin{definition}[Triple pattern]\label{def:triplePattern}
-    A triple pattern $tp = (s_{tp},p_{tp},o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
-    a property path  $p_{tp}$ as defined by  \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2).~\sepfootnote{sf:propertyPathAlgebra} 
-    and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V}$ 
-    where $\mathcal{V}$ is the set of every possible variable. 
-\end{definition}
-
-\begin{definition}[Property path]\label{def:propertyPath}
-   A property path $p_{tp}$~\cite{Kostylev2015} is an expression that describe the route of predicate $p$ from $s_{tp}$ to $o_{tp}$.
-   \iffalse
-   A property path in $tp$ is defined as follow:
-   \begin{equation}
-    p_{tp} ::= p \in \mathcal{I} | (p_{tpi}/p_{tpj}) | (p_{tpi}|p_{tpj}) | p_{tpi}* | p_{tpi}+ | p_{tpi}? | !p_{tpi}| p_{tpi}^{-}
-   \end{equation}.
-   The "$/$" operator chain two property path, the alternative operator "$|$" define a possibility between $p_{tpi}$ and $p_{tpj}$.
-   The "$^-$" operator inverse the path from $s_{tp}$ to $o_{tp}$.
-   The "$!$" represent the negation of a path $p_{tpi}$ such as $p_{tpi} = \mathcal{I} \setminus p_{tpi}$.
-   The "$*$", "$+$" and "$?$", refered to in this paper as \emph{cardinality property paths}, are respectively; the repetition of 0 and more of $p_{tpi}$, 
-   the repetition of 1 and more of $p_{tpi}$ and the presence or absence of $p_{tpi}$.
-   \fi
-\end{definition}
-
-Property paths can be represented in SPARQL algebra as defined by \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2).~\sepfootnote{sf:propertyPathAlgebra}
-Notably, the alternative operator can be interpreted as a union, and the sequence operator as a chain of triple pattern.
-
-\begin{definition}[BGP]\label{def:bgp}
- A BGP $B$ is a set of $tp$, \texttt{OPTIONAL} and \texttt{UNION} (both clause containing a sets of $tp$).
- $tp$ sets can be divided into star pattern $Q_{star}$ defined in Definition~\ref{def:starPattern} in a way 
- that $Q = Q_{star_{i-1}} \bowtie Q_{star_i} \forall i \in S$ given that $S$ is the set of every subject of the $tp$ in the $Q$.
-\end{definition}
-\fi
-
-The approach \rt{Can you be more specific on why you need this?} of this paper relies on analyzing star patterns, tree star patterns and tree star defined in Definition~\ref{def:starPattern}.
-
-\begin{definition}[Tree Star Pattern and Tree Star]\label{def:starPattern}
-    We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
-    given a builder function 
-    \begin{equation}
-        BQ_{star}(s) = \{tp_i \in Q| S(tp_i) = s\}
-    \end{equation}
-    with $s \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$ then $Q_{star_s} = BQ_{star}(s)$.
-    We define a tree star pattern $Q_{starT}$ as the union between a root star pattern $Q_{star_s}$
-    and the star patterns having as subject term an object term of another star pattern in $Q_{starT}$.
-    We define a function that returns every non-literal object terms of a star pattern
-    \begin{equation}
-        O_{star}: q \in Q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
-    \end{equation}
-
-    We then define $Q_{starT}$ given a  set of partial tree star patterns $Q_{starPT}$
-    \begin{equation}
-        Q_{starT} = \bigcup_{q \in Q_{starPT}} q
-    \end{equation}
-    where $Q_{starPT}$ is formed with a root $Q_{star_s}$ by
-
-    \begin{equation}
-            Q_{starPT_i} =
-        \begin{cases}
-            \{Q_{star_s}\} & \text{if } i = 1 \\
-            \{BQ_{star}(o)| o \in \bigcup\limits_{q \in Q_{starPT_{i-1}}} O_{star}(q)\} & \text{if } i>1
-        \end{cases}
-    \end{equation}
-
-    We also define a function returning the subjects of the $Q_{starPT_i}$ of a $Q_{starT}$
-    \rt{This one also looks wrong.}
-    \begin{equation}
-        S_{star}: q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}
-    \end{equation}
-
-    We propose a similar definition for the context of KGs where we replace the query $Q$ by a KG $G$ and where the terms 
-    cannot be a $v \in \mathcal{V}$. 
-    We denote this structure a tree star. \rt{Unclear why this is needed, and what this would look like.}
-
-\end{definition}
 
 \subsection{Reachability Criteria}
 
-\rt{Before explaining them, can you explain why they are needed?}
-\emph{Reachability criteria} are boolean functions ($c_i$) restricting the dereferencing of links from the internal data source of the query engine.
+Relying on results or the traversal of a large network like the World Wide Web is not feasible for defining completeness in LTQP.
+Thus, to formalize the completeness of queries, a link discrimination formalism has been developed called \emph{Reachability criteria}~\cite{Hartig2012}.
+Reachability criteria are boolean functions ($c_i$) restricting the dereferencing of links from the internal data source of the query engine.
 They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and the query $B$~\cite{Hartig2012}.
 If $c_i$ returns $true$, the query engine must try to dereference $iri$.
 More formally
 \begin{equation}\label{eq:reachabilityCriteria}
 c_i(t, iri, B) \rightarrow \{\mathrm{true}, \mathrm{false}\}
 \end{equation}
-A query engine dereferencing operation stops when no new $iri$ has to be dereferenced during an iteration of the new triples in the internal triple store.\rt{This is not really specific to reachability criteria though. This is how the link queue works in LTQP engines.}
-
-\subsection{RDF Data Shapes}\label{sec:shape}
-RDF data shapes, similar to data schemas, are constraints applied to RDF graphs.
-In our context, shapes specify conditions that tree stars \rt{Can't we just use RDF graphs here as well? If not, why not?} must respect. \rt{in order to ...}
-Since our approach is shape-language-agnostic, we formalize abstract shapes as a basis for our approach.
-
-\rt{I think this section is potentially very dangerous. There are many shape experts out there, so if there's even a tiny mistake in this section, the whole article will get shot down because of it.}
-\rt{I wonder if we really need to formalize all of this ourselves. Are you sure this hasn't been done yet? If not, could we not somehow refer to the formalization of ShEx or SHACL, and possibly a subset that they share? Or we could even just refer to the formalization of one, and mention that our approach also applies to the other due to the subset we consider.}
-\rt{If you want to keep this, definitely ask a review from someone with a more formal background than me.}
-
-We define a shape
-\begin{equation}
-S = (E, op \in \{\mathrm{true},\mathrm{false}\})
-\end{equation}
-
-$E = \{e_1, e_2 ..., e_{n}\}$ is a set of $n$ shape expressions $e_i$.
-Shape expressions are constraints on the triples of tree stars.
-$op$ describes whether a shape is open denoted by $\mathrm{true}$ or closed.
-Before defining what an open and a closed shape means, we define an evaluation function 
-$Ve(e, op, G_{starT_i}) \rightarrow \{\mathrm{true}, \mathrm{false} \}$
-taking a shape expression $e$, a boolean $op$ to determine if the shape is open or closed, and a tree star $G_{starT_i}$.
-$Ve$ determines if $G_{starT_i}$ satisfies $e$.
-In a closed shape, every triple in $G_{starT_i}$ must contribute to the validation of $Ve$.
-In contrast, for an open shape, $G_{starT_i}$ may contain additional triples that are not involved in the validation of $Ve$.
-We define a tuple of constraint
-\begin{equation}
-    st = (pc_p, oc_f, rs^a_b, n \in \{\mathrm{true}, \mathrm{false}\})
-\end{equation}
-$pc_p$ and $oc_f$ are respectively constraint,
-$sc(G_{starT_i})  \rightarrow \{\mathrm{true}, \mathrm{false}\}$,
-on the predicate and the object of a triple in a $G_{starT_i}$.
-$pc_p$ evaluates if a predicate term in a triple in a $G_{starT_i}$ is equals to an IRI $p$.
-$oc_f$ evaluates if an object term of a triple in a $G_{starT_i}$ validate three possible scenerario defined by $f$.
-Either it validates that the object term targeted by $oc_f$ is of an RDF type or it satisfies a literal comparison.
-Or it validates that a shape defined by $f$ is satisfied given that we consider as a tree star 
-$G_{starT_i}^{\prime}$ where $BQ_{star}(o) \in G_{starT_i}^{\prime}$ and $o$ is the object term of targeted by $oc_f$.
-$rs^a_b = \{x \in \mathbb{N}_+ | a < x < b \}$ is a range interpreted by $Ve$ as the number of triples in a tree star that both $pc_p$ and $oc_f$ must respect.
-$n$ is an indication to $Ve$ when $\mathrm{true}$ that no triple in a $G_{starT_i}$ must respect both $pc_p$ and $oc_f$. 
-
-A shape expression is defined by
-\begin{equation}
- e ::= st \mid (e_j|e_k)
-\end{equation}
-where "$|$" denotes a disjunction between two shape expressions. \rt{What does a disjunction between two shape expressions mean? Something that also needs to be formalized?}
-
-For $G$ to satisfy $S$, $G$ has to be analyzed as the union of all its tree stars such that $G = \bigcup_{g \in G_{starT}} g$ where $G_{starT}$ is the set of every tree star in $G$
-and each tree star are defined in a way that no $G_{starPT_i}$ are shared by any $G_{starT_i}$.
-$G$ satisfies $S$ is defined by $G \models S \iff Ve(e,G_{starT_i}, op\in S)$  for every $G_{starT_i} \in G$ and every $e \in E$ given $E \in S$.
 
 \subsection{Decentralized Knowledge Graph}
 We define a decentralized knowledge graph (DKG) as a KG $G$ materialized in a network of resources $R$.
-A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is mapped \rt{exposed by} to an IRI $iri_i$.
+A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is exposed by IRI $iri_i$ which a mapping can interpret.
 The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in t \in g_i$ are directed edges starting from $r_i$ to $r_j$.
 $G$ is formed by the union of all the $g \in r$, such that $G = \bigcup_{i=0}^{n}g_i$ given $n$ resources in the network.
