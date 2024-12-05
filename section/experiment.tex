@@ -49,22 +49,24 @@ Each Solid Pod contains a shape index and separate files for each shape definiti
 Some shapes are nested within others. 
 For example, profiles are associated with cities, and comment are associated with posts.
 Certain data model objects are materialized in a single file, while others are distributed across multiple files, depending on the pod instance.
-The entire data model is available online~\sepfootnote{sf:solidbench}.
+The entire data model is available online with the query templates~\sepfootnote{sf:solidbench}.
 
-
-
-
-\rt{The following is lacking many details that are necessary to understand the experimental setup. I recommend expanding this section, and perhaps creating subsections for each experiment (or an enumeration).}
-We designed several experiments to analyze and evaluate our approach.
-First, we measure the execution time and results of our query-shape containment algorithm using the shapes from the study \rt{Which shapes are this exactly?}.
-We also compare the state-of-the-art traversal algorithm \rt{I would not call this the state-of-the-art traversal algorithm. Just use the citation, or call it the optimal algorithm that does LTQP based on structural assumptions}, the LDP specification and type-index, and the LDP specification~\cite{Taelman2023} with our shape index approach in a network where every dataset provides a complete shape index with the most descriptive shapes.
-Additionally, we evaluate the adaptivity of our approach by modulating the shape index information across the network.\rt{Unclear what this means.}
-In one experiment, we examine the impact of query execution time in a network where 0\%, 20\%, 50\%, and 80\% of datasets \rt{What are datasets? I guess pods?} expose a shape index.
-In another experiment, we assess the effect of having shape indexes with 20\%, 50\%, and 80\% entries using closed shapes.
-In the final experiment, we evaluate the impact of using shapes that only incorporated data from the dataset itself and shapes that provided a minimal description of the data.\rt{Unclear what this means.}
+\subsection{Experiments}
+To evaluate our approach, we conducted the following experiments:
+\begin{itemize}
+   \item We measured the execution time and results of our query-shape containment algorithm using the shapes from the study.
+   \item We compared the Solid Pod network optimal traversal algorithm, which uses the LDP specification and type-index~\cite{Taelman2023}, with the LDP traversal algorithm~\cite{Taelman2023} and our shape index approach in a network where each Solid Pods (datasets) provides a complete shape index with the most descriptive shapes.
+\end{itemize}
+Additionally, we evaluated the adaptivity of our approach by reducing the shape index information across the network:
+\begin{itemize}
+   \item We compared the impact of query execution time in a network where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.
+   \item We compared the impact of using shape indexes with 20\%, 50\%, and 80\% of entries using closed shapes.
+   \item We compared the impact of using shapes that incorporate only data from the Solid Pods, providing a minimal dataset description where the object constraint is always an IRI or a literal.
+\end{itemize}
+We use the instantiation of the query template provided by SolidBench, each template as five instances, mainly changing the starting pod for the query.
 For all experiments, we performed 50 repetitions and set a timeout of 2 minutes (120,000 ms).
 To run our experiments, we used a machine with Ubuntu 20.04.6 LTS, featuring a 2x Hexacore Intel E5645 CPU and 24GB of RAM.
+%https://doc.ilabt.imec.be/ilabt/virtualwall/hardware.html#virtual-wall-2
 All our experiments are fully reproducible, and all raw data and complementary material is available online~\sepfootnote{sf:complementaryMaterial}.
 
-%https://doc.ilabt.imec.be/ilabt/virtualwall/hardware.html#virtual-wall-2
 
