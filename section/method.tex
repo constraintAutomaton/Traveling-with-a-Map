@@ -32,16 +32,16 @@
 
 \subsection{LTQP Completeness Under Prunning Regime}\label{sec:slde}
 
-We propose to focus LTQP on completeness of results instead completeness of traversal in the context of descentralized environments.
+We propose to focus the completeness of LTQP on results instead of traversal in the context DESP.
 We formalize our approach as follows.
 A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in a network $R$.
-The query engine has to build a KG $G^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
+The query engine has to build a KG $G^{\prime}$ using a reachability $C^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
 $G^{\prime} \subseteq G$ holds to answer its query.
 We are trying to solve an optimization problem where another query engine builds a KG
 $G^{\prime\prime} \subseteq G^{\prime}$
 potentially smaller than the one produced with a specific traversal completeness policy
-by defining a reachability criterion $C_{mr}$.
-We focus on maintaining the same results completeness, so when using $C_{mr}$ the following equation must hold
+by defining a reachability criterion $C^{\prime\prime}$.
+We focus on maintaining the same results completeness, so when using $C^{\prime\prime}$ the following equation must hold
 
 \begin{equation}\label{eq:evalQueryStructuralAssumption}
    [\![ Q ]\!]^{G^{\prime\prime}} = [\![ Q ]\!]^{G^{\prime}}
@@ -92,7 +92,7 @@ In this work, we consider all entities in a KG within a document to conform to t
 We refer to these entities as tree stars (patterns), an extension of the existing star patterns concept in RDF.
 Star patterns consist of triples sharing the same subject.
 We extend this idea by considering all star patterns linked via the object term of a preceding star pattern, forming a tree-like structure of star patterns.
-For example, lets consider a user that have among multiple properties the comments it has posted and the comments, among other properties, is a reply to a post.
+For example, lets consider a user that have among multiple properties the comments it has posted and the comments, among other properties, are a reply to posts.
 Our approach encapsulates these relationships within a single conceptual framework by linking the user star pattern with the nested comment star pattern and the deeper nested post star pattern.
 This concept serves two purposes: defining targets for validation and capturing relationships between the triple patterns of our query and shape entities.
 Definition~\ref{def:starPattern} formalizes the concept.
