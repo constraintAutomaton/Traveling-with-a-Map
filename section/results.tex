@@ -4,7 +4,7 @@
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
+    \includegraphics[width=0.45\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
     \caption{
         This figure compares the type index with the LDP approach against other approaches.
         The shape index approach is better or similar to the other approaches except with S4.
@@ -34,14 +34,14 @@ This suggests that the primary overhead in this approach is not from the algorit
 \begin{figure}[htbp]
     \centering
     % First figure
-    \begin{minipage}[t]{0.45\linewidth}
+    \begin{minipage}[t]{0.40\linewidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/http_req_exec_time_relation/http_req_exec_time_cor_better}
         \label{fig:http_req_exec_time_cor_better}
     \end{minipage}
     \hspace{0.05\textwidth}
     % Second figure
-    \begin{minipage}[t]{0.45\linewidth}
+    \begin{minipage}[t]{0.40\linewidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/http_req_exec_time_relation/http_req_exec_time_cor_worse}
         \label{fig:http_req_exec_time_cor_worse}
@@ -115,7 +115,7 @@ Query S1 is the only one where the added information can discriminate multiple p
 This sensitivity to the quality of the information in the index also helps explain the results for S1 in the middle plot. 
 In that case, the query engine still had to dereference sources from each dataset, and the information available was likely insufficient to significantly discriminate between sources.
 
-\subsection{Evaluation of Hypotheses}
+\subsection{Validation of Hypotheses}
 In this section, we revisit our hypotheses.
 \textbf{H1} is mostly valid as the shape index reduces HTTP requests for queries using structural properties, though it can drastically increase requests when such properties are not used.
 \textbf{H2} is valid when HTTP requests are reduced, but near a ratio of 0.83, further reduction has diminishing impact due to exponential behavior.

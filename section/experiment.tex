@@ -38,7 +38,7 @@
 
 We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}.
 We chose Comunica due to its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
-The implementation of our reachability criteria and the link queue filter is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape containment solver~\sepfootnote{sf:implementationQueryShapeContainment}.
+The implementation of our shape index approach is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape containment solver~\sepfootnote{sf:implementationQueryShapeContainment}.
 We use SolidBench~\cite{Taelman2023}, based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution. 
 To facilitate this, we created an open-source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
 The shape annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
@@ -47,23 +47,20 @@ Each Solid Pod contains a shape index and separate files for each shape definiti
 Some shapes are nested within others. 
 For example, profiles are associated with cities, and comment are associated with posts.
 Depending on the pod instance, certain data model objects are materialized in a single file, while others are distributed across multiple files.
-The entire data model is available online with the query templates~\sepfootnote{sf:solidbench}.
+The entire data model and query templates are available online~\sepfootnote{sf:solidbench}.
 
-To evaluate our approach, we conducted the following experiments:
-\begin{itemize}
-   \item We measured the execution time and results of our query-shape containment algorithm using the shapes from the study.
-   \item We compared the Solid Pod network optimal traversal algorithm, which uses the LDP specification and type-index~\cite{Taelman2023}, with the LDP traversal algorithm~\cite{Taelman2023} and our shape index approach in a network where each Solid Pods (datasets) provides a complete shape index with the most descriptive shapes.
-\end{itemize}
+To evaluate our approach, we conducted the following experiments, we first  measured the execution time and results of our query-shape containment algorithm using the shapes from the study.
+Then, We compared the Solid Pod network optimal traversal algorithm, which uses the LDP specification and type-index~\cite{Taelman2023}, with the LDP traversal algorithm~\cite{Taelman2023} and our shape index approach in a network where each Solid Pods (datasets) provides a complete shape index with the most descriptive shapes.
 Additionally, we evaluated the adaptivity of our approach by reducing the shape index information across the network:
 \begin{itemize}
    \item We compared the impact of query execution time in a network where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.
    \item We compared the impact of using shape indexes with 20\%, 50\%, and 80\% of entries using closed shapes.
-   \item We compared the impact of using shapes that incorporate only data from the Solid Pods, providing a minimal dataset description where the object constraint is always an IRI or a literal.
+   \item We compared the impact of using shapes that incorporate only data from the Solid Pods, and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.
 \end{itemize}
-We use the instantiation of the query template provided by SolidBench, each template as five instances, mainly changing the starting pod for the query.
-For all experiments, we performed 50 repetitions and set a timeout of 2 minutes (120,000 ms).
-To run our experiments, we used a machine with Ubuntu 20.04.6 LTS, featuring a 2x Hexacore Intel E5645 CPU and 24GB of RAM.
-%https://doc.ilabt.imec.be/ilabt/virtualwall/hardware.html#virtual-wall-2
-All our experiments are fully reproducible, and all raw data and complementary material is available online~\sepfootnote{sf:complementaryMaterial}.
+We used query templates from SolidBench, each with five instances varying the starting pod.
+Experiments were repeated 50 times with a 2 minute timeout (120,000 ms). 
+They were conducted on an Ubuntu 20.04.6 LTS machine with a 2x Hexacore Intel E5645 CPU and 24GB RAM.
+All experiments are reproducible, with raw data and complementary materials available online~\sepfootnote{sf:complementaryMaterial}.
 
+%https://doc.ilabt.imec.be/ilabt/virtualwall/hardware.html#virtual-wall-2
 
