@@ -118,12 +118,12 @@ In that case, the query engine still had to dereference sources from each datase
 \subsection{Validation of Hypotheses}
 In this section, we revisit our hypotheses.
 \textbf{H1} is mostly valid as the shape index reduces HTTP requests for queries using structural properties, though it can drastically increase requests when such properties are not used.
-\textbf{H2} is valid when HTTP requests are reduced, but near a ratio of 0.83, further reduction has diminishing impact due to exponential behavior.
-However, its validity is questionable when considering the increase in the number of HTTP requests.
+\textbf{H2} is valid when HTTP requests are reduced, but near a ratio of 0.83, the curve is more exponential toward an increase in execution time.
+However, the validity of H2 is questionable when considering the increase in the number of HTTP requests.
 \textbf{H3} is valid, with the algorithm operating in polynomial time and completing under 4.655 ms in our benchmark.
-\textbf{H4} is mainly invalid; reducing information rarely affected or benefited queries, except one case where it negated the performance gain from the shape index.
+\textbf{H4} is mainly invalid; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of sources.
 Thus, this outcome is query-dependent.
-\textbf{H5} and \textbf{H6} are valid but show that the completeness of shape indexes has less impact on performance than their presence.
-Queries benefiting most from the index were more affected, and gains were also seen in some negatively impacted queries.
-Like \textbf{H4}, these findings are query-dependent.
+\textbf{H5} and \textbf{H6} are valid but show that the completeness of shape indexes has less impact on performance than the absence of indexes.
+Incomplete shape indexes can increase performance surprisingly if incomplete entries are not necessary to discriminate irrelevant sources. 
+Like \textbf{H4}, these findings are query-dependent and also network-dependent.
 
