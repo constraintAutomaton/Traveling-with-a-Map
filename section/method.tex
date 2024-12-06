@@ -30,10 +30,10 @@
    \rt{This footnote seems unnecessary, since delva2023 is already cited.}
 }
 
-\subsection{Descentralized environments with structural properties and completeness under prunning regime}\label{sec:slde}
+\subsection{LTQP Completeness Under Prunning Regime}\label{sec:slde}
 
 We propose to focus LTQP on completeness of results instead completeness of traversal in the context of descentralized environments.
-To do so, we formalize our approach as follows.
+We formalize our approach as follows.
 A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in a network $R$.
 The query engine has to build a KG $G^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
 $G^{\prime} \subseteq G$ holds to answer its query.
@@ -85,15 +85,16 @@ We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(
 A mapping between a shape and a set of IRI has implications in the distribution of the data in $D$.
 When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | g \in r, iri \mapsto r \land iri \in IRI\}$ satisfies $s$.
 Given that the shape is closed, then every set of triples in the resource associated with $D$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
-We provide a technical specification of the shape index online~\sepfootnote{sf:shapeIndexURL}.
+We provide a web specification of the shape index online~\sepfootnote{sf:shapeIndexURL}.
 
 RDF shapes use the concept of targets to determine the root node for validation.
 In this work, we consider all entities in a KG within a document to conform to the same schema.
 We refer to these entities as tree stars (patterns), an extension of the existing star patterns concept in RDF.
 Star patterns consist of triples sharing the same subject.
 We extend this idea by considering all star patterns linked via the object term of a preceding star pattern, forming a tree-like structure of star patterns.
-For example, if a user has posted a comment, and that comment, among other properties, is a reply to another post, our approach encapsulates these relationships within a single conceptual framework.
-This concept serves two purposes: defining targets for validation and capturing relationships between the triple patterns of our query and the corresponding entities.
+For example, lets consider a user that have among multiple properties the comments it has posted and the comments, among other properties, is a reply to a post.
+Our approach encapsulates these relationships within a single conceptual framework by linking the user star pattern with the nested comment star pattern and the deeper nested post star pattern.
+This concept serves two purposes: defining targets for validation and capturing relationships between the triple patterns of our query and shape entities.
 Definition~\ref{def:starPattern} formalizes the concept.
 
 \begin{definition}[Tree Star Pattern]\label{def:starPattern}
@@ -133,14 +134,14 @@ Definition~\ref{def:starPattern} formalizes the concept.
    cannot be a $v \in \mathcal{V}$. 
    We denote this structure a tree star.
 \end{definition}
-Thus, the target for the shapes in the shape index is to consider every tree star in the KG of the documents, ensuring that no partial tree stars are shared.
+Thus, the target shapes in the shape index correspond to the subject of each root star pattern when a KG is divided into tree stars with no shared partial tree stars.
 
 \subsection{Link Prunning Using Shape Indexes}\label{sec:sourceSelection}
 
 In this section we make the link between the shape index and link prunning in LTQP.
 A decentralized dataset exposing a shape index provides a query engine with the opportunity to reduce its search domain by knowing which resources are query-relevant.
 More formally, instead of traversing the web region $D$ associated with a shape index, the engine will traverse a subregion $d \subseteq D$, ignoring the knowable nonquery-relevant sections.
-The concept of composite reachability criteria allows us to ignore certain sources during traversal based on the knowledge acquired along the way.
+The concept of composite reachability criteria allows us to ignore certain sources during traversal based on the knowledge acquired during traversal.
 Our approach involves dynamically constructing new reachability criteria during traversal by adding pruning criterion as we discover and analyze shape indexes.
 These criteria are designed so that, they will always produce the same completeness of results as the one that was define at the beginning of the traversal.
 
@@ -166,18 +167,18 @@ and $cp_{si}$ to $Cp$.
 To determine if a source is query-relevant we propose to perform a query-shape containment problem.
 The understanding of this problem is similar to the classic query containment problem. 
 Query containment aims at determining independent of the specific KG (database) instance if a query can be answer from the answer of another query.
-In our context we are trying to determine if a tree star pattern from our query (given no share partial tree star pattern) can be answer by any sources respecting a specific shape.
+In our context we are trying to determine if a tree star pattern from a query (given no share partial tree star pattern) can be answer by any sources respecting a specific shape.
 Intuitively shapes expressions can be treated as a segment of a query~\cite{delva2023}.
 Furthermore it is a common approach for shape validation over an RDF graph is to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.~\sepfootnote{sf:recursiveShape}
 Let's define this transformation $T(S)$ producing a query $Q_s$.
 We consider open shapes to always represent queries that retrieve entire KGs (ignoring any negative statements). 
-This is because, under the open-world assumption, the shape defines the minimum topology of a graph.
-With this transformation to problem become similar to query containment problems.
+This is because, under the open-world assumption, the shape defines the minimum constraints of a graph.
+With this transformation the problem become similar to query containment problems.
 Query containment may intuitively seem unsuitable for dynamic reachability due to its NP-complete complexity~\cite{Spasi2023}.
 However, this complexity depends on the size of the queries, which are typically small~\cite{Doan2012}; we do not expect in most cases queries containing thousands or millions of triple patterns~\cite{Bonifati2019}.
 Additionally, practical use cases can often leverage polynomial-time algorithms~\cite{Doan2012}.
 In our context, the container query (the shape) adheres to a tree-star pattern template structure, where predicates are always IRIs.
-This structure arises because shapes predominantly describe predicate terms and object terms that are isomorphic to the specific graph.
+This structure arises because shapes predominantly describe predicate terms and object terms and are isomorphic to the specific KG.
 By exploiting this structure, it is possible to design an algorithm with polynomial time complexity.
 
 We consider that a query $Q$ is contained in a shape $S$, denoted as $Q \sqsubseteq_{qs} S$, if a tree star pattern in $Q$ is contained in $Q_s = T(S)$. 
@@ -236,7 +237,7 @@ We define the function $isContain_{T}$ in Algorithm~\ref{alg:containmentTree} to
 The algorithm also takes a set $Eval_{star}$ to track which partial tree stars have already been evaluated.
 The algorithm works by examining each triple pattern in the root star pattern $Q_{star_i}$ and checking if an equivalent triple pattern (ignoring the variable names) can be found in the BGP of $Q_s$ using the $match$ function.
 If the triple pattern cannot be found in the BGP, the algorithm then looks into the UGPs of $Q_s$. 
-Since we assume that the union statement is not nested (perhaps through rewriting), this limits the number of recursive calls.
+Since we assume that the union statements are not nested (perhaps through rewriting), this limits the number of recursive calls.
 If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial tree star pattern in $Q_{starT_i}$.
 If it is, the algorithm recursively applies the same procedure to this partial tree star pattern as $Q_{star_i}$.
 To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.

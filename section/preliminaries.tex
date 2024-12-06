@@ -1,6 +1,7 @@
 \section{Preliminaries}
 
 \subsection{RDF knowledge graphs and SPARQL queries}
+
 Our work focuses on conjunctive and disjunctive queries over RDF knowledge graphs~(KG) using the state-of-the-art SPARQL query language~\cite{w3SPARQLQuery}.
 The core components of SPARQL queries and of KGs are respectively the triple patterns and the triples defined at Definition~\ref{def:triplePattern} and ~\ref{def:triple}.
 
@@ -39,7 +40,8 @@ c_i(t, iri, B) \rightarrow \{\mathrm{true}, \mathrm{false}\}
 \end{equation}
 
 \subsection{Decentralized Knowledge Graph}
+
 We define a decentralized knowledge graph (DKG) as a KG $G$ materialized in a network of resources $R$.
-A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is exposed by IRI $iri_i$ which a mapping can interpret.
+A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is mapped by IRI $iri_i$.
 The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in t \in g_i$ are directed edges starting from $r_i$ to $r_j$.
 $G$ is formed by the union of all the $g \in r$, such that $G = \bigcup_{i=0}^{n}g_i$ given $n$ resources in the network.
