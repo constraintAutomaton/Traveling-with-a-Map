@@ -1,9 +1,9 @@
 \section{Related work}
 
 LTQP is a SPARQL querying paradigm that answers queries by exploring the web using the follow-your-nose principle~\cite{hartig2016walking}.
-The main challenge of LTQP is the web's open-ended nature and the lack of information for query planning.
+The main challenge of LTQP is the web's open-ended nature leading to large search space.
 Completeness in LTQP is defined by the traversal of a well-defined set of links~\cite{Hartig2012}.
-The first method employed to achieve this was the reachability criteria~\cite{Hartig2012}, which are boolean functions that determine whether a link should be dereferenced.
+The first method employed to define this set was the reachability criteria~\cite{Hartig2012}, which are boolean functions that determine whether a link should be dereferenced.
 Building on this, the theoretical query language LDQL~\cite{hartigLDQL} was introduced, separating the traversal definition from the query definition.
 Further advancements include the subweb specifications language (SWSL)~\cite{Bogaerts2021LinkTW}, which allows data providers to define how their DKG should be traversed.
 These contributions are centered on guiding the engine in selecting links to follow (discovery process).
@@ -16,7 +16,7 @@ Both describe RDF data but differ in focus: ShEx emphasizes graph structure, whi
 For common use cases, they are equally expressive and interchangeable~\cite{Gayo2018c}.
 Automatic generation of RDF data shapes based on knowledge graph (KG)~\cite{fernandez2023extracting} and shape-based integration of data~\cite{LabraGayo2023} are also topics that have been studied and can support shape-based summary approaches.
 Shape Trees~\cite{shapetreesShapeTrees} is an index structure for validating and organizing decentralized knowledge graphs (DKG).
-However, shape Trees have not been used for query optimization, and the way they are formalized makes this use difficult.
+However, Shape Trees have not been used for query optimization, and the way they are formalized makes this use difficult.
 RDF data shapes have also been used in the litterature for querying of centralized KG~\cite{kashif2021}.
 
 Source selection is a crucial challenge in decentralized querying.
