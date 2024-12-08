@@ -73,10 +73,14 @@ The overall correlation is more linear than exponential with $R^2$ scores respec
 Explaining the two regimes' behavior exhibited by the data is challenging.
 A possible explanation can be the lack of samples when the shape index approach performs poorly.
 However, we can also notice that the relationship between the two variables in the first regime is closer to one-on-one (slope of approximately 0.91) than in the second regime (slope of approximately 0.08), where the ratio of HTTP requests has less of an impact.
-This observation can lead us to question how complex the queries are in that regime; we can notice that the queries where the shape index increases vastly in the number 
-of HTTP requests are the queries from the S4 template. 
-However, those queries were already answered quickly and consisted of only four triple patterns and a union statement (with the alternative property path). 
-Thus, it is possible that the number of HTTP requests has less of an impact because it is easier for the engine to perform the join operation upon reception of the data than when processing more complex queries.
+Futhermore, the number of HTTP requests increased by 16 times compared to the baseline, which initially required only 1 or 2 requests (see Table ~\ref{tab:ratioUsefulResources}). 
+However, despite this increase, the engine ultimately handled a modest number of links to dereference.
+This indicates that the actual impact might not be as significant as the figure suggests, particularly considering that HTTP requests can be made in concurrence.
+%This observation can lead us to question how complex the queries are in that regime; queries where the shape index increases vastly in the number of HTTP requests are the queries from the S4 template. 
+%However, those queries were already answered quickly and consisted of only four triple patterns and a union statement (with the alternative property path). 
+%Thus, it is possible that the number of HTTP requests has less of an impact because it is easier for the engine to perform the join operation upon reception of the data than when processing more complex queries.
+%Additionally, those queries where already answer with 1 or 2 HTTP request with the baseline thus increase by 16 time of the number of HTTP request still leave the engine with a modest number of links to dereference.
+
 % Analysis by query template? But we lack the space. In the appendix too...
 % We can also with that explain some big gap in the plot.
 
