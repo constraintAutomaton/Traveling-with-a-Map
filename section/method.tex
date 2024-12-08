@@ -94,8 +94,7 @@ Star patterns consist of triples sharing the same subject.
 We extend this idea by considering all star patterns linked via the object term of a preceding star pattern, forming a tree-like structure of star patterns.
 For example, lets consider a user that have among multiple properties the comments it has posted and the comments, among other properties, are a reply to posts.
 Our approach encapsulates these relationships within a single conceptual framework by linking the user star pattern with the nested comment star pattern and the deeper nested post star pattern.
-This concept serves two purposes: defining targets for validation and capturing relationships between the triple patterns of our query and shape entities.
-Definition~\ref{def:starPattern} formalizes the concept.
+This concept, formalized at Definition~\ref{def:starPattern}, serves two purposes: defining targets for validation and capturing relationships between the triple patterns of our query and shape entities.
 
 \begin{definition}[Tree Star Pattern]\label{def:starPattern}
    We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
@@ -151,7 +150,7 @@ After dereferencing a shape index $SI_i$ at time $tsi_i$, the query engine creat
 The links to prune are determined by evaluating the shape index to identify the set of IRIs that are not query-relevant.
 This is achieved by performing a query-shape containment check ($\sqsubseteq_{qs}$), as defined in Section~\ref{sec:containment}.
 We define
-$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | B \sqsubseteq_{qs}  s_j = \mathrm{false}, s_j \in \text{dom}(SI_i) \}$
+$IRI_p = \{ \bigcup_{iri \in SI_i(s_j)} iri | B \sqsubseteq_{qs}  s_j = \mathrm{false}, s_j \in \text{dom}(SI_i) \}$.
 From this sets of links we define a pruning reachability criteria;
 \begin{equation}
        cp_{si}(t, iri, B) = iri \notin IRI_p
@@ -172,7 +171,7 @@ Let's define this transformation $T(S)$ producing a query $Q_s$.
 We consider open shapes to always represent queries that retrieve entire KGs (ignoring any negative statements). 
 This is because, under the open-world assumption, the shape defines the minimum constraints of a graph.
 With this transformation the problem become similar to query containment problems.
-Query containment may intuitively seem unsuitable for dynamic reachability due to its NP-complete complexity~\cite{Spasi2023}.
+Query containment may intuitively seem unsuitable for dynamic reachability due to its NP-complete time complexity~\cite{Spasi2023}.
 However, this complexity depends on the size of the queries, which are typically small~\cite{Doan2012}; we do not expect in most cases queries containing thousands or millions of triple patterns~\cite{Bonifati2019}.
 Additionally, practical use cases can often leverage polynomial-time algorithms~\cite{Doan2012}.
 In our context, the container query (the shape) adheres to a tree-star pattern template structure, where predicates are always IRIs.

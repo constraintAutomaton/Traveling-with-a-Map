@@ -43,7 +43,7 @@ We use SolidBench~\cite{Taelman2023}, based on the LDBC social network benchmark
 To facilitate this, we created an open-source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
 The shape annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
 The datasets are Solid Pods~\cite{Taelman2023}
-Each Solid Pod contains a shape index and separate files for each shape definition.
+Each Solid Pod contains alongside the data a shape index and separate files for each shape definition.
 Some shapes are nested within others. 
 For example, profiles are associated with cities, and comment are associated with posts.
 Depending on the pod instance, certain data model objects are materialized in a single file, while others are distributed across multiple files.
