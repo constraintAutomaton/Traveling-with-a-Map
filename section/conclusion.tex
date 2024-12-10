@@ -2,8 +2,10 @@
 
 In this article, we minimized the search space for link traversal queries by leveraging a shape index and addressing the query-shape containment problem.
 Additionally, we introduced pruning in LTQP by extending the concept of reachability criteria.
-Using the Solidbench benchmark, we demonstrated that our approach can improve query execution times by up to 7 times.
-Our adaptive method effectively handles scenarios with reduced information in shape indexes or their partial absence in a network.
+Using the Solidbench benchmark, we demonstrated that our approach can significantly reduce the number of HTTP requests, which leads to query execution time reductions by up to 7 times.
+Our adaptive method effectively handles scenarios with reduced information in shape indexes or their partial absence in a network.\rt{This sentence can go, as it does not say a lot here.}
 This study highlights that shape-based pruning can be highly effective for LTQP in decentralized environments with structural properties, especially for selective queries.
 These findings are particularly relevant for decentralization initiatives that aim to enable users or third-party clients to perform efficient queries over large, diverse networks.
 Future work could explore further advancements in this area, such as enhancing query planning in LTQP~\cite{taelman2024towards} with RDF data shapes.
+
+\rt{I still have some open questions after reading the full article: What is the impact on server load (CPU usage)? Does adding shapes lead to an increase of that? Because if not, you could conclude here by saying that adding shapes adds significant benefits to the client, with no overhead to the server, except for a (possibly offline) process for shape creation/derivation. Also, does adding shapes influence query result arrival times negatively or positively?}
