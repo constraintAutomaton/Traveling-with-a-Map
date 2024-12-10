@@ -10,52 +10,58 @@ Data sovereignty seeks to establish a more just definition of personal data owne
 It can be defined as ``the self-determination of individuals and organizations concerning to the use of their data''~\cite{verstraete2022solid},
 which in practice can be interpreted as the power to choose where one's data is stored and who has access to it~\cite{verstraete2022solid}.
 Multiple studies have denoted problems of ownership, democracy, reinforcement of inequality, and antagonism between users and owners of web social applications~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
-Several authors consider decentralizing web data an insufficient solution~\cite{9663788, Curran2016ch1}; however, it can still be an integral component of initiatives focused on data sovereignty.
-Thus, technical research on that topic is a relevant endeavor.
-Linked data has the potential to create seamless decentralized knowledge graphs (DKG) through the use of dereferencable IRIs.
-These IRIs allow access to additional knowledge graph (KG) containing information relevant to what an IRI identifies.
+Several authors consider decentralizing web data an insufficient solution~\cite{9663788, Curran2016ch1}; yet, it is an integral component of initiatives focused on data sovereignty,
+which necessitates technical research.
+Linked Data enables the creation of Decentralized Knowledge Graphs (DKGs) through the use of dereferencable IRIs.
+These IRIs allow access to additional Knowledge Graphs (KGs) containing information relevant to what an IRI identifies.
 For example, a WebID~\sepfootnote{sf:webID} represents a user, dereferencing it can provide the name of the user, among other information, without having to store the information locally.
-Despite these benefits, most SPARQL query processing occurs in centralized setups, partly because optimizing queries is easier in centralized environments.
+Despite these benefits, most SPARQL query processing occurs in centralized setups, partly because there is a better understanding of how to optimize queries in centralized environments.
 
-A query paradigm called Link Traversal Query Processing (LTQP)~\cite{Hartig2012} has been developed to leverage the potential descriptive power of IRI dereferencing.
-LTQP consists of recursively dereferencing IRIs discovered in a query engine's internal triple store during query execution to expand its base of information.
-The main difficulty of LTQP is the large domain of exploration, which results in the performance of a high number of HTTP requests as demonstrated by \citeauthor{hartig2016walking}~\cite{hartig2016walking}.
-From another perspective, and without contradicting \citeauthor{hartig2016walking}~\cite{hartig2016walking}, \citeauthor{Taelman2023}~\cite{Taelman2023} has demonstrated that in descentralized environments with structural properties (DESP),
-it is possible to attain query completeness for various types of practical queries within acceptable execution times.
+The Link Traversal Query Processing (LTQP)~\cite{Hartig2012} is more natural paradigm for querying in decentralized environments,
+which leverages the potential descriptive power of IRI dereferencing.
+LTQP involves recursively dereferencing IRIs discovered in a query engine's internal triple store during query execution to expand its base of information.
+The main difficulty of LTQP is the large domain of exploration, which leads to a high number of HTTP requests as demonstrated by \citeauthor{hartig2016walking}~\cite{hartig2016walking}.
+From another perspective, and without contradicting \citeauthor{hartig2016walking}~\cite{hartig2016walking}, \citeauthor{Taelman2023}~\cite{Taelman2023} has demonstrated that in Decentralized Environments with Structural Properties (DESPs),
+it is possible to attain query completeness for various types of practical queries within acceptable execution times.\rt{We need to be more precise on what \emph{acceptable} is here, as it depends on the use case. In Taelman2023 we focus on the social media use case (like in your paper), and this requires query exec times that are within the human attention ranges (see Taelman2023). For high-volatile applications such as smart city sensors, this may not be a good fit.}
 Moreover, they showed that query planning could significantly influence the execution time.
-Structural properties ensure data discoverability, which in turn helps guarantee result completeness through a concept called structural assumptions.
-In practice, DESP can be used in the context of personal data and social networks, among others.
-Examples of environments that adhere to these constraints are datasets following the Solid protocol~\cite{Taelman2023} and the TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
-The work of \citeauthor{Taelman2023}~\cite{Taelman2023} indicates that there are multiple optimizations possible in LTQP in the context of descentralized environments with structural properties as opposed to the
+Structural properties ensure data discoverability, which in turn helps guarantee result completeness by making \emph{structural assumptions}.
+In practice, DESPs emerge in different places, such as personal data, social networks, and more.
+Concrete DESPs has been shown to be beneficial for datasets following the Solid protocol~\cite{Taelman2023} and the TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
+The work of \citeauthor{Taelman2023}~\cite{Taelman2023} indicates that there are multiple optimizations possible in LTQP in the context of decentralized environments with structural properties as opposed to the
 more pessimist conclusion of the work of \citeauthor{hartig2016walking}~\cite{hartig2016walking} for Open Linked Data without structural properties.
 
-From a holistic perspective, the web does not have a structure exploitable by query engines for optimization.
-On the web, any document can be published at any location, and there is no index or trust mechanism to guide source selection.
-From a perspective where the web is divided into small subsections controlled by data providers, data publishers can implicitly or explicitly organize their data  
-in a way that query engines could exploit its organization for optimization.
+In general, the Web does not have a structure exploitable by query engines for optimization.
+That is because any document can be published at any location, and there is no standard index or trust mechanism to guide discovery.
+However, when we consider subsections of the Web that are controlled by specific data providers as \emph{subwebs},
+implicit or explicit data organizations with specific structural properties can emerge
+which can be exploited by query engines.
+\rt{The following two sentences seem out of place for a high-level introduction like this.}
 We propose to put our focus on the completeness of results when considering that the completeness of traversal has been fixed.
 Placing our focus on results allows us to investigate ways to optimize the search space of link traversal queries by pruning irrelevant sources.
-We propose using a decentralized dataset summary method, called the shape index~\cite{tam2024opportunitiesshapebasedoptimizationlink}, as the support mechanism for our pruning approach.
+In this work, we build upon a new dataset summarization approach for decentralized environments called a \emph{shape index}~\cite{tam2024opportunitiesshapebasedoptimizationlink},
+to enable pruning links within LTQP.
 This method involves mapping the content of a decentralized dataset using RDF data shapes.
-The intuition behind this approach is that publishing explicit RDF schemas is relatively inexpensive for data providers when publishing decentralized datasets but they could be highly beneficial for clients.
-Although RDF does not enforce schemas on its data, the nature of the usually modeled objects and the formalism often results in implicit schemas~\cite{Neumann2011CharacteristicSA}.
+The intuition behind this approach is that publishing explicit shapes is relatively inexpensive for data providers when publishing decentralized datasets but they could be highly beneficial for clients.
+Even if such shapes are not defined explicitly, they often emerge in practise~\cite{Neumann2011CharacteristicSA}.
 
-This paper is organized as follows: first, we introduce the problem statement; next, we discuss related work and present preliminary concepts.
+This paper is organized as follows: first, we introduce the problem statement; next, we discuss related work and present preliminary concepts.\rt{Can you reference the sections as well?}
 We then describe our approach, followed by the experimental setup and results.
 Finally, we conclude the article.
 
 \section{Problem Statement}
 To guide our study we formulated the following research question.
-\textbf{Can LTQP use shape-based pruning in networks of decentralized Knowledge Graphs to reduce the number of HTTP requests while maintaining the same completeness of results, and does this reduction of HTTP requests lead to a decrease in query execution time?}
+\textbf{Can LTQP use shape-based pruning in networks of decentralized Knowledge Graphs to reduce the number of HTTP requests while maintaining the same completeness of results \rt{I would splice everything after this to a separate hypothesis}, and does this reduction of HTTP requests lead to a decrease in query execution time?}
 We formulated the following hypotheses:
 \newcounter{hypothesisCounter}
 \setcounter{hypothesisCounter}{1}
 
 \begin{itemize}[label=\textbf{H\arabic{hypothesisCounter}}\,\stepcounter{hypothesisCounter}]
     \item Using shape indexes will reduce the number of non-contributing data sources acquired
-    \item There is a linear relationship between the reduction of the number of HTTP requests and the reduction of query execution time
-    \item Executing a query-shape containment is negligible in the context of social media applications
-    \item More detailed shapes will provide a higher reduction in the number of HTTP requests
-    \item A network with more \emph{complete} shape index will reduce more the number of HTTP requests and the query execution time than one with less
+    \item There is a linear correlation between the reduction of the number of HTTP requests and the reduction of query execution time
+    \item Executing a query-shape containment is negligible in the context of social media applications\rt{negligible in terms of what? It's effect and benefit? Or execution time?}
+    \item More detailed \rt{What are more detailed shapes? Just larger shapes?} shapes will provide a higher reduction in the number of HTTP requests
+    \item A network with a more \emph{complete} shape index will reduce more the number of HTTP requests and the query execution time than one with less
     \item The shape index approach can be adaptative, so not every dataset in the network needs to have an index to see a performance improvement
 \end{itemize}
+
+\rt{This section looks good, but I still think it would be better to move it to later in the paper. Because there are concepts mentioned here that are not known yet to the reader, such as "complete shape index". So either the hypotheses must be reformulated already be understandable to the reader, or this section must come later.}
