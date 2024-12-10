@@ -41,24 +41,24 @@ We chose Comunica due to its modularity~\cite{taelman_swj_componentsjs_2022} and
 The implementation of our shape index approach is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape containment solver~\sepfootnote{sf:implementationQueryShapeContainment}.
 We use SolidBench~\cite{Taelman2023}, based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution. 
 To facilitate this, we created an open-source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
-The shape annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
-The datasets are Solid Pods~\cite{Taelman2023}
+The shape-annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
+The datasets are Solid Pods~\cite{Taelman2023} \rt{There's probably a better citation for Solid}
 Each Solid Pod contains alongside the data a shape index and separate files for each shape definition.
 Some shapes are nested within others. 
-For example, profiles are associated with cities, and comment are associated with posts.
+For example, \rt{user profiles?} profiles are associated with cities, and comment are associated with posts.
 Depending on the pod instance, certain data model objects are materialized in a single file, while others are distributed across multiple files.
-The entire data model and query templates are available online~\sepfootnote{sf:solidbench}.
+The entire data model and query templates are available online~\sepfootnote{sf:solidbench}.\rt{I would say that queries simulate typical (read) actions in social media use cases, perhaps with an example.}
 
-To evaluate our approach, we conducted the following experiments, we first  measured the execution time and results of our query-shape containment algorithm using the shapes from the study.
-Then, We compared the Solid Pod network optimal traversal algorithm, which uses the LDP specification and type-index~\cite{Taelman2023}, with the LDP traversal algorithm~\cite{Taelman2023} and our shape index approach in a network where each Solid Pods (datasets) provides a complete shape index with the most descriptive shapes.
-Additionally, we evaluated the adaptivity of our approach by reducing the shape index information across the network:
+To evaluate our approach, we conducted the following experiments, we first measured the execution time and results of our query-shape containment algorithm using the shapes from the study.
+Then, we compared the state-of-the-art Solid Pod network traversal algorithm, which uses the LDP specification and type-index~\cite{Taelman2023}, with the LDP traversal algorithm~\cite{Taelman2023} and our shape index approach in a network where each Solid Pod provides a complete shape index with the most descriptive \rt{which shapes are that?} shapes.
+Additionally, we evaluated the adaptivity \rt{Not sure adaptivity is the right term here. Something like \emph{shape index variability} may be better.} of our approach by reducing the shape index information across the network:
 \begin{itemize}
-   \item We compared the impact of query execution time in a network where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.
-   \item We compared the impact of using shape indexes with 20\%, 50\%, and 80\% of entries using closed shapes.
-   \item We compared the impact of using shapes that incorporate only data from the Solid Pods, and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.
+   \item Query execution time in a network where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index. \rt{Why mention a metric here, but not in the next two?}
+   \item Impact of shape indexes with 20\%, 50\%, and 80\% of entries using closed shapes.
+   \item Impact of shapes that incorporate only data from the Solid Pods, and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.\rt{Unclear why this is needed, and what it would look like.}
 \end{itemize}
-We used query templates from SolidBench, each with five instances varying the starting pod.
-Experiments were repeated 50 times with a 2 minute timeout (120,000 ms). 
+We used query templates from SolidBench, each replicated five times with varying starting pods.
+Experiments were repeated 50 times with a 2 minute timeout. 
 They were conducted on an Ubuntu 20.04.6 LTS machine with a 2x Hexacore Intel E5645 CPU and 24GB RAM.
 All experiments are reproducible, with raw data and complementary materials available online~\sepfootnote{sf:complementaryMaterial}.
 
