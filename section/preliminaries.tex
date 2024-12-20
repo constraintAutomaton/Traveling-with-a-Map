@@ -1,26 +1,20 @@
-\section{Preliminaries}
+\section{Preliminaries}\label{sec:preliminaries}
 
 \subsection{RDF knowledge graphs and SPARQL queries}
 
 Our work focuses on conjunctive and disjunctive queries over RDF knowledge graphs~(KG) using the SPARQL query language~\cite{w3SPARQLQuery}.
-The core components of SPARQL queries and of KGs are respectively the triple patterns and the triples defined at Definition~\ref{def:triplePattern} and ~\ref{def:triple}.
-
-\rt{Can you first introduce triple, and then triple pattern. The reverse direction is a bit odd.}
-
-\begin{definition}[Triple pattern]\label{def:triplePattern}
-    A triple pattern $tp = (s_{tp}, p_{tp}, o_{tp})$ is formed by a subject term $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, 
-    a property path \rt{A triple pattern does not contain property paths. Just use predicate here. (I, B, or V)}  $p_{tp}$ as defined by  \citeauthor{Kostylev2015} (Definition 2) and the SPARQL specification (section 18.2)~\cite{w3SPARQLQuery} 
-    and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V} \cup \mathcal{B}$.
-    Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$, $\mathcal{V}$ are respectively the set of every possible IRI, blank node, literal and variable.
-\end{definition}
-
-\rt{What is missing here is an explanation of what a triple pattern does (returns a solution sequence with solution mappings).}
-\rt{You'll also at least need to hint to its relationship to BGPs up to broader query processing.}
+The core components of KGs and SPARQL queries are respectively the triple and the triple patterns defined at Definition~\ref{def:triple} and ~\ref{def:triplePattern}.
 
 \begin{definition}[Triple]\label{def:triple}
-    An RDF triple $t = (s,p,o)$ is similar to a triple pattern, 
-    where $s \in\mathcal{I} \cup \mathcal{B}$,
-    $p \in \mathcal{I}$ and $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{B}$.
+    An RDF triple $t = (s,p,o)$ is a tuple formed with three terms. A subject where $s \in\mathcal{I} \cup \mathcal{B}$, a predicate $p \in \mathcal{I}$ and an object $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{B}$.
+    Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$,  are respectively the set of every possible IRI, blank node, literal and variable.
+\end{definition}
+
+\begin{definition}[Triple pattern]\label{def:triplePattern}
+    A triple pattern $tp = (s_{tp}, p_{tp}, o_{tp})$ is similar to a triple, where $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$,
+    $p_{tp} \in \mathcal{I} \cup \mathcal{V}$ and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V} \cup \mathcal{B}$.
+    Where $\mathcal{V}$ is the set of every possible variable.
+    A triple pattern returns a solution sequence with solution mappings a single or multiple $tp$ forms a Basic Graph Pattern (BGP).
 \end{definition}
 
 We also define two access functions to get respectively the subject and object term of a triple pattern $tp$ or a triple $t$ while ignoring literals,
@@ -28,10 +22,10 @@ $ S: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$ and $O: tp \r
 
 \subsection{Reachability Criteria}
 
-Relying on results or the traversal of a large network like the Web is not feasible for defining completeness in LTQP.\rt{For defining completeness, this would definitely be feasible. But for practical use cases, it would not be feasible.}
-Thus, to formalize the completeness of queries, a link discrimination formalism has been developed called \emph{Reachability criteria}~\cite{Hartig2012}.\rt{I would just introduce this by saying something along the lines of "following all possible links is not feasible in practise, so different reachability criteria have been introduced to define which subsets of links need to be followed."}
+LTQP define completeness on the traversal of links instead of the query results~\cite{Hartig2012}.
+To formalize the completeness of queries, a link discrimination formalism has been developed called \emph{Reachability criteria}~\cite{Hartig2012}.
 Reachability criteria are boolean functions ($c_i$) restricting the dereferencing of links from the internal data source of the query engine.
-They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and the query $B$~\cite{Hartig2012} \rt{Are you sure it's the full query (I don't remember). I thought it was just applied to each triple pattern.}.
+They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and the query $B$~\cite{Hartig2012}.
 If $c_i$ returns $true$, the query engine must dereference $iri$.
 More formally
 \begin{equation}\label{eq:reachabilityCriteria}

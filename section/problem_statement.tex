@@ -1,0 +1,15 @@
+\section{Problem Statement}\label{sec:problem_statement}
+To guide our study we formulated the following research question.
+\textbf{Can LTQP use shape-based pruning in networks of decentralized Knowledge Graphs to reduce the query execution time while maintaining the same completeness of results?}
+We formulated the following hypotheses:
+\newcounter{hypothesisCounter}
+\setcounter{hypothesisCounter}{1}
+
+\begin{itemize}[label=\textbf{H\arabic{hypothesisCounter}}\,\stepcounter{hypothesisCounter}]
+    \item Using shape indexes will reduce the number of non-contributing data sources acquired
+    \item There is a linear correlation between the reduction of the number of HTTP requests and the reduction of query execution time
+    \item Query-shape containment execution time is negligible in the context of social media applications
+    \item More restrictive shapes will provide a higher reduction in the number of HTTP requests
+    \item A network with a more \emph{complete} shape index will reduce more the number of HTTP requests and the query execution time than one with less
+    \item The shape index approach can be adaptative, so not every dataset in the network needs to have an index to see a performance improvement
+\end{itemize}

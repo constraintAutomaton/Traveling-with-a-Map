@@ -1,4 +1,4 @@
-\section{Experimental Setup}
+\section{Experimental Setup}\label{sec:experiment}
 
 \sepfootnotecontent{sf:implementationComunica}{
    \ifanonymous
@@ -27,7 +27,7 @@
       \url{https://github.com/constraintAutomaton/rdf-dataset-fragmenter.js/tree/feature/shape-index-fragmentation-strategy}
    \fi
 }
-
+\iffalse
 \sepfootnotecontent{sf:complementaryMaterial}{
    \ifanonymous
       \url{https://anonymous.4open.science/r/documentation-1A65}
@@ -35,6 +35,7 @@
       \url{https://github.com/shapeIndexComunicaExperiment/documentation}
    \fi
 }
+\fi
 
 We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}.
 We chose Comunica due to its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
@@ -42,25 +43,32 @@ The implementation of our shape index approach is open source~\sepfootnote{sf:im
 We use SolidBench~\cite{Taelman2023}, based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution. 
 To facilitate this, we created an open-source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
 The shape-annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
-The datasets are Solid Pods~\cite{Taelman2023} \rt{There's probably a better citation for Solid}
+The datasets are Solid Pods~\cite{dedecker2022s}
 Each Solid Pod contains alongside the data a shape index and separate files for each shape definition.
 Some shapes are nested within others. 
-For example, \rt{user profiles?} profiles are associated with cities, and comment are associated with posts.
+For example, user profiles are associated with cities, and comment are associated with posts.
 Depending on the pod instance, certain data model objects are materialized in a single file, while others are distributed across multiple files.
-The entire data model and query templates are available online~\sepfootnote{sf:solidbench}.\rt{I would say that queries simulate typical (read) actions in social media use cases, perhaps with an example.}
+Queries simulate typical read action in social media use cases, such as finding replies to posts and finding users that a user knows. 
+The entire data model and query templates are available online~\sepfootnote{sf:solidbench}.
 
 To evaluate our approach, we conducted the following experiments, we first measured the execution time and results of our query-shape containment algorithm using the shapes from the study.
-Then, we compared the state-of-the-art Solid Pod network traversal algorithm, which uses the LDP specification and type-index~\cite{Taelman2023}, with the LDP traversal algorithm~\cite{Taelman2023} and our shape index approach in a network where each Solid Pod provides a complete shape index with the most descriptive \rt{which shapes are that?} shapes.
-Additionally, we evaluated the adaptivity \rt{Not sure adaptivity is the right term here. Something like \emph{shape index variability} may be better.} of our approach by reducing the shape index information across the network:
+Then, we compared the state-of-the-art Solid Pod network traversal algorithm, which uses the LDP specification and type-index~\cite{Taelman2023}, with the LDP traversal algorithm~\cite{Taelman2023} and our shape index approach in a network where each Solid Pod provides a complete shape index.
+Additionally, we evaluated the resilience of our approach by reducing the shape index information across the network:
 \begin{itemize}
-   \item Query execution time in a network where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index. \rt{Why mention a metric here, but not in the next two?}
-   \item Impact of shape indexes with 20\%, 50\%, and 80\% of entries using closed shapes.
-   \item Impact of shapes that incorporate only data from the Solid Pods, and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.\rt{Unclear why this is needed, and what it would look like.}
+   \item Query execution time in a network where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.
+   \item Query execution time in a network where of shape indexes with 20\%, 50\%, and 80\% of entries using closed shapes.
+   \item Query execution time in a network where shapes in the shape indexes incorporate only data from the Solid Pods and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.%\rt{Unclear why this is needed, and what it would look like.}
 \end{itemize}
 We used query templates from SolidBench, each replicated five times with varying starting pods.
 Experiments were repeated 50 times with a 2 minute timeout. 
 They were conducted on an Ubuntu 20.04.6 LTS machine with a 2x Hexacore Intel E5645 CPU and 24GB RAM.
-All experiments are reproducible, with raw data and complementary materials available online~\sepfootnote{sf:complementaryMaterial}.
+All experiments are reproducible, with raw data and complementary materials available online\footnote{
+\ifanonymous
+   \url{https://anonymous.4open.science/r/documentation-1A65}
+\else
+   \url{https://github.com/shapeIndexComunicaExperiment/documentation}
+\fi 
+\label{sf:complementaryMaterial}} .
 
 %https://doc.ilabt.imec.be/ilabt/virtualwall/hardware.html#virtual-wall-2
 
