@@ -7,7 +7,7 @@ The core components of KGs and SPARQL queries are respectively the triple and th
 
 \begin{definition}[Triple]\label{def:triple}
     An RDF triple $t = (s,p,o)$ is a tuple formed with three terms. A subject where $s \in\mathcal{I} \cup \mathcal{B}$, a predicate $p \in \mathcal{I}$ and an object $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{B}$.
-    Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$,  are respectively the set of every possible IRI, blank node, literal and variable.
+    Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$,  are respectively the set of every possible IRI, blank node, literal.
 \end{definition}
 
 \begin{definition}[Triple pattern]\label{def:triplePattern}
@@ -17,25 +17,26 @@ The core components of KGs and SPARQL queries are respectively the triple and th
     A triple pattern returns a solution sequence with solution mappings a single or multiple $tp$ forms a Basic Graph Pattern (BGP).
 \end{definition}
 
-We also define two access functions to get respectively the subject and object term of a triple pattern $tp$ or a triple $t$ while ignoring literals,
+We also define two access functions to get respectively the subject and object term of a triple pattern or a triple while ignoring literals,
 $ S: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$ and $O: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$.
+We denote $[\![ Q ]\!]^{G}$ as the evaluation of a query $Q$ over a KG $G$.
 
 \subsection{Reachability Criteria}
 
 LTQP define completeness on the traversal of links instead of the query results~\cite{Hartig2012}.
 To formalize the completeness of queries, a link discrimination formalism has been developed called \emph{Reachability criteria}~\cite{Hartig2012}.
 Reachability criteria are boolean functions ($c_i$) restricting the dereferencing of links from the internal data source of the query engine.
-They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and the query $B$~\cite{Hartig2012}.
+They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and a union of conjective queries $Q$~\cite{Hartig2012}.
 If $c_i$ returns $true$, the query engine must dereference $iri$.
 More formally
 \begin{equation}\label{eq:reachabilityCriteria}
-c_i(t, iri, B) \rightarrow \{\mathrm{true}, \mathrm{false}\}
+c_i(t, iri, Q) \rightarrow \{\mathrm{true}, \mathrm{false}\}
 \end{equation}
 
 \subsection{Decentralized Knowledge Graphs and subweb}
 
-We define a Decentralized Knowledge Graph (DKG) as a KG $G$ materialized in a network of resources $R$.
-A resource $r_i \in R$ contains a KG $g_i \subseteq G$ and is mapped and exposed by an IRI $iri_i$.
-The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in t \in g_i$ are directed edges starting from $r_i$ to $r_j$.
-$G$ is formed by the union of all the $g \in r$, such that $G = \bigcup_{i=0}^{n}g_i$ given $n$ resources in the network.
-A subweb is a DKG that is controlled by a data provider, such that they can provide structure that might be beneficial for query engine optimization.
+We define a DKG as a KG $G$ materialized in a network of resources $R$.
+A resource $r_i \in R$ contains a KG $g_i \subseteq G$ containing triples mapped and exposed by an IRI $iri_i$.
+The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in g_i$ are directed edges starting from $r_i$ to $r_j$.
+$G$ is formed by the union of all the $g \in r \in R$, such that $G = \bigcup_{i=1}^{n}g_i$ given $n$ resources in the network.
+A subweb is a (sub)DKG that is controlled by a data provider, such that they can provide structure that might be beneficial for query engine optimization.5

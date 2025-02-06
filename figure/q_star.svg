@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   sodipodi:docname="q_star.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.2507576"
+     inkscape:cx="330.99939"
+     inkscape:cy="397.75893"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="marker15"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path15" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:3.52778px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke:#000304;stroke-width:0.6;stroke-dasharray:none"
+       x="5.1154413"
+       y="56.692307"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-size:3.52778px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"
+         x="5.1154413"
+         y="56.692307">PREFIX snvoc: &lt;http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/&gt;</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3.52778px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"
+         x="5.1154413"
+         y="61.102032"
+         id="tspan2" /><tspan
+         sodipodi:role="line"
+         style="font-size:3.52778px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"
+         x="5.1154413"
+         y="65.511757"
+         id="tspan3">SELECT DISTINCT ?firstName ?lastName WHERE {</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3.52778px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"
+         x="5.1154413"
+         y="69.921478"
+         id="tspan4">  ?message snvoc:hasCreator &lt;http://localhost:3000/pods/00000000000000000933/profile/card#me&gt;.</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3.52778px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"
+         x="5.1154413"
+         y="74.331207"
+         id="tspan5">  ?forum snvoc:containerOf ?message;</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3.52778px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"
+         x="5.1154413"
+         y="78.740929"
+         id="tspan6">    snvoc:hasModerator ?moderator.</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3.52778px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"
+         x="5.1154413"
+         y="83.150658"
+         id="tspan7">  ?moderator snvoc:firstName ?firstName;</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3.52778px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"
+         x="5.1154413"
+         y="87.560379"
+         id="tspan8">    snvoc:lastName ?lastName.</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3.52778px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"
+         x="5.1154413"
+         y="91.970108"
+         id="tspan9">}</tspan></text>
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#ff0808;stroke-width:0.583425;stroke-dasharray:none;stroke-opacity:1"
+       id="rect9"
+       width="85.435463"
+       height="8.7617044"
+       x="4.0522857"
+       y="80.17205" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#ff0808;stroke-width:0.628824;stroke-dasharray:none;stroke-opacity:1"
+       id="rect10"
+       width="204.88112"
+       height="13.70314"
+       x="4.0681129"
+       y="66.278473" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.712;stroke-dasharray:none;stroke-opacity:1"
+       id="rect11"
+       width="203.3916"
+       height="4.6568217"
+       x="4.7679672"
+       y="66.935944" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.75593;stroke-dasharray:none;stroke-opacity:1"
+       id="rect11-5"
+       width="78.365738"
+       height="7.5693445"
+       x="4.7919126"
+       y="71.700035" />
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:3.52777px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       x="41.302883"
+       y="104.65865"
+       id="text11"><tspan
+         sodipodi:role="line"
+         id="tspan11"
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+         x="41.302883"
+         y="104.65865">Q<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan12">starT moderator</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:3.52777px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       x="180.2608"
+       y="53.865971"
+       id="text11-2"><tspan
+         sodipodi:role="line"
+         id="tspan11-9"
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+         x="180.2608"
+         y="53.865971">Q<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan12-1">starT forum</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:3.52777px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       x="165.42307"
+       y="93.076927"
+       id="text13"><tspan
+         sodipodi:role="line"
+         id="tspan13"
+         style="stroke-width:0"></tspan></text>
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.6;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle)"
+       d="M 53.466345,100.79808 53.41346,91.384613"
+       id="path13"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.600001;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker15)"
+       d="m 185.25518,55.569075 -9.12441,8.526075"
+       id="path14"
+       sodipodi:nodetypes="cc" />
+  </g>
+</svg>

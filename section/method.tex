@@ -35,12 +35,11 @@ In this section, we define our approach by first introducing pruning in LTQP, fo
 
 \subsection{LTQP Completeness when Pruning}\label{sec:slde}
 
-Our approach of pruning in LTQP focus on ensuring result completeness, assuming traversal completeness is already defined.
+Our approach of pruning in LTQP focus on ensuring result completeness, assuming traversal completeness is already defined using reachability criteria.
 By concentrating on result completeness, we explore strategies to optimize the search space of link traversal queries through pruning of irrelevant sources.
 We formalize our approach as follows.
 A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in a network $R$.
-The query engine has to build a KG $G^{\prime}$ using a reachability $C^{\prime}$ in its internal data store from the  $g \in r$ by dereferencing resources in $R$ such that
-$G^{\prime} \subseteq G$ holds to answer its query.
+The query engine has to build a KG $G^{\prime}$ using a reachability $C^{\prime}$ in its internal data store from the $g \in r$ by dereferencing resources in $R$.
 We are trying to solve an optimization problem where another query engine builds a KG
 $G^{\prime\prime} \subseteq G^{\prime}$
 potentially smaller than the one produced with a specific traversal completeness policy
@@ -68,7 +67,15 @@ This section has introduced our general concept of pruning.
 In the next section, we present our specific shape-based approach using a shape index.
 
 \subsection{Shape Index}
-
+\begin{figure}
+   \centering
+   \begin{tabular}{c}
+      \lstinputlisting[language=sh, basicstyle=\tiny]{code/shape_index.nq}
+   \end{tabular}
+   \caption{
+      An example of a shape index mapping a set of IRI to a profile shape and an IRI to a post shape.
+   }
+\end{figure}
 Pruning in LTQP requires information about the data models of dereferenced sources.
 However, obtaining complete, up-to-date, and expensive information for each source in a large decentralized network is unrealistic.
 To address this, we propose the concept of the \emph{shape index}. 

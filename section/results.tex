@@ -47,6 +47,7 @@ The result tables are available in the supplementary material~\hyperref[sf:compl
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
 This result validated \textbf{H3}.
 
+\iffalse
 \begin{figure}[htbp]
     \centering
     % First figure
@@ -71,7 +72,6 @@ This result validated \textbf{H3}.
     \label{fig:http_req_exec_time_cor}
 \end{figure}
 
-\iffalse
 \subsubsection{Relationship Between HTTP Request and Query Execution Time}
 
 To determine the relationship between the reduction of HTTP requests and the query execution time, we evaluated their ratio using 
@@ -104,6 +104,7 @@ Those results validate \textbf{H2} when there is a decrease in HTTP requests, ho
 
 % Analysis by query template? But we lack the space. In the appendix too...
 % We can also with that explain some big gap in the plot.
+\fi
 
 
 \begin{figure}[h]
@@ -115,7 +116,6 @@ Those results validate \textbf{H2} when there is a decrease in HTTP requests, ho
     }
     \label{fig:adaptShapeIndex}
 \end{figure}
-\fi
 
 \subsection{Evaluation of the Resilience of the approach}
 
