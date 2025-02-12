@@ -48,7 +48,9 @@ Each Solid Pod contains alongside the data a shape index and separate files for 
 Some shapes are nested within others. 
 For example, user profiles are associated with cities, and comment are associated with posts.
 Depending on the pod instance, certain data model objects are materialized in a single file, while others are distributed across multiple files.
-Queries simulate typical read action in social media use cases, such as finding replies to posts and finding users that a user knows. 
+Queries simulate typical read action in social media use cases, such as finding replies to posts and finding users that a user knows.
+The datasets contained approximately 4,200,000 triples (depending on the setup described below) and 1,528 subwebs, which, in this context, are Solid Pods.
+The shape indexes contain 13 triples, while the largest shapes have up to 150 triples.
 The entire data model and query templates are available online~\sepfootnote{sf:solidbench}.
 
 To evaluate our approach, we conducted the following experiments, we first measured the execution time and results of our query-shape containment algorithm using the shapes from the study.
@@ -59,7 +61,7 @@ Additionally, we evaluated the resilience of our approach by reducing the shape 
    \item Query execution time in a network where of shape indexes with 20\%, 50\%, and 80\% of entries using closed shapes.
    \item Query execution time in a network where shapes in the shape indexes incorporate only data from the Solid Pods and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.%\rt{Unclear why this is needed, and what it would look like.}
 \end{itemize}
-We used query templates from SolidBench, each replicated five times with varying starting pods.
+We conducted the experiment using queries from five different instantiations of SolidBench query templates, varying the starting pods in a random yet reproducible manner.
 Experiments were repeated 50 times with a 2 minute timeout. 
 They were conducted on an Ubuntu 20.04.6 LTS machine with a 2x Hexacore Intel E5645 CPU and 24GB RAM.
 All experiments are reproducible, with raw data and complementary materials available online\footnote{
@@ -71,9 +73,3 @@ All experiments are reproducible, with raw data and complementary materials avai
 \label{sf:complementaryMaterial}} .
 
 %https://doc.ilabt.imec.be/ilabt/virtualwall/hardware.html#virtual-wall-2
-
-1528 subwebs
-
-shape index approx 13 triples without the shapes 
-shape: 41, 103, 23, 32, 107, 150
-approx 4 226 974 triples without the shape index and shapes
