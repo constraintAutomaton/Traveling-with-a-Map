@@ -67,6 +67,7 @@ This section has introduced our general concept of pruning.
 In the next section, we present our specific shape-based approach using a shape index.
 
 \subsection{Shape Index}
+
 \begin{figure}
    \centering
    \begin{tabular}{c}
@@ -75,6 +76,7 @@ In the next section, we present our specific shape-based approach using a shape 
    \caption{
       An example of a shape index mapping a set of IRI to a profile shape and an IRI to a post shape.
    }
+   \label{fig:shapeIndex}
 \end{figure}
 Pruning in LTQP requires information about the data models of dereferenced sources.
 However, obtaining complete, up-to-date, and expensive information for each source in a large decentralized network is unrealistic.
@@ -94,7 +96,7 @@ We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(
 A mapping between a shape and a set of IRIs has implications in the distribution of the data in $D$.
 When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | g \in r, iri \mapsto r \land iri \in IRI\}$ satisfies $s$.
 Given that the shape is closed, then every set of triples in the resource associated with $D$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
-We provide a detailed technical description of the shape index in an online specification~\sepfootnote{sf:shapeIndexURL}.
+We provide a detailed technical description of the shape index in an online specification~\sepfootnote{sf:shapeIndexURL} and Figure~\ref{fig:shapeIndex} provides an example of a serialization.
 
 %\rt{This feels like a good place to start a new subsection...}
 
@@ -171,6 +173,18 @@ From this sets of links we define a pruning reachability criteria;
 \end{equation}
 The new reachability $C^{\prime\prime}_i$ is created by taking the $Cd$ and $Cp$ of $C^{\prime\prime}_{i-1}$ and adding
 and $cp_{si}$ to $Cp$.
+
+
+\begin{figure}
+   \centering
+   \includegraphics[width=0.8\textwidth]{figure/dkg.png} % Adjust width as needed
+   \caption{
+      Given that the resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
+      The nodes represent RDF resources, while the edges represent IRIs linking one resource to another (see Section \ref{sec:dkg}).
+      Each subweb has a shape index that maps shapes, represented by polygons, to RDF resources by embedding the polygon within the node.
+      The query engine starts its query at subweb 3, and the relevant query resources are identified with a black node.
+    }
+\end{figure}
 
 
 \subsection{Query Shape Containment}\label{sec:containment}
