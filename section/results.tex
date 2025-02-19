@@ -25,12 +25,15 @@
 \end{figure}
 
 
+\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources}
+
+\input{analysis/artefact/statistical_significance/comparaisonStateOfTheArt}
 
 
 Figure~\ref{fig:compApproach} shows that the shape index approach for all query templates except S4 performs better or comparably to the Solid Pod network optimal traversal algorithm.
 Queries can require as little as 13\% or 7.7 times less (S1) of the execution time of the Solid Pod network optimal traversal algorithm.
 Queries that perform best are those where the number of HTTP requests decreased the most.
-Table~\ref{tab:statSignificanceStateOfTheArt} in the \nameref{sec:appendix} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
+Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
 Query templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
 We notice that query template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
 This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the Solid Pod network optimal traversal algorithm achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.

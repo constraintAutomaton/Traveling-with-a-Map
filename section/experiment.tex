@@ -40,7 +40,8 @@
 We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}.
 We chose Comunica due to its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
 The implementation of our shape index approach is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape containment solver~\sepfootnote{sf:implementationQueryShapeContainment}.
-We use SolidBench~\cite{Taelman2023}, based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution. 
+We use SolidBench~\cite{Taelman2023}, which is based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution.
+Like Comunica, it is modular and has been used in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
 To facilitate this, we created an open-source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
 The shape-annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
 The datasets are Solid Pods~\cite{dedecker2022s}

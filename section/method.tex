@@ -31,7 +31,23 @@
 }
 
 
-In this section, we define our approach by first introducing pruning in LTQP, followed by explaining the shape index, and finally describing how the shape index is used for pruning in LTQP
+In this section, we define our approach by first introducing pruning in LTQP, then explaining the shape index, and finally describing how the shape index is used for pruning in LTQP.
+Our approach considers a DKG with subwebs containing shape indexes hosted by data providers. 
+By exploiting those indexes, query engines performing LTQP can prune a part of DKG without affecting query results when considering executing the query over the whole network.
+Figure~\ref{fig:dkg} presents a schema of our approach and the query execution context.
+
+\begin{figure}
+   \centering
+   \includegraphics[width=0.45\textwidth]{figure/dkg.png}
+   \caption{
+      Given that the resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
+      The nodes represent RDF resources, while the edges represent IRIs linking one resource to another (see Section \ref{sec:dkg}).
+      Each subweb has a shape index that maps shapes, represented by polygons, to RDF resources by embedding the polygon within the node.
+      The query engine starts its query at subweb 3, and the relevant query resources in a subweb are identified with a black node.
+    }
+    \label{fig:dkg}
+\end{figure}
+
 
 \subsection{LTQP Completeness when Pruning}\label{sec:slde}
 
@@ -92,7 +108,7 @@ We formalize a shape index as follows:
 where $s_i$ is a shape and $IRI_i$ is a set of IRI given $n$ entries.
 The subweb described by the index is defined by $D = \bigcup_{i=1}^{n} \bigcup_{iri \in IRI_i} iri$.
 A shape index \emph{must} map every resource in $D$.
-We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ have a close world assumption and \emph{incomplete} otherwise.
+We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ have a close world assumption~\cite{Gayo2018b, Gayo2018} (we also refer to those shapes as closed shapes) and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRIs has implications in the distribution of the data in $D$.
 When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | g \in r, iri \mapsto r \land iri \in IRI\}$ satisfies $s$.
 Given that the shape is closed, then every set of triples in the resource associated with $D$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
@@ -109,6 +125,17 @@ We extend this idea by considering all star patterns linked via the object term 
 For example, consider a user that links to his posts with recursive replies.
 Tree stars can capture this through a star pattern defining a user, and recursively nested star patterns representing posts.
 Thus, the target shapes in the shape index correspond to the subject of each root star pattern when a KG is divided into tree stars with no shared partial tree stars.
+Figure~\ref{fig:q_star} presents a schematization of a tree star pattern example.
+
+\begin{figure}
+   \centering
+   \includegraphics[width=0.8\textwidth]{figure/q_star.png}
+   \caption{
+      Representation of tree star patterns.
+      In red the tree star patterns are presented and in black the partial tree star patterns.
+    }
+    \label{fig:q_star}
+\end{figure}
 
 \begin{definition}[Tree Star Pattern]\label{def:starPattern}
    We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
@@ -139,12 +166,21 @@ Thus, the target shapes in the shape index correspond to the subject of each roo
 
    We also define a function  
    $S_{star}: q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$
-   returning the subjects of the $Q_{starPT_i}$ of a $Q_{starT}$
+   returning the subjects of the $Q_{starPT_i}$ of a $Q_{starT}$.
 
    We propose a similar definition for the context of KGs where we replace the query $Q$ by a KG $G$ and where the terms 
    cannot be a $v \in \mathcal{V}$. 
    We denote this structure a tree star.
+   
 \end{definition}
+
+The construction and maintenance of shape indexes are beyond the scope of this work.
+However, we believe they require less effort than void descriptions~\cite{Boehm2011}, which have already been used for query optimization~\cite{Montoya2017}, albeit not in the context of LTQP.
+RDF data shapes can be either prescriptive or descriptive.
+For shape indexes with descriptive shapes, automatic RDF data shape generation methods~\cite{fernandez2023extracting} could facilitate their creation.
+Entries in shape indexes correspond to sets of IRIs, which could be structured using URI templates, thereby reducing the need for exhaustive redefinition.
+For prescriptive shapes, contributions in shape-based data integration~\cite{LabraGayo2023} could help prevent the generation of invalid data sources.
+
 
 \subsection{Link Pruning Using Shape Indexes}\label{sec:sourceSelection}
 
@@ -174,18 +210,14 @@ From this sets of links we define a pruning reachability criteria;
 The new reachability $C^{\prime\prime}_i$ is created by taking the $Cd$ and $Cp$ of $C^{\prime\prime}_{i-1}$ and adding
 and $cp_{si}$ to $Cp$.
 
-
-\begin{figure}
-   \centering
-   \includegraphics[width=0.8\textwidth]{figure/dkg.png} % Adjust width as needed
-   \caption{
-      Given that the resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
-      The nodes represent RDF resources, while the edges represent IRIs linking one resource to another (see Section \ref{sec:dkg}).
-      Each subweb has a shape index that maps shapes, represented by polygons, to RDF resources by embedding the polygon within the node.
-      The query engine starts its query at subweb 3, and the relevant query resources are identified with a black node.
-    }
-\end{figure}
-
+This approach has two main limitations.
+First, it assumes that data providers maintain up-to-date shape indexes.
+If the indexes are outdated, results may be incomplete.
+A similar criticism could be made against the method exploiting void descriptions~\cite{Montoya2017}.
+Furthermore, if the shape query containment check requires dereferencing all documents, the operation becomes effectively useless and may increase query execution time.
+Second, the approach does not account for cases where querying irrelevant documents could lead to relevant ones based on additional reachability criteria.
+Addressing this during the containment check would require translating these criteria into queries and incorporating them into the evaluation process.
+However, this is beyond the scope of this paper.
 
 \subsection{Query Shape Containment}\label{sec:containment}
 
@@ -281,4 +313,4 @@ To solve $Q \sqsubseteq_{qs} S$, we need to consider the number of tree stars fr
 This operation results again in a polynomial time complexity algorithm.
 %To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starT}$ tree star from the BGP with their $n_{starTu}$ segment in the UGP and $n_{starTui}$ BGP in the UGP.
 %This operation results in a polynomial time complexity of $O(n_o \times n_{tp}^2 \times n_{union}^2 \times n_{starT} \times n_{starTu} \times n_{starTui})$.
-In the \nameref{sec:appendix} Algorithm~\ref{alg:containment} present the full resolution to evaluate each tree star pattern.
+%In the \nameref{sec:appendix} Algorithm~\ref{alg:containment} present the full resolution to evaluate each tree star pattern.

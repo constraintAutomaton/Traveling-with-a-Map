@@ -17,8 +17,7 @@ These IRIs allow access to additional Knowledge Graphs (KGs) containing informat
 For example, a WebID~\sepfootnote{sf:webID} represents a user, dereferencing it can provide the name of the user, among other information, without having to store the information locally.
 Despite these benefits, most SPARQL query processing occurs in centralized setups, partly because there is a better understanding of how to optimize queries in centralized environments.
 
-The Link Traversal Query Processing (LTQP)~\cite{Hartig2012} is more natural paradigm for querying in decentralized environments,
-which leverages the potential descriptive power of IRI dereferencing.
+Link Traversal Query Processing (LTQP)~\cite{Hartig2012} is a query paradigm designed for querying unindexed, decentralized environments by leveraging the descriptive power of IRI dereferencing.
 LTQP involves recursively dereferencing IRIs discovered in a query engine's internal triple store during query execution to expand its base of information.
 The main difficulty of LTQP is the large domain of exploration, which leads to a high number of HTTP requests as demonstrated by \citeauthor{hartig2016walking}~\cite{hartig2016walking}.
 From another perspective, and without contradicting \citeauthor{hartig2016walking}~\cite{hartig2016walking}, \citeauthor{Taelman2023}~\cite{Taelman2023} have demonstrated that in Decentralized Environments with Structural Properties (DESPs), it is possible to attain query completeness for various types of practical queries within acceptable execution times for the context of social media applications~\cite{nielsen1993response}.
