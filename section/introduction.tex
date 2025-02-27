@@ -21,24 +21,22 @@ Link Traversal Query Processing (LTQP)~\cite{Hartig2012} is a query paradigm des
 LTQP involves recursively dereferencing IRIs discovered in a query engine's internal triple store during query execution to expand its base of information.
 The main difficulty of LTQP is the large domain of exploration, which leads to a high number of HTTP requests as demonstrated by \citeauthor{hartig2016walking}~\cite{hartig2016walking}.
 From another perspective, and without contradicting \citeauthor{hartig2016walking}~\cite{hartig2016walking}, \citeauthor{Taelman2023}~\cite{Taelman2023} have demonstrated that in Decentralized Environments with Structural Properties (DESPs), it is possible to attain query completeness for various types of practical queries within acceptable execution times for the context of social media applications~\cite{nielsen1993response}.
-Moreover, they showed that query planning could significantly influence the execution time.
+%Moreover, they showed that query planning could significantly influence the execution time.
 Structural properties ensure data discoverability, which in turn helps guarantee result completeness.
-In practice, DESPs emerge in different context, such as personal data, social networks, and more.
-Concrete DESPs has been shown to be beneficial for datasets following the Solid protocol~\cite{Taelman2023} and the TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
+In practice, DESPs emerge in various contexts, such as social networks~\cite{Taelman2023} and the publication of sensor data~\cite{tam_iswc_traversalsensortree_2024}, among others.
+%Concrete DESPs has been shown to be beneficial for datasets following the Solid protocol~\cite{Taelman2023} and the TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
 The work of \citeauthor{Taelman2023}~\cite{Taelman2023} indicates that there are multiple optimizations possible in LTQP in the context of decentralized environments with structural properties as opposed to the
 more pessimist conclusion of the work of \citeauthor{hartig2016walking}~\cite{hartig2016walking} in the context of Open Linked Data without structural properties.
 
-In general, the Web does not have a structure exploitable by query engines for optimization.
-That is because any document can be published at any location, and there is no standard index or trust mechanism to guide discovery.
-However, when we consider subsections of the Web that are controlled by specific data providers as \emph{subwebs},
-implicit or explicit data organizations with specific structural properties can emerge
-which can be exploited by query engines.
-In this work, we build upon a new dataset summarization approach for decentralized environments called a \emph{shape index}~\cite{tam2024opportunitiesshapebasedoptimizationlink},
-to enable pruning links within LTQP.
-This method involves mapping the content of a decentralized dataset using RDF data shapes.
-The intuition behind this approach is that publishing explicit shapes is relatively inexpensive for data providers when publishing decentralized datasets but they could be highly beneficial for clients.
-Even if such shapes are not defined explicitly, they often emerge in practise~\cite{Neumann2011CharacteristicSA}.
+In general, the Web lacks a structure that query engines can exploit for optimization.  
+This is because any document can be published anywhere, with no standard index or trust mechanism to guide discovery.  
+However, within specific \emph{subwebs}, that we define as subsections of the Web controlled by particular data providers, implicit or explicit data organizations with structural properties can emerge, which query engines can leverage.  
+In this work, we build on a dataset summarization approach for decentralized environments called a \emph{shape index}~\cite{tam2024opportunitiesshapebasedoptimizationlink} to enable link pruning within LTQP.  
+This method maps the content of a decentralized dataset using RDF data shapes.  
+The key intuition is that publishing explicit shapes is relatively inexpensive for data providers but can be highly beneficial for clients querying decentralized datasets.  
 
+\iffalse
 This paper is organized as follows: first, we discuss the \hyperref[sec:related_work]{related work} and present \hyperref[sec:preliminaries]{preliminaries}.
 We then describe our \hyperref[sec:approach]{approach}, we then introduce the \hyperref[sec:problem_statement]{problem statement}, followed by the \hyperref[sec:experiment]{experimental setup} and the \hyperref[sec:result]{discussion of results}.
 Finally, we conclude the article.
+\fi

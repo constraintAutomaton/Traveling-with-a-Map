@@ -1,15 +1,24 @@
 \section{Problem Statement}\label{sec:problem_statement}
-To guide our study we formulated the following research question.
-\textbf{Can LTQP use shape-based pruning in networks of decentralized Knowledge Graphs to reduce the query execution time while maintaining the same completeness of results?}
-We formulated the following hypotheses:
+
+To guide our study, we define the following research question:  
+\textbf{Can LTQP use shape-based pruning in DKG networks to reduce query execution time while preserving result completeness?}
+We propose the following hypotheses:  
+(\textbf{H1}) Shape indexes reduce the number of non-contributing data sources retrieved and the query execution time.  
+(\textbf{H2}) The execution time of a query-shape containment algorithm is negligible in social media applications.  
+(\textbf{H3}) Stricter shape constraints lead to a greater reduction in HTTP requests.  
+(\textbf{H4}) Querying a network with more \emph{complete} shape indexes results in faster query execution.  
+(\textbf{H5}) The shape index approach is adaptive, meaning performance improvements are possible even if not all datasets have an index.  
+
+
+\iffalse
 \newcounter{hypothesisCounter}
 \setcounter{hypothesisCounter}{1}
 
 \begin{itemize}[label=\textbf{H\arabic{hypothesisCounter}}\,\stepcounter{hypothesisCounter}]
     \item Using shape indexes will reduce the number of non-contributing data sources acquired
-    \item There is a linear correlation between the reduction of the number of HTTP requests and the reduction of query execution time
     \item Query-shape containment execution time is negligible in the context of social media applications
-    \item More restrictive shapes will provide a higher reduction in the number of HTTP requests
+    \item Shapes with stricter constraints result in a greater reduction in HTTP requests.
     \item A network with a more \emph{complete} shape index will reduce more the number of HTTP requests and the query execution time than one with less
     \item The shape index approach can be adaptative, so not every dataset in the network needs to have an index to see a performance improvement
 \end{itemize}
+\fi

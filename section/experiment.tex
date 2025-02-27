@@ -41,36 +41,43 @@ We implemented our approach using the LTQP version of the Comunica query engine~
 We chose Comunica due to its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
 The implementation of our shape index approach is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape containment solver~\sepfootnote{sf:implementationQueryShapeContainment}.
 We use SolidBench~\cite{Taelman2023}, which is based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution.
-Like Comunica, it is modular and has been used in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
-To facilitate this, we created an open-source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
+Like Comunica, it is modular and has been utilized in multiple LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
+We created an open-source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
 The shape-annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
-The datasets are Solid Pods~\cite{dedecker2022s}
-Each Solid Pod contains alongside the data a shape index and separate files for each shape definition.
+The datasets are Solid Pods~\cite{dedecker2022s}.
+In this paper, we consider a Solid Pod as a web-based file system that follows the LDP specification~\cite{w3LinkedData}.
+Each Solid Pod contains alongside its data, a shape index and separate files for each shape definition.
 Some shapes are nested within others. 
-For example, user profiles are associated with cities, and comment are associated with posts.
+For example, user profiles are associated with cities, and comments are associated with posts.
 Depending on the pod instance, certain data model objects are materialized in a single file, while others are distributed across multiple files.
 Queries simulate typical read action in social media use cases, such as finding replies to posts and finding users that a user knows.
-The datasets contained approximately 4,200,000 triples (depending on the setup described below) and 1,528 subwebs, which, in this context, are Solid Pods.
+The datasets contained approximately 4,200,000 triples and 1,528 subwebs, which, in this context, are Solid Pods.
 The shape indexes contain 13 triples each, while the largest shapes have up to 150 triples.
-The entire data model and query templates are available online~\sepfootnote{sf:solidbench}.
+The entire data model and query templates are available online.~\sepfootnote{sf:solidbench}
 
 To evaluate our approach, we conducted the following experiments, we first measured the execution time and results of our query-shape containment algorithm using the shapes from the study.
-Then, we compared the state-of-the-art Solid Pod network traversal algorithm, which uses the LDP specification and type-index~\cite{Taelman2023}, with the LDP traversal algorithm~\cite{Taelman2023} and our shape index approach in a network where each Solid Pod provides a complete shape index.
-Additionally, we evaluated the resilience of our approach by reducing the shape index information across the network:
+We then compared our shape index approach to state-of-the-art Solid Pod network traversal algorithms: one leveraging the LDP specification and type index~\cite{Taelman2023}, and another using only the LDP specification~\cite{Taelman2023}, in a network where each Solid Pod provides a complete shape index.
+Additionally, we assessed the resilience of our approach by gradually reducing the shape index information across the network.  
+We measured query execution time in networks where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.  
+We also varied the percentage of shape index entries using closed shapes, testing 20\%, 50\%, and 80\%.
+We finally evaluate network where shapes in the shape indexes incorporate only data from the Solid Pods and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.
+
+\iffalse
 \begin{itemize}
    \item Query execution time in a network where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.
    \item Query execution time in a network where of shape indexes with 20\%, 50\%, and 80\% of entries using closed shapes.
    \item Query execution time in a network where shapes in the shape indexes incorporate only data from the Solid Pods and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.%\rt{Unclear why this is needed, and what it would look like.}
 \end{itemize}
+\fi
 We conducted the experiment using queries from five different instantiations of SolidBench query templates, varying the starting pods in a random yet reproducible manner.
 Experiments were repeated 50 times with a 2 minute timeout. 
 They were conducted on an Ubuntu 20.04.6 LTS machine with a 2x Hexacore Intel E5645 CPU and 24GB RAM.
-All experiments are reproducible, with raw data and complementary materials available online\footnote{
+All experiments are reproducible, with raw data and complementary materials available online.~\footnote{
 \ifanonymous
    \url{https://anonymous.4open.science/r/documentation-1A65}
 \else
    \url{https://github.com/shapeIndexComunicaExperiment/documentation}
 \fi 
-\label{sf:complementaryMaterial}} .
+\label{sf:complementaryMaterial}}
 
 %https://doc.ilabt.imec.be/ilabt/virtualwall/hardware.html#virtual-wall-2

@@ -1,8 +1,8 @@
 \section{Discussion of Results}\label{sec:result}
 
-\subsection{Evaluation Against Other Approaches}
+\subsubsection{Evaluation Against Other Approaches}
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     % First figure
     \begin{minipage}[t]{0.40\linewidth}
@@ -24,23 +24,21 @@
     \label{fig:compApproach}
 \end{figure}
 
-
-\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources}
-
-\input{analysis/artefact/statistical_significance/comparaisonStateOfTheArt}
+%\input{analysis/artefact/statistical_significance/comparaisonStateOfTheArt}
 
 
-Figure~\ref{fig:compApproach} shows that the shape index approach for all query templates except S4 performs better or comparably to the Solid Pod network optimal traversal algorithm.
-Queries can require as little as 13\% or 7.7 times less (S1) of the execution time of the Solid Pod network optimal traversal algorithm.
+Figure~\ref{fig:compApproach} shows that the shape index approach for all query templates except S4 performs better or comparably to the state-of-the-art Solid Pod network traversal algorithm.
+Queries can require as little as 13\% or 7.7 times less (S1) of the execution time of the type index and LDP traversal algorithm.
 Queries that perform best are those where the number of HTTP requests decreased the most.
-Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
-Query templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
-We notice that query template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
-This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the Solid Pod network optimal traversal algorithm achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
+%Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
+Queries from templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
+We notice that queries from template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
+\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources}
+This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the type index and LDP traversal algorithm achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
 The poor performance is due to the fact that other approaches rely solely on the reachability \texttt{Cmatch}~\cite{hartig2016walking} to achieve completeness, without leveraging the structural properties of the datasets.
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
 It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
-However, those queries were already fast, with the Solid Pod network optimal traversal algorithm approach being executed in approximately 0.30\% of the maximum execution time allowed.
+However, those queries were already fast, with the type index and LDP traversal algorithm approach being executed in approximately 0.30\% of the maximum execution time allowed.
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 Those results mostly validate \textbf{H1} however the shape index approach can drastically increase the execution time when the structural properties are not used.
 
@@ -48,7 +46,7 @@ Those results mostly validate \textbf{H1} however the shape index approach can d
 The empirical evaluation of the query-shape containment algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
 The result tables are available in the supplementary material~\hyperref[sf:complementaryMaterial]{\footnotemark[\getrefnumber{sf:complementaryMaterial}]}.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
-This result validated \textbf{H3}.
+This result validated \textbf{H2}.
 
 \iffalse
 \begin{figure}[htbp]
@@ -110,7 +108,17 @@ Those results validate \textbf{H2} when there is a decrease in HTTP requests, ho
 \fi
 
 
-\begin{figure}[h]
+\subsubsection{Evaluation of the Resilience of the approach}
+
+The final part of the results analysis focuses on the resilience of the shape index approach.
+In this analysis, we examine the impact of reducing the shape index information in the network and compare the results with a network in which all pods are exposed to detailed, complete shape indexes.
+Figure~\ref{fig:adaptShapeIndex} presents three plots that illustrate the results of our evaluation of the approach's resilience.
+The plot on the left shows the variation in the availability of shape indexes across the network. 
+As expected, we observe that queries that performed better in Figure~\ref{fig:compApproach} tend to perform worse with reduced shape index information, while queries that performed poorly improve. 
+Queries that were unaffected by the shape index changes remain unaffected.
+
+
+\begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{analysis/artefact/variation_shape_index_all/plot}
     \caption{
@@ -119,15 +127,6 @@ Those results validate \textbf{H2} when there is a decrease in HTTP requests, ho
     }
     \label{fig:adaptShapeIndex}
 \end{figure}
-
-\subsection{Evaluation of the Resilience of the approach}
-
-The final part of the results analysis focuses on the resilience of the shape index approach.
-In this analysis, we examine the impact of reducing the shape index information in the network and compare the results with a network in which all pods are exposed to detailed, complete shape indexes.
-Figure~\ref{fig:adaptShapeIndex} presents three plots that illustrate the results of our evaluation of the approach's resilience.
-The plot on the left shows the variation in the availability of shape indexes across the network. 
-As expected, we observe that queries that performed better in Figure~\ref{fig:compApproach} tend to perform worse with reduced shape index information, while queries that performed poorly improve. 
-Queries that were unaffected by the shape index changes remain unaffected.
 
 The plot in the middle shows the variation in the percentage of shape index entries using closed shapes.
 The results here are more nuanced.
@@ -147,9 +146,9 @@ Query S1 is the only one where the added information can discriminate multiple p
 This sensitivity of the quantity of the information in the index also helps explain the results for S1 in the middle plot. 
 In that case, the query engine still had to dereference sources from each dataset, and the information available was likely insufficient to significantly discriminate between sources.
 
-Those results shows that \textbf{H4} is mainly invalid; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of sources.
+Those results shows that \textbf{H3} is mainly invalid; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of sources.
 Thus, this outcome is query-dependent.
-\textbf{H5} and \textbf{H6} are valid but show that the completeness of shape indexes has less impact on performance than the absence of indexes.
+\textbf{H4} and \textbf{H5} are valid but show that the completeness of shape indexes has less impact on performance than the absence of indexes.
 Incomplete shape indexes can increase performance surprisingly if incomplete entries are not necessary to discriminate irrelevant sources. 
-Like \textbf{H4}, these findings are query-dependent and also network-dependent.
+Like with \textbf{H3}, these findings are query-dependent and also network-dependent.
 
