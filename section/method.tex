@@ -78,10 +78,10 @@ Thus, reducing HTTP requests provides a twofold benefit.
 To define less selective reachabilities to produce $G^{\prime\prime}$, we propose extending the reachability criteria by formalizing a chain of criteria in a concept called \emph{composite reachability criteria}.
 In this form, a reachability criterion $cp_i$ is said to \emph{prune} links, and $cd_i$ is said to \emph{discover} links.
 Equation~\ref{eq:cReachabilityCriteria} formalizes a composite reachability criterion $C$.
-where $Cd$ is the set of every $cd_i(t, iri, B)$ and $Cp$ the set of every $cp_i(t, iri, B)$ used by the engine.
+where $Cd$ is the set of every $cd_i(t, iri, Q)$ and $Cp$ the set of every $cp_i(t, iri, Q)$ used by the engine.
 
 \begin{equation}\label{eq:cReachabilityCriteria}
-   C(t, iri, B) = \bigvee_{cd \in Cd} cd(t, iri, B) \mathrel{\land} \bigwedge_{cp \in Cp} \, cp(t, iri, B)
+   C(t, iri, Q) = \bigvee_{cd \in Cd} cd(t, iri, Q) \mathrel{\land} \bigwedge_{cp \in Cp} \, cp(t, iri, Q)
 \end{equation}
 
 \subsection{Shape Index}

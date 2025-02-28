@@ -28,6 +28,7 @@
 
 
 Figure~\ref{fig:compApproach} shows that the shape index approach for all query templates except S4 performs better or comparably to the state-of-the-art Solid Pod network traversal algorithm.
+An analysis of statistical significance is provided in the supplementary material~\hyperref[sf:complementaryMaterial]{\footnotemark[\getrefnumber{sf:complementaryMaterial}]}.
 Queries can require as little as 13\% or 7.7 times less (S1) of the execution time of the type index and LDP traversal algorithm.
 Queries that perform best are those where the number of HTTP requests decreased the most.
 %Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
@@ -130,20 +131,20 @@ Queries that were unaffected by the shape index changes remain unaffected.
 
 The plot in the middle shows the variation in the percentage of shape index entries using closed shapes.
 The results here are more nuanced.
-While there is a general trend for query evaluations with a lower percentage of closed shapes to behave similarly to the plot on the left, we also observe both performance gains for some query template and a drastic performance loss for query S1 when 80\% of the shape entries are closed.
+While there is a general trend for query evaluations with a lower percentage of closed shapes to behave similarly to the plot on the left, we also observe both performance gains for some query template and a drastic performance loss for the queries of S1 when 80\% of the shape entries are closed.
 The performance gain occurs because not every entry needs to be closed to prune the query irrelevant documents.
 Entries mapped to an open shape are always considered relevant because the shape translate to a query fetching the whole KG.
 If the containment resolution leads to the same conclusion then given a closed entry, the execution will be more expensive because 
 when shape are nested, the nested shapes need to be dereference to solve the query-shape containment algorithm.
-For query S1, with 80\% of closed shape entries, the performance lost was due to random chance, as the discriminatory entries were provided with open shapes in multiple instances when looking at the raw data.
+For the queries of S1, with 80\% of closed shape entries, the performance lost was due to random chance, as the discriminatory entries were provided with open shapes in multiple instances when looking at the raw data.
 
 The right plot shows the variation in the level of detail of the shapes by reducing their detail.
 Since the shapes are closed in this experiment the level of detail was varied by changing the constraint of the object terms of the shape as describe in Section~\ref{sec:experiment}.
-Most queries tend to perform similarly or better, with the exception of S1.
+Most queries tend to perform similarly or better, with the exception of those of S1.
 Upon analyzing the output of our query containment algorithm, we observe that the additional information to the shape provided in our base approach does not affect the algorithm’s results.
 However, the engine needs to dereference more shapes, which can increase the execution time.
-Query S1 is the only one where the added information can discriminate multiple parts of the datasets' domain, indicating the intuitive results that, in some situations, adding more information can be beneficial.
-This sensitivity of the quantity of the information in the index also helps explain the results for S1 in the middle plot. 
+Queries of template S1 is the only one where the added information can discriminate multiple parts of the datasets' domain, indicating the intuitive results that, in some situations, adding more information can be beneficial.
+This sensitivity of the quantity of the information in the index also helps explain the results for S1 queries in the middle plot. 
 In that case, the query engine still had to dereference sources from each dataset, and the information available was likely insufficient to significantly discriminate between sources.
 
 Those results shows that \textbf{H3} is mainly invalid; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of sources.
