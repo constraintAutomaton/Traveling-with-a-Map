@@ -7,15 +7,15 @@
 }
 
 Data sovereignty seeks to establish a more just definition of personal data ownership in terms of data usage and storage.
-It can be defined as ``the self-determination of individuals and organizations concerning to the use of their data''~\cite{verstraete2022solid},
+It can be defined as ``the self-determination of individuals and organizations with regard to the use of their data''~\cite{verstraete2022solid},
 which in practice can be interpreted as the power to choose where one's data is stored and who has access to it~\cite{verstraete2022solid}.
-Multiple studies have denoted problems of ownership, democracy, reinforcement of inequality, and antagonism between users and owners of web social applications~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
+Multiple studies have denoted problems of ownership, democracy, reinforcement of inequality, and antagonism between users and owners of social web applications~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
 Several authors consider decentralizing web data an insufficient solution~\cite{9663788, Curran2016ch1}; yet, it is an integral component of initiatives focused on data sovereignty,
 which necessitates technical research.
 Linked Data enables the creation of Decentralized Knowledge Graphs (DKGs) through the use of dereferencable IRIs.
 These IRIs allow access to additional Knowledge Graphs (KGs) containing information relevant to what an IRI identifies.
-For example, a WebID~\sepfootnote{sf:webID} represents a user, dereferencing it can provide the name of the user, among other information, without having to store the information locally.
-Despite these benefits, most SPARQL query processing occurs in centralized setups, partly because there is a better understanding of how to optimize queries in centralized environments.
+For example, a WebID~\sepfootnote{sf:webID} represents an agent, dereferencing it can provide the name of the user, among other information, without having to store the information locally.
+Despite these advantages, SPARQL query processing is predominantly carried out in centralized environments, largely due to a more established understanding of how to optimize queries in such settings.
 
 Link Traversal Query Processing (LTQP)~\cite{Hartig2012} is a query paradigm designed for querying unindexed, decentralized environments by leveraging the descriptive power of IRI dereferencing.
 LTQP involves recursively dereferencing IRIs discovered in a query engine's internal triple store during query execution to expand its base of information.
@@ -28,9 +28,9 @@ In practice, DESPs emerge in various contexts, such as social networks~\cite{Tae
 The work of \citeauthor{Taelman2023}~\cite{Taelman2023} indicates that there are multiple optimizations possible in LTQP in the context of decentralized environments with structural properties as opposed to the
 more pessimist conclusion of the work of \citeauthor{hartig2016walking}~\cite{hartig2016walking} in the context of Open Linked Data without structural properties.
 
-In general, the Web lacks a structure that query engines can exploit for optimization.  
+In general, the web lacks a structure that query engines can exploit for optimization.  
 This is because any document can be published anywhere, with no standard index or trust mechanism to guide discovery.  
-However, within specific \emph{subwebs}, defined as subsections of the Web controlled by particular data providers, implicit or explicit data structures may emerge, which query engines can leverage.
+However, within specific \emph{subwebs}, defined as subsections of the web controlled by particular data providers, implicit or explicit data structures may emerge, which query engines can leverage.
 In this work, we build on a dataset summarization approach for decentralized environments called a \emph{shape index}~\cite{tam2024opportunitiesshapebasedoptimizationlink} to enable link pruning within LTQP.  
 This method maps the content of a decentralized dataset using RDF data shapes.  
 This paper presents our link pruning approach using shape indexes and experimental results using a synthetic benchmark used in LTQP research.

@@ -4,16 +4,18 @@
 \subsection{Link Traversal Query Processing}
 LTQP is a SPARQL querying paradigm that answers queries by exploring the Web using the follow-your-nose principle~\cite{hartig2016walking}.
 It belongs to the family of decentralized SPARQL querying paradigms.
-LTQP fundamentally differs from federated querying because the ``federation'' formed during querying expands dynamically as the query is processed.
+LTQP fundamentally differs from federated querying because the ``federation'' is formed during querying and is expands dynamically as the query is processed.
 Thus, many optimization techniques used in federated querying either do not work in the context of LTQP or remain unexplored.
 LTQP also differs from querying the TPF family of interfaces~\cite{azzam2020smart,azzam2021wisekg, DBLP:journals/corr/HartigA16}, as the latter involves querying fragments of a finite dataset, whereas LTQP consist of dynamically discovering new datasets.
 The main challenge of LTQP is the Web's open-ended nature leading to large search spaces.
+
 Completeness in LTQP is defined by the traversal of a well-defined set of links~\cite{Hartig2012}.
 The first method employed to define this set was the reachability criteria~\cite{Hartig2012}, which are boolean functions that determine whether a link should be dereferenced.
 Building on this, the theoretical query language LDQL~\cite{hartigLDQL} was introduced, separating the traversal definition from the query definition.
-Further advancements include the subweb specifications language~\cite{Bogaerts2021LinkTW}, which allows data providers to define how their DKG should be traversed.
+Further advancements include the Subweb Specifications Language~\cite{Bogaerts2021LinkTW}, which allows data providers to define how their DKG should be traversed.
 These contributions are centered on guiding the engine in selecting links to follow in a discovery process.
-However, they do not explicitly address mechanisms for restricting links after the discovery process, based on information acquired during traversal;a process we could refer to as pruning.
+However, they do not explicitly address mechanisms for restricting links after the discovery process, based on information acquired during traversal; a process we could refer to as pruning.
+
 Link pruning can significantly reduce the search domain of queries when information about the DKG data model is available.
 For example, the structural properties of DESPs could inform the query engine that certain web sections follow a specific data model. 
 As a result, a set of IRIs could be pruned from the links selected during the discovery process.
@@ -26,7 +28,7 @@ The two most well known RDF data shape formalisms are SHACL~\cite{Gayo2018b} and
 For common use cases, they are equally expressive and interchangeable~\cite{Gayo2018c}.
 RDF data shapes have already been used in the literature for querying centralized KGs~\cite{kashif2021}.
 Shape Trees~\cite{shapetreesShapeTrees} are an index structure for validating and organizing decentralized knowledge graphs (DKGs).
-However, Shape Trees have not been used for query optimization. 
+However, to the best of our knowledge Shape Trees have not been used for query optimization. 
 Due to their \emph{virtual hierarchy}~\cite{shapetreesShapeTrees}, it can be challenging for a query engine to efficiently capture the relationship between a resource IRI and its corresponding shape.
 Furthermore, Shape Trees are not widely adopted.
 Thus, proposing a different formalization focus on query optimization by simplifying the relation between shapes and a set of resources can help determine whether shape-based optimization for LTQP is effective.
@@ -46,10 +48,10 @@ Thus, proposing a different formalization focus on query optimization by simplif
 
 \subsection{Source Selection}
 Source selection is a crucial challenge in decentralized querying~\cite{hose2012towards, Harth2010}.
-Method such as basic statistics on triple counts, and histogram methods have been studied in the context of federated querying~\cite{hose2012towards, Harth2010}.
+Methods such as basic statistics on triple counts, void descriptions, and histogram methods, have been studied in the context of federated querying~\cite{hose2012towards, Harth2010, Montoya2017}.
 However, most of those source selection methods face the limitation of assuming a small number of data sources~\cite{Harth2010}, leaving their suitability for LTQP uncertain.
-Bloom filters~\cite{dia2018fast} is also a mecanism that has with success for federated DKGs, however in the context of LTQP it has been show that bloom filters have little effect on performances~\cite{Hanski2024}
-Schemas-based indexing~\cite{Stuckenschmidt2004} using ontologies has also been explored for source selection of SPARQL queries,
-however the proposed approach is sensible to the high reuse of vocabulary terms in RDF~\cite{Harth2010} which is exacerbated in the context of LTQP.
+Bloom filters~\cite{dia2018fast} is also a mecanism that has shows success for federated DKGs, however in the context of LTQP it has been show that bloom filters have little effect on performance~\cite{Hanski2024}
+Schemas-based indexing using ontologies~\cite{Stuckenschmidt2004} has also been explored for source selection of SPARQL queries,
+however, the proposed approach is sensible to the high reuse of vocabulary terms in RDF~\cite{Harth2010}, which is exacerbated in the context of LTQP.
 The use of implicit RDF schemas for query optimization has been explored in the context of characteristic sets~\cite{Neumann2011CharacteristicSA, Meimaris2017ExtendedCS, Montoya2017}.
 However, their use has not been investigated in LTQP.

@@ -32,7 +32,7 @@
 }
 
 
-In this section, we define our approach by first introducing pruning in LTQP, then explaining what is a shape index, and finally describing how the shape index can be used for pruning in LTQP.
+In this section, we first define result-based completeness in LTQP, then explain what a shape index is, and finally describe how the shape index can be used for pruning in LTQP.
 Our approach considers a DKG with subwebs containing shape indexes hosted by data providers. 
 By exploiting these indexes, query engines performing LTQP can prune parts of a DKG without affecting the query results.
 To illustrate our approach, we present the example shown in Figure~\ref{fig:dkg}.
@@ -54,35 +54,25 @@ Our proposed pruning solution ensures that only a portion of the network needs t
 \end{figure}
 
 
-\subsection{LTQP Completeness when Pruning}\label{sec:slde}
+\subsection{Result-Based Completeness in LTQP}\label{sec:slde}
 
 Our approach of pruning in LTQP focus on ensuring result completeness, assuming traversal completeness is already defined using reachability criteria.
 By concentrating on result completeness, we explore strategies to optimize the search space of link traversal queries through pruning of irrelevant sources.
 We formalize our approach as follows.
-A query is executed over a DKG $G$ formed by the union of all the $g \in r$ in a network $R$.
-The query engine has to build a KG $G^{\prime}$ using a reachability $C^{\prime}$ in its internal data store from the  KG $g$ by dereferencing resources $r \in R$.
-We are trying to solve an optimization problem where another query engine builds a KG
+A query is executed over a DKG $G$ formed by the union of all the $g$ in a network $R$.
+The query engine has to build a KG $G^{\prime}$ using a reachability criterion $C^{\prime}$ in its internal data store from the KG $g$ by dereferencing resources $iri \mapsto_{iri} r \in R$.
+We solve an optimization problem where the query engine builds a KG
 $G^{\prime\prime} \subseteq G^{\prime}$
-potentially smaller than the one produced with a specific traversal completeness policy
-by defining a reachability criterion $C^{\prime\prime}$.
-We focus on maintaining the same results completeness, so when using $C^{\prime\prime}$ the following equation must hold
+, which is potentially smaller than the one by defining a reachability criterion $C^{\prime\prime}$.
+We focus on maintaining the same result completeness, so when using $C^{\prime\prime}$ the following equation must hold
 
 \begin{equation}\label{eq:evalQueryStructuralAssumption}
    [\![ Q ]\!]^{G^{\prime\prime}} = [\![ Q ]\!]^{G^{\prime}}
 \end{equation}
 for any network $R$.
-Since $g \in G^{\prime}$ can only be obtained by dereferencing resources $r \in R$, a smaller $G^\prime$ means fewer HTTP requests to answer a query.  
+Since $g \in G^{\prime\prime}$ can only be obtained by dereferencing resources $r \in R$, a smaller $G^\prime$ means fewer HTTP requests to answer a query.  
 Generally, query execution is faster with a smaller KG instance, and HTTP requests, being slow and unpredictable~\cite{hartig2016walking}, significantly impact query execution time.  
 Thus, reducing HTTP requests provides a twofold benefit.
-
-To define less selective reachabilities to produce $G^{\prime\prime}$, we propose extending the reachability criteria by formalizing a chain of criteria in a concept called \emph{composite reachability criteria}.
-In this form, a reachability criterion $cp_i$ is said to \emph{prune} links, and $cd_i$ is said to \emph{discover} links.
-Equation~\ref{eq:cReachabilityCriteria} formalizes a composite reachability criterion $C$.
-where $Cd$ is the set of every $cd_i(t, iri, Q)$ and $Cp$ the set of every $cp_i(t, iri, Q)$ used by the engine.
-
-\begin{equation}\label{eq:cReachabilityCriteria}
-   C(t, iri, Q) = \bigvee_{cd \in Cd} cd(t, iri, Q) \mathrel{\land} \bigwedge_{cp \in Cp} \, cp(t, iri, Q)
-\end{equation}
 
 \subsection{Shape Index}
 
@@ -114,7 +104,7 @@ where $Cd$ is the set of every $cd_i(t, iri, Q)$ and $Cp$ the set of every $cp_i
 
 Pruning in LTQP requires knowledge of the data models of dereferenced sources.  
 However, obtaining complete, up-to-date, and detailed information for each source in a large decentralized network is impractical.  
-To address this, we introduce the \emph{shape index}, a mapping between RDF document sets and RDF data shapes that describe a subweb controlled by a data provider.  
+To address this, we introduce the \emph{shape index}, a mapping between RDF document sets and RDF data shapes that describes a subweb controlled by a data provider.  
 When mapped, the associated KG must conform to the shape.  
 Unlike triple statistics, shapes are independent of the KG's size or updates that remain compliant, making them a more cost-effective solution for use cases with stable data models. 
 
@@ -123,21 +113,21 @@ We formalize a shape index as follows:
    SI = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}
 \end{equation}
 where $s_i$ is a shape and $IRI_i$ is a set of IRI given $n$ entries.
-The subweb described by the index is defined by $D = \bigcup_{i=1}^{n} \bigcup_{iri \in IRI_i} iri$.
-A shape index \emph{must} map every resource in $D$.
-We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ have a close world assumption~\cite{Gayo2018b, Gayo2018} (we also refer to them as closed) and \emph{incomplete} otherwise.
-A mapping between a shape and a set of IRIs has implications in the distribution of the data in $D$.
-When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | g \in r, iri \mapsto r \land iri \in IRI\}$ satisfies $s$.
-Given that the shape is closed, then every set of triples in the resource associated with $D$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
+The subweb described by the index is defined by $D_{SI} = \bigcup_{IRI \in \text{codomain of }(SI)} IRI$.
+%A shape index \emph{must} map every resource in $D_{SI}$.
+We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ has a closed world assumption~\cite{Gayo2018b, Gayo2018} (we also refer to them as closed) and \emph{incomplete} otherwise.
+A mapping between a shape and a set of IRIs has implications in the distribution of the data in $D_{SI}$.
+When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | g \mapsto_{g}, r \mapsto_{iri} iri, \forall iri \in D_{SI}\}$ satisfies $s$.
+Given that the shape is closed, then every set of triples in the resource mapped to an $iri \in D_{SI}$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
 We provide a complete description of the shape index in an online specification~\sepfootnote{sf:shapeIndexURL} and an example of serialization in Figure~\ref{fig:shapeIndex}.
 
-RDF data shapes use \emph{targets} to identify the root node for validation.  
-In this work, we assume all entities in a KG within a document follow the same schema.  
+RDF data shapes use \emph{targets} to identify the set of nodes or entities in a KG to validate.  
+In this work, we assume all entities in a KG within a document follow the same RDF data shape.  
 We call these entities tree star(s) (patterns), an extension of the RDF star patterns concept~\cite{Karim2020}.  
 Defined in Definition~\ref{def:starPattern}, tree stars serve two purposes:
 defining targets for validation and capturing relationships between triple patterns and shape entities.  
 Star patterns consist of triples with the same subject.
-We extend this by linking star patterns through the object term of a following star pattern, forming a tree-like structure.  
+We extend this by linking star patterns where the objects of the triples in one star pattern are the subjects of another, forming a graph structure.
 For example, a user linking to their posts with recursive replies can be captured with a root star pattern for the user and nested patterns for the posts and replies.  
 Thus, the target of the shapes in the shape index correspond to the subject of each root star pattern when a KG is divided into tree stars with no shared partial tree stars.  
 Figure~\ref{fig:shapeIndex} illustrates an example of a tree star pattern.
@@ -154,7 +144,7 @@ Figure~\ref{fig:shapeIndex} illustrates an example of a tree star pattern.
    and the star patterns having as subject term an object term of another star pattern in $Q_{starT}$.
    We define a function 
    $O_{star}: q \in Q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$
-   that returns every non-literal object terms of a star pattern.
+   that returns every non-literal object term of a star pattern.
 
    We then define $Q_{starT}$ given a  set of partial tree star patterns $Q_{starPT}$
    \begin{equation}
@@ -189,6 +179,15 @@ For prescriptive shapes, contributions in shape-based data integration~\cite{Lab
 
 
 \subsection{Link Pruning Using Shape Indexes}\label{sec:sourceSelection}
+
+To define less selective reachabilities to produce $G^{\prime\prime}$, we propose extending the reachability criteria by formalizing a chain of criteria in a concept called \emph{composite reachability criteria}.
+In this form, a reachability criterion $cp_i$ is said to \emph{prune} links, and $cd_i$ is said to \emph{discover} links.
+Equation~\ref{eq:cReachabilityCriteria} formalizes a composite reachability criterion $C$.
+where $Cd$ is the set of every $cd_i(t, iri, Q)$ and $Cp$ the set of every $cp_i(t, iri, Q)$ used by the engine.
+
+\begin{equation}\label{eq:cReachabilityCriteria}
+   C(t, iri, Q) = \bigvee_{cd \in Cd} cd(t, iri, Q) \mathrel{\land} \bigwedge_{cp \in Cp} \, cp(t, iri, Q)
+\end{equation}
 
 In this section we make the link between the shape index and link pruning in LTQP.
 A DKG exposing a shape index provides a query engine with the opportunity to reduce its search domain by knowing which resources are query-relevant.
