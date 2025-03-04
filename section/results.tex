@@ -34,8 +34,8 @@ Queries that perform best are those where the number of HTTP requests decreased 
 %Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
 Queries from templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
 We notice that queries from template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
-\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources}
 This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the type index and LDP traversal algorithm achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
+
 The poor performance is due to the fact that other approaches rely solely on the reachability \texttt{Cmatch}~\cite{hartig2016walking} to achieve completeness, without leveraging the structural properties of the datasets.
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
 It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
@@ -108,6 +108,8 @@ Those results validate \textbf{H2} when there is a decrease in HTTP requests, ho
 % We can also with that explain some big gap in the plot.
 \fi
 
+\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources}
+
 
 \subsubsection{Evaluation of the Resilience of the approach}
 
@@ -129,13 +131,14 @@ Queries that were unaffected by the shape index changes remain unaffected.
     \label{fig:adaptShapeIndex}
 \end{figure}
 
+
 The plot in the middle shows the variation in the percentage of shape index entries using closed shapes.
 The results here are more nuanced.
 While there is a general trend for query evaluations with a lower percentage of closed shapes to behave similarly to the plot on the left, we also observe both performance gains for some query template and a drastic performance loss for the queries of S1 when 80\% of the shape entries are closed.
 The performance gain occurs because not every entry needs to be closed to prune the query irrelevant documents.
-Entries mapped to an open shape are always considered relevant because the shape translate to a query fetching the whole KG.
-If the containment resolution leads to the same conclusion then given a closed entry, the execution will be more expensive because 
-when shape are nested, the nested shapes need to be dereference to solve the query-shape containment algorithm.
+Entries mapped to an open shape are always considered relevant because the shape translates to a query fetching the whole KG.
+If the containment resolution leads to the same conclusion, then, given a closed entry, the execution will be more expensive because 
+when shapes are nested, the nested shapes need to be dereferenced to solve the query-shape containment algorithm.
 For the queries of S1, with 80\% of closed shape entries, the performance lost was due to random chance, as the discriminatory entries were provided with open shapes in multiple instances when looking at the raw data.
 
 The right plot shows the variation in the level of detail of the shapes by reducing their detail.
@@ -147,7 +150,7 @@ Queries of template S1 is the only one where the added information can discrimin
 This sensitivity of the quantity of the information in the index also helps explain the results for S1 queries in the middle plot. 
 In that case, the query engine still had to dereference sources from each dataset, and the information available was likely insufficient to significantly discriminate between sources.
 
-Those results shows that \textbf{H3} is mainly invalid; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of sources.
+Those results show that \textbf{H3} is mainly invalid; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of sources.
 Thus, this outcome is query-dependent.
 \textbf{H4} and \textbf{H5} are valid but show that the completeness of shape indexes has less impact on performance than the absence of indexes.
 Incomplete shape indexes can increase performance surprisingly if incomplete entries are not necessary to discriminate irrelevant sources. 

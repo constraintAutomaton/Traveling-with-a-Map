@@ -117,7 +117,7 @@ The subweb described by the index is defined by $D_{SI} = \bigcup_{IRI \in \text
 %A shape index \emph{must} map every resource in $D_{SI}$.
 We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ has a closed world assumption~\cite{Gayo2018b, Gayo2018} (we also refer to them as closed) and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRIs has implications in the distribution of the data in $D_{SI}$.
-When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | g \mapsto_{g}, r \mapsto_{iri} iri, \forall iri \in D_{SI}\}$ satisfies $s$.
+When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | r \mapsto_{g} g, iri \mapsto_{iri} r, \forall iri \in D_{SI}\}$ satisfies $s$.
 Given that the shape is closed, then every set of triples in the resource mapped to an $iri \in D_{SI}$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
 We provide a complete description of the shape index in an online specification~\sepfootnote{sf:shapeIndexURL} and an example of serialization in Figure~\ref{fig:shapeIndex}.
 
@@ -246,13 +246,13 @@ Query containment may initially seem unsuitable for dynamic reachability due to 
 However, this complexity depends on the size of the queries, which are typically small in practice~\cite{Doan2012}.  
 In most cases, queries do not contain thousands or millions of triple patterns~\cite{Bonifati2019}.  
 Furthermore, practical use cases can often take advantage of polynomial-time algorithms~\cite{Doan2012}.
-In our context, the container query adheres to a tree-star pattern template structure, where predicates are always IRIs.
+In our context, the container query adheres to a graph star pattern template structure, where predicates are always IRIs.
 This structure arises because shapes predominantly describe predicate terms and object terms and are isomorphic to the specific KG.
 By exploiting this structure, it is possible to design an algorithm with polynomial time complexity.
 
 We consider that a query $Q$ is contained in a shape $S$, denoted as $Q \sqsubseteq_{qs} S$, if a graph star pattern in $Q$ is contained in $Q_s = T(S)$. 
-For a graph star pattern to be contained, we need to consider $Q$ to have the two parts $Q = Q_{\text{body}} \cup Q_{\text{unions}}$.
-$Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP), where $Q_u = q_0 \cup q_1 \cup q_2 \dots \cup q_n$.
+For a graph star pattern to be contained, we need to consider $Q$ to have the two parts $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
+$Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$.
 We assume that $q_i$ have no union statement.
 \iffalse
 A graph star pattern $Q_{\text{starT}_i}$ is contained in $Q_s$ if its segment in $Q_{\text{body}}$ is contained in $Q_s$, and if its segment in at least one $q_i$ in each $Q_u$ is contained in $Q_s$. 
@@ -275,13 +275,13 @@ However, incorporating filter expressions into future work would be an interesti
 \fi
 % https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)
 \begin{algorithm}[h]
-   \caption{Determine if a graph star pattern is contained ($isContain_{\text{graph star}}$)}\label{alg:containmentTree}
+   \caption{Check if a graph contains a star pattern ($isContain_{\text{graph star}}$)}\label{alg:containmentTree}
    \begin{algorithmic}
       \algsetup{linenosize=\tiny}
       \scriptsize
 
       \REQUIRE  $Q_{star}$, $Q_{starT_i}$, $Q_s = Q_{s\text{body}} \cup Q_{s\text{unions}}$ and $Eval_{star}$
-      \ENSURE \TRUE $ $ or \FALSE $ $ whether the graph star pattern is contained in the shape
+      \ENSURE \TRUE $ $ or \FALSE $ $ whether the root of a graph star pattern $Q_{star}$ is contained in the shape.
 
       \IF{$S_{star}(Q_{star}) \in Eval_{star}$}
          \RETURN \TRUE
