@@ -43,8 +43,8 @@ However, those queries were already fast, with the type index and LDP traversal 
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 Those results mostly validate \textbf{H1} however the shape index approach can drastically increase the execution time when the structural properties are not used.
 
-\subsubsection{Query-Shape Containment Evaluation}
-The empirical evaluation of the query-shape containment algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
+\subsubsection{Query-Shape Subsumption Evaluation}
+The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
 The result tables are available in the supplementary material~\hyperref[sf:complementaryMaterial]{\footnotemark[\getrefnumber{sf:complementaryMaterial}]}.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
 This result validated \textbf{H2}.
