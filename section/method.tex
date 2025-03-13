@@ -250,9 +250,9 @@ In our context, the container query adheres to a GSP template structure, where p
 This structure arises because shapes predominantly describe predicate terms and object terms and are isomorphic to the specific KG.
 By exploiting this structure, it is possible to design an algorithm with polynomial time complexity.
 
-We consider that a shape $S$ is sumbsumed by a query $Q$ denoted as $S \sqsubseteq_{qs} Q$, 
+We consider that a shape $S$ is subsumed by a query $Q$ denoted as $S \sqsubseteq_{qs} Q$, 
 if for any KG $G_s$ respecting the shape there is a graph star pattern in $Q$ that can find a solution.
-For a GSP to sumbsumed $S$, we need to consider $Q$ to have the two parts $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
+For a GSP to subsumed $S$, we need to consider $Q$ to have the two parts $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
 $Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$.
 We assume that $q_i$ have no union statement.
 \iffalse
@@ -276,7 +276,7 @@ However, incorporating filter expressions into future work would be an interesti
 \fi
 % https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)
 \begin{algorithm}[h]
-   \caption{Check if a GSP sumbsums a $Q_s$ ($sumbsums_{\text{graph star}}$)}\label{alg:containmentTree}
+   \caption{Check if a GSP subsums a $Q_s$ ($subsums_{\text{graph star}}$)}\label{alg:containmentTree}
    \begin{algorithmic}
       \algsetup{linenosize=\tiny}
       \scriptsize
@@ -292,7 +292,7 @@ However, incorporating filter expressions into future work would be an interesti
          \IF{\NOT $match(tp, Q_{s\text{body}})$}
             \STATE $hasOnePath \gets $ \FALSE
             \FORALL{$q_{us} \in Q_{s\text{unions}}$}
-               \IF{$sumbsums_{\text{graph star}}(Q_{star}, Q_{starT_i}, q_{us}, Eval_{star})$}
+               \IF{$subsums_{\text{graph star}}(Q_{star}, Q_{starT_i}, q_{us}, Eval_{star})$}
                   \STATE $hasOnePath \gets $ \TRUE
                \ENDIF
             \ENDFOR
@@ -302,7 +302,7 @@ However, incorporating filter expressions into future work would be an interesti
          \ELSE
             %eval nested
             \IF{$O(tp) \in  S_{star}(Q_{starT_i})$}
-               \IF{\NOT $sumbsums_{\text{graph star}}(Q_{star_{O(tp)}} \in Q_{starT_i}, Q_{starT_i}, Q_s, Eval_{star})$}
+               \IF{\NOT $subsums_{\text{graph star}}(Q_{star_{O(tp)}} \in Q_{starT_i}, Q_{starT_i}, Q_s, Eval_{star})$}
                   \RETURN \FALSE
                \ENDIF
             \ENDIF
@@ -316,7 +316,7 @@ However, incorporating filter expressions into future work would be an interesti
 \end{algorithm}
 
 
-We define the function $sumbsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a GSP with a root star pattern $Q_{star_i}$ from $Q_{starT_i}$ sumbsumes $Q_s$. 
+We define the function $subsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a GSP with a root star pattern $Q_{star_i}$ from $Q_{starT_i}$ sumbsumes $Q_s$. 
 The algorithm also takes a set $Eval_{star}$ to track which partial graph star patterns have already been evaluated.
 The algorithm works by examining each triple pattern in the root star pattern $Q_{star_i}$ and checking if an equivalent triple pattern (ignoring the variable names) can be found in the BGP of $Q_s$ using the $match$ function.
 If the triple pattern cannot be found in the BGP, the algorithm then looks into the UGPs of $Q_s$. 
