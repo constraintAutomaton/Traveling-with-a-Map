@@ -39,12 +39,12 @@
 
 We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}.
 We chose Comunica due to its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
-The implementation of our shape index approach is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape containment solver~\sepfootnote{sf:implementationQueryShapeContainment}.
+The implementation of our shape index approach is open source~\sepfootnote{sf:implementationComunica}, as well as our query-shape subsumption solver~\sepfootnote{sf:implementationQueryShapeContainment}.
 We use SolidBench~\cite{Taelman2023}, which is based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution.
 Like Comunica, it is easily extendable and has been utilized in multiple LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
 We created an open-source module~\sepfootnote{sf:shapeIndexGenerator} to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
 The shape-annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
-The datasets are Solid Pods~\cite{dedecker2022s}.
+The datasets are Solid Pods~\cite{sambra_solid_2016, dedecker2022s}.
 In this paper, we consider a Solid Pod as a web-based file system that follows the LDP specification~\cite{w3LinkedData}.
 Each Solid Pod, contains alongside its data, a shape index and separate resources for each shape definition.
 Some shapes are nested within others. 
@@ -55,7 +55,7 @@ The datasets contained approximately 4,200,000 triples and 1,528 subwebs, which,
 The shape indexes contain 13 triples each, while the largest shapes have up to 150 triples.
 The entire data model and query templates are available online.~\sepfootnote{sf:solidbench}
 
-To evaluate our approach: we conducted the following experiments, we first measured the execution time and results of our query-shape containment algorithm using the shapes from the study.
+To evaluate our approach: we conducted the following experiments, we first measured the execution time and results of our query-shape subsumption algorithm using the shapes from the study.
 We then compared our shape index approach to state-of-the-art Solid Pod network traversal algorithms: one leveraging the LDP specification and type index~\cite{Taelman2023}, and another using only the LDP specification~\cite{Taelman2023}, in a network where each Solid Pod provides a complete shape index.
 Additionally, we assessed the resilience of our approach by gradually reducing the shape index information across the network.  
 We measured query execution time in networks where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.  
