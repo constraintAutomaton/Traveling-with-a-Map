@@ -9,12 +9,12 @@
 }
 
 \sepfootnotecontent{sf:recursiveShape}{
-    In this paper we ignore "inverse constraints" such as
+    In this paper we ignore ``inverse constraints'' such as
     inverse triple constraint in ShEx 
     %\url{https://shex.io/shex-primer/index.html\#inverse-properties}
     and SHACL Inverse Paths 
     %\url{https://www.w3.org/TR/shacl\#property-path-inverse} 
-    to avoid recurse 
+    to aVoID recurse 
     shape schemas~\cite{Corman2019}.
     We also ignore negative statement.
     We only consider shapes that can be transformed into a single \texttt{SELECT} SPARQL query.
@@ -32,7 +32,7 @@
 }
 
 
-In this section, we first define result-based completeness in LTQP, then explain what a shape index is, and finally describe how the shape index can be used for pruning in LTQP.
+In this section, we first define result-based completeness in LTQP, then formalize the concept of a shape index, a mapping that links RDF data shapes to RDF resources, and finally, describe how the shape index can be used for pruning in LTQP. 
 Our approach considers a DKG with subwebs containing shape indexes hosted by data providers. 
 By exploiting these indexes, query engines performing LTQP can prune parts of a DKG without affecting the query results.
 To illustrate our approach, we present the example shown in Figure~\ref{fig:dkg}.
@@ -43,7 +43,7 @@ Our proposed pruning solution ensures that only a portion of the network needs t
 
 \begin{figure}
    \centering
-   \includegraphics[width=0.65\textwidth]{figure/dkg.png}
+   \includegraphics[width=0.70\textwidth]{figure/dkg.png}
    \caption{
       Given that the resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
       The nodes represent RDF resources, while the edges represent IRIs linking one resource to another (see Section \ref{sec:dkg}).
@@ -79,18 +79,16 @@ Thus, reducing HTTP requests provides a twofold benefit.
 \begin{figure}
    \centering
    % First figure
-   \begin{minipage}[t]{0.50\linewidth}
+   \begin{minipage}[t]{0.45\linewidth}
       \centering
-      \begin{tabular}{c}
-         \lstinputlisting[language=sh, basicstyle=\tiny]{code/shape_index.nq}
-      \end{tabular}
+      \includegraphics[width=1\textwidth]{figure/shapeIndex.pdf}
       
    \end{minipage}
-   \hspace{0.05\textwidth}
+   %\hspace{0.05\textwidth}
    % Second figure
-   \begin{minipage}[t]{0.30\linewidth}
+   \begin{minipage}[t]{0.45\linewidth}
       \centering
-      \includegraphics[width=1\textwidth]{figure/q_star.png}
+      \includegraphics[width=1\textwidth]{figure/q_star.pdf}
    \end{minipage}
 
    % General caption
@@ -171,7 +169,7 @@ Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
 \end{definition}
 
 The construction and maintenance of shape indexes are beyond the scope of this work.
-However, we believe they require less effort than void descriptions~\cite{Boehm2011}, which have already been used for query optimization for federated queries~\cite{Montoya2017}.
+However, we believe they require less effort than VoID descriptions~\cite{Boehm2011}, which have already been used for query optimization for federated queries~\cite{Montoya2017}.
 RDF data shapes can be either prescriptive or descriptive.
 For shape indexes with descriptive shapes, automatic RDF data shape generation methods~\cite{fernandez2023extracting} could facilitate their creation.
 Entries in shape indexes correspond to sets of IRIs, which could be structured using URI templates, thereby reducing the need for exhaustive redefinition.
@@ -226,7 +224,7 @@ Finally, the engine dereferences the documents outside any subwebs linked to the
 
 This approach has three main limitations.  
 First, it assumes that data providers maintain up-to-date shape indexes; outdated indexes may lead to incomplete results.
-A similar criticism could be made against the method exploiting void descriptions~\cite{Montoya2017}.
+A similar criticism could be made against the method exploiting VoID descriptions~\cite{Montoya2017}.
 Second, if the query-shape subsumption check requires dereferencing all documents, it becomes ineffective and may slow down query execution.  
 Third, the approach does not consider cases where querying irrelevant documents could uncover relevant ones via additional reachability criteria.  
 Addressing this would require translating these criteria into queries, which is beyond the scope of this paper.
@@ -323,7 +321,7 @@ If the triple pattern cannot be found in the BGP, the algorithm then looks into 
 Since we assume that the union statements are not nested, this limits the number of recursive calls.
 If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial graph star pattern in $Q_{starT_i}$.
 If it is, the algorithm recursively applies the same procedure to this partial graph star pattern as $Q_{star_i}$.
-To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.
+To aVoID cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O( n_o \times n_{tp}^2 \times n_{sunion}^2)$
 where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$, $n_{sunion}$ the number of UGP in $Q_s$ and $n_o$ the number of object term in $Q_{starT_i}$.
 To solve $S \sqsubseteq_{qs} Q$, we need to consider the number of graph stars from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
