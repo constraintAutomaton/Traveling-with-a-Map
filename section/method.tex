@@ -14,7 +14,7 @@
     %\url{https://shex.io/shex-primer/index.html\#inverse-properties}
     and SHACL Inverse Paths 
     %\url{https://www.w3.org/TR/shacl\#property-path-inverse} 
-    to aVoID recurse 
+    to a avoid recurse 
     shape schemas~\cite{Corman2019}.
     We also ignore negative statement.
     We only consider shapes that can be transformed into a single \texttt{SELECT} SPARQL query.
@@ -61,9 +61,7 @@ By concentrating on result completeness, we explore strategies to optimize the s
 We formalize result-based completeness in LTQP as follow.
 A query is executed over a DKG $G$ formed by the union of all the $g$ in a network $R$.
 The query engine has to build a KG $G^{\prime}$ using a reachability criterion $C^{\prime}$ in its internal data store from the KG $g$ by dereferencing resources $iri \mapsto_{iri} r \in R$.
-We solve an optimization problem where the query engine builds a KG
-$G^{\prime\prime} \subseteq G^{\prime}$
-, which is potentially smaller than the one by defining a reachability criterion $C^{\prime\prime}$.
+We formulate an optimization problem to minimize the size of $G^{\prime}$, where the query engine constructs a knowledge graph $G^{\prime\prime} \subseteq G^{\prime}$, potentially smaller, by defining a reachability criterion $C^{\prime\prime}$.
 We focus on maintaining the same result completeness, so when using $C^{\prime\prime}$ the following equation must hold
 
 \begin{equation}\label{eq:evalQueryStructuralAssumption}
@@ -233,23 +231,26 @@ Addressing this would require translating these criteria into queries, which is 
 To determining whether a source is query-relevant a \emph{query-shape subsumption} problem is solved.  
 This problem is analogous to the query subsumption problem which is a weaker form of the classic query containment problem~\cite{Spasi2023}.
 Query containment asses whether a query can be answered from the answer of another query,  independent to the database or KG~\cite{afariQCE}.
-In the subsumption problem a query $Q1$ is subsumed by another query $Q2$, that we denote a container query, if every result of $Q1$ can be extended to a result of $Q2$ for any database~\cite{Spasi2023, Pichler2014}.
+In the subsumption problem a sub query $Q1$ is subsumed by a super query $Q2$  if every result of $Q1$ can be extended to a result of $Q2$ for any database~\cite{Spasi2023, Pichler2014}.
 In our approach to query-shape subsumption , we aim to determine whether a GSP in a query can be answered by any source that conforms to a specific shape.
+Thus, we differ from the standard subsumption problem, as the solutions of the super query $Q_2$ must be extended to answer $Q_1$.
 It is a common approach for shape validation over an RDF graph to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.~\sepfootnote{sf:recursiveShape}
 We refer to this transformation of a shape $s$ as $T(s)$ producing a query $Q_s$.
 We consider shapes with open world assumption to always represent queries that retrieve entire KGs.
 This is because, under the open-world assumption, a shape defines the minimum constraints of a graph.
 With this transformation query-shape subsumption  becomes similar to query subsumption problems.
+
 Query subsumption may initially seem unsuitable for dynamic reachability due to its $\Pi^P_2$ time complexity~\cite{Pichler2014, Letelier2013}.  
 However, this complexity depends on the size of the queries, which are typically small in practice~\cite{Doan2012}.  
 In most cases, queries do not contain thousands or millions of triple patterns~\cite{Bonifati2019}.  
 %Furthermore, practical use cases can often take advantage of polynomial-time algorithms~\cite{Doan2012}.
-In our context, the container query adheres to a GSP template structure, where predicates are always IRIs.
+Additionally, as mentioned earlier, we are not addressing a standard subsumption problem, and analyzing its general complexity is beyond the scope of this paper.
+In our context, the sub query adheres to a GSP template structure, where predicates are always IRIs.
 This structure arises because shapes predominantly describe predicate terms and object terms and are isomorphic to the specific KG.
 By exploiting this structure, it is possible to design an algorithm with polynomial time complexity.
 
 We consider that a shape $S$ is subsumed by a query $Q$ denoted as $S \sqsubseteq_{qs} Q$, 
-if for any KG $G_s$ respecting the shape there is a graph star pattern in $Q$ that can find a solution.
+if for any KG $G_s$ respecting the shape there is a GSP in $Q$ that can find a solution.
 For a GSP to subsumed $S$, we need to consider $Q$ to have the two parts $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
 $Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$.
 We assume that $q_i$ have no union statement.
@@ -321,7 +322,7 @@ If the triple pattern cannot be found in the BGP, the algorithm then looks into 
 Since we assume that the union statements are not nested, this limits the number of recursive calls.
 If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial graph star pattern in $Q_{starT_i}$.
 If it is, the algorithm recursively applies the same procedure to this partial graph star pattern as $Q_{star_i}$.
-To aVoID cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.
+To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O( n_o \times n_{tp}^2 \times n_{sunion}^2)$
 where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$, $n_{sunion}$ the number of UGP in $Q_s$ and $n_o$ the number of object term in $Q_{starT_i}$.
 To solve $S \sqsubseteq_{qs} Q$, we need to consider the number of graph stars from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.

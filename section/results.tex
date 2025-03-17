@@ -137,18 +137,18 @@ The results here are more nuanced.
 While there is a general trend for query evaluations with a lower percentage of closed shapes to behave similarly to the plot on the left, we also observe both performance gains for some query template and a drastic performance loss for the queries of S1 when 80\% of the shape entries are closed.
 The performance gain occurs because not every entry needs to be closed to prune the query irrelevant documents.
 Entries mapped to an open shape are always considered relevant because the shape translates to a query fetching the whole KG.
-If the containment resolution leads to the same conclusion, then, given a closed entry, the execution will be more expensive because 
-when shapes are nested, the nested shapes need to be dereferenced to solve the query-shape containment algorithm.
+If the subsumption resolution leads to the same conclusion, then, given a closed entry, the execution will be more expensive because 
+when shapes are nested, the nested shapes need to be dereferenced to solve the query-shape subsumption algorithm.
 For the queries of S1, with 80\% of closed shape entries, the performance lost was due to random chance, as the discriminatory entries were provided with open shapes in multiple instances when looking at the raw data.
 
 The right plot shows the variation in the level of detail of the shapes by reducing their detail.
 Since the shapes are closed in this experiment the level of detail was varied by changing the constraint of the object terms of the shape as describe in Section~\ref{sec:experiment}.
 Most queries tend to perform similarly or better, with the exception of those of S1.
-Upon analyzing the output of our query containment algorithm, we observe that the additional information to the shape provided in our base approach does not affect the algorithm’s results.
-However, the engine needs to dereference more shapes, which can increase the execution time.
+Upon analyzing the output of our query subsumption algorithm, we observe that the additional information to the shape provided in our base approach does not affect the algorithm’s results.
+However, in the baseline shape index experiment, the engine must dereference more shapes, potentially increasing execution time.
 Queries of template S1 is the only one where the added information can discriminate multiple parts of the datasets' domain, indicating the intuitive results that, in some situations, adding more information can be beneficial.
 This sensitivity of the quantity of the information in the index also helps explain the results for S1 queries in the middle plot. 
-In that case, the query engine still had to dereference sources from each dataset, and the information available was likely insufficient to significantly discriminate between sources.
+In that case, the engine still had to dereference sources from each dataset, and the information available was likely insufficient to significantly discriminate between sources.
 
 Those results show that \textbf{H3} is mainly invalid; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of sources.
 Thus, this outcome is query-dependent.

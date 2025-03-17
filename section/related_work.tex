@@ -6,7 +6,7 @@ LTQP is a SPARQL querying paradigm that answers queries by exploring the Web usi
 It belongs to the family of decentralized SPARQL querying paradigms.
 LTQP fundamentally differs from federated querying because the ``federation'' is formed during querying and is expands dynamically as the query is processed.
 Thus, many optimization techniques used in federated querying either do not work in the context of LTQP or remain unexplored.
-LTQP also differs from querying the TPF family of interfaces~\cite{azzam2020smart,azzam2021wisekg, DBLP:journals/corr/HartigA16}, as the latter involves querying fragments of a finite dataset, whereas LTQP consist of dynamically discovering new datasets.
+LTQP also differs from querying the TPF family of interfaces~\cite{azzam2020smart,azzam2021wisekg, DBLP:journals/corr/HartigA16}, as TPF involves querying fragments of a known local finite dataset, whereas LTQP dynamically discovers new remote datasets during query processing.\
 The main challenge of LTQP is the Web's open-ended nature leading to large search spaces.
 Completeness in LTQP is defined by the traversal of a well-defined set of links~\cite{Hartig2012}.
 The first method employed to define this set was the reachability criteria~\cite{Hartig2012}, which are boolean functions that determine whether a link should be dereferenced.
