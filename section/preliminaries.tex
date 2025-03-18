@@ -1,6 +1,6 @@
 \section{Preliminaries}\label{sec:preliminaries}
 
-\subsection{RDF knowledge graphs and SPARQL queries}
+\subsection{RDF Knowledge Graphs and SPARQL Queries}
 
 Our work focuses on the union of conjunctive queries over RDF knowledge graphs~(KG) using the SPARQL query language~\cite{w3SPARQLQuery}.
 The core components of KGs and SPARQL queries are respectively the triples and the triple patterns as defined in Definition~\ref{def:triple} and ~\ref{def:triplePattern}.
@@ -41,5 +41,5 @@ A resource $r_i \in R$ is map to a KG $g_i \subseteq G$, which is a set of tripl
 We denote this mapping $r_i \mapsto_{g} g_i$.
 A resource is mapped and exposed by an IRI $iri_i$ denoted by $iri_i \mapsto_{iri} r_i$.
 The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in g_i$ are directed edges starting from $r_i$ to $r_j$.
-$G$ is formed by the union of all the $g \in \text{dom}(R)$.%, such that $G = \bigcup_{i=1}^{n}g_i$ given $n$ resources in the network.
+$G$ is formed by the union of all the $g \in \text{dom}(R)$. %, such that $G = \bigcup_{i=1}^{n}g_i$ given $n$ resources in the network.
 A subweb is a (sub)DKG defined by a set of IRIs controlled by a data provider.

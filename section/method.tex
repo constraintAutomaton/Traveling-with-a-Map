@@ -37,7 +37,7 @@ Our approach considers a DKG with subwebs containing shape indexes hosted by dat
 By exploiting these indexes, query engines performing LTQP can prune parts of a DKG without affecting the query results.
 To illustrate our approach, we present the example shown in Figure~\ref{fig:dkg}.
 We consider a network with three subwebs, each containing shape indexes.
-The query given to the engine aims to retrieve information about a post or message from subweb 3, along with all its replies.
+The query given to the engine aims to retrieve information about posts from subweb 3, along with all its replies.
 Our proposed pruning solution ensures that only a portion of the network needs to be explored, based on the shapes associated with the documents and the query executed.
 
 
@@ -113,7 +113,7 @@ The subweb described by the index is defined by $D_{SI} = \bigcup_{IRI \in \text
 %A shape index \emph{must} map every resource in $D_{SI}$.
 We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ has a closed world assumption~\cite{Gayo2018b, Gayo2018} (we also refer to them as closed) and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRIs has implications in the distribution of the data in $D_{SI}$.
-When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | r \mapsto_{g} g, iri \mapsto_{iri} r, \forall iri \in D_{SI}\}$ satisfies $s$.
+When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | r \mapsto_{g} g \land iri \mapsto_{iri} r \land \forall iri \in D_{SI}\}$ satisfies $s$.
 Given that the shape is closed, then every set of triples in the resource mapped to an $iri \in D_{SI}$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
 We provide a complete description of the shape index in an online specification~\sepfootnote{sf:shapeIndexURL} and an example of serialization in Figure~\ref{fig:shapeIndex}.
 
@@ -324,7 +324,7 @@ If it is, the algorithm recursively applies the same procedure to this partial g
 To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O( n_o \times n_{tp}^2 \times n_{sunion}^2)$
 where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$, $n_{sunion}$ the number of UGP in $Q_s$ and $n_o$ the number of object term in $Q_{starT_i}$.
-To solve $S \sqsubseteq_{qs} Q$, we need to consider the number of graph stars from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
+To solve $S \sqsubseteq_{qs} Q$, we need to consider the number of GSP from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
 This operation results again in a polynomial time complexity algorithm.
 %To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starT}$ graph star from the BGP with their $n_{starTu}$ segment in the UGP and $n_{starTui}$ BGP in the UGP.
 %This operation results in a polynomial time complexity of $O(n_o \times n_{tp}^2 \times n_{union}^2 \times n_{starT} \times n_{starTu} \times n_{starTui})$.
