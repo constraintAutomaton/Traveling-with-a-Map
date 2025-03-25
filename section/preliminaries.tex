@@ -3,22 +3,23 @@
 \subsection{RDF Knowledge Graphs and SPARQL Queries}
 
 Our work focuses on the union of conjunctive queries over RDF knowledge graphs~(KG) using the SPARQL query language~\cite{w3SPARQLQuery}.
-The core components of KGs and SPARQL queries are respectively the triples and the triple patterns as defined in Definition~\ref{def:triple} and ~\ref{def:triplePattern}.
+The fundamental building blocks of KGs and SPARQL queries are triples and triple patterns, respectively, as defined in Definition~\ref{def:triple} and Definition~\ref{def:triplePattern}.
 
 \begin{definition}[Triple]\label{def:triple}
-    RDF triple $t = (s,p,o)$ are tuples formed with three terms. A subject where $s \in\mathcal{I} \cup \mathcal{B}$, a predicate $p \in \mathcal{I}$ and an object $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{B}$.
+    RDF triple $t = (s,p,o)$ are tuples formed with three terms. A subject where $s \in \mathcal{I} \cup \mathcal{B}$, a predicate $p \in \mathcal{I}$ and an object $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{B}$.
     Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$,  are respectively the set of every possible IRI, blank node, literal.
+    For simplicity, we denote the union of these sets by concatenating their symbols, so that $ \mathcal{I} \cup \mathcal{B}$ is written as $ \mathcal{I} \mathcal{B}$.
 \end{definition}
 
 \begin{definition}[Triple pattern]\label{def:triplePattern}
-    Triple patterns $tp = (s_{tp}, p_{tp}, o_{tp})$ are similar to triples, where $s_{tp} \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$,
-    $p_{tp} \in \mathcal{I} \cup \mathcal{V}$ and an object term  $o_{tp} \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V} \cup \mathcal{B}$.
+    Triple patterns $tp = (s_{tp}, p_{tp}, o_{tp})$ are similar to triples, where $s_{tp} \in \mathcal{I} \mathcal{B} \mathcal{V}$,
+    $p_{tp} \in \mathcal{I} \mathcal{V}$ and an object term  $o_{tp} \in \mathcal{I} \mathcal{L} \mathcal{V} \mathcal{B}$.
     Where $\mathcal{V}$ is the set of every possible variable.
     %A triple pattern returns a solution sequence with solution mappings a single or multiple $tp$ forms a Basic Graph Pattern (BGP).
 \end{definition}
 
 We also define two access functions to get respectively the subject and object term of a triple pattern or a triple while ignoring literals,
-$ S: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$ and $O: tp \rightarrow \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$.
+$ S:  (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$ and $O: (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{V} \mathcal{B}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$.
 We denote $[\![ Q ]\!]^{G}$ as the evaluation of a query $Q$ over a KG $G$~\cite{Angles2008}.
 
 \subsection{Reachability Criteria}
@@ -30,7 +31,7 @@ They take as parameters an RDF triple $t$ from an internal triple store, a deref
 If $c_i$ returns $true$, the query engine must dereference $iri$.
 More formally
 \begin{equation}\label{eq:reachabilityCriteria}
-c_i(t, iri, Q) \rightarrow \{\mathrm{true}, \mathrm{false}\}
+c_i(t, iri, Q) \rightarrow \left\{ \mathrm{true}, \mathrm{false} \right\}
 \end{equation}
 .
 
@@ -38,8 +39,8 @@ c_i(t, iri, Q) \rightarrow \{\mathrm{true}, \mathrm{false}\}
 
 We define a DKG as a KG $G$ materialized in a network of resources $R$.
 A resource $r_i \in R$ is map to a KG $g_i \subseteq G$, which is a set of triples~\cite{w3ConceptsAbstract}.
-We denote this mapping $r_i \mapsto_{g} g_i$.
-A resource is mapped and exposed by an IRI $iri_i$ denoted by $iri_i \mapsto_{iri} r_i$.
+We denote this mapping $r_i \mapsto_{\mathcal{G}} g_i$.
+A resource is mapped and exposed by an IRI $iri_i$ denoted by $iri_i \mapsto_{\mathcal{R}} r_i$.
 The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in g_i$ are directed edges starting from $r_i$ to $r_j$.
 $G$ is formed by the union of all the $g \in \text{dom}(R)$. %, such that $G = \bigcup_{i=1}^{n}g_i$ given $n$ resources in the network.
 A subweb is a (sub)DKG defined by a set of IRIs controlled by a data provider.

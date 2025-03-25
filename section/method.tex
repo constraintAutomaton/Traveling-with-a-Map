@@ -60,7 +60,7 @@ Our approach of pruning in LTQP focus on ensuring result completeness, assuming 
 By concentrating on result completeness, we explore strategies to optimize the search space of link traversal queries through pruning of irrelevant sources.
 We formalize result-based completeness in LTQP as follow.
 A query is executed over a DKG $G$ formed by the union of all the $g$ in a network $R$.
-The query engine has to build a KG $G^{\prime}$ using a reachability criterion $C^{\prime}$ in its internal data store from the KG $g$ by dereferencing resources $iri \mapsto_{iri} r \in R$.
+The query engine has to build a KG $G^{\prime}$ using a reachability criterion $C^{\prime}$ in its internal data store from the KG $g$ by dereferencing resources $iri \mapsto_{\mathcal{R}} r \in R$.
 We formulate an optimization problem to minimize the size of $G^{\prime}$, where the query engine constructs a knowledge graph $G^{\prime\prime} \subseteq G^{\prime}$, potentially smaller, by defining a reachability criterion $C^{\prime\prime}$.
 We focus on maintaining the same result completeness, so when using $C^{\prime\prime}$ the following equation must hold
 
@@ -106,14 +106,14 @@ Unlike triple statistics, shapes are independent of the KG's size or updates tha
 
 We formalize a shape index as follows:
 \begin{equation}\label{eq:shapeIndex}
-   SI = \{s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n\}
+   SI = \left\{ s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n \right\}
 \end{equation}
 where $s_i$ is a shape and $IRI_i$ is a set of IRI given $n$ entries.
 The subweb described by the index is defined by $D_{SI} = \bigcup_{IRI \in \text{codomain of }(SI)} IRI$.
 %A shape index \emph{must} map every resource in $D_{SI}$.
 We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ has a closed world assumption~\cite{Gayo2018b, Gayo2018} (we also refer to them as closed) and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRIs has implications in the distribution of the data in $D_{SI}$.
-When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \{g | r \mapsto_{g} g \land iri \mapsto_{iri} r \land \forall iri \in D_{SI}\}$ satisfies $s$.
+When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \left\{ g \mid \forall iri \in D_{SI} (iri \mapsto_{\mathcal{R}} r \land r \mapsto_{\mathcal{G}} g) \right\}$ satisfies $s$.
 Given that the shape is closed, then every set of triples in the resource mapped to an $iri \in D_{SI}$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
 We provide a complete description of the shape index in an online specification~\sepfootnote{sf:shapeIndexURL} and an example of serialization in Figure~\ref{fig:shapeIndex}.
 
@@ -133,7 +133,7 @@ Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
    We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
    given a builder function 
    \begin{equation}
-       BQ_{star}(s) = \{tp_i \in Q| S(tp_i) = s\}
+       BQ_{star}(s) = \left\{ tp_i \in Q \mid S(tp_i) = s \right\}
    \end{equation}
    with $s \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$ then $Q_{star_s} = BQ_{star}(s)$.
    We define a GSP $Q_{starT}$ as the union between a root star pattern $Q_{star_s}$
@@ -144,15 +144,15 @@ Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
 
    We then define $Q_{starT}$ given a  set of partial GSP $Q_{starPT}$
    \begin{equation}
-       Q_{starT} = \bigcup_{q \in Q_{starPT}} q
+      Q_{starT} = \bigcup_{q \in Q_{starPT}} q
    \end{equation}
    where $Q_{starPT}$ is formed with a root $Q_{star_s}$ by
 
    \begin{equation}
            Q_{starPT_i} =
        \begin{cases}
-           \{Q_{star_s}\} & \text{if } i = 1 \\
-           \{BQ_{star}(o)| o \in \bigcup\limits_{q \in Q_{starPT_{i-1}}} O_{star}(q)\} & \text{if } i>1
+         \left\{ Q_{star_s} \right\} & \text{if } i = 1 \\
+           \left\{ BQ_{star}(o) \mid o \in \bigcup_{q \in Q_{starPT_{i-1}}} O_{star}(q) \right\} & \text{if } i>1
        \end{cases}
    \end{equation}
 
@@ -206,7 +206,7 @@ The links to prune are identified by evaluating the shape index to find IRIs tha
 This is done by performing a query-shape subsumption check ($\sqsubseteq_{qs}$), defined later in Section~\ref{sec:containment}.
 
 We define
-$IRI_p = \{ \bigcup SI_i(s_j) | s_j \sqsubseteq_{qs}  Q = \mathrm{false}, s_j \in \text{dom}(SI_i) \}$.
+$IRI_p = \left\{ \bigcup SI_i(s_j) | s_j \sqsubseteq_{qs}  Q = \mathrm{false} \land s_j \in \text{dom}(SI_i) \right\}$.
 From this sets of links we define a pruning reachability criteria;
 \begin{equation}
        cp_{si}(t, iri, Q) = iri \notin IRI_p
@@ -232,8 +232,8 @@ To determining whether a source is query-relevant a \emph{query-shape subsumptio
 This problem is analogous to the query subsumption problem which is a weaker form of the classic query containment problem~\cite{Spasi2023}.
 Query containment asses whether a query can be answered from the answer of another query,  independent to the database or KG~\cite{afariQCE}.
 In the subsumption problem a sub query $Q1$ is subsumed by a super query $Q2$  if every result of $Q1$ can be extended to a result of $Q2$ for any database~\cite{Spasi2023, Pichler2014}.
-In our approach to query-shape subsumption , we aim to determine whether a GSP in a query can be answered by any source that conforms to a specific shape.
-Thus, we differ from the standard subsumption problem, as the solutions of the super query $Q_2$ must be extended to answer $Q_1$.
+In our approach to query-shape subsumption, we aim to determine whether a GSP in a query can be answered by evaluating any source conforming to a specific shape.
+Thus, we differ from the standard subsumption problem, as the solution mappings of the super query $Q_2$ must be extended to answer $Q_1$.
 It is a common approach for shape validation over an RDF graph to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.~\sepfootnote{sf:recursiveShape}
 We refer to this transformation of a shape $s$ as $T(s)$ producing a query $Q_s$.
 We consider shapes with open world assumption to always represent queries that retrieve entire KGs.
@@ -250,7 +250,7 @@ By exploiting this structure, it is possible to design an algorithm with polynom
 
 We consider that a shape $S$ is subsumed by a query $Q$ denoted as $S \sqsubseteq_{qs} Q$, 
 if for any KG $G_s$ respecting the shape there is a GSP in $Q$ that can find a solution.
-For a GSP to subsumed $S$, we need to consider $Q$ to have the two parts $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
+For a GSP to subsumed $S$, we need to consider $Q$ and $Q_s$ to have the two parts $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
 $Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$.
 We assume that $q_i$ have no union statement.
 \iffalse
@@ -322,8 +322,8 @@ Since we assume that the union statements are not nested, this limits the number
 If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial graph star pattern in $Q_{starT_i}$.
 If it is, the algorithm recursively applies the same procedure to this partial graph star pattern as $Q_{star_i}$.
 To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.
-We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O( n_o \times n_{tp}^2 \times n_{sunion}^2)$
-where $n_{tp}$ is the number of triple patterns of $Q_{star_i}$, $n_{sunion}$ the number of UGP in $Q_s$ and $n_o$ the number of object term in $Q_{starT_i}$.
+We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp} \times n_{sunion})$
+where $n_{tp}$ is the number of triple patterns of $Q_{starT_i}$ and $n_{sunion}$ the number of UGP in $Q_s$.
 To solve $S \sqsubseteq_{qs} Q$, we need to consider the number of GSP from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
 This operation results again in a polynomial time complexity algorithm.
 %To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starT}$ graph star from the BGP with their $n_{starTu}$ segment in the UGP and $n_{starTui}$ BGP in the UGP.
