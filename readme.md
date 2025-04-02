@@ -19,3 +19,6 @@ One can simply execute `make main.pdf` or `make` to produce the PDF version if `
 ## Complementary Material
 
 https://github.com/shapeIndexComunicaExperiment/documentation/blob/main/README.md
+
+## License
+The code is licensed under the CC-BY-4.0 license. See the [LICENSE](LICENSE) file for details.
