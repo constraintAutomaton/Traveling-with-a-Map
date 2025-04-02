@@ -6,7 +6,7 @@ LTQP is a SPARQL querying paradigm that answers queries by exploring the Web usi
 It belongs to the family of decentralized SPARQL querying paradigms.
 LTQP fundamentally differs from federated querying because the ``federation'' is formed during querying and is expands dynamically as the query is processed.
 Thus, many optimization techniques used in federated querying either do not work in the context of LTQP or remain unexplored.
-LTQP also differs from querying the TPF family of interfaces~\cite{azzam2020smart,azzam2021wisekg, DBLP:journals/corr/HartigA16}, as TPF involves querying fragments of a known local finite dataset, whereas LTQP dynamically discovers new remote datasets during query processing.\
+LTQP also differs from querying the TPF family \rt{The formal name here is Linked Data Fragments} of interfaces~\cite{azzam2020smart,azzam2021wisekg, DBLP:journals/corr/HartigA16}, as TPF involves querying fragments of a known local finite dataset, whereas LTQP dynamically discovers new remote datasets during query processing.\
 The main challenge of LTQP is the Web's open-ended nature leading to large search spaces.
 Completeness in LTQP is defined by the traversal of a well-defined set of links~\cite{Hartig2012}.
 The first method employed to define this set was the reachability criteria~\cite{Hartig2012}, which are boolean functions that determine whether a link should be dereferenced.
@@ -29,7 +29,7 @@ Shape Trees~\cite{shapetreesShapeTrees} are an index structure for validating an
 However, to the best of our knowledge Shape Trees have not been used for query optimization. 
 Due to their \emph{virtual hierarchy}~\cite{shapetreesShapeTrees}, it can be challenging for a query engine to efficiently capture the relationship between a resource IRI and its corresponding shape.
 Furthermore, Shape Trees are not widely adopted.
-Thus, proposing a different formalization focus on query optimization by simplifying the relation between shapes and a set of resources can help determine whether shape-based optimization for LTQP is effective.
+Thus, proposing a different formalization focus on query optimization by simplifying the relation between shapes and a set of resources can help determine whether shape-based optimization for LTQP is effective.\rt{This sentence feels a bit hypothetical. Let's make it more concrete. "We do X because Y."}
 %Automatic generation of RDF data shapes based on KGs~\cite{fernandez2023extracting} and shape-based integration of data~\cite{LabraGayo2023} are also topics that have been studied and can support shape-based summary approaches for DKGs. 
 
 \iffalse
@@ -45,11 +45,12 @@ Thus, proposing a different formalization focus on query optimization by simplif
 \fi
 
 \subsection{Source Selection}
+\rt{Can you mention here how source selection relates to pruning in LTQP?}
 Source selection is a crucial challenge in decentralized querying~\cite{hose2012towards, Harth2010}.
 Methods such as basic statistics on triple counts, VoID descriptions, and histogram methods, have been studied in the context of federated querying~\cite{hose2012towards, Harth2010, Montoya2017}.
 However, most of those source selection methods face the limitation of assuming a small number of data sources~\cite{Harth2010}, leaving their suitability for LTQP uncertain.
-Bloom filters~\cite{dia2018fast} is also a mecanism that has shows success for federated DKGs, however in the context of LTQP it has been show that bloom filters have little effect on performance~\cite{Hanski2024}.
+Bloom filters~\cite{dia2018fast} is also a mechanism that has shows success for federated DKGs, however in the context of LTQP it has been show that bloom filters have little effect on performance~\cite{Hanski2024}.
 Schemas-based indexing using ontologies~\cite{Stuckenschmidt2004} has also been explored for source selection of SPARQL queries,
-however, the proposed approach is sensible to the high reuse of vocabulary terms in RDF~\cite{Harth2010}, which is exacerbated in the context of LTQP.
+however, the proposed approach is sensitive to the high reuse of vocabulary terms in RDF~\cite{Harth2010}, which is exacerbated in the context of LTQP.
 The use of implicit RDF schemas for query optimization has been explored with the concept of characteristic sets~\cite{Neumann2011CharacteristicSA, Meimaris2017ExtendedCS, Montoya2017}.
 However, their use has not been investigated in LTQP.

@@ -18,6 +18,10 @@
 
     % General caption
     \caption{
+	\rt{This caption needs rephrasing.}
+	\rt{The ratio is not explained}
+	\rt{Why is type indecx+ldp not in the right figure?}
+	\rt{Unclear what No performance change means in the legend of the right figure.}
         On the left a plot of the query execution time and on the right the figure compares the type index with the LDP approach against other approaches.
         The shape index approach is faster or similar to the other approach except for S4.
         }
@@ -36,7 +40,7 @@ Queries from templates D6 and D7 show no reduction because they require nearly e
 We notice that queries from template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
 This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the type index and LDP traversal algorithm achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
 
-The poor performance is due to the fact that other approaches rely solely on the reachability \texttt{Cmatch}~\cite{hartig2016walking} to achieve completeness, without leveraging the structural properties of the datasets.
+The poor performance is due to the fact that other approaches rely solely on the reachability \texttt{Cmatch}~\cite{hartig2016walking} to achieve completeness, without leveraging the structural properties of the datasets.\rt{This is incorrect? They also rely on LDP and the type index?}
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
 It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
 However, those queries were already fast, with the type index and LDP traversal algorithm approach being executed in approximately 0.30\% of the maximum execution time allowed.
@@ -108,6 +112,7 @@ Those results validate \textbf{H2} when there is a decrease in HTTP requests, ho
 % We can also with that explain some big gap in the plot.
 \fi
 
+\rt{The formatting of table 1 doesn't look very nice yet.}
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources}
 
 
@@ -125,6 +130,7 @@ As expected, we observe that queries that performed better in Figure~\ref{fig:co
     \centering
     \includegraphics[width=1\linewidth]{analysis/artefact/variation_shape_index_all/plot}
     \caption{
+	\rt{I recommend using absolute times on the Y axis. The ratio is never explained, so it's unclear how this ratio is constructed, and how to understand this figure. Is higher better or worse? And are things linear? This also applies to other figures.}
     Shape index approaches tend to perform less effectively with limited network information and comparatively better where the baseline shape index underperforms.
     However, the utility of shape index information can vary depending on the specific queries and network characteristics.
     }
@@ -150,9 +156,9 @@ Queries of template S1 is the only one where the added information can discrimin
 This sensitivity of the quantity of the information in the index also helps explain the results for S1 queries in the middle plot. 
 In that case, the engine still had to dereference sources from each dataset, and the information available was likely insufficient to significantly discriminate between sources.
 
-Those results show that \textbf{H3} is mainly invalid; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of sources.
+Those results show that \textbf{H3} is rejected; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of sources.
 Thus, this outcome is query-dependent.
-\textbf{H4} and \textbf{H5} are valid but show that the completeness of shape indexes has less impact on performance than the absence of indexes.
+\textbf{H4} and \textbf{H5} are accepted but show that the completeness of shape indexes has less impact on performance than the absence of indexes.
 Incomplete shape indexes can increase performance surprisingly if incomplete entries are not necessary to discriminate irrelevant sources. 
 Like with \textbf{H3}, these findings are query-dependent and also network-dependent.
 
