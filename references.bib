@@ -1,3 +1,11 @@
+@misc{solidTypeIndexes,
+	author = {Jeff Zucker and Virginia Balseiro and Sarven Capadisli and Tim Berners-Lee},
+	title = {{T}ype {I}ndexes --- solid.github.io},
+	howpublished = {\url{https://solid.github.io/type-indexes/}},
+	year = {2023},
+	note = {[Accessed 07-04-2025]},
+}
+
 @inproceedings{sambra_solid_2016,
     title = {Solid : {A} {Platform} for {Decentralized} {Social} {Applications} {Based} on {Linked} {Data}},
     shorttitle = {Solid},
@@ -113,16 +121,17 @@ keywords = {Optimization, RDF, SPARQL, Semantic Web, query containment}
 	note = {[Accessed 06-12-2024]},
 }
 
-@misc{w3SPARQLQuery,
-	author = {W3C},
-	title = {{S}{P}{A}{R}{Q}{L} 1.1 {Q}uery {L}anguage --- w3.org},
-	howpublished = {\url{https://www.w3.org/TR/sparql11-query/}},
-	year = {},
-	note = {[Accessed 04-12-2024]},
-}
-
 @InProceedings{tam2024opportunitiesshapebasedoptimizationlink,
   author    = {Tam, Bryan-Elliott and Taelman, Ruben and Colpaert, Pieter and Verborgh, Ruben},
+  booktitle = {Proceedings of the 16th Alberto Mendelzon International Workshop on Foundations of Data Management},
+  title     = {Opportunities for Shape-based Optimization of Link Traversal Queries},
+  year      = {2024},
+  month     = sep,
+  url       = {https://arxiv.org/pdf/2407.00998v2},
+}
+
+@InProceedings{tam2024opportunitiesshapebasedoptimizationlinkAnon,
+  author    = {Anonymous},
   booktitle = {Proceedings of the 16th Alberto Mendelzon International Workshop on Foundations of Data Management},
   title     = {Opportunities for Shape-based Optimization of Link Traversal Queries},
   year      = {2024},
@@ -159,25 +168,6 @@ keywords = {Optimization, RDF, SPARQL, Semantic Web, query containment}
   year={2012}
 }
 
-@inproceedings{Harth2010,
-author = {Harth, Andreas and Hose, Katja and Karnstedt, Marcel and Polleres, Axel and Sattler, Kai-Uwe and Umbrich, J\"{u}rgen},
-title = {Data summaries for on-demand queries over linked data},
-year = {2010},
-isbn = {9781605587998},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/1772690.1772733},
-doi = {10.1145/1772690.1772733},
-abstract = {Typical approaches for querying structured Web Data collect (crawl) and pre-process (index) large amounts of data in a central data repository before allowing for query answering. However, this time-consuming pre-processing phase however leverages the benefits of Linked Data -- where structured data is accessible live and up-to-date at distributed Web resources that may change constantly -- only to a limited degree, as query results can never be current. An ideal query answering system for Linked Data should return current answers in a reasonable amount of time, even on corpora as large as the Web. Query processors evaluating queries directly on the live sources require knowledge of the contents of data sources. In this paper, we develop and evaluate an approximate index structure summarising graph-structured content of sources adhering to Linked Data principles, provide an algorithm for answering conjunctive queries over Linked Data on theWeb exploiting the source summary, and evaluate the system using synthetically generated queries. The experimental results show that our lightweight index structure enables complete and up-to-date query results over Linked Data, while keeping the overhead for querying low and providing a satisfying source ranking at no additional cost.},
-booktitle = {Proceedings of the 19th International Conference on World Wide Web},
-pages = {411–420},
-numpages = {10},
-keywords = {index structures, linked data, rdf querying},
-location = {Raleigh, North Carolina, USA},
-series = {WWW '10}
-}
-
-
 @InProceedings{aranda2013,
   author    = {Buil-Aranda, Carlos and Hogan, Aidan and Umbrich, J\"{u}rgen and Vandenbussche, Pierre-Yves},
   booktitle = {Proceedings 12th ISWC},
@@ -213,19 +203,6 @@ series = {WWW '10}
 }
 
 
-@InProceedings{9663788,
-  author    = {Mechant, Peter and De Wolf, Ralf and Van Compernolle, Mathias and Joris, Glen and Evens, Tom and De Marez, Lieven},
-  booktitle = {2021 14th CMI International Conference},
-  title     = {Saving the web by decentralizing data networks? A socio-technical reflection on the promise of decentralization and personal data stores},
-  year      = {2021},
-  pages     = {1-6},
-  doi       = {10.1109/CMI53512.2021.9663788},
-  file      = {:article/Saving the web by decentralizing data networks?
-A socio-technical reflection on the promise of
-decentralization and personal data stores.pdf:PDF},
-  groups    = {Commodification internet},
-}
-
 @inproceedings{tam_iswc_traversalsensortree_2024,
   author = {Tam, Bryan-Elliott and Taelman, Ruben and Rojas Meléndez, Julián and Colpaert, Pieter},
   title = {Optimizing Traversal Queries of Sensor Data Using a Rule-Based Reachability Approach},
@@ -233,19 +210,6 @@ decentralization and personal data stores.pdf:PDF},
   booktitle = {Proceedings of the 23rd International Semantic Web Conference: Posters and Demos},
   year = {2024},
   url = {https://arxiv.org/pdf/2408.17157}
-}
-
-@InProceedings{9663788,
-  author    = {Mechant, Peter and De Wolf, Ralf and Van Compernolle, Mathias and Joris, Glen and Evens, Tom and De Marez, Lieven},
-  booktitle = {2021 14th CMI International Conference},
-  title     = {Saving the web by decentralizing data networks? A socio-technical reflection on the promise of decentralization and personal data stores},
-  year      = {2021},
-  pages     = {1-6},
-  doi.      = {10.1109/CMI53512.2021.9663788},
-  file      = {:article/Saving the web by decentralizing data networks?
-A socio-technical reflection on the promise of
-decentralization and personal data stores.pdf:PDF},
-  groups    = {Commodification internet},
 }
 
 @Article{Terranova2000FreeLP,
@@ -890,26 +854,6 @@ abstract = {The Web of Linked Data is composed of tons of RDF documents interlin
   location  = {Snowbird, Utah, USA},
   numpages  = {4},
   url       = {https://doi.org/10.1145/2588555.2594535},
-}
-
-@InProceedings{10.1145/2661829.2661876,
-  author    = {Wu, Buwen and Zhou, Yongluan and Yuan, Pingpeng and Jin, Hai and Liu, Ling},
-  booktitle = {Proceedings of the 23rd ACM International Conference on Conference on Information and Knowledge Management},
-  title     = {SemStore: A Semantic-Preserving Distributed RDF Triple Store},
-  year      = {2014},
-  address   = {New York, NY, USA},
-  pages     = {509–518},
-  publisher = {Association for Computing Machinery},
-  series    = {CIKM '14},
-  abstract  = {The flexibility of the RDF data model has attracted an increasing number of organizations to store their data in an RDF format. With the rapid growth of RDF datasets, we envision that it is inevitable to deploy a cluster of computing nodes to process large-scale RDF data in order to deliver desirable query performance. In this paper, we address the challenging problems of data partitioning and query optimization in a scale-out RDF engine. We identify that existing approaches only focus on using fine-grained structural information for data partitioning, and hence fail to localize many types of complex queries. We then propose a radically different approach, where a coarse-grained structure, namely Rooted Sub-Graph (RSG), is used as the partition unit. By doing so, we can capture structural information at a much greater scale and hence are able to localize many complex queries. We also propose a k-means partitioning algorithm for allocating the RSGs onto the computing nodes as well as a query optimization strategy to minimize the inter-node communication during query processing. An extensive experimental study using benchmark datasets and real dataset shows that our engine, SemStore, outperforms existing systems by orders of magnitudes in terms of query response time.},
-  doi       = {10.1145/2661829.2661876},
-  file      = {:papers/A Semantic Preserving Distributed RDF Triple Store.pdf:PDF},
-  groups    = {query decomposition},
-  isbn      = {9781450325981},
-  keywords  = {partitioning, rdf, query processing, sparql},
-  location  = {Shanghai, China},
-  numpages  = {10},
-  url       = {https://doi.org/10.1145/2661829.2661876},
 }
 
 @InProceedings{Montoya2017,

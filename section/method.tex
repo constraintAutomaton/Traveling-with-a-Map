@@ -33,26 +33,6 @@
 
 
 In this section, we first define result-based completeness in LTQP, then formalize the concept of a shape index, a mapping that links RDF data shapes to RDF resources, and finally, describe how the shape index can be used for pruning in LTQP. 
-Our approach considers a DKG with subwebs containing shape indexes hosted by data providers. 
-By exploiting these indexes, query engines performing LTQP can prune parts of a DKG without affecting the query results.
-To illustrate our approach, we present the example shown in Figure~\ref{fig:dkg}.
-We consider a network with three subwebs, each containing shape indexes.
-The query given to the engine aims to retrieve information about posts from subweb 3, along with all its replies.
-Our proposed pruning solution ensures that only a portion of the network needs to be explored, based on the shapes associated with the documents and the query executed.
-
-\rt{I think this figure comes too late. It could even be mentioned in the introduction already, or a short section thereafter.}
-\rt{Also, the caption is insufficient to explain this use case. It really needs to be explained in more detail in the text. This is very important to give the reader an intuitive understanding of the approach.}
-\begin{figure}
-   \centering
-   \includegraphics[width=0.70\textwidth]{figure/dkg.png}
-   \caption{
-      Given that the resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
-      The nodes represent RDF resources, while the edges represent IRIs linking one resource to another (see Section \ref{sec:dkg}).
-      Each subweb has a shape index that maps shapes, represented by icons, to RDF resources by embedding the icon within the node.
-      The query engine starts its query at subweb 3, and the relevant query resources in a subweb are identified with a black node.
-    }
-    \label{fig:dkg}
-\end{figure}
 
 
 \subsection{Result-Based Completeness in LTQP}\label{sec:slde}
@@ -75,6 +55,7 @@ Thus, reducing HTTP requests provides a twofold benefit.
 
 \subsection{Shape Index}
 
+\iffalse
 \begin{figure}
    \centering
    % First figure
@@ -97,6 +78,15 @@ Thus, reducing HTTP requests provides a twofold benefit.
        In red the graph star patterns are presented and in black the partial graph star patterns.
 	   \rt{The query does not belong in this example IMO, since the focus is to exemplify the shape index. It may be better to just give some data and document examples matching the shape index. Also, the red labels are never explained AFAICS.}
        }
+   \label{fig:shapeIndex}
+\end{figure}
+\fi
+
+\begin{figure}
+   \centering
+   \includegraphics[width=0.5\textwidth]{figure/shapeIndex.pdf}
+
+   \caption{An example of a shape index mapping a set of IRI to a profile shape and an IRI to a post shape.}
    \label{fig:shapeIndex}
 \end{figure}
 
@@ -128,7 +118,7 @@ Star patterns consist of triples with the same subject.
 We extend this by linking star patterns where the objects of the triples in one star pattern are the subjects of another, forming a graph structure.
 For example, a user linking to their posts with recursive replies can be captured with a root star pattern for the user and nested patterns for the posts and replies.  
 Thus, the target of the shapes in the shape index correspond to the subject of each root star pattern when a KG is divided into graph stars with no shared partial graph stars.  
-Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
+%Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
 
 
 \begin{definition}[Graph Star Pattern (GSP)]\label{def:starPattern}
@@ -169,7 +159,8 @@ Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
 \end{definition}
 
 The construction and maintenance of shape indexes are beyond the scope of this work.
-However, we believe \rt{Believing is for religions. Be precise here.} they require less effort than VoID descriptions~\cite{Boehm2011}, which have already been used for query optimization for federated queries~\cite{Montoya2017}.
+While not evaluated, shape indexes appear to require less effort to generate than VoID descriptions~\cite{Boehm2011}, as they do not include detailed statistics such as triple counts.
+Nonetheless, VoID descriptions have been successfully used for query optimization in federated queries~\cite{Montoya2017}.
 RDF data shapes can be either prescriptive or descriptive.
 For shape indexes with descriptive shapes, automatic RDF data shape generation methods~\cite{fernandez2023extracting} could facilitate their creation.
 Entries in shape indexes correspond to sets of IRIs, which could be structured using URI templates, thereby reducing the need for exhaustive redefinition.
@@ -179,7 +170,7 @@ For prescriptive shapes, contributions in shape-based data integration~\cite{Lab
 \subsection{Link Pruning Using Shape Indexes}\label{sec:sourceSelection}
 
 In this section we make the link between the shape index and link pruning in LTQP.
-A DKG exposing a shape index provides a query engine with the opportunity to reduce its search domain by knowing which resources are query-relevant.\rt{This is a great sentence! I would even considering including it in the introduction already!}
+A DKG exposing a shape index provides a query engine with the opportunity to reduce its search domain by knowing which resources are query-relevant.
 More formally, instead of traversing the whole DKG $D$ associated with a shape index, the engine will traverse a DKG $D^{\prime} \subseteq D$, ignoring the knowable query-irrelevant sources.
 %The concept of composite reachability criteria allows us to ignore certain sources during traversal based on the knowledge acquired during traversal.
 Our approach involves dynamically constructing new reachability criteria during traversal that are more selective as we discover and analyze shape indexes.
@@ -216,13 +207,6 @@ From this sets of links we define a pruning reachability criteria;
 The new reachability $C^{\prime\prime}_i$ is created by taking the $Cd$ and $Cp$ of $C^{\prime\prime}_{i-1}$ and adding
 and $cp_{si}$ to $Cp$.
 
-\rt{The following paragraph should be mentioned near the start of the paper! Minus the formal terms, since those will be explained afterwards. But such a description will motivate to the reader why these new concepts (query-shape subsumption, ...) are needed in the first place.}
-Referring to the example in Figure~\ref{fig:dkg}, we can observe the following process:
-First, the query engine dereferences the shape index of subweb 3 and performs a query-shape subsumption  check to determine that only the post from this subweb should be accessed.
-Next, it checks the shape index of subweb 1 and finds that no documents are relevant to the query.
-Then, it accesses subweb 2, where the query-shape subsumption  check identifies that only comments are relevant.
-Finally, the engine dereferences the documents outside any subwebs linked to these comment documents.
-
 This approach has three main limitations.  
 First, it assumes that data providers maintain up-to-date shape indexes; outdated indexes may lead to incomplete results.
 A similar criticism could be made against the method exploiting VoID descriptions~\cite{Montoya2017}.
@@ -231,7 +215,7 @@ Third, the approach does not consider cases where querying irrelevant documents 
 Addressing this would require translating these criteria into queries, which is beyond the scope of this paper.
 
 \subsection{Query-Shape Subsumption}\label{sec:containment}
-To determining whether a source \rt{shape instead of source?} is query-relevant a \emph{query-shape subsumption} problem is solved.  
+To determine whether the content of a resource conforming to a shape is query-relevant, a \emph{query-shape subsumption} problem is solved.  
 This problem is analogous to the query subsumption problem which is a weaker form of the classic query containment problem~\cite{Spasi2023}.
 Query containment asses whether a query can be answered from the answer of another query,  independent to the database or KG~\cite{afariQCE}.
 In the subsumption problem a sub query $Q1$ is subsumed by a super query $Q2$  if every result of $Q1$ can be extended to a result of $Q2$ for any database~\cite{Spasi2023, Pichler2014}.
@@ -255,7 +239,7 @@ We consider that a shape $S$ is subsumed by a query $Q$ denoted as $S \sqsubsete
 if for any KG $G_s$ respecting the shape there is a GSP in $Q$ that can find a solution.
 For a GSP to subsumed $S$, we need to consider $Q$ and $Q_s$ to have the two parts $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
 $Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$.
-We assume that $q_i$ have no union statement.\rt{Emphasize that this is only for the explanation in this paper, but it's not a limitation of the overall approach.}
+We assume that $q_i$ have no union statement.
 \iffalse
 A graph star pattern $Q_{\text{starT}_i}$ is contained in $Q_s$ if its segment in $Q_{\text{body}}$ is contained in $Q_s$, and if its segment in at least one $q_i$ in each $Q_u$ is contained in $Q_s$. 
 If $Q_{\text{starT}_i}$ is not part of any $Q_u$, then $Q_u$ is ignored.

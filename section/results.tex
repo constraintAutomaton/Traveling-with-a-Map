@@ -32,7 +32,7 @@
 
 
 Figure~\ref{fig:compApproach} shows that the shape index approach for all query templates except S4 performs better or comparably to the state-of-the-art Solid Pod network traversal algorithm.
-An analysis of statistical significance is provided in the supplementary material~\hyperref[sf:complementaryMaterial]{\footnotemark[\getrefnumber{sf:complementaryMaterial}]}.
+An analysis of statistical significance is provided in the supplementary material~\hyperref[sf:supplementalMaterial]{\footnotemark[\getrefnumber{sf:supplementalMaterial}]}.
 Queries can require as little as 13\% or 7.7 times less (S1) of the execution time of the type index and LDP traversal algorithm.
 The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
 %Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
@@ -49,7 +49,7 @@ Those results mostly validate \textbf{H1} however the shape index approach can d
 
 \subsubsection{Query-Shape Subsumption Evaluation}
 The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
-The result tables are available in the supplementary material~\hyperref[sf:complementaryMaterial]{\footnotemark[\getrefnumber{sf:complementaryMaterial}]}.
+The result tables are available in the supplementary material~\hyperref[sf:supplementalMaterial]{\footnotemark[\getrefnumber{sf:supplementalMaterial}]}.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
 This result validated \textbf{H2}.
 
