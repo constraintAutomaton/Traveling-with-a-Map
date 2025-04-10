@@ -26,9 +26,7 @@ From another perspective, and without contradicting \citeauthor{hartig2016walkin
 Structural properties ensure data discoverability, which in turn helps guarantee result completeness.
 In practice, DESPs emerge in various contexts, such as social networks~\cite{Taelman2023} and the publication of sensor data~\cite{tam_iswc_traversalsensortree_2024}, among others.
 %Concrete DESPs has been shown to be beneficial for datasets following the Solid protocol~\cite{Taelman2023} and the TREE specification~\cite{tam_iswc_traversalsensortree_2024}.
-The work of \citeauthor{Taelman2023}~\cite{Taelman2023} suggests that various optimizations are feasible for LTQP in decentralized environments that exhibit structural properties.
-This contrasts with the more pessimistic conclusion of \citeauthor{hartig2016walking}~\cite{hartig2016walking}, whose study of LTQP over Open Linked Data found limited opportunities for optimization, primarily due to the HTTP request bottleneck.
-
+The work of \citeauthor{Taelman2023}~\cite{Taelman2023} suggests that various optimizations are feasible for LTQP in decentralized environments with structural properties, in contrast to the more pessimistic conclusion of \citeauthor{hartig2016walking}~\cite{hartig2016walking}.
 In general, the World Wide Web lacks a structure that query engines can exploit for optimization.  
 This is because any document can be published anywhere, with no standard index or trust mechanism to guide discovery.  
 However, within specific \emph{subwebs}, defined as subsections of the web controlled by particular data providers, implicit or explicit data structures may emerge, which query engines can leverage.
@@ -46,17 +44,17 @@ Finally, the engine dereferences all reachable resources outside the subwebs tha
 
 \begin{figure}
    \centering
-   \includegraphics[width=0.70\textwidth]{figure/dkg.png}
+   \includegraphics[width=0.60\textwidth]{figure/dkg.png}
    \caption{
       Given that the resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
-      The nodes represent RDF resources, while the edges represent IRIs linking one resource to another (see Section \ref{sec:dkg}).
-      Each subweb has a shape index that maps shapes, represented by icons, to RDF resources by embedding the icon within the node.
-      The query engine starts its query at subweb 3, and the relevant query resources in a subweb are identified with a black node.
+      %The nodes represent RDF resources, while the edges represent IRIs linking one resource to another (see Section \ref{sec:dkg}).
+      %Each subweb has a shape index that maps shapes, represented by icons, to RDF resources by embedding the icon within the node.
+      %The query engine starts its query at subweb 3, and the relevant query resources in a subweb are identified with a black node.
     }
     \label{fig:dkg}
 \end{figure}
 
-This paper presents our link pruning approach using shape indexes, along with a query-shape subsections algorithm to assess the relevance of data sources, and experimental results based on a synthetic benchmark.
+This paper presents a link pruning approach with shape indexes, a query-shape subsections algorithm for assessing data source relevance, and experimental results from a synthetic benchmark.
 
 \iffalse
 This paper is organized as follows: first, we discuss the \hyperref[sec:related_work]{related work} and present \hyperref[sec:preliminaries]{preliminaries}.

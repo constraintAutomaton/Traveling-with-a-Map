@@ -9,6 +9,7 @@
 }
 
 \sepfootnotecontent{sf:recursiveShape}{
+   \iffalse
     In this paper we ignore ``inverse constraints'' such as
     inverse triple constraint in ShEx 
     %\url{https://shex.io/shex-primer/index.html\#inverse-properties}
@@ -17,7 +18,8 @@
     to a avoid recurse 
     shape schemas~\cite{Corman2019}.
     We also ignore negative statement.
-    We only consider shapes that can be transformed into a single \texttt{SELECT} SPARQL query.
+    \fi
+    We only consider shapes that can be transformed into a single \texttt{SELECT} SPARQL query~\cite{Corman2019}.
 }
 
 \sepfootnotecontent{sf:subwebsep}{
@@ -84,7 +86,7 @@ Thus, reducing HTTP requests provides a twofold benefit.
 
 \begin{figure}
    \centering
-   \includegraphics[width=0.5\textwidth]{figure/shapeIndex.pdf}
+   \includegraphics[width=0.4\textwidth]{figure/shapeIndex.pdf}
 
    \caption{An example of a shape index mapping a set of IRI to a profile shape and an IRI to a post shape.}
    \label{fig:shapeIndex}
