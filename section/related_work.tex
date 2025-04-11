@@ -6,22 +6,19 @@ LTQP is a SPARQL querying paradigm that answers queries by exploring the Web usi
 It belongs to the family of decentralized SPARQL querying paradigms.
 LTQP fundamentally differs from federated querying because the ``federation'' is formed during querying and is expands dynamically as the query is processed.
 Thus, many optimization techniques used in federated querying either do not work in the context of LTQP or remain unexplored.
-LTQP also differs from querying Linked Data Fragments interfaces~\cite{azzam2020smart,azzam2021wisekg, DBLP:journals/corr/HartigA16}, as TPF involves querying fragments of a known local finite dataset, whereas LTQP dynamically discovers new remote datasets during query processing.\
+LTQP also differs from querying Linked Data Fragments interfaces (LDF)~\cite{azzam2020smart,azzam2021wisekg, DBLP:journals/corr/HartigA16}, as LDF involves querying fragments of a known local finite dataset, whereas LTQP dynamically discovers new remote datasets during query processing.\
 The main challenge of LTQP is the Web's open-ended nature leading to large search spaces.
 Completeness in LTQP is defined by the traversal of a well-defined set of links~\cite{Hartig2012}.
 The first method employed to define this set was the reachability criteria~\cite{Hartig2012}, which are boolean functions that determine whether a link should be dereferenced.
 Building on this, the theoretical query language LDQL~\cite{hartigLDQL} was introduced, separating the traversal definition from the query definition.
 Further advancements include the Subweb Specifications Language(SWSL)~\cite{Bogaerts2021LinkTW}, which allows data providers to define how their DKG should be traversed.
-Inspired by SWSL, traversal-based querying approaches have been developed using both the Linked Data Platform (LDP) and the Type Index specification~\cite{Taelman2023}.  
-Traversal based on the LDP involves following every link in a web-based file system, exploring the entire data space.  
-Traversal using the Type Index focuses on query-relevant links extracted from a type index document~\cite{solidTypeIndexes}.  
-The type index can be interpreted as a mapping between RDF types and RDF resources containing entities of those types.  
-This allows query engines to match the RDF types specified in a query against the entries in the index to identify relevant data sources.
+Inspired by SWSL, traversal-based querying has utilized the Linked Data Platform (LDP) and the Type Index specification~\cite{Taelman2023}.  
+LDP traversal follows all links in the data space, while Type Index traversal uses mappings from RDF types to relevant resources~\cite{solidTypeIndexes}, allowing queries to prioritize implicitly relevant data sources.
 These contributions are centered on guiding the engine in selecting links to follow in a discovery process.
 However, they do not explicitly address mechanisms for restricting links after the discovery process, based on information acquired during traversal; a process we could refer to as pruning.
 Link pruning can significantly reduce the search domain of queries when information about the DKG data model is available.
-For example, the structural properties of DESPs could inform the query engine that certain web sections follow a specific data model. 
-As a result, a set of IRIs could be pruned from the links selected during the discovery process.
+%For example, the structural properties of DESPs could inform the query engine that certain web sections follow a specific data model. 
+%As a result, a set of IRIs could be pruned from the links selected during the discovery process.
 %In contrast, in Linked Open Data, the web is not divided into subsections with structural properties; therefore, data model information cannot be discovered.
 
 \subsection{RDF Data Shape}
@@ -51,7 +48,7 @@ Furthermore, Shape Trees are not widely adopted.
 
 \subsection{Source Selection}
 Source selection is a crucial challenge in decentralized querying~\cite{hose2012towards, Harth2010}. 
-Link pruning in LTQP is closely related to source selection, as it can be viewed as a dynamic form of source selection, where irrelevant sources are excluded based on the query.
+Link pruning in LTQP is closely related to source selection, as it can be viewed as a dynamic form of source selection.
 Methods such as basic statistics on triple counts, VoID descriptions, and histogram techniques have been explored in the context of federated querying~\cite{hose2012towards, Harth2010, Montoya2017}.
 However, most of those source selection methods face the limitation of assuming a small number of data sources~\cite{Harth2010}, leaving their suitability for LTQP uncertain.
 Bloom filters~\cite{dia2018fast} is also a mechanism that has shows success for federated DKGs, however in the context of LTQP it has been show that bloom filters have little effect on performance~\cite{Hanski2024}.

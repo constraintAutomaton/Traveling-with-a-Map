@@ -1,5 +1,3 @@
-\section{Approach}\label{sec:approach}
-
 \sepfootnotecontent{sf:shapeIndexURL}{
    \ifanonymous
       \url{https://anonymous.4open.science/w/shape-index-specification-707E}
@@ -34,7 +32,9 @@
 }
 
 
-In this section, we first define result-based completeness in LTQP, then formalize the concept of a shape index, a mapping that links RDF data shapes to RDF resources, and finally, describe how the shape index can be used for pruning in LTQP. 
+\section{Approach}\label{sec:approach}
+
+%In this section, we first define result-based completeness in LTQP, then formalize the concept of a shape index, a mapping that links RDF data shapes to RDF resources, and finally, describe how the shape index can be used for pruning in LTQP. 
 
 
 \subsection{Result-Based Completeness in LTQP}\label{sec:slde}
@@ -95,7 +95,6 @@ Thus, reducing HTTP requests provides a twofold benefit.
 Pruning in LTQP requires knowledge of the data models of dereferenced sources.  
 However, obtaining complete, up-to-date, and detailed information for each source in a large decentralized network is impractical.  
 To address this, we introduce the \emph{shape index}, a mapping between RDF document sets and RDF data shapes that describes a subweb controlled by a data provider.  
-When mapped, the associated KG must conform to the shape.  
 Unlike triple statistics, shapes are independent of the KG's size or updates that remain compliant, making them a more cost-effective solution for use cases with stable data models. 
 
 We formalize a shape index as follows:
@@ -108,7 +107,7 @@ The subweb described by the index is defined by $D_{SI} = \bigcup_{IRI \in \text
 We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ has a closed world assumption~\cite{Gayo2018b, Gayo2018} (we also refer to them as closed) and \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRIs has implications in the distribution of the data in $D_{SI}$.
 When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \left\{ g \mid \forall iri \in D_{SI} (iri \mapsto_{\mathcal{R}} r \land r \mapsto_{\mathcal{G}} g) \right\}$ satisfies $s$.
-Given that the shape is closed, then every set of triples in the resource mapped to an $iri \in D_{SI}$ respecting the shape must be in a resource mapped to an $iri \in IRI$.
+Given that the shape is closed, then every set of triples in the resource mapped to an $iri \in D_{SI}$ satisfying the shape must be in a resource mapped to an $iri \in IRI$.
 We provide a complete description of the shape index in an online specification~\sepfootnote{sf:shapeIndexURL} and an example of serialization in Figure~\ref{fig:shapeIndex}.
 
 RDF data shapes use \emph{targets} to identify the set of nodes or entities in a KG to validate.  
@@ -117,7 +116,7 @@ We call these entities graph star(s) (patterns), an extension of the RDF star pa
 Defined in Definition~\ref{def:starPattern}, graph stars serve two purposes:
 defining targets for validation and capturing relationships between triple patterns and shape entities.  
 Star patterns consist of triples with the same subject.
-We extend this by linking star patterns where the objects of the triples in one star pattern are the subjects of another, forming a graph structure.
+We extend this concept by linking star patterns where the objects of the triples in one star pattern are the subjects of another, forming a graph structure.
 For example, a user linking to their posts with recursive replies can be captured with a root star pattern for the user and nested patterns for the posts and replies.  
 Thus, the target of the shapes in the shape index correspond to the subject of each root star pattern when a KG is divided into graph stars with no shared partial graph stars.  
 %Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
@@ -154,8 +153,7 @@ Thus, the target of the shapes in the shape index correspond to the subject of e
    $S_{star}: q \rightarrow  \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$
    returning the subjects of the $Q_{starPT_i}$ of a $Q_{starT}$.
 
-   We propose a similar definition for the context of KGs where we replace the query $Q$ by a KG $G$ and where the terms 
-   cannot be a $v \in \mathcal{V}$. 
+   We propose a similar definition for the context of KGs where we replace the query $Q$ by a KG $G$. 
    We denote this structure a graph star.
    
 \end{definition}

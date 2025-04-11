@@ -29,9 +29,9 @@
 
 
 Figure~\ref{fig:compApproach} shows that the shape index approach for all query templates except S4 performs better or comparably to the state-of-the-art Solid Pod network traversal algorithm.
-An analysis of statistical significance is provided in the supplementary material~\hyperref[sf:supplementalMaterial]{\footnotemark[\getrefnumber{sf:supplementalMaterial}]}.
+An analysis of statistical significance is provided in the \hyperref[sec:supplementalMaterial]{supplemental material}.
 Moreover, with the shape index approach, it is possible to answer a query from the S7 template.
-Queries can require as little as 13\% or 7.7 times less (S1) of the execution time of the type index and LDP traversal algorithm.
+Queries can require as little as 13\% (S1) of the execution time (7.7 times faster) of the type index and LDP traversal algorithm.
 The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
 %Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
 Queries from templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
@@ -40,14 +40,14 @@ This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows
 
 The poor performance is due to the fact that the links acquired by the other approaches were selected based on reachability criteria that did not leverage the structural properties of the dataset, such as in the case of \texttt{Cmatch}~\cite{hartig2016walking}.
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
-It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
+%It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
 However, those queries were already fast, with the type index and LDP traversal algorithm approach being executed in approximately 0.30\% of the maximum execution time allowed.
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 Those results mostly validate \textbf{H1} however the shape index approach can drastically increase the execution time when the structural properties are not used.
 
 \subsubsection{Query-Shape Subsumption Evaluation}
 The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
-The result tables are available in the supplementary material~\hyperref[sf:supplementalMaterial]{\footnotemark[\getrefnumber{sf:supplementalMaterial}]}.
+The result tables are available in the \hyperref[sec:supplementalMaterial]{supplemental material}.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
 This result validated \textbf{H2}.
 
