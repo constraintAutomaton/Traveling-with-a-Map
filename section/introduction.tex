@@ -30,6 +30,7 @@ The work of \citeauthor{Taelman2023}~\cite{Taelman2023} suggests that various op
 In general, the World Wide Web lacks a structure that query engines can exploit for optimization.  
 This is because any document can be published anywhere, with no standard index or trust mechanism to guide discovery.  
 However, within specific \emph{subwebs}, defined as subsections of the web controlled by particular data providers, implicit or explicit data structures may emerge, which query engines can leverage.
+
 In this work, we extend a dataset summarization approach for decentralized environments known as the \emph{shape index}~\cite{tam2024opportunitiesshapebasedoptimizationlink}.
 We apply this approach to enable link pruning within LTQP, removing links that are not relevant to the query, based on an analysis of RDF data shapes and the user's query.
 The analysis is performed by conducting a query-shape subsumption check to determine whether a resource conforming to a given shape is relevant to a query.
@@ -54,7 +55,7 @@ Finally, the engine dereferences all reachable resources outside the subwebs tha
     \label{fig:dkg}
 \end{figure}
 
-This paper presents a link pruning approach with shape indexes, a query-shape subsections algorithm for assessing data source relevance, and experimental results from a synthetic benchmark.
+Our contributions are a link pruning approach with shape indexes, a query-shape subsections algorithm for assessing data source relevance, and experimental results from a synthetic benchmark.
 
 \iffalse
 This paper is organized as follows: first, we discuss the \hyperref[sec:related_work]{related work} and present \hyperref[sec:preliminaries]{preliminaries}.

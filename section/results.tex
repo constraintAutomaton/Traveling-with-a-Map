@@ -19,7 +19,7 @@
     % General caption
     \caption{
     On the left is a plot showing query execution times, while the figure on the right compares the type index combined with the LDP approach against other methods.
-    The ratio represents how the execution time of each method compares to that of the type index and LDP approach, a ratio greater than one indicates a slower execution time.
+    The ratio represents how the execution time of each method compares to that of the type index and LDP approach, a ratio greater than $1$ indicates a slower execution time (\textbf{lower is better}).
     The shape index approach performs similarly or better than the other methods, except in the case of S4.
     }
     \label{fig:compApproach}
@@ -126,8 +126,8 @@ As expected, we observe that queries that performed better in Figure~\ref{fig:co
     \includegraphics[width=1\linewidth]{analysis/artefact/variation_shape_index_all/plot}
     \caption{
     Shape index approaches tend to perform less effectively with limited network information and comparatively better where the baseline shape index underperforms.
-    A higher ratio indicates a longer query execution time compared to a network with complete shape index information.
-    However, the utility of shape index information can vary depending on the specific queries and network characteristics.
+    A higher ratio indicates a longer query execution time compared to a network with complete shape index information (\textbf{lower is better}).
+    %However, the utility of shape index information can vary depending on the specific queries and network characteristics.
     }
     \label{fig:adaptShapeIndex}
 \end{figure}
