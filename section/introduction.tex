@@ -34,11 +34,13 @@ However, within specific \emph{subwebs}, defined as subsections of the web contr
 In this work, we extend a dataset summarization approach for decentralized environments known as the \emph{shape index}~\cite{tam2024opportunitiesshapebasedoptimizationlink}.
 We apply this approach to enable link pruning within LTQP, removing links that are not relevant to the query, based on an analysis of RDF data shapes and the user's query.
 The analysis is performed by conducting a query-shape subsumption check to determine whether a resource conforming to a given shape is relevant to a query.
-Our approach assumes a DKG composed of subwebs, each hosted by data providers and containing shape indexes.  
-To illustrate this, we present the example shown in Figure~\ref{fig:dkg}, which features a network of three subwebs, each with its own shape index, as well as resources located outside the subwebs.
-The query executed by the engine aims to retrieve posts from subweb 3, along with all their replies.  
-Our pruning solution allows the engine to explore only the relevant parts of the network, guided by the shapes associated with the resources and the structure of the query.
-The process begins with the query engine dereferencing the shape index of subweb 3 and performing a query-shape subsumption check, which determines that only the post from this subweb needs to be accessed.  
+Our approach assumes a DKG composed of subwebs, each hosted by data providers and containing shape indexes.
+A DKG that exposes a shape index allows the query engine to reduce its search domain by identifying query-relevant resources.
+This is particularly useful when only a subset of the DKG is relevant to a given query, for example, in social media applications, where it is rare to query all information about a user.
+To illustrate this, we present the example in Figure~\ref{fig:dkg}, which depicts a network of three social media user subwebs, each with its own shape index, as well as resources located outside these subwebs.
+The feature query aims to retrieve posts from subweb 3, along with all associated replies.
+Our pruning strategy allows the query engine to explore only the relevant parts of the network, guided by the shapes associated with the resources and the structure of the query.
+The process begins with the engine dereferencing the shape index of subweb 3 and performing a query-shape subsumption check, which determines that only the post from this subweb needs to be accessed.  
 It then checks the shape index of subweb 1, where the subsumption check reveals no resources relevant to the query.  
 Next, it examines the shape index of subweb 2 and identifies that only comments (i.e., replies) are relevant.  
 Finally, the engine dereferences all reachable resources outside the subwebs that are linked to these relevant comments.

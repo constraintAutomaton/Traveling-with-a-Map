@@ -169,9 +169,8 @@ For prescriptive shapes, contributions in shape-based data integration~\cite{Lab
 
 \subsection{Link Pruning Using Shape Indexes}\label{sec:sourceSelection}
 
-In this section we make the link between the shape index and link pruning in LTQP.
-A DKG exposing a shape index provides a query engine with the opportunity to reduce its search domain by knowing which resources are query-relevant.
-More formally, instead of traversing the whole DKG $D$ associated with a shape index, the engine will traverse a DKG $D^{\prime} \subseteq D$, ignoring the knowable query-irrelevant sources.
+In this section, we establish the connection between shape indexes and link pruning in LTQP as a means to reduce the search domain.
+In our method, rather than traversing the entire DKG $D$ associated with a shape index, the engine traverses a subgraph $D^{\prime} \subseteq D$, effectively ignoring sources that are knowably irrelevant to the query.
 %The concept of composite reachability criteria allows us to ignore certain sources during traversal based on the knowledge acquired during traversal.
 Our approach involves dynamically constructing new reachability criteria during traversal that are more selective as we discover and analyze shape indexes.
 These criteria are designed so that they will always produce the same completeness of results as the one that was defined at the beginning of the traversal.
