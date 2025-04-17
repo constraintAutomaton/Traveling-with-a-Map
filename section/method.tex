@@ -270,10 +270,8 @@ However, incorporating filter expressions into future work would be an interesti
 
       \IF{$S_{star}(Q_{star}) \in Eval_{star}$}
          \RETURN \TRUE
-      \ENDIF
-       
-      \STATE $Eval_{star} \gets Eval_{star} \cup S_{star}(Q_{star})$
-      
+      \ENDIF 
+
       \FORALL{$tp \in Q_{star}$} % O(n_star)
          \IF{\NOT $match(tp, Q_{s\text{body}})$}
             \STATE $hasOnePath \gets $ \FALSE
@@ -296,6 +294,7 @@ However, incorporating filter expressions into future work would be an interesti
          \ENDIF
       \ENDFOR
 
+      \STATE $Eval_{star} \gets Eval_{star} \cup S_{star}(Q_{star})$
       \RETURN \TRUE
    \end{algorithmic}
 \end{algorithm}
