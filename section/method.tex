@@ -129,29 +129,29 @@ Thus, the target of the shapes in the shape index correspond to the subject of e
        BQ_{star}(s) = \left\{ tp_i \in Q \mid S(tp_i) = s \right\}
    \end{equation}
    with $s \in \mathcal{I}\mathcal{B}\mathcal{V}$ then $Q_{star_s} = BQ_{star}(s)$.
-   We define a GSP $Q_{starT}$ as the union between a root star pattern $Q_{star_s}$
-   and the star patterns having as subject term an object term of another star pattern in $Q_{starT}$.
+   We define a GSP $Q_{starG}$ as the union between a root star pattern $Q_{star_s}$
+   and the star patterns having as subject term an object term of another star pattern in $Q_{starG}$.
    We define a function 
    $O_{star}: q \in Q \rightarrow  \mathcal{I}\mathcal{B}\mathcal{V}$
    that returns every non-literal object terms of a star pattern.
 
-   We then define $Q_{starT}$ given a  set of partial GSP $Q_{starPT}$
+   We then define $Q_{starG}$ given a  set of partial GSP $Q_{starGT}$
    \begin{equation}
-      Q_{starT} = \bigcup_{q \in Q_{starPT}} q
+      Q_{starG} = \bigcup_{q \in Q_{starGT}} q
    \end{equation}
-   where $Q_{starPT}$ is formed with a root $Q_{star_s}$ by
+   where $Q_{starGT}$ is formed with a root $Q_{star_s}$ by
 
    \begin{equation}
-           Q_{starPT_i} =
+           Q_{starGT_i} =
        \begin{cases}
          \left\{ Q_{star_s} \right\} & \text{if } i = 1 \\
-           \left\{ BQ_{star}(o) \mid o \in \bigcup_{q \in Q_{starPT_{i-1}}} O_{star}(q) \right\} & \text{if } i>1
+           \left\{ BQ_{star}(o) \mid o \in \bigcup_{q \in Q_{starGT_{i-1}}} O_{star}(q) \right\} & \text{if } i>1
        \end{cases}
    \end{equation}
 
    We also define a function  
    $S_{star}: q \rightarrow  \mathcal{I}\mathcal{B}\mathcal{V}$
-   returning the subjects of the $Q_{starPT_i}$ of a $Q_{starT}$.
+   returning the subjects of the $Q_{starGT_i}$ of a $Q_{starG}$.
 
    We propose a similar definition for the context of KGs where we replace the query $Q$ by a KG $G$. 
    We denote this structure a graph star.
@@ -240,8 +240,8 @@ For a GSP to subsumed $S$, we need to consider $Q$ and $Q_s$ to have the two par
 $Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$.
 We assume that $q_i$ have no union statement.
 \iffalse
-A graph star pattern $Q_{\text{starT}_i}$ is contained in $Q_s$ if its segment in $Q_{\text{body}}$ is contained in $Q_s$, and if its segment in at least one $q_i$ in each $Q_u$ is contained in $Q_s$. 
-If $Q_{\text{starT}_i}$ is not part of any $Q_u$, then $Q_u$ is ignored.
+A graph star pattern $Q_{\text{starG}_i}$ is contained in $Q_s$ if its segment in $Q_{\text{body}}$ is contained in $Q_s$, and if its segment in at least one $q_i$ in each $Q_u$ is contained in $Q_s$. 
+If $Q_{\text{starG}_i}$ is not part of any $Q_u$, then $Q_u$ is ignored.
 \fi
 \iffalse
 For the simplicity of the formalization we ignore other SPARQL operators such has \texttt{GROUP BY} and Filter expressions,
@@ -249,7 +249,7 @@ however given query-shape subsumption  is transformed into query containment pro
 \fi
 
 \iffalse
-\rt{I would not mention everything after this, and instead at the start of this paragraph say that for simplicity of this formalization, we focus on just BGPs of triple patterns and unions.}
+\rt{I would not mention everything after this, and instead at the starG of this paragraph say that for simplicity of this formalization, we focus on just BGPs of triple patterns and unions.}
 In our containment problem, we ignore \texttt{GROUP BY} segments.
 We make this choice because, in the context of shape queries, \texttt{GROUP BY} is primarily used to set a cardinality, and we are not attempting to identify sources that can fully answer specific segments of a query. 
 Instead, our goal is to disregard data sources that are irrelevant to the query, given the constraints imposed by the shape index. 
@@ -258,61 +258,21 @@ Additionally, this article does not consider filter expressions, as they can sig
 Moreover, "false" negatives do not impact the correctness of our approach. \rt{But this is important to mention indeed! But needs some more elaboration on the fact that doing more (useless) requests is not a problem.}
 However, incorporating filter expressions into future work would be an interesting direction to explore.
 \fi
-% https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)
-\begin{algorithm}[h]
-   \caption{Check if a GSP subsumes a $Q_s$ ($subsums_{\text{graph star}}$)}\label{alg:containmentTree}
-   \begin{algorithmic}
-      \algsetup{linenosize=\tiny}
-      \scriptsize
+\input{time-complexity/algorithm/subsums_q_star}
 
-      \REQUIRE  $Q_{star}$, $Q_{starT_i}$, $Q_s = Q_{s\text{body}} \cup Q_{s\text{unions}}$ and $Eval_{star}$
-      \ENSURE \TRUE $ $ or \FALSE $ $ whether the root of a graph star pattern $Q_{star}$ is contained in the shape.
-
-      \IF{$S_{star}(Q_{star}) \in Eval_{star}$}
-         \RETURN \TRUE
-      \ENDIF 
-
-      \FORALL{$tp \in Q_{star}$} % O(n_star)
-         \IF{\NOT $match(tp, Q_{s\text{body}})$}
-            \STATE $hasOnePath \gets $ \FALSE
-            \FORALL{$q_{us} \in Q_{s\text{unions}}$}
-               \IF{$subsums_{\text{graph star}}(Q_{star}, Q_{starT_i}, q_{us}, Eval_{star})$}
-                  \STATE $hasOnePath \gets $ \TRUE
-               \ENDIF
-            \ENDFOR
-            \IF{\NOT $hasOnePath$}
-               \RETURN \FALSE
-            \ENDIF
-         \ELSE
-            %eval nested
-            \IF{$O(tp) \in  S_{star}(Q_{starT_i})$}
-               \IF{\NOT $subsums_{\text{graph star}}(Q_{star_{O(tp)}} \in Q_{starT_i}, Q_{starT_i}, Q_s, Eval_{star})$}
-                  \RETURN \FALSE
-               \ENDIF
-            \ENDIF
-            %
-         \ENDIF
-      \ENDFOR
-
-      \STATE $Eval_{star} \gets Eval_{star} \cup S_{star}(Q_{star})$
-      \RETURN \TRUE
-   \end{algorithmic}
-\end{algorithm}
-
-
-We define the function $subsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a GSP with a root star pattern $Q_{star_i}$ from $Q_{starT_i}$ sumbsumes $Q_s$. 
+We define the function $subsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a GSP with a root star pattern $Q_{star_i}$ from $Q_{starG_i}$ sumbsumes $Q_s$. 
 The algorithm also takes a set $Eval_{star}$ to track which partial graph star patterns have already been evaluated.
 The algorithm works by examining each triple pattern in the root star pattern $Q_{star_i}$ and checking if an equivalent triple pattern (ignoring the variable names) can be found in the BGP of $Q_s$ using the $match$ function.
 If the triple pattern cannot be found in the BGP, the algorithm then looks into the UGPs of $Q_s$. 
 Since we assume that the union statements are not nested, this limits the number of recursive calls.
-If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial graph star pattern in $Q_{starT_i}$.
+If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial graph star pattern in $Q_{starG_i}$.
 If it is, the algorithm recursively applies the same procedure to this partial graph star pattern as $Q_{star_i}$.
 To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp} \times n_{sunion})$
-where $n_{tp}$ is the number of triple patterns of $Q_{starT_i}$ and $n_{sunion}$ the number of UGP in $Q_s$.
+where $n_{tp}$ is the number of triple patterns of $Q_{starG_i}$ and $n_{sunion}$ the number of UGP in $Q_s$.
 To solve $S \sqsubseteq_{qs} Q$, we need to consider the number of GSP from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
 This operation results again in a polynomial time complexity algorithm.
 Additional analyses of the algorithms are available in the \hyperref[sec:supplementalMaterial]{supplemental material}.
-%To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starT}$ graph star from the BGP with their $n_{starTu}$ segment in the UGP and $n_{starTui}$ BGP in the UGP.
-%This operation results in a polynomial time complexity of $O(n_o \times n_{tp}^2 \times n_{union}^2 \times n_{starT} \times n_{starTu} \times n_{starTui})$.
+%To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starG}$ graph star from the BGP with their $n_{starGu}$ segment in the UGP and $n_{starGui}$ BGP in the UGP.
+%This operation results in a polynomial time complexity of $O(n_o \times n_{tp}^2 \times n_{union}^2 \times n_{starG} \times n_{starGu} \times n_{starGui})$.
 %In the \nameref{sec:appendix} Algorithm~\ref{alg:containment} present the full resolution to evaluate each graph star pattern.
