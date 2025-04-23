@@ -13,7 +13,7 @@ The first method employed to define this set was the reachability criteria~\cite
 Building on this, the theoretical query language LDQL~\cite{hartigLDQL} was introduced, separating the traversal definition from the query definition.
 Further advancements include the Subweb Specifications Language (SWSL)~\cite{Bogaerts2021LinkTW}, which allows data providers to define how their DKG should be traversed.
 Inspired by SWSL, traversal-based querying has utilized the Linked Data Platform (LDP) and the Type Index specification~\cite{Taelman2023}.  
-LDP traversal follows all links in the data space, while Type Index traversal uses mappings from RDF types to relevant resources~\cite{solidTypeIndexes}, allowing queries to prioritize implicitly relevant data sources.
+LDP traversal follows all links a data space, while Type Index traversal uses mappings from RDF types to relevant resources~\cite{solidTypeIndexes}, allowing queries to prioritize implicitly relevant data sources.
 These contributions are centered on guiding the engine in selecting links to follow in a discovery process.
 However, they do not explicitly address mechanisms for restricting links after the discovery process, based on information acquired during traversal; a process we could refer to as pruning.
 Link pruning could significantly reduce the search domain of queries when information about the DKG data model is available.

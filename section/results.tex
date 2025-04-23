@@ -18,8 +18,8 @@
 
     % General caption
     \caption{
-    On the left is a plot showing query execution times, while the figure on the right compares the type index combined with the LDP approach against other methods.
-    The ratio represents how the execution time of each method compares to that of the type index and LDP approach, a ratio greater than $1$ indicates a slower execution time (\textbf{lower is better}).
+    On the left is a plot showing query execution times, while the figure on the right compares the type index approach against other methods.
+    The ratio represents how the execution time of each method compares to that of the type index, a ratio greater than $1$ indicates a slower execution time (\textbf{lower is better}).
     The shape index approach performs similarly or better than the other methods, except in the case of S4.
     }
     \label{fig:compApproach}
@@ -31,17 +31,20 @@
 Figure~\ref{fig:compApproach} shows that the shape index approach for all query templates except S4 performs better or comparably to the state-of-the-art Solid Pod network traversal algorithm.
 An analysis of statistical significance is provided in the \hyperref[sec:supplementalMaterial]{supplemental material}.
 Moreover, the shape index approach allows for answering queries from the S7 template, which is not possible by the other approaches.
-Queries can require as little as 13\% (S1) of the execution time (7.7 times faster) of the type index and LDP traversal algorithm.
+Queries can require as little as 13\% (S1) of the execution time (7 times faster) of the type index.
 The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
+Table~\ref{tab:ratioUsefulResources} presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
+It shows that, although this percentage remains relatively low for most queries, the shape index tends to yield a higher percentage.
+
 %Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
 Queries from templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
 We notice that queries from template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
-This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the type index and LDP traversal algorithm achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
+This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the type index traversal algorithm achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
 
 The poor performance is due to the fact that the links acquired by the other approaches were selected based on reachability criteria that did not leverage the structural properties of the dataset, such as in the case of \texttt{Cmatch}~\cite{hartig2016walking}.
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
 %It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
-However, those queries were already fast, with the type index and LDP traversal algorithm approach being executed in approximately 0.30\% of the maximum execution time allowed.
+However, those queries were already fast, with the type index traversal algorithm approach being executed in approximately 0.30\% of the maximum execution time allowed.
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 Those results mostly validate \textbf{H1} however the shape index approach can drastically increase the execution time when the structural properties are not used.
 
@@ -149,11 +152,11 @@ Upon analyzing the output of our query subsumption algorithm, we observe that th
 However, in the baseline shape index experiment, the engine must dereference more shapes, potentially increasing execution time.
 Queries of template S1 is the only one where the added information can discriminate multiple parts of the datasets' domain, indicating the intuitive results that, in some situations, adding more information can be beneficial.
 This sensitivity of the quantity of the information in the index also helps explain the results for S1 queries in the middle plot. 
-In that case, the engine still had to dereference sources from each dataset, and the information available was likely insufficient to significantly discriminate between sources.
+In that case, the engine still had to dereference shapes from each dataset, and the information available was likely insufficient to significantly discriminate between resources.
 
-\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_ressources} 
+\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
 
-Those results show that \textbf{H3} is rejected; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of sources.
+Those results show that \textbf{H3} is rejected; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of resources.
 Thus, this outcome is query-dependent.
 \textbf{H4} and \textbf{H5} are accepted but show that the completeness of shape indexes has less impact on performance than the absence of indexes.
 Incomplete shape indexes can increase performance surprisingly if incomplete entries are not necessary to discriminate irrelevant sources. 

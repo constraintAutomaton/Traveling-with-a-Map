@@ -266,7 +266,7 @@ The algorithm works by examining each triple pattern in the root star pattern $Q
 If the triple pattern cannot be found in the BGP, the algorithm then looks into the UGPs of $Q_s$. 
 Since we assume that the union statements are not nested, this limits the number of recursive calls.
 If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial graph star pattern in $Q_{starG_i}$.
-If it is, the algorithm recursively applies the same procedure to this partial graph star pattern as $Q_{star_i}$.
+If it is, the algorithm recursively applies the same procedure to this partial GSP.
 To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp} \times n_{sunion})$
 where $n_{tp}$ is the number of triple patterns of $Q_{starG_i}$ and $n_{sunion}$ the number of UGP in $Q_s$.
