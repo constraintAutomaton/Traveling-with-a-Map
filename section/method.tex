@@ -34,7 +34,7 @@
 
 \section{Approach}\label{sec:approach}
 
-%In this section, we first define result-based completeness in LTQP, then formalize the concept of a shape index, a mapping that links RDF data shapes to RDF resources, and finally, describe how the shape index can be used for pruning in LTQP. 
+This section defines result-based completeness in LTQP, introduces shape indexes, and shows how they enable pruning via a query-shape subsumption algorithm.
 
 
 \subsection{Result-Based Completeness in LTQP}\label{sec:slde}
@@ -214,7 +214,7 @@ Third, the approach does not consider cases where querying irrelevant documents 
 Addressing this would require translating these criteria into queries, which is beyond the scope of this paper.
 
 \subsection{Query-Shape Subsumption}\label{sec:containment}
-To determine whether the content of a resource conforming to a shape is query-relevant, a \emph{query-shape subsumption} problem is solved.  
+To determine whether the content of a resource conforming to a shape is query-relevant, we extend the existing notion of \emph{query subsumption} to a novel form we call \emph{query-shape subsumption}.
 This problem is analogous to the query subsumption problem which is a weaker form of the classic query containment problem~\cite{Spasi2023}.
 Query containment asses whether a query can be answered from the answer of another query,  independent to the database or KG~\cite{afariQCE}.
 In the subsumption problem a sub query $Q1$ is subsumed by a super query $Q2$  if every result of $Q1$ can be extended to a result of $Q2$ for any database~\cite{Spasi2023, Pichler2014}.
@@ -272,7 +272,7 @@ We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp
 where $n_{tp}$ is the number of triple patterns of $Q_{starG_i}$ and $n_{sunion}$ the number of UGP in $Q_s$.
 To solve $S \sqsubseteq_{qs} Q$, we need to consider the number of GSP from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
 This operation results again in a polynomial time complexity algorithm.
-Additional analyses of the algorithms are available in the \hyperref[sec:supplementalMaterial]{supplemental material}.
+Additional analyses of the algorithms are available in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 %To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starG}$ graph star from the BGP with their $n_{starGu}$ segment in the UGP and $n_{starGui}$ BGP in the UGP.
 %This operation results in a polynomial time complexity of $O(n_o \times n_{tp}^2 \times n_{union}^2 \times n_{starG} \times n_{starGu} \times n_{starGui})$.
 %In the \nameref{sec:appendix} Algorithm~\ref{alg:containment} present the full resolution to evaluate each graph star pattern.

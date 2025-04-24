@@ -39,7 +39,7 @@
 
 We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}.
 We chose Comunica because of its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
-All implementations stated as open-source are provided in the \hyperref[sec:supplementalMaterial]{supplemental material}.
+All implementations stated as open-source are provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 The implementation of our shape index approach is open source, as well as our query-shape subsumption solver.
 We use SolidBench~\cite{Taelman2023}, which is based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution.
 Like Comunica, it is easily extendable and has been utilized in multiple LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
@@ -55,7 +55,7 @@ Queries simulate typical read action in social media use cases, such as finding 
 The datasets contained approximately 4,200,000 triples and 1,528 subwebs, which, in this context, are Solid Pods.
 The shape indexes contain 13 triples each, while the largest shapes have up to 150 triples. 
 This can be considered insignificant, particularly because the number of triples does not scale proportionally with the size of the subwebs.
-The entire data model and query templates are available in the  \hyperref[sec:supplementalMaterial]{supplemental material}.
+The entire data model and query templates are available in the  \hyperref[sec:supplementalMaterial]{supplementary material}.
 
 To evaluate our approach: we conducted the following experiments, we first measured the execution time and results of our query-shape subsumption algorithm using the shapes from the study.
 We then compared our shape index approach to state-of-the-art Solid Pod network traversal algorithms: one leveraging the type index specification~\cite{Taelman2023}, and another using the LDP specification~\cite{Taelman2023}, in a network where each Solid Pod provides a complete shape index.
