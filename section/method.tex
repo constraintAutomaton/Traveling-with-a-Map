@@ -40,7 +40,7 @@ This section defines result-based completeness in LTQP, introduces shape indexes
 \subsection{Result-Based Completeness in LTQP}\label{sec:slde}
 
 Our approach of pruning in LTQP focus on ensuring result completeness, assuming traversal completeness is already defined using reachability criteria.
-By concentrating on result completeness, we explore strategies to optimize the search space of link traversal queries through pruning of irrelevant sources.
+By concentrating on result completeness, we explore strategies to optimize the search space of link traversal queries through pruning of irrelevant resources.
 We formalize result-based completeness in LTQP as follows.
 A query is executed over a DKG $G$ formed by the union of all the $g$ in a network $R$.
 The query engine has to build a KG $G^{\prime}$ using a reachability criterion $C^{\prime}$ in its internal data store from the KG $g$ by dereferencing resources $iri \mapsto_{\mathcal{R}} r \in R$.
@@ -86,13 +86,13 @@ Thus, reducing HTTP requests provides a twofold benefit.
 
 \begin{figure}
    \centering
-   \includegraphics[width=0.4\textwidth]{figure/shapeIndex.pdf}
+   \includegraphics[width=0.35\textwidth]{figure/shapeIndex.pdf}
 
    \caption{An example of a shape index mapping a set of IRI to a profile shape and an IRI to a post shape.}
    \label{fig:shapeIndex}
 \end{figure}
 
-Pruning in LTQP requires knowledge of the data models of dereferenced sources.  
+Pruning in LTQP requires knowledge of the data models of dereferenced resources.  
 However, obtaining complete, up-to-date, and detailed information for each source in a large decentralized network is impractical.  
 To address this, we introduce the \emph{shape index}, a mapping between RDF document sets and RDF data shapes that describes a subweb controlled by a data provider.  
 Unlike triple statistics, shapes are independent of the KG's size or updates that remain compliant, making them a more cost-effective solution for use cases with stable data models. 
@@ -164,13 +164,13 @@ Nonetheless, VoID descriptions have been successfully used for query optimizatio
 RDF data shapes can be either prescriptive or descriptive.
 For shape indexes with descriptive shapes, automatic RDF data shape generation methods~\cite{fernandez2023extracting} could facilitate their creation.
 Entries in shape indexes correspond to sets of IRIs, which could be structured using URI templates, thereby reducing the need for exhaustive redefinition.
-For prescriptive shapes, contributions in shape-based data integration~\cite{LabraGayo2023} could help prevent the generation of invalid data sources.
+For prescriptive shapes, contributions in shape-based data integration~\cite{LabraGayo2023} could help prevent the generation of invalid resources.
 
 
 \subsection{Link Pruning Using Shape Indexes}\label{sec:sourceSelection}
 
 In this section, we establish the connection between shape indexes and link pruning in LTQP as a means to reduce the search domain.
-In our method, rather than traversing the entire DKG $D$ associated with a shape index, the engine traverses a subgraph $D^{\prime} \subseteq D$, effectively ignoring sources that are knowably irrelevant to the query.
+In our method, rather than traversing the entire DKG $D$ associated with a shape index, the engine traverses a subgraph $D^{\prime} \subseteq D$, effectively ignoring resources that are knowably irrelevant to the query.
 %The concept of composite reachability criteria allows us to ignore certain sources during traversal based on the knowledge acquired during traversal.
 Our approach involves dynamically constructing new reachability criteria during traversal that are more selective as we discover and analyze shape indexes.
 These criteria are designed so that they will always produce the same completeness of results as the one that was defined at the beginning of the traversal.
@@ -251,8 +251,8 @@ however given query-shape subsumption  is transformed into query containment pro
 \iffalse
 \rt{I would not mention everything after this, and instead at the starG of this paragraph say that for simplicity of this formalization, we focus on just BGPs of triple patterns and unions.}
 In our containment problem, we ignore \texttt{GROUP BY} segments.
-We make this choice because, in the context of shape queries, \texttt{GROUP BY} is primarily used to set a cardinality, and we are not attempting to identify sources that can fully answer specific segments of a query. 
-Instead, our goal is to disregard data sources that are irrelevant to the query, given the constraints imposed by the shape index. 
+We make this choice because, in the context of shape queries, \texttt{GROUP BY} is primarily used to set a cardinality, and we are not attempting to identify resources that can fully answer specific segments of a query. 
+Instead, our goal is to disregard resources that are irrelevant to the query, given the constraints imposed by the shape index. 
 Discriminating based on cardinalities could potentially affect query results.
 Additionally, this article does not consider filter expressions, as they can significantly increase the complexity of the problem.
 Moreover, "false" negatives do not impact the correctness of our approach. \rt{But this is important to mention indeed! But needs some more elaboration on the fact that doing more (useless) requests is not a problem.}
