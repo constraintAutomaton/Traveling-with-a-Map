@@ -36,7 +36,7 @@ We apply this approach to enable link pruning within LTQP, removing links that a
 The analysis is performed by conducting a query-shape subsumption check to determine whether a resource conforming to a given shape is relevant to a query.
 Our approach assumes a DKG composed of subwebs, each hosted by data providers and containing shape indexes.
 A DKG that exposes a shape index allows the query engine to reduce its search domain by identifying query-relevant resources.
-This is particularly useful when only a subset of the DKG is relevant to a given query, for example, in social media applications, where it is rare to query all information about a user.
+This is particularly useful when only a subset of a DKG is relevant to a given query, for example, in social media applications, where it is rare to query all information about a user.
 To illustrate this, we present the example in Figure~\ref{fig:dkg}, which depicts a network of three social media user subwebs, each with its own shape index, as well as resources located outside these subwebs.
 The feature query aims to retrieve posts from subweb 3, along with all associated replies.
 Our pruning strategy allows the query engine to explore only the relevant parts of the network, guided by the shapes associated with the resources and the structure of the query.
@@ -57,7 +57,7 @@ Finally, the engine dereferences all reachable resources outside the subwebs tha
     \label{fig:dkg}
 \end{figure}
 
-Our contributions are a link pruning approach with shape indexes for LTQP, a novel query-shape subsumption algorithm for assessing data source relevance, and experimental results from a synthetic benchmark.
+Our contributions are a link pruning approach using shape indexes for LTQP, a novel query-shape subsumption algorithm for assessing data source relevance, and an experimental evaluation using a synthetic benchmark.
 
 \iffalse
 This paper is organized as follows: first, we discuss the \hyperref[sec:related_work]{related work} and present \hyperref[sec:preliminaries]{preliminaries}.
