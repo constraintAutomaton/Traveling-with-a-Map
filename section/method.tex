@@ -262,7 +262,7 @@ However, incorporating filter expressions into future work would be an interesti
 
 We define the function $subsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a GSP with a root star pattern $Q_{star_i}$ from $Q_{starG_i}$ sumbsumes $Q_s$. 
 The algorithm also takes a set $Eval_{star}$ to track which partial graph star patterns have already been evaluated.
-The algorithm works by examining each triple pattern in the root star pattern $Q_{star_i}$ and checking if an equivalent triple pattern (ignoring the variable names) can be found in the BGP of $Q_s$ using the $match$ function.
+The algorithm iterates over each triple pattern in the root star pattern $Q_{star_i}$ and uses the $match$ function to check whether there exists a triple pattern in the BGP of $Q_s$ whose domain of matched triples is a superset of that of the current pattern.
 If the triple pattern cannot be found in the BGP, the algorithm then looks into the UGPs of $Q_s$. 
 Since we assume that the union statements are not nested, this limits the number of recursive calls.
 If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial graph star pattern in $Q_{starG_i}$.
