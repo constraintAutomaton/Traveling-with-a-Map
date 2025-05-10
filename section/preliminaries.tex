@@ -25,9 +25,9 @@ We denote $[\![ Q ]\!]^{G}$ as the evaluation of a query $Q$ over a KG $G$~\cite
 \subsection{Reachability Criteria}
 
 LTQP defines completeness on the traversal of links instead of the query results~\cite{Hartig2012}.
-To formalize the completeness of queries \emph{Reachability criteria}~\cite{Hartig2012} have been formalized.
+To formalize the completeness of queries, \emph{Reachability criteria}~\cite{Hartig2012} have been formalized.
 Reachability criteria are boolean functions ($c_i$) restricting the dereferencing of links from the internal data source of the query engine.
-They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and a union of conjective queries $Q$.
+They take as parameters an RDF triple $t$ from an internal triple store, a dereferenceable IRI $iri$ from $t$, and a union of conjective \jr{Not sure if you meant conjuctive?} queries $Q$.
 If $c_i$ returns $true$, the query engine must dereference $iri$.
 More formally
 \begin{equation}\label{eq:reachabilityCriteria}
@@ -37,7 +37,7 @@ c_i(t, iri, Q) \rightarrow \left\{ \mathrm{true}, \mathrm{false} \right\}
 \subsection{Decentralized Knowledge Graphs and Subweb}\label{sec:dkg}
 
 We define a DKG as a KG $G$ materialized in a network of resources $R$.
-A resource $r_i \in R$ is map to a KG $g_i \subseteq G$, which is a set of triples~\cite{w3ConceptsAbstract}.
+A resource $r_i \in R$ is mapped to a KG $g_i \subseteq G$, which is a set of triples~\cite{w3ConceptsAbstract}.
 We denote this mapping $r_i \mapsto_{\mathcal{G}} g_i$.
 A resource is mapped and exposed by an IRI $iri_i$ denoted by $iri_i \mapsto_{\mathcal{R}} r_i$.
 The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in g_i$ are directed edges starting from $r_i$ to $r_j$.

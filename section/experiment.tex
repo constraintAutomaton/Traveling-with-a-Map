@@ -38,11 +38,9 @@
 \fi
 
 We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}.
-We chose Comunica because of its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
-All implementations stated as open-source are provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
-The implementation of our shape index approach is open source, as well as our query-shape subsumption solver.
-We use SolidBench~\cite{Taelman2023}, which is based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution.
-Like Comunica, it is easily extendable and has been utilized in multiple LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
+We chose Comunica due to its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
+All implementations are open-source and are provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
+Similarly to other LTPQ studies, we used SolidBench~\cite{Taelman2023}, which is based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution.
 We created an open-source module to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
 The shape-annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
 The datasets are Solid Pods~\cite{sambra_solid_2016, dedecker2022s}.
@@ -51,19 +49,19 @@ Each Solid Pod, contains alongside its data, a shape index and separate resource
 Some shapes are nested within others. 
 For example, user profiles are associated with cities, and comments are associated with posts.
 Depending on the pod instance, certain data model objects are materialized in a single file, while others are distributed across multiple files.
-The benchmark provides queries simulate typical read action in social media use cases, such as finding replies to posts and finding users that a user knows.
+The benchmark provides queries to simulate typical read actions in social media use cases, such as finding replies to posts and finding users that a user knows.
 The datasets contained approximately 4,200,000 triples and 1,528 subwebs, which, in this context, are Solid Pods.
 The shape indexes contain 13 triples each, while the largest shapes have up to 150 triples. 
 This can be considered insignificant, particularly because the number of triples does not scale with the size of the subwebs.
 The entire data model and query templates are available in the  \hyperref[sec:supplementalMaterial]{supplementary material}.
 
-To evaluate our approach: we conducted the following experiments, we first measured the execution time and results of our query-shape subsumption algorithm using the shapes from the study.
+To evaluate our approach, we conducted the following experiments: we first measured the execution time and results of our query-shape subsumption algorithm using the shapes from the study;
 We then compared our shape index approach to state-of-the-art Solid Pod network traversal algorithms: one leveraging the type index specification~\cite{Taelman2023}, and another using the LDP specification~\cite{Taelman2023}, in a network where each Solid Pod provides a complete shape index.
 It should be noted that the type index approach is an extension of the LDP approach.
 Additionally, we assessed the resilience of our approach by gradually reducing the shape index information across the network.  
 We measured query execution time in networks where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.  
 We also varied the percentage of shape index entries using closed shapes, testing 20\%, 50\%, and 80\%.
-We finally evaluate network where shapes in the shape indexes incorporate only data from the Solid Pods and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.
+We finally evaluate a network having shapes that incorporate only data from the Solid Pods and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.
 
 \iffalse
 \begin{itemize}
