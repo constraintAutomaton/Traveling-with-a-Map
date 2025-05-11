@@ -18,8 +18,8 @@
 
     % General caption
     \caption{
-    On the left is a plot showing query execution times, while the figure on the right compares the type index approach against other methods.
-    The ratio represents how the execution time of each method compares to that of the type index, a ratio greater than $1$ indicates a slower execution time (\textbf{lower is better}).
+    The left plot shows query execution times, while the plot on the right compares the type index approach against other methods.
+    The ratio represents how the execution time of each method compares to that of the type index. A ratio greater than $1$ indicates a slower execution time (\textbf{lower is better}).
     The shape index approach performs similarly or better than the other methods, except in the case of S4.
     }
     \label{fig:compApproach}
@@ -28,18 +28,17 @@
 %\input{analysis/artefact/statistical_significance/comparaisonStateOfTheArt}
 
 
-Figure~\ref{fig:compApproach} shows that the shape index approach for all query templates except S4 performs better or comparably to the state-of-the-art Solid Pod network traversal algorithm.
+Figure~\ref{fig:compApproach} shows that the shape index approach performs better or comparably to the state-of-the-art Solid Pod network traversal algorithms, for all query templates except S4.
 An analysis of statistical significance is provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 Moreover, the shape index approach allows for answering queries from the S7 template, which is not possible by the other approaches.
-Queries can require as little as 13\% (S1) of the execution time (7 times faster) of the type index.
+Queries can require as little as 13\% of the execution time (S1 being 7 times faster) of the type index.
 The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
-Table~\ref{tab:ratioUsefulResources} presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
-It shows that, although this percentage remains relatively low for most queries, the shape index tends to yield a higher percentage.
+\jr{I moved the description of Table 1 to the table's own caption, but cannot commit to that git submodule} Table~\ref{tab:ratioUsefulResources} shows that, although the average percentage of query-relevant requests remains relatively low for most queries, the shape index tends to yield a higher percentage.
 %Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
 Queries from templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
 We notice that queries from template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
 This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the type index traversal algorithm achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
-The poor performance is due to the fact that the links acquired by the other approaches were selected based on reachability criteria that did not leverage the structural properties of the dataset, such as in the case of \texttt{Cmatch}~\cite{hartig2016walking}.
+The poor performance is due to the fact that the links acquired by the other approaches were selected based on reachability criteria that did not leverage the structural properties of the dataset, such as in the case of \texttt{Cmatch}~\cite{hartig2016walking} \jr{What exactly does Cmatch do? Is it some substring matching on the IRIs?}.
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
 %It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
 However, those queries were already fast, with the type index traversal algorithm approach being executed in approximately 0.30\% of the maximum execution time allowed.
@@ -144,12 +143,12 @@ when shapes are nested, the nested shapes need to be dereferenced to solve the q
 For the queries of S1, with 80\% of closed shape entries, the performance lost was due to random chance, as the discriminatory entries were provided with open shapes in multiple instances when looking at the raw data.
 
 The right plot shows the variation in the level of detail of the shapes by reducing their detail.
-Since the shapes are closed in this experiment the level of detail was varied by changing the constraint of the object terms of the shape as describe in Section~\ref{sec:experiment}.
+Since the shapes are closed in this experiment the level of detail was varied by changing the constraint of the object terms of the shape as described in Section~\ref{sec:experiment}.
 Most queries tend to perform similarly or better, with the exception of those of S1.
 Upon analyzing the output of our query subsumption algorithm, we observe that the additional information to the shape provided in our base approach does not affect the algorithm’s results.
 However, in the baseline shape index experiment, the engine must dereference more shapes, potentially increasing execution time.
-Queries of template S1 is the only one where the added information can discriminate multiple parts of the datasets' domain, indicating the intuitive results that, in some situations, adding more information can be beneficial.
-This sensitivity of the quantity of the information in the index also helps explain the results for S1 queries in the middle plot. 
+Queries of template S1 are the only ones where the added information can discriminate multiple parts of the datasets' domain leading to worse performane. This indicates that in \jr{most?} situations, adding more information can be beneficial.
+This sensitivity of the quantity of the information in the index also helps explaining the results for S1 queries in the middle plot. 
 In that case, the engine still had to dereference shapes from each dataset, and the information available was likely insufficient to significantly discriminate between resources.
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
