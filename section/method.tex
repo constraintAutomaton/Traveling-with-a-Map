@@ -60,7 +60,7 @@ Thus, reducing HTTP requests provides a twofold benefit.
 \begin{figure}
    \centering
    % First figure
-   \begin{minipage}[t]{0.50\linewidth}
+   \begin{minipage}[t]{0.55\linewidth}
       \centering
       \lstinputlisting[language=sh, basicstyle=\tiny]{code/shape_index.nq}
    \end{minipage}
@@ -199,50 +199,21 @@ Third, the approach does not consider cases where querying irrelevant documents 
 Addressing this would require translating these criteria into queries, which is beyond the scope of this paper.
 
 \subsection{Query-Shape Subsumption}\label{sec:containment}
-To determine whether the contents of a resource conforming to a shape is query-relevant, we extend the existing notion of \emph{query subsumption} to a novel form we call \emph{query-shape subsumption}.
-This problem is analogous to the query subsumption problem which is a weaker form of the classic query containment problem~\cite{Spasi2023}.
-Query containment asses whether a query can be answered from the answer of another query, independent of the database or KG~\cite{afariQCE}.
-In the subsumption problem a sub query $Q1$ is subsumed by a super query $Q2$  if every result of $Q1$ can be extended to a result of $Q2$ for any database~\cite{Spasi2023, Pichler2014}.
-In our approach to query-shape subsumption, we aim to determine whether a GSP in a query can be answered by evaluating any source conforming to a specific shape.
-Thus, we differ from the standard subsumption problem, as the solution mappings of the super query $Q_2$ must be extendable to answer $Q_1$, and the triple patterns of $Q_2$ must be equivalent to or generalizations of those in $Q_1$.
-It is a common approach for shape validation over an RDF graph to convert shapes into SPARQL queries~\sepfootnote{sf:recursiveShape}~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.
-%We refer to this transformation of a shape $s$ as $T(s)$ producing a query $Q_s$.
-We consider shapes with open world assumption to always represent queries that retrieve entire KGs.
-This is because, under the open-world assumption, a shape defines the minimum constraints of a graph.
 
-Query subsumption may initially seem unsuitable for dynamic reachability due to its $\Pi^P_2$ time complexity~\cite{Pichler2014, Letelier2013}.  
-However, this complexity depends on the size of the queries, which are typically small in practice~\cite{Doan2012}.  
-In most cases, queries do not contain thousands or millions of triple patterns~\cite{Bonifati2019}.  
-%Furthermore, practical use cases can often take advantage of polynomial-time algorithms~\cite{Doan2012}.
-Additionally, as mentioned earlier, we are not addressing a standard subsumption problem, and analyzing its general complexity is beyond the scope of this paper.
-In our context, the sub query adheres to a GSP template structure, where predicates are always IRIs.
-This structure arises because shapes predominantly describe predicate terms and object terms and are isomorphic to the specific KG.
-By exploiting this structure, it is possible to design an algorithm with polynomial time complexity.
+To determine whether the contents of a resource conforming to a shape is query-relevant, we define a \emph{query-shape subsumption} problem.
+This problem involves determining whether a GSP in a query can produce at least one result when evaluated over any source conforming to a specific shape, denoted as $S \sqsubseteq_{qs} Q$.
+A common approach for validating shapes over an RDF graph is to convert shapes into SPARQL queries~\sepfootnote{sf:recursiveShape}~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, Prestamo2023, spapeExpressionConvert}.
+We denote the transformation of a shape $S$ into a query as $T(S)$, which yields a query $Q_s$.
+When the problem is expressed as $Q_s \sqsubseteq_{qs} \text{GSP}$, we say that $Q_s$ is subsumed by the GSP if every result of the GSP can be extended to a result of $Q_s$, and every triple pattern in $Q_s$ is equivalent to or a generalization of those in the GSP.
+The complexity of the problem is reduced by the fact that $Q_s$ has a GSP structure where predicates are always IRIs.
+This structure arises because shapes primarily describe predicate and object terms and are isomorphic to the specific KG.
+By exploiting this structure, it is possible to design an algorithm with polynomial-time complexity.
+Moreover, empirical studies suggest that real-world queries tend to be relatively small~\cite{Doan2012, Bonifati2019}, making this algorithm practically applicable.
 
-We consider that a shape $S$ is subsumed by a query $Q$ denoted as $S \sqsubseteq_{qs} Q$, 
-if for any KG $G_s$ respecting the shape there is a GSP in $Q$ that can find a solution.
-For a GSP to be subsumed by a shape $S$, we consider the queries $Q$ and $Q_s$, where $Q_s$ is the query derived from $S$, and both are of the form $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
+More formally, for a GSP to be subsumed by a shape $S$, we consider the queries $Q$ and $Q_s$, where $Q_s$ is the query derived from $S$, and both are of the form $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
 $Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$.
 We assume that $q_i$ have no union statement.
-\iffalse
-A graph star pattern $Q_{\text{starG}_i}$ is contained in $Q_s$ if its segment in $Q_{\text{body}}$ is contained in $Q_s$, and if its segment in at least one $q_i$ in each $Q_u$ is contained in $Q_s$. 
-If $Q_{\text{starG}_i}$ is not part of any $Q_u$, then $Q_u$ is ignored.
-\fi
-\iffalse
-For the simplicity of the formalization we ignore other SPARQL operators such has \texttt{GROUP BY} and Filter expressions,
-however given query-shape subsumption  is transformed into query containment problem there are methods in the litterature to handle a more complete SPARQL fragment~\cite{Spasi2023}.
-\fi
 
-\iffalse
-\rt{I would not mention everything after this, and instead at the starG of this paragraph say that for simplicity of this formalization, we focus on just BGPs of triple patterns and unions.}
-In our containment problem, we ignore \texttt{GROUP BY} segments.
-We make this choice because, in the context of shape queries, \texttt{GROUP BY} is primarily used to set a cardinality, and we are not attempting to identify resources that can fully answer specific segments of a query. 
-Instead, our goal is to disregard resources that are irrelevant to the query, given the constraints imposed by the shape index. 
-Discriminating based on cardinalities could potentially affect query results.
-Additionally, this article does not consider filter expressions, as they can significantly increase the complexity of the problem.
-Moreover, "false" negatives do not impact the correctness of our approach. \rt{But this is important to mention indeed! But needs some more elaboration on the fact that doing more (useless) requests is not a problem.}
-However, incorporating filter expressions into future work would be an interesting direction to explore.
-\fi
 \input{time-complexity/algorithm/subsums_q_star}
 
 We define the function $subsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a GSP with a root star pattern $Q_{star_i}$ from $Q_{starG_i}$ sumbsumes $Q_s$. 
@@ -252,7 +223,7 @@ If the triple pattern cannot be found in the BGP, the algorithm then looks into 
 Since we assume that the union statements are not nested, this limits the number of recursive calls.
 If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial graph star pattern in $Q_{starG_i}$.
 If it is, the algorithm recursively applies the same procedure to this partial GSP.
-To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated subjects in $Eval_{star}$.
+To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated answer in $Eval_{star}$.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp}^2 \cdot n_{sunion})$
 where $n_{tp}$ is the number of triple patterns of $Q_{starG_i}$ and $n_{sunion}$ the number of UGP in $Q_s$.
 To solve $S \sqsubseteq_{qs} Q$, we need to consider the number of GSP from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.

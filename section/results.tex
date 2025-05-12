@@ -5,13 +5,13 @@
 \begin{figure}
     \centering
     % First figure
-    \begin{minipage}[t]{0.40\linewidth}
+    \begin{minipage}[t]{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time_raw}
     \end{minipage}
     \hspace{0.05\textwidth}
     % Second figure
-    \begin{minipage}[t]{0.40\linewidth}
+    \begin{minipage}[t]{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
     \end{minipage}
@@ -25,12 +25,11 @@
     \label{fig:compApproach}
 \end{figure}
 
-%\input{analysis/artefact/statistical_significance/comparaisonStateOfTheArt}
 
 
 Figure~\ref{fig:compApproach} shows that the shape index approach performs better or comparably to the state-of-the-art Solid Pod network traversal algorithms, for all query templates except S4.
 An analysis of statistical significance is provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
-Moreover, the shape index approach allows for answering queries from the S7 template, which is not possible by the other approaches.
+Moreover, the shape index approach allows for answering queries from the S7 template, which was not possible by the other approaches, due to large amount of HTTP requests resulting in timeouts.
 Queries can require as little as 13\% of the execution time (S1 being 7 times faster) of the type index.
 The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
 Table~\ref{tab:ratioUsefulResources} presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
@@ -44,6 +43,8 @@ In contrast, the shape index approach always enforces the use of these propertie
 However, those queries were already fast, with the type index traversal algorithm approach being executed in approximately 0.30\% of the maximum execution time allowed.
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 Those results mostly validate \textbf{H1} however the shape index approach can drastically increase the execution time when the structural properties are not used.
+
+\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
 
 \subsubsection{Query-Shape Subsumption Evaluation}
 The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
@@ -151,8 +152,6 @@ Queries of template S1 are the only ones where the added information can discrim
 This indicates that in some situations, adding more information can be beneficial.
 This sensitivity of the quantity of the information in the index also helps explaining the results for S1 queries in the middle plot. 
 In that case, the engine still had to dereference shapes from each dataset, and the information available was likely insufficient to significantly discriminate between resources.
-
-\input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
 
 Those results show that \textbf{H3} is rejected; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of resources.
 Thus, this outcome is query-dependent.
