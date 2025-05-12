@@ -26,7 +26,7 @@
 }
 
 \sepfootnotecontent{sf:ssf_project}{
-   The paper \citetitle{delva2023} additional material also proposes a script to convert SCHACL shapes into SPARQL queries.
+   The paper \citetitle{delva2023} additional material also proposes a script to convert SHACL shapes into SPARQL queries.
    \url{https://github.com/MaximeJakubowski/ssf_project}
    \rt{This footnote seems unnecessary, since delva2023 is already cited.}
 }
@@ -51,7 +51,7 @@ We focus on maintaining the same result completeness, so when using $C^{\prime\p
    [\![ Q ]\!]^{G^{\prime\prime}} = [\![ Q ]\!]^{G^{\prime}}
 \end{equation}
 for any network $R$.
-Since $g \in G^{\prime\prime}$ can only be obtained by dereferencing resources $r \in R$, a smaller $G^\prime$ means fewer HTTP requests were performs to answer a query.  
+Since $g \in G^{\prime\prime}$ can only be obtained by dereferencing resources $r \in R$, a smaller $G^\prime$ means fewer HTTP requests were performed to answer a query.  
 Generally, query execution is faster with a smaller KG instance, and HTTP requests, being slow and unpredictable~\cite{hartig2016walking}, significantly impact query execution time.  
 Thus, reducing HTTP requests provides a twofold benefit.
 
@@ -88,13 +88,14 @@ Thus, reducing HTTP requests provides a twofold benefit.
    \centering
    \includegraphics[width=0.35\textwidth]{figure/shapeIndex.pdf}
 
-   \caption{An example of a shape index mapping a set of IRI to a profile shape and an IRI to a post shape.}
+   \caption{An example of a shape index mapping a set of IRI to a profile shape and an IRI to a post shape.
+   \jr{I think this should be a Listing instead of a figure. The size is also too small. The RDF is also wrong, you have "." at the end of each triple, instead of ";" when reusing the same subject. The predicate si:bindByShape I would rename it to si:boundByShape if possible.}}
    \label{fig:shapeIndex}
 \end{figure}
 
 Pruning in LTQP requires knowledge of the data models of dereferenced resources.  
 However, obtaining complete, up-to-date, and detailed information for each resource in a large decentralized network is impractical.  
-To address this, we introduce the \emph{shape index}, a mapping between RDF document sets and RDF data shapes that describes a subweb controlled by a data provider.  
+To address this, we introduce the \emph{shape index} as a mapping between RDF document sets and RDF data shapes that describes a subweb controlled by a data provider.  
 Unlike triple statistics, shapes are independent of the KG's size or updates that remain compliant, making them a more cost-effective solution for use cases with stable data models. 
 
 We formalize a shape index as follows:
@@ -104,7 +105,7 @@ We formalize a shape index as follows:
 where $s_i$ is a shape and $IRI_i$ is a set of IRI given $n$ entries.
 The subweb described by the index is defined by $D_{SI} = \bigcup_{IRI \in \text{codomain of }(SI)} IRI$.
 %A shape index \emph{must} map every resource in $D_{SI}$.
-We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ has a closed world assumption~\cite{Gayo2018b, Gayo2018} (we also refer to them as closed) and \emph{incomplete} otherwise.
+We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ has a closed world assumption~\cite{Gayo2018b, Gayo2018} (we also refer to them as closed) or \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRIs has implications in the distribution of the data in $D_{SI}$.
 When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping $G = \left\{ g \mid \forall iri \in D_{SI} (iri \mapsto_{\mathcal{R}} r \land r \mapsto_{\mathcal{G}} g) \right\}$ satisfies $s$.
 Given that the shape is closed, then every set of triples in the resource mapped to an $iri \in D_{SI}$ satisfying the shape must be in a resource mapped to an $iri \in IRI$.
@@ -123,6 +124,7 @@ Thus, the target of the shapes in the shape index correspond to the subject of e
 
 
 \begin{definition}[Graph Star Pattern (GSP)]\label{def:starPattern}
+   \jr{I would really like to see an exmple of a GSP. Perhaps now that there is more space we can include it?}
    We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
    given a builder function 
    \begin{equation}
@@ -203,8 +205,7 @@ From this sets of links we define a pruning reachability criteria;
 \begin{equation}
        cp_{si}(t, iri, Q) = iri \notin IRI_p
 \end{equation}
-The new reachability $C^{\prime\prime}_i$ is created by taking the $Cd$ and $Cp$ of $C^{\prime\prime}_{i-1}$ and adding
-and $cp_{si}$ to $Cp$.
+The new reachability $C^{\prime\prime}_i$ is created by taking the $Cd$ and $Cp$ of $C^{\prime\prime}_{i-1}$ and adding $cp_{si}$ to $Cp$.
 
 This approach has three main limitations.  
 First, it assumes that data providers maintain up-to-date shape indexes; outdated indexes may lead to incomplete results.
@@ -220,7 +221,7 @@ Query containment asses whether a query can be answered from the answer of anoth
 In the subsumption problem a sub query $Q1$ is subsumed by a super query $Q2$  if every result of $Q1$ can be extended to a result of $Q2$ for any database~\cite{Spasi2023, Pichler2014}.
 In our approach to query-shape subsumption, we aim to determine whether a GSP in a query can be answered by evaluating any source conforming to a specific shape.
 Thus, we differ from the standard subsumption problem, as the solution mappings of the super query $Q_2$ must be extendable to answer $Q_1$, and the triple patterns of $Q_2$ must be equivalent to or generalizations of those in $Q_1$.
-It is a common approach for shape validation over an RDF graph to convert shapes into SPARQL queries~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.~\sepfootnote{sf:recursiveShape}
+It is a common approach for shape validation over an RDF graph to convert shapes into SPARQL queries~\sepfootnote{sf:recursiveShape}~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.
 We refer to this transformation of a shape $s$ as $T(s)$ producing a query $Q_s$.
 We consider shapes with open world assumption to always represent queries that retrieve entire KGs.
 This is because, under the open-world assumption, a shape defines the minimum constraints of a graph.
