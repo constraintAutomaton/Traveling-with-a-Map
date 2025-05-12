@@ -201,7 +201,7 @@ Addressing this would require translating these criteria into queries, which is 
 \subsection{Query-Shape Subsumption}\label{sec:containment}
 
 To determine whether the contents of a resource conforming to a shape is query-relevant, we define a \emph{query-shape subsumption} problem.
-This problem involves determining whether a GSP in a query can produce at least one result when evaluated over any source conforming to a specific shape, denoted as $S \sqsubseteq_{qs} Q$.
+This problem involves determining whether a GSP in a query can produce at least one result when evaluated over any source conforming to a specific shape, denoted as $S \sqsubseteq_{qs} Q$, $S$ is subsumed by $Q$.
 A common approach for validating shapes over an RDF graph is to convert shapes into SPARQL queries~\sepfootnote{sf:recursiveShape}~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, Prestamo2023, spapeExpressionConvert}.
 We denote the transformation of a shape $S$ into a query as $T(S)$, which yields a query $Q_s$.
 When the problem is expressed as $Q_s \sqsubseteq_{qs} \text{GSP}$, we say that $Q_s$ is subsumed by the GSP if every result of the GSP can be extended to a result of $Q_s$, and every triple pattern in $Q_s$ is equivalent to or a generalization of those in the GSP.
@@ -210,8 +210,11 @@ This structure arises because shapes primarily describe predicate and object ter
 By exploiting this structure, it is possible to design an algorithm with polynomial-time complexity.
 Moreover, empirical studies suggest that real-world queries tend to be relatively small~\cite{Doan2012, Bonifati2019}, making this algorithm practically applicable.
 
-More formally, for a GSP to be subsumed by a shape $S$, we consider the queries $Q$ and $Q_s$, where $Q_s$ is the query derived from $S$, and both are of the form $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
-$Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$.
+More formally, for a GSP to subsumed a shape $S$, we consider the queries $Q$ and $Q_s$, where $Q_s$ is the query derived from $S$, and both are of the form 
+$$
+Q_i = Q_{\text{body}} \bowtie Q_{\text{unions}}
+$$
+$Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$ and $q_i$ are BGPs.
 We assume that $q_i$ have no union statement.
 
 \input{time-complexity/algorithm/subsums_q_star}

@@ -1,12 +1,11 @@
 @prefix sw: <http://subweb/> .
 @prefix si: <https://shapeIndex.com#> .
-@prefix solid: <http://www.w3.org/ns/solid/terms#> .
 
 sw:shapeIndex si:shapeIndexLocation sw:shapeIndex ;
     a si:ShapeIndex ;
     si:entry _:user ;
     si:entry _:Post .
-_:user si:boundByShape sw:user_shape ;
-    solid:instanceContainer sw:user .
-_:Post si:boundByShape sw:post_shape ;
-    solid:instance sw:posts .
+_:user si:shape sw:user_shape ;
+    si:subweb sw:user .
+_:Post si:shape sw:post_shape ;
+    si:subweb sw:posts .
