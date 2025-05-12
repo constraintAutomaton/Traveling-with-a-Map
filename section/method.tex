@@ -57,39 +57,24 @@ Thus, reducing HTTP requests provides a twofold benefit.
 
 \subsection{Shape Index}
 
-\iffalse
 \begin{figure}
    \centering
    % First figure
-   \begin{minipage}[t]{0.45\linewidth}
+   \begin{minipage}[t]{0.50\linewidth}
       \centering
-      \includegraphics[width=1\textwidth]{figure/shapeIndex.pdf}
-      
+      \lstinputlisting[language=sh, basicstyle=\tiny]{code/shape_index.nq}
    \end{minipage}
    %\hspace{0.05\textwidth}
    % Second figure
-   \begin{minipage}[t]{0.45\linewidth}
+   \begin{minipage}[t]{0.40\linewidth}
       \centering
-      \includegraphics[width=1\textwidth]{figure/q_star.pdf}
+      \lstinputlisting[language=sh, basicstyle=\tiny]{code/gps.rq}
    \end{minipage}
 
    % General caption
    \caption{
-      On the left, An example of a shape index mapping a set of IRI to a profile shape and an IRI to a post shape.
-       On the right, representation of graph star patterns.
-       In red the graph star patterns are presented and in black the partial graph star patterns.
-	   \rt{The query does not belong in this example IMO, since the focus is to exemplify the shape index. It may be better to just give some data and document examples matching the shape index. Also, the red labels are never explained AFAICS.}
-       }
-   \label{fig:shapeIndex}
-\end{figure}
-\fi
-
-\begin{figure}
-   \centering
-   \includegraphics[width=0.35\textwidth]{figure/shapeIndex.pdf}
-
-   \caption{An example of a shape index mapping a set of IRI to a profile shape and an IRI to a post shape.
-   \jr{I think this should be a Listing instead of a figure. The size is also too small. The RDF is also wrong, you have "." at the end of each triple, instead of ";" when reusing the same subject. The predicate si:bindByShape I would rename it to si:boundByShape if possible.}}
+      On the left, an example of a shape index mapping a set of IRI to a user shape and an IRI to a post shape.
+      On the right, an example representation of graph star patterns where the main subject is \texttt{?comment} and is linked to the \texttt{?message} and \texttt{?forum} star patterns.}
    \label{fig:shapeIndex}
 \end{figure}
 
@@ -120,11 +105,10 @@ Star patterns consist of triples with the same subject.
 We extend this concept by linking star patterns where the objects of the triples in one star pattern are the subjects of another, forming a graph structure.
 For example, a user linking to their posts with recursive replies can be captured with a root star pattern for the user and nested patterns for the posts and replies.  
 Thus, the target of the shapes in the shape index correspond to the subject of each root star pattern when a KG is divided into graph stars with no shared partial graph stars.  
-%Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
+Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
 
 
 \begin{definition}[Graph Star Pattern (GSP)]\label{def:starPattern}
-   \jr{I would really like to see an exmple of a GSP. Perhaps now that there is more space we can include it?}
    We define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
    given a builder function 
    \begin{equation}
@@ -215,14 +199,14 @@ Third, the approach does not consider cases where querying irrelevant documents 
 Addressing this would require translating these criteria into queries, which is beyond the scope of this paper.
 
 \subsection{Query-Shape Subsumption}\label{sec:containment}
-To determine whether the content of a resource conforming to a shape is query-relevant, we extend the existing notion of \emph{query subsumption} to a novel form we call \emph{query-shape subsumption}.
+To determine whether the contents of a resource conforming to a shape is query-relevant, we extend the existing notion of \emph{query subsumption} to a novel form we call \emph{query-shape subsumption}.
 This problem is analogous to the query subsumption problem which is a weaker form of the classic query containment problem~\cite{Spasi2023}.
 Query containment asses whether a query can be answered from the answer of another query, independent of the database or KG~\cite{afariQCE}.
 In the subsumption problem a sub query $Q1$ is subsumed by a super query $Q2$  if every result of $Q1$ can be extended to a result of $Q2$ for any database~\cite{Spasi2023, Pichler2014}.
 In our approach to query-shape subsumption, we aim to determine whether a GSP in a query can be answered by evaluating any source conforming to a specific shape.
 Thus, we differ from the standard subsumption problem, as the solution mappings of the super query $Q_2$ must be extendable to answer $Q_1$, and the triple patterns of $Q_2$ must be equivalent to or generalizations of those in $Q_1$.
 It is a common approach for shape validation over an RDF graph to convert shapes into SPARQL queries~\sepfootnote{sf:recursiveShape}~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019,Prestamo2023, spapeExpressionConvert}.
-We refer to this transformation of a shape $s$ as $T(s)$ producing a query $Q_s$.
+%We refer to this transformation of a shape $s$ as $T(s)$ producing a query $Q_s$.
 We consider shapes with open world assumption to always represent queries that retrieve entire KGs.
 This is because, under the open-world assumption, a shape defines the minimum constraints of a graph.
 
@@ -237,7 +221,7 @@ By exploiting this structure, it is possible to design an algorithm with polynom
 
 We consider that a shape $S$ is subsumed by a query $Q$ denoted as $S \sqsubseteq_{qs} Q$, 
 if for any KG $G_s$ respecting the shape there is a GSP in $Q$ that can find a solution.
-For a GSP to subsumed $S$, we need to consider $Q$ and $Q_s$ to have the two parts $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
+For a GSP to be subsumed by a shape $S$, we consider the queries $Q$ and $Q_s$, where $Q_s$ is the query derived from $S$, and both are of the form $Q = Q_{\text{body}} \bowtie Q_{\text{unions}}$.
 $Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$.
 We assume that $q_i$ have no union statement.
 \iffalse

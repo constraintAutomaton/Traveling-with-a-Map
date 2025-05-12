@@ -1,9 +1,0 @@
-PREFIX ex: <http://example.com/>
-
-SELECT DISTINCT ?firstName ?lastName WHERE {
-  ?message ex:hasCreator ex:card.
-  ?forum ex:containerOf ?message;
-    ex:hasModerator ?moderator.
-  ?moderator ex:firstName ?firstName;
-    ex:lastName ?lastName.
-}

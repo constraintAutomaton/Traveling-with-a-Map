@@ -2,11 +2,11 @@
 
 In this article, we introduced pruning mechanism in LTQP by extending the concept of reachability criteria and using shape indexes.
 Using the SolidBench benchmark, we demonstrate that our approach achieves a significant reduction in the number of HTTP requests without degrading performance, provided that the query exploits the structural properties of the dataset.
-In the best-case scenario, our approach improved query execution time by 7 times and enabled a query that previously could not complete within the time limit to finish successfully /jr{This query was not discussed in the previous section}.
+In the best-case scenario, our approach improved query execution time by 7 times and enabled a query that previously could not complete within the time limit to finish successfully.
 On average, performance improved by 1.76 times, while in the worst case, execution time increased by 2.8 times.
 Our method effectively handles scenarios with reduced shape indexes information in networks.
 These findings are particularly relevant for decentralization efforts enabling third-party clients to efficiently query large, heterogeneous networks.
 Our approach imposes minimal overhead on servers, relying solely on them to serve small static shape index files.
-Future work could focus on enhancing query planning in LTQP~\cite{taelman2024towards} with RDF data shapes \jr{Isn't this what this work did? What about supporting more complex SPARQL constructs such as filter, aggregations, etc}, developing and maintaining shape indexes, and exploring the impact of shape-based LTQP optimization on result arrival times~\cite{Acosta2017}.
+Future work could focus on enhancing query planning in LTQP~\cite{taelman2024towards} with RDF data shapes, developing and maintaining shape indexes, and exploring the impact of shape-based LTQP optimization on result arrival times~\cite{Acosta2017}.
 
 %\rt{I still have some open questions after reading the full article: What is the impact on server load (CPU usage)? Does adding shapes lead to an increase of that? Because if not, you could conclude here by saying that adding shapes adds significant benefits to the client, with no overhead to the server, except for a (possibly offline) process for shape creation/derivation. Also, does adding shapes influence query result arrival times negatively or positively?}

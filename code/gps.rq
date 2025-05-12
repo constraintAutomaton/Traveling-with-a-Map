@@ -1,0 +1,10 @@
+PREFIX ex: <http://example.com/>
+
+SELECT * WHERE {
+  ?comment ex:hasCreator ex:AProfile;
+    ex:content ?content;
+    ex:reply ?message.
+  ?message ex:hasTopic ?topic;
+    ex:fromForum ?forum.
+  ?forum ex:name ?name.
+}
