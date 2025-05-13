@@ -74,7 +74,7 @@ Thus, reducing HTTP requests provides a twofold benefit.
    % General caption
    \caption{
       On the left, an example of a shape index mapping a set of IRI to a user shape and an IRI to a post shape.
-      On the right, an example representation of graph star patterns where the main subject is \texttt{?comment} and is linked to the \texttt{?message} and \texttt{?forum} star patterns.}
+      On the right, an example representation of a graph star pattern where the main subject is \texttt{?comment} and is linked to the \texttt{?message} and \texttt{?forum} star patterns.}
    \label{fig:shapeIndex}
 \end{figure}
 
@@ -184,7 +184,7 @@ The links to prune are identified by evaluating the shape index to find IRIs tha
 This is done by performing a query-shape subsumption check ($\sqsubseteq_{qs}$), defined later in Section~\ref{sec:containment}.
 
 We define
-$IRI_p = \left\{ \bigcup SI_i(s_j) | s_j \sqsubseteq_{qs}  Q = \mathrm{false} \land s_j \in \text{dom}(SI_i) \right\}$.
+$IRI_p = \left\{ \bigcup SI_i(s_j) | Q \sqsubseteq_{qs}  s_j = \mathrm{false} \land s_j \in \text{dom}(SI_i) \right\}$.
 From this sets of links we define a pruning reachability criteria;
 \begin{equation}
        cp_{si}(t, iri, Q) = iri \notin IRI_p
@@ -201,25 +201,26 @@ Addressing this would require translating these criteria into queries, which is 
 \subsection{Query-Shape Subsumption}\label{sec:containment}
 
 To determine whether the contents of a resource conforming to a shape is query-relevant, we define a \emph{query-shape subsumption} problem.
-This problem involves determining whether a GSP in a query can produce at least one result when evaluated over any source conforming to a specific shape, denoted as $S \sqsubseteq_{qs} Q$, $S$ is subsumed by $Q$.
-A common approach for validating shapes over an RDF graph is to convert shapes into SPARQL queries~\sepfootnote{sf:recursiveShape}~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, Prestamo2023, spapeExpressionConvert}.
+This problem involves determining whether a GSP in a query can produce at least one result when evaluated over any source conforming to a specific shape, denoted as $Q \sqsubseteq_{qs} S$, meaning $Q$ is subsumed by $S$.
+A common approach for validating shapes over an RDF graph is to translate shapes into SPARQL queries~\sepfootnote{sf:recursiveShape}~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, spapeExpressionConvert, delva2023}.
 We denote the transformation of a shape $S$ into a query as $T(S)$, which yields a query $Q_s$.
-When the problem is expressed as $Q_s \sqsubseteq_{qs} \text{GSP}$, we say that $Q_s$ is subsumed by the GSP if every result of the GSP can be extended to a result of $Q_s$, and every triple pattern in $Q_s$ is equivalent to or a generalization of those in the GSP.
+When the problem is expressed as $\text{GSP} \sqsubseteq_{qs} Q_s$ (considering a GPS to be a \texttt{SELECT} query), we say that a GSP is subsumed by $S$ if every result of the GSP can be extended to a result of $Q_s$, and every triple pattern in GSP are equivalent to or a specialization of those in the $Q_s$.
+Thus, the problem diverges from query containment and query subsumption~\cite{Spasi2023, Pichler2014}, because query-shape subsumption does not analyze whether the bag of solution mappings of one query is a subset of that of another query, independent of the KG.
 The complexity of the problem is reduced by the fact that $Q_s$ has a GSP structure where predicates are always IRIs.
 This structure arises because shapes primarily describe predicate and object terms and are isomorphic to the specific KG.
 By exploiting this structure, it is possible to design an algorithm with polynomial-time complexity.
 Moreover, empirical studies suggest that real-world queries tend to be relatively small~\cite{Doan2012, Bonifati2019}, making this algorithm practically applicable.
 
-More formally, for a GSP to subsumed a shape $S$, we consider the queries $Q$ and $Q_s$, where $Q_s$ is the query derived from $S$, and both are of the form 
+More formally, for a $S$ to subsumed a shape GSP, we consider the queries $Q$ and $Q_s$, where $Q_s$ is the query translated from $S$, and both are of the form 
 $$
 Q_i = Q_{\text{body}} \bowtie Q_{\text{unions}}
 $$
 $Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$ and $q_i$ are BGPs.
-We assume that $q_i$ have no union statement.
+We assume that $q_i$ have no union statements.
 
 \input{time-complexity/algorithm/subsums_q_star}
 
-We define the function $subsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a GSP with a root star pattern $Q_{star_i}$ from $Q_{starG_i}$ sumbsumes $Q_s$. 
+We define the function $subsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a GSP with a root star pattern $Q_{star_i}$ from $Q_{starG_i}$ is sumbsumed by $Q_s$. 
 The algorithm also takes a set $Eval_{star}$ to track which partial graph star patterns have already been evaluated.
 The algorithm iterates over each triple pattern in the root star pattern $Q_{star_i}$ and uses the $match$ function to check whether there exists a triple pattern in the BGP of $Q_s$ whose domain of matched triples is a superset of that of the current pattern.
 If the triple pattern cannot be found in the BGP, the algorithm then looks into the UGPs of $Q_s$. 
@@ -229,7 +230,7 @@ If it is, the algorithm recursively applies the same procedure to this partial G
 To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated answer in $Eval_{star}$.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp}^2 \cdot n_{sunion})$
 where $n_{tp}$ is the number of triple patterns of $Q_{starG_i}$ and $n_{sunion}$ the number of UGP in $Q_s$.
-To solve $S \sqsubseteq_{qs} Q$, we need to consider the number of GSP from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
+To solve $Q \sqsubseteq_{qs} S$, we need to consider the number of GSP from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
 This operation results again in a polynomial time complexity algorithm.
 %Additional analyses of the algorithms are available in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 %To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starG}$ graph star from the BGP with their $n_{starGu}$ segment in the UGP and $n_{starGui}$ BGP in the UGP.
