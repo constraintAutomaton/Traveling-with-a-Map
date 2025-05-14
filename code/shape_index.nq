@@ -1,11 +1,11 @@
 @prefix sw: <http://subweb/> .
-@prefix si: <https://shapeIndex.com#> .
+@prefix si: <https://shapeIndex.com#>.
 
-sw:shapeIndex si:shapeIndexLocation sw:shapeIndex ;
-    a si:ShapeIndex ;
-    si:entry _:user ;
-    si:entry _:Post .
-_:user si:shape sw:user_shape ;
-    si:subweb sw:user .
-_:Post si:shape sw:post_shape ;
-    si:subweb sw:posts .
+sw:shapeIndex si:shapeIndexLocation sw:shapeIndex;
+    a si:ShapeIndex;
+    si:entry _:user;
+    si:entry _:Post.
+_:user si:shape sw:user_shape;
+    si:subweb "http://subweb/user/{info}".
+_:Post si:shape sw:post_shape;
+    si:subweb sw:posts.

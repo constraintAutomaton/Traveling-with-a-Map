@@ -43,7 +43,7 @@ Our approach of pruning in LTQP focus on ensuring result completeness, assuming 
 By concentrating on result completeness, we explore strategies to optimize the search space of link traversal queries through pruning of irrelevant resources.
 We formalize result-based completeness in LTQP as follows.
 A query is executed over a DKG $G$ formed by the union of all the $g$ in a network $R$.
-The query engine has to build a KG $G^{\prime}$ using a reachability criterion $C^{\prime}$ in its internal data store from the KG $g$ by dereferencing resources $iri \mapsto_{\mathcal{R}} r \in R$.
+The query engine has to build a KG $G^{\prime}$ using a reachability criterion $C^{\prime}$ in its internal data store from the KGs $g$ by dereferencing resources $iri \mapsto_{\mathcal{R}} r \in R$.
 We formulate an optimization problem to minimize the size of $G^{\prime}$, where the query engine constructs a knowledge graph $G^{\prime\prime} \subseteq G^{\prime}$, potentially smaller, by defining a reachability criterion $C^{\prime\prime}$.
 We focus on maintaining the same result completeness, so when using $C^{\prime\prime}$ the following equation must hold
 
@@ -73,8 +73,8 @@ Thus, reducing HTTP requests provides a twofold benefit.
 
    % General caption
    \caption{
-      On the left, an example of a shape index mapping a set of IRI to a user shape and an IRI to a post shape.
-      On the right, an example representation of a graph star pattern where the main subject is \texttt{?comment} and is linked to the \texttt{?message} and \texttt{?forum} star patterns.}
+      On the left, an example illustrates a shape index that maps a set of IRIs—represented using a URI template~\cite{ietf6570Template}—to a user shape, and a specific IRI to a post shape.
+      On the right, an example illustrates of a graph star pattern where the main subject is \texttt{?comment} and is linked to the \texttt{?message} and \texttt{?forum} star patterns.}
    \label{fig:shapeIndex}
 \end{figure}
 
@@ -99,7 +99,7 @@ We provide a complete description of the shape index in an online specification~
 RDF data shapes use \emph{targets} to identify the set of nodes or entities in a KG to validate.  
 In this work, we assume all entities in a KG within a document follow the same RDF data shape.  
 We call these entities graph star(s) (patterns), an extension of the RDF star patterns concept~\cite{Karim2020}.  
-Defined in Definition~\ref{def:starPattern}, graph stars serve two purposes:
+Defined in Definition~\ref{def:starPattern}, graph star(s) (patterns)  serve two purposes:
 defining targets for validation and capturing relationships between triple patterns and shape entities.  
 Star patterns consist of triples with the same subject.
 We extend this concept by linking star patterns where the objects of the triples in one star pattern are the subjects of another, forming a graph structure.
@@ -149,7 +149,7 @@ While not evaluated, shape indexes appear to require less effort to generate tha
 Nonetheless, VoID descriptions have been successfully used for query optimization in federated queries~\cite{Montoya2017}.
 RDF data shapes can be either prescriptive or descriptive.
 For shape indexes with descriptive shapes, automatic RDF data shape generation methods~\cite{fernandez2023extracting} could facilitate their creation.
-Entries in shape indexes correspond to sets of IRIs, which could be structured using URI templates, thereby reducing the need for exhaustive redefinition.
+Entries in shape indexes correspond to sets of IRIs, which could be structured using URI templates~\cite{ietf6570Template}, thereby reducing the need for exhaustive redefinition.
 For prescriptive shapes, contributions in shape-based data integration~\cite{LabraGayo2023} could help prevent the generation of invalid resources.
 
 
@@ -193,7 +193,7 @@ The new reachability $C^{\prime\prime}_i$ is created by taking the $Cd$ and $Cp$
 
 This approach has three main limitations.  
 First, it assumes that data providers maintain up-to-date shape indexes; outdated indexes may lead to incomplete results.
-A similar criticism could be made against the method exploiting VoID descriptions~\cite{Montoya2017}.
+A similar criticism could be leverage against the method exploiting VoID descriptions~\cite{Montoya2017}.
 Second, if the query-shape subsumption check requires dereferencing all documents, it becomes ineffective and may slow down query execution.  
 Third, the approach does not consider cases where querying irrelevant documents could uncover relevant ones via additional reachability criteria.  
 Addressing this would require translating these criteria into queries, which is beyond the scope of this paper.
@@ -204,6 +204,7 @@ To determine whether the contents of a resource conforming to a shape is query-r
 This problem involves determining whether a GSP in a query can produce at least one result when evaluated over any source conforming to a specific shape, denoted as $Q \sqsubseteq_{qs} S$, meaning $Q$ is subsumed by $S$.
 A common approach for validating shapes over an RDF graph is to translate shapes into SPARQL queries~\sepfootnote{sf:recursiveShape}~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, spapeExpressionConvert, delva2023}.
 We denote the transformation of a shape $S$ into a query as $T(S)$, which yields a query $Q_s$.
+We transform open shapes as queries over the entire KG, since they impose only the minimal constraints required of a KG.
 When the problem is expressed as $\text{GSP} \sqsubseteq_{qs} Q_s$ (considering a GPS to be a \texttt{SELECT} query), we say that a GSP is subsumed by $S$ if every result of the GSP can be extended to a result of $Q_s$, and every triple pattern in GSP are equivalent to or a specialization of those in the $Q_s$.
 Thus, the problem diverges from query containment and query subsumption~\cite{Spasi2023, Pichler2014}, because query-shape subsumption does not analyze whether the bag of solution mappings of one query is a subset of that of another query, independent of the KG.
 The complexity of the problem is reduced by the fact that $Q_s$ has a GSP structure where predicates are always IRIs.
@@ -227,7 +228,7 @@ If the triple pattern cannot be found in the BGP, the algorithm then looks into 
 Since we assume that the union statements are not nested, this limits the number of recursive calls.
 If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial graph star pattern in $Q_{starG_i}$.
 If it is, the algorithm recursively applies the same procedure to this partial GSP.
-To avoid cycles and redundant evaluations when processing the object of the star patterns, we maintain a set of evaluated answer in $Eval_{star}$.
+To avoid cycles and redundant evaluations we maintain a set of evaluated answer in $Eval_{star}$.
 We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp}^2 \cdot n_{sunion})$
 where $n_{tp}$ is the number of triple patterns of $Q_{starG_i}$ and $n_{sunion}$ the number of UGP in $Q_s$.
 To solve $Q \sqsubseteq_{qs} S$, we need to consider the number of GSP from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.

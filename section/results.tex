@@ -153,9 +153,18 @@ This indicates that in some situations, adding more information can be beneficia
 This sensitivity of the quantity of the information in the index also helps explaining the results for S1 queries in the middle plot. 
 In that case, the engine still had to dereference shapes from each dataset, and the information available was likely insufficient to significantly discriminate between resources.
 
-Those results show that \textbf{H3} is rejected; reducing information is rarely detrimental for query execution, except in cases where added information is critical to determine the query relevance of resources.
-Thus, this outcome is query-dependent.
-\textbf{H4} and \textbf{H5} are accepted but show that the completeness of shape indexes has less impact on performance than the absence of indexes.
-Incomplete shape indexes can increase performance surprisingly if incomplete entries are not necessary to discriminate irrelevant sources. 
-Like with \textbf{H3}, these findings are query-dependent and also network-dependent.
+These results show that \textbf{H3} and \textbf{H4} are rejected: reducing information is not always detrimental to query execution.
+It becomes detrimental only when the omitted information is critical for determining the query relevance of resources. 
+Therefore, the outcome is dependent on both the query and the network. 
+Moreover, the completeness of shape indexes has a smaller impact on performance than their presence. \textbf{H5} is accepted: it is possible to retain performance gains even in networks with reduced shape-index information.
 
+
+\iffalse
+(H1) Shape indexes reduce the number of non-
+contributing data sources retrieved and the query execution time. (H2) The
+execution time of a query-shape subsumption algorithm is negligible in social
+media applications. (H3) Stricter shape constraints lead to a greater reduction
+in HTTP requests. (H4) Querying a network with more complete shape indexes
+results in faster query execution. (H5) Performance gain can be acquired in
+networks with less shape index information.
+\fi

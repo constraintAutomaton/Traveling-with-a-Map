@@ -28,8 +28,8 @@ In this work, we extend a dataset summarization approach for decentralized envir
 We apply this approach to enable link pruning within LTQP, removing links that are not relevant to the query, based on an analysis of RDF data shapes and the user's query.
 The analysis is performed by conducting a query-shape subsumption check to determine whether a resource conforming to a given shape is relevant to a query.
 Our approach assumes a DKG composed of subwebs, each hosted by data providers and containing shape indexes.
-A DKG that exposes a shape index allows the query engine to reduce its search domain by identifying query-relevant resources.
-This is particularly useful when only a subset of a DKG is relevant to a given query, for example, in social media applications where it is rare to query all information about a user.
+A subweb that exposes a shape index allows the query engine to reduce its search domain by identifying query-relevant resources.
+This is particularly useful when only a subset of a subwebs is relevant to a given query, for example, in social media applications where it is rare to query all information about a user.
 To illustrate this, we present the example in Figure~\ref{fig:dkg}, which depicts a network of three social media user subwebs, each with its own shape index, as well as resources located outside these subwebs.
 The feature query aims to retrieve posts from subweb 3, along with all associated replies.
 Our pruning strategy allows the query engine to explore only the relevant parts of the network, guided by the shapes associated with the resources and the structure of the query.
@@ -40,7 +40,7 @@ Finally, the engine dereferences all reachable resources outside the subwebs tha
 
 \begin{figure}
    \centering
-   \includegraphics[width=1\textwidth]{figure/dkg.pdf}
+   \includegraphics[width=0.96\textwidth]{figure/dkg.pdf}
    \caption{
       Given that the resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
       %The nodes represent RDF resources, while the edges represent IRIs linking one resource to another (see Section \ref{sec:dkg}).
@@ -53,7 +53,7 @@ Finally, the engine dereferences all reachable resources outside the subwebs tha
 Our contributions include (i) a link pruning approach using shape indexes for LTQP; (ii) a novel query-shape subsumption algorithm for assessing data source relevance, (iii) an open-source implementation in the 
 Comunica SPARQL query engine~\cite{taelman_iswc_resources_comunica_2018}, and (iv) an experimental evaluation using a synthetic benchmark.
 
-Concretely in this work, we pose the following research question: 
+Concretely in this work, we ask the following research question: 
 \textbf{Can LTQP use shape-based pruning in DKG networks to reduce query execution time while preserving result completeness?}
 To address this question, we propose the following hypotheses:  
 (\textbf{H1}) Shape indexes reduce the number of non-contributing data sources retrieved and the query execution time.  
