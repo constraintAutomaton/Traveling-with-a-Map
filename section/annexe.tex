@@ -1,59 +1,8 @@
 \section*{Appendix}\label{sec:appendix}
 \addcontentsline{toc}{section}{Appendix}
 
-\begin{algorithm}
-   \caption{Determine if a query is contained in a shape ($isContain$)}\label{alg:containment}
-   \begin{algorithmic}
-     \REQUIRE  $Q = Q_{\text{body}} \cup Q_{\text{unions}}$, $Q_s$
-     \ENSURE \TRUE\ or \FALSE\ whether the tree star is contained in the shape
-        \STATE $Q_{starT} \gets divideQStarT(Q_{\text{body}})$
-        \STATE $Q_{starTU} \gets \emptyset$
-        \FORALL{$Q_u \in Q_{\text{unions}}$}
-           \STATE $Q_{starTUP} \gets \emptyset$
-           \FORALL{$q_i \in Q_U$}
-              \STATE $Q_{starTUP} \gets Q_{starTUP} \cup divideQStarT(q_i) $
-           \ENDFOR
-           \STATE $Q_{starTU} \gets Q_{starTU} \cup Q_{starTUP}$
-        \ENDFOR
-
-        \FORALL{$Q_{starT_i} \in \{q|Q_{starT}(s), \forall s \in \text{DOM}(Q_{starT})\}$}
-           \STATE $s_{qStar} \gets S_{star}(Q_{star_i})$
-           \STATE $bodyContained \gets isContain_{T}(Q_{star_i} \in Q_{starT_i}, Q_{starT_i}, Q_s, \emptyset )$
-           
-           \STATE $allBranchContained \gets $ \TRUE
-           \FORALL{$q_{branch} \in Q_{starTU}$}
-              \FORALL{$q_i \in q_{branch}$}
-                 \STATE $branchContained \gets $ \FALSE
-                 \IF{$\exists q_i(s_{qStar})$}
-                    \STATE $branchContained \gets branchContained \lor isContain_{T}(Q_{star_i} \in q_i(s_{qStar}), q_i(s_{qStar}), Q_s, \emptyset )$
-                 \ENDIF
-                 \STATE $allBranchContained \gets allBranchContained \land branchContained$
-              \ENDFOR
-           \ENDFOR
-           \IF{$bodyContained$ \AND $allBranchContained$}
-              \RETURN \TRUE
-           \ENDIF
-        \ENDFOR
-     \RETURN \FALSE
-   \end{algorithmic}
-\end{algorithm}
-
-Where $divideQStarT$ divide a query in tree star patterns such that no $G_{starPT_i}$ are shared by any $G_{starT_i}$.
-
-
-\iffalse
 \input{analysis/artefact/statistical_significance/comparaisonStateOfTheArt}
-\fi
 
-\iffalse
-\input{analysis/artefact/query_containment_execution_time/fully_bounded/table_query_shape_containment_exec}
-\fi
+\input{analysis/artefact/continuous_performance/dief_table_continuous_performance}
 
-
-
-\iffalse
-$divideQStarT$ is a function that divides a query into a set of mapping.
-The subject of the $Q_star \in Q_starT_i$ are the keys and the associated tree star pattern are the values.
-\fi
-
-\FloatBarrier
+\input{analysis/artefact/continuous_performance/table_continuous_performance}

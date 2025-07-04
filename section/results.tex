@@ -1,6 +1,6 @@
 \section{Discussion of Results}\label{sec:result}
-
-\subsubsection{Evaluation Against Other Approaches}
+    
+\subsection{Evaluation Against Other Approaches}
 
 \begin{figure}
     \centering
@@ -25,8 +25,6 @@
     \label{fig:compApproach}
 \end{figure}
 
-
-
 Figure~\ref{fig:compApproach} shows that the shape index approach performs better or comparably to the state-of-the-art Solid Pod network traversal algorithms, for all query templates except S4.
 An analysis of statistical significance is provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 Moreover, the shape index approach allows for answering queries from the S7 template, which was not possible by the other approaches, due to large amount of HTTP requests resulting in timeouts.
@@ -46,73 +44,72 @@ Those results mostly validate \textbf{H1} however the shape index approach can d
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
 
-\subsubsection{Query-Shape Subsumption Evaluation}
+To further the analysis we compare the the arrival time of the first results, the time termination time that we define as the time it takes between the last results and the end of the query execution and 
+the waiting time, that we define as the time between 
+
+
+\begin{figure}
+    \centering
+    \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/first_result}
+    \caption{The shape index approach tends to produce initial results earlier than the type index approach, particularly for queries where the shape index achieves shorter total execution times.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/termination_time}
+    \caption{Termination time}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/waiting_time}
+    \caption{Waiting time}
+\end{figure}
+
+\iffalse
+\begin{figure}[htbp]
+    \centering
+
+    % First row: two figures
+    \begin{minipage}[c]{0.49\linewidth}
+        \centering
+        \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/first_result}
+        \caption*{(a) First result}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[c]{0.49\linewidth}
+        \centering
+        \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/termination_time}
+        \caption*{(b) Termination time}
+    \end{minipage}
+
+    \vspace{1em} % space between rows
+
+    % Second row: one centered figure
+    \begin{minipage}[c]{0.49\linewidth}
+        \centering
+        \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/waiting_time}
+        \caption*{(c) Waiting time}
+    \end{minipage}
+
+    \caption{
+        Relationship between the number of HTTP requests and execution time across three different metrics. 
+        The first two figures show distinct performance thresholds, while the third shows increased variance under load.
+    }
+    \label{fig:continuousPerformance}
+\end{figure}
+\fi
+
+
+\subsection{Query-Shape Subsumption Evaluation} \label{sec:experimentAlgoSubsumption}
+
 The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
 The result tables are available in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
 This result validated \textbf{H2}.
 
-\iffalse
-\begin{figure}[htbp]
-    \centering
-    % First figure
-    \begin{minipage}[t]{0.40\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{analysis/artefact/http_req_exec_time_relation/http_req_exec_time_cor_better}
-        \label{fig:http_req_exec_time_cor_better}
-    \end{minipage}
-    \hspace{0.05\textwidth}
-    % Second figure
-    \begin{minipage}[t]{0.40\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{analysis/artefact/http_req_exec_time_relation/http_req_exec_time_cor_worse}
-        \label{fig:http_req_exec_time_cor_worse}
-    \end{minipage}
 
-    % General caption
-    \caption{
-        The data show two regimes in the relation between the number of HTTP requests and the execution time, 
-        we see a more linear correlation on the left figure than on the right figure.
-        }
-    \label{fig:http_req_exec_time_cor}
-\end{figure}
-
-\subsubsection{Relationship Between HTTP Request and Query Execution Time}
-
-To determine the relationship between the reduction of HTTP requests and the query execution time, we evaluated their ratio using 
-the data of our experiments with the Solid Pod network optimal traversal algorithm results as the baseline.
-Figure~\ref{fig:http_req_exec_time_cor} present our analysis.
-The relationship between HTTP request and query execution time can be divided into two regimes.
-In the first regime (left figure), where the shape index approach reduces the number of HTTP requests, we notice a positive linear correlation with a
-Pearson correlation coefficient (PCC) of 0.84 and a high statistical significance given $< 0.01$.
-We can notice that toward the end, the curve appears to exhibit more exponential behavior.
-Evaluating an $R^2$ score with an exponential best fit curve we get a score of 0.72 and 0.71 for a linear curve.
-Below a ratio of approximately 0.83 of HTTP requests, the shape index approach did not guarantee a reduction in query execution time.
-With this observation, the exponential behavior might be explained by the approach's overhead. 
-It is possible that with a small reduction of HTTP requests, the state retention required for the pruning reachability criteria could offset the gain in the reduction of HTTP requests.
-In the second regime (right figure), the shape index increases the number of HTTP requests.
-We notice a weaker positive linear correlation with a PCC of 0.44 and a high statistical significance though the significance is lower than in the first regime.
-The overall correlation between reducing HTTP requests and query execution time is positively linear, with a PCC of 0.56 and a high statistical significance.
-The overall correlation is more linear than exponential with $R^2$ scores respectively of 0.31 and 0.24, however due to the low score it is difficult to determine the nature of the distribution.
-Explaining the two regimes' behavior exhibited by the data is challenging.
-A possible explanation can be the lack of samples when the shape index approach performs poorly.
-However, we can also notice that the relationship between the two variables in the first regime is closer to one-on-one (slope of approximately 0.91) than in the second regime (slope of approximately 0.08), where the ratio of HTTP requests has less of an impact.
-Futhermore, the number of HTTP requests increased by 16 times compared to the baseline, which initially required only 1 or 2 requests (see Table ~\ref{tab:ratioUsefulResources}). 
-However, despite this increase, the engine ultimately handled a modest number of links to dereference.
-This indicates that the actual impact might not be as significant as the figure suggests, particularly considering that HTTP requests are done concurrently.
-Those results validate \textbf{H2} when there is a decrease in HTTP requests, however, with an increase, the results are more uncertain.
-%\rt{I think this paragraph can be shorted quite a bit if you run into space issues.}
-%This observation can lead us to question how complex the queries are in that regime; queries where the shape index increases vastly in the number of HTTP requests are the queries from the S4 template. 
-%However, those queries were already answered quickly and consisted of only four triple patterns and a union statement (with the alternative property path). 
-%Thus, it is possible that the number of HTTP requests has less of an impact because it is easier for the engine to perform the join operation upon reception of the data than when processing more complex queries.
-%Additionally, those queries where already answer with 1 or 2 HTTP request with the baseline thus increase by 16 time of the number of HTTP request still leave the engine with a modest number of links to dereference.
-
-% Analysis by query template? But we lack the space. In the appendix too...
-% We can also with that explain some big gap in the plot.
-\fi
-
-
-\subsubsection{Evaluation of the Resilience of the approach}
+\subsection{Evaluation of the Resilience of the approach}
 
 The final part of the results analysis focuses on the resilience of the shape index approach.
 In this analysis, we examine the impact of reducing the shape index information in the network and compare the results with a network in which all pods are exposed to detailed, complete shape indexes.
@@ -146,7 +143,7 @@ For the queries of S1, with 80\% of closed shape entries, the performance lost w
 The right plot shows the variation in the level of detail of the shapes by reducing their detail.
 Since the shapes are closed in this experiment the level of detail was varied by changing the constraint of the object terms of the shape as described in Section~\ref{sec:experiment}.
 Most queries tend to perform similarly or better, with the exception of those of S1.
-Upon analyzing the output of our query subsumption algorithm, we observe that the additional information to the shape provided in our base approach does not affect the algorithm’s results.
+Upon analyzing the output of our query subsumption algorithm, we observe that the additional information to the shape provided in our base approach does not affect the algorithm's results.
 However, in the baseline shape index experiment, the engine must dereference more shapes, potentially increasing execution time.
 Queries of template S1 are the only ones where the added information can discriminate multiple parts of the datasets' domain leading to worse performane.
 This indicates that in some situations, adding more information can be beneficial.
@@ -159,13 +156,62 @@ Therefore, the outcome is dependent on both the query and the network.
 Moreover, the completeness of shape indexes has a smaller impact on performance than their presence or absence.
 \textbf{H5} is accepted; it is possible to retain performance gains even in networks with reduced shape-index information.
 
+\begin{figure}[htbp]
+    \centering
+    % First figure
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{analysis/artefact/http_req_exec_time_relation/http_req_exec_time_cor_better}
+        \label{fig:http_req_exec_time_cor_better}
+    \end{minipage}
+    \hspace{0.05\textwidth}
+    % Second figure
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{analysis/artefact/http_req_exec_time_relation/http_req_exec_time_cor_worse}
+        \label{fig:http_req_exec_time_cor_worse}
+    \end{minipage}
 
-\iffalse
-(H1) Shape indexes reduce the number of non-
-contributing data sources retrieved and the query execution time. (H2) The
-execution time of a query-shape subsumption algorithm is negligible in social
-media applications. (H3) Stricter shape constraints lead to a greater reduction
-in HTTP requests. (H4) Querying a network with more complete shape indexes
-results in faster query execution. (H5) Performance gain can be acquired in
-networks with less shape index information.
-\fi
+    % General caption
+    \caption{
+        The data show two regimes in the relation between the number of HTTP requests and the execution time, 
+        we see a more linear correlation on the left figure than on the right figure.
+        }
+    \label{fig:http_req_exec_time_cor}
+\end{figure}
+
+\subsection{Relationship Between HTTP Request and Query Execution Time}
+
+
+To study the relationship between the number of HTTP request and the query execution time, the ratio of HTTP request of the different approaches and the ratio of query execution time was 
+calculated in relation to the Solid Pod network traversal algorithms leveraging the type index.
+Figure~\ref{fig:http_req_exec_time_cor} present our analysis.
+The relationship between HTTP request and query execution time can be divided into two regimes.
+In the first regime (left figure), where the shape index approach reduces the number of HTTP requests, we notice a positive linear correlation with a Pearson correlation coefficient (PCC) of 0.84 and a high statistical significance ($< 0.01$).
+We can notice that toward the end, the curve appears to exhibit a more exponential behavior.
+Evaluating an $R^2$ score with an exponential best fit curve we get a score of 0.72 and 0.71 for a linear curve.
+Above a ratio of approximately 0.85 of HTTP requests, the shape index approach did not guarantee a reduction in query execution time.
+There can be multiple explanation for this behavior.
+First, the method have some overhead due to the query-shape subsumption algorithm and the state retention of the pruning reachability criteria.
+However, as shown in in section \ref{sec:experimentAlgoSubsumption} the query-shape subsumption algorithm execution time is negligeable for one execution and the state retentation has a polynomial time complexity thus it should not have a high impact on the execution time.
+Another explanation is the number of HTTP request that are performed in parallel.
+The LTQP version of comunica perform 10 HTTP requests in parallel, thus we would expect that with a low number of HTTP request perform and a low ratio of HTTP request that the performance would remain unchanged or a little bit worse due to some overhead which is what 
+can be withness in the curve.
+
+In the second regime (right figure), the shape index increases the number of HTTP requests.
+We notice a moderate positive linear correlation with a PCC of 0.44.
+The overall correlation between reducing HTTP requests and query execution time is positively linear, with a moderate linear correlation with a PCC of 0.56 and a high statistical significance.
+The overall correlation is more linear than exponential with $R^2$ scores respectively of 0.31 and 0.24, however due to the low score it is difficult to determine the nature of the distribution.
+
+Explaining the two behavioral regimes observed in the data is challenging.
+One possible explanation for the poorer performance of the shape index approach in certain cases could be the low number of samples.
+However, we also observe that the relationship between the two variables differs significantly across the regimes.
+In the first regime, the relationship is close to one-to-one, with a slope of approximately 0.91.
+In contrast, the second regime shows a much flatter slope of around 0.08, suggesting that the ratio of HTTP requests has a weaker influence.
+This disparity indicates that the explanation may be more complex than just a sample size issue.
+The increased number of HTTP requests can be attributed to queries executed using the D6, D7, and S4 templates, with the S4 template causing the largest increase.
+Queries from the S4 template typically require only 1 or 2 HTTP requests, so when running with 10 concurrent requests, the impact on performance is limited.
+On the other hand, queries using the D6 and D7 templates, executed with the type index traversal algorithm, required 26, 23, and 129 HTTP requests.
+This significantly higher number of HTTP requests explains why the increase in HTTP requests had a greater impact on query execution time.
+
+LETS REVIEW THE HYPOTHESIS: Those results validate \textbf{H2} when there is a decrease in HTTP requests, however, with an increase, the results are more uncertain.
