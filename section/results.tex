@@ -44,26 +44,50 @@ Those results mostly validate \textbf{H1} however the shape index approach can d
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
 
-To further the analysis we compare the the arrival time of the first results, the time termination time that we define as the time it takes between the last results and the end of the query execution and 
-the waiting time, that we define as the time between 
+
+To further our analysis, we compare three temporal metrics: the arrival time of the first results, the termination time, defined as the duration between the arrival of the last result and the end of query execution, and the waiting time, which we define as the accumulated time gaps exceeding one second between the reception of consecutive results.
+We choose a 1 second threshold for waiting time based on research in responsive system design.
+These guidelines are derived from the field of neuropsychology and are considered stable over time for human users~\cite{uxtigersNeedSpeed, Nielsen1993}.
+A waiting time below 0.1 seconds is perceived as instantaneous, a delay of up to 1 second preserves a seamless flow of thought, while delays exceeding 10 seconds tend to cause user attention to drift~\cite{Nielsen1993}.
+Table~\ref{tab:continuousPerf} in the \hyperref[sec:appendix]{Appendix} present the average results for the metrics presented above.
 
 
 \begin{figure}
     \centering
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/first_result}
-    \caption{The shape index approach tends to produce initial results earlier than the type index approach, particularly for queries where the shape index achieves shorter total execution times.}
+    \caption{The shape index approach tends to produce the first results earlier than the type index approach, particularly for queries where the shape index achieves shorter total execution times.}
+    \label{fig:first_res}
 \end{figure}
+
+Figure~\ref{fig:first_res} presents the time of arrival of the first results for all query instances, grouped by query templates. 
+The plot indicates that, for most queries, the shape index approach tends to produce results faster, as shown by distributions concentrated around lower first result arrival times.
+Templates D1, D2, D5, and S1 exhibit the most significant improvements in first-result latency when using the shape index.
+However, as shown in Figure~\ref{fig:compApproach}, some instances of queries from templates D2 and D5 perform worse under the shape index compared to the type index approach.
+Nevertheless, particularly for D5, the overall distribution remains significantly lower.
+This suggests that, although the shape index does not explicitly prioritize early result generation, the pruning it performs may implicitly favor certain faster first results arrival with some query and network. 
+This implicit prioritization does not apply uniformly across all templates. 
+For example, queries from template D3 show faster overall execution times across most instances, yet in Figure~\ref{fig:first_res}, they exhibit a higher mean and a longer tail for the first result arrival time.
+Notably, the most prominent mode in the distribution under the type index lies at a lower first-result time compare to the shape index.
+This can be explained by the structure of the subwebs involved in D3 queries.
+In some cases, a result can be generated from a document that is only one link away from the seed document.
+The direct dereferencing used by the type index enables this early discovery.
+In contrast, the shape index may delay first result production due to its reliance on document discovery to perfrom the pruning operations.
+
 
 \begin{figure}
     \centering
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/termination_time}
-    \caption{Termination time}
+    \caption{With the exception of queries from templates D6 and D7, which have similar execution times, the shape index either maintains or improves query termination time.}
+    \label{fig:termination_time}
 \end{figure}
+
+Figure~\ref{fig:termination_time}
 
 \begin{figure}
     \centering
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/waiting_time}
-    \caption{Waiting time}
+    \caption{Except for queries from template D1, the shape index approach tends to either maintain or worsen the waiting time.}
+    \label{fig:waiting_time}
 \end{figure}
 
 \iffalse
