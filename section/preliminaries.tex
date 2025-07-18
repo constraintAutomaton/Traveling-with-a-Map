@@ -6,20 +6,20 @@ Our work focuses on the union of conjunctive queries over RDF knowledge graphs~(
 The fundamental building blocks of KGs and SPARQL queries are triples and triple patterns, respectively, as defined in Definition~\ref{def:triple} and Definition~\ref{def:triplePattern}.
 
 \begin{definition}[Triple]\label{def:triple}
-    RDF triple $t = (s,p,o)$ are tuples formed with three terms. A subject where $s \in \mathcal{I} \cup \mathcal{B}$, a predicate $p \in \mathcal{I}$ and an object $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{B}$.
+    RDF triple $t = (s,p,o)$ are tuples formed with three terms. A subject where $s \in \mathcal{I} \cup \mathcal{B}$, a predicate $p \in \mathcal{I}$ and an object $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$.
     Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$,  are respectively the set of every possible IRI, blank node, literal.
     For simplicity, we denote the union of these sets by concatenating their symbols, so that $ \mathcal{I} \cup \mathcal{B}$ is written as $ \mathcal{I} \mathcal{B}$.
 \end{definition}
 
 \begin{definition}[Triple pattern]\label{def:triplePattern}
     Triple patterns $tp = (s_{tp}, p_{tp}, o_{tp})$ are similar to triples, where $s_{tp} \in \mathcal{I} \mathcal{B} \mathcal{V}$,
-    $p_{tp} \in \mathcal{I} \mathcal{V}$ and an object term  $o_{tp} \in \mathcal{I} \mathcal{L} \mathcal{V} \mathcal{B}$.
+    $p_{tp} \in \mathcal{I} \mathcal{V}$ and an object term  $o_{tp} \in \mathcal{I} \mathcal{B} \mathcal{V} \mathcal{L}$.
     Where $\mathcal{V}$ is the set of every possible variable.
     %A triple pattern returns a solution sequence with solution mappings a single or multiple $tp$ forms a Basic Graph Pattern (BGP).
 \end{definition}
 
 We also define two access functions to get respectively the subject and object term of a triple pattern or a triple while ignoring literals,
-$ S:  (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$ and $O: (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{V} \mathcal{B}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$.
+$ S:  (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$ and $O: (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$.
 We denote $[\![ Q ]\!]^{G}$ as the evaluation of a query $Q$ over a KG $G$~\cite{Angles2008}.
 
 \subsection{Reachability Criteria}

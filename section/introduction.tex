@@ -9,7 +9,7 @@
 Multiple studies have highlighted problems of ownership, threats to democracy, reinforcement of inequality, and antagonism between users and owners of social web applications, which rely on highly centralized data management systems~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
 Yet, several authors consider decentralizing data over the web an insufficient solution~\cite{9663788, Curran2016ch1}; although it is an integral component of initiatives focused on data sovereignty.
 Linked Data and knowledge graph (KG)~\cite{heath2011} can be considered technical contributions toward the development of a decentralized web of data.
-However, SPARQL query processing—the standard query language for RDF knowledge graphs—is predominantly performed in centralized environments, partly due to the more mature understanding of query optimization in such settings.
+However, SPARQL query processing, the standard query language for RDF knowledge graphs, is predominantly performed in centralized environments, partly due to the more mature understanding of query optimization in such settings.
 
 Link Traversal Query Processing (LTQP)~\cite{Hartig2012} is a query paradigm designed for querying unindexed, Decentralized Knowledge Graphs (DKGs) on the web, by leveraging the descriptive power of IRI dereferencing.
 LTQP involves recursively dereferencing IRIs, dynamically discovered and stored in a query engine's internal triple store during query execution to expand its base of information.
@@ -56,11 +56,15 @@ Comunica SPARQL query engine~\cite{taelman_iswc_resources_comunica_2018}, and (i
 Concretely in this work, we ask the following research question: 
 \textbf{Can LTQP use shape-based pruning in DKG networks to reduce query execution time while preserving result completeness?}
 To address this question, we propose the following hypotheses:  
-(\textbf{H1}) Shape indexes reduce the number of non-contributing data sources retrieved and the query execution time.  
-(\textbf{H2}) The execution time of a query-shape subsumption algorithm is negligible in social media applications.  
-(\textbf{H3}) Stricter shape constraints lead to a greater reduction in HTTP requests.  
-(\textbf{H4}) Querying a network with more \emph{complete} shape indexes results in faster query execution.  
-(\textbf{H5}) Performance gain can be acquired in networks with less shape index information.
+
+\begin{itemize}
+    \item[\textbf{H1}] Shape indexes reduce the number of non-contributing data sources retrieved and the query execution time.
+    \item[\textbf{H2}] The execution time of a query-shape subsumption algorithm is negligible in social media applications.
+    \item[\textbf{H3}] Stricter shape constraints lead to a greater reduction in HTTP requests.
+    \item[\textbf{H4}] Querying a network with more \emph{complete} shape indexes results in faster query execution.
+    \item[\textbf{H5}] Performance gain can be acquired in networks with less shape index information.
+    \item[\textbf{H6}] There is a linear relationship between the reduction in the number of HTTP requests and the decrease in query execution time.
+\end{itemize}
 
 The reminder of this paper is organized as follows: first, we discuss the \hyperref[sec:related_work]{related work} and present the \hyperref[sec:preliminaries]{preliminaries}.
 We then describe our \hyperref[sec:approach]{approach}, followed by the \hyperref[sec:experiment]{experimental setup} and the \hyperref[sec:result]{discussion of results}.

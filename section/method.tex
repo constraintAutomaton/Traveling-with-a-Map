@@ -219,6 +219,8 @@ $$
 $Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$ and $q_i$ are BGPs.
 We assume that $q_i$ have no union statements.
 
+\subsubsection{Algorithm}
+
 \input{time-complexity/algorithm/subsums_q_star}
 
 We define the function $subsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a GSP with a root star pattern $Q_{star_i}$ from $Q_{starG_i}$ is sumbsumed by $Q_s$. 
@@ -233,7 +235,63 @@ We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp
 where $n_{tp}$ is the number of triple patterns of $Q_{starG_i}$ and $n_{sunion}$ the number of UGP in $Q_s$.
 To solve $Q \sqsubseteq_{qs} S$, we need to consider the number of GSP from the BGP with their number of segments in the UGP and the number of BGPs in the UGPs.
 This operation results again in a polynomial time complexity algorithm.
+The following paragraphs analyze the time complexity of the algorithm.
 %Additional analyses of the algorithms are available in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 %To solve $Q \sqsubseteq_{qs} S$, we need to consider the $n_{starG}$ graph star from the BGP with their $n_{starGu}$ segment in the UGP and $n_{starGui}$ BGP in the UGP.
 %This operation results in a polynomial time complexity of $O(n_o \times n_{tp}^2 \times n_{union}^2 \times n_{starG} \times n_{starGu} \times n_{starGui})$.
 %In the \nameref{sec:appendix} Algorithm~\ref{alg:containment} present the full resolution to evaluate each graph star pattern.
+
+\subsubsection{Time Complexity Analysis}
+
+\paragraph{Worst-case per $Q_{star}$}
+Let $n_{qstar}$ denote the number of distinct $Q_{star} \in Q_{starG_i}$.
+For each node $Q_{star}$, the algorithm iterates over its triple patterns (line 4 to 25), resulting in a time complexity of $O(n_{tp_{Q_{star}}})$.
+For each triple pattern that does not match the shape body ($Q_{s\mathrm{body}}$), the algorithm iterates over all union branches in $Q_{sunion}$ (line 7 to 11), making at most $n_{sunion}$ recursive calls.
+The algorithm traverse the $q_{us}$ graph however each $q_{us} \in Q_{sunion}$ cannot contain a Union Graph Pattern (UGP), and is therefore always of the form $Q_s = Q_{s\mathrm{body}}$, making this 
+branch (line 5 to 15) of the algorithm after a first execution not the worst case with a complexity of $O(n_{tp_{Q_{star}}}^{2} \cdot n_{sunion})$.
+
+After the first execution, the worst-case scenario becomes one in which the triple patterns matches a pattern in $Q_{s\mathrm{body}}$, and the condition $O(tp) \in S_{star}(Q_{starG_i})$ holds (line 17 to 22).
+In such cases, the algorithm recursively explores the corresponding partial Graph Star Pattern (GSP) by executing $subsums_{\mathrm{graph star}}$, following a graph traversal paradigm.
+
+
+\paragraph{Tree Traversal Argument}
+Although $Q_{starG_i}$ is a graph, the algorithm avoids cycles due to "caching", once a node $Q_{star}$ is evaluated, its result is stored in $Eval_{star}$.
+Therefore, each node is visited at most once, and the overall traversal is equivalent to a tree traversal of size $n_{qstar} \leq |Q_{starG_i}|$.
+
+\paragraph{Total Complexity}
+Let $n_{tp_{Q_{star}}}$ denote the number of triple patterns in a particular $Q_{star}$, and let $n_{tp}$ be the total number of triple patterns across all nodes, so
+$$
+n_{tp} = \sum_{Q_{star} \in Q_{starG_i}} n_{tp_{Q_{star}}}
+$$
+
+Then the total number of recursive operations over all nodes is bounded by:
+$$
+O\left(\sum_{i=1}^{n_{qstar}} n_{sunion} \cdot n_{tp_{Q_{star_i}}}^{2}\right)
+$$
+
+$$
+O\left(n_{sunion} \cdot \sum_{i=1}^{n_{qstar}} n_{tp_{Q_{star_i}}}^{2}\right)
+$$
+
+$$
+O\left(n_{sunion} \cdot \left(n_{tp}^{2} - \sum_{i=1, j=1}^{n_{qstar}}  n_{tp_{Q_{star_i}}} \cdot  n_{tp_{Q_{star_j}}}\right)\right)
+$$
+
+$$
+O\left(n_{sunion} \cdot n_{tp}^{2}\right)
+$$
+
+\paragraph{Time Complexity of the $subsums_{\mathrm{Q}}$ Algorithm}
+
+\input{time-complexity/algorithm/subsums_Q}
+
+The time complexity of the $subsums_{\mathrm{Q}}$ algorithm is straightforward to derive, as it consists of iterating over the Graph Pattern Structures (GPS) of the query and applying the $subsums_{\mathrm{graph star}}$ algorithm. Thus, the time complexity is given by:
+\begin{equation}
+O\left(n_{sunion} \cdot n_{tp_{max}}^{2} \cdot n_{Q_{star_{max}}} \cdot n_{Q_{starG}}\right)
+\end{equation}
+
+Where, $n_{tp_{max}}$ is the maximum number of triple patterns in any $Q_{starG}$,
+$n_{Q_{star_{max}}}$ is the maximum number of $Q_{star}$ patterns in any $Q_{starG}$,
+$n_{Q_{starG}}$ is the number of Graph Pattern Structures (GPS) in the query $Q$.\footnote{
+    Sharing the evaluation results $Eval_{star}$ from $subsums_{\mathrm{graph star}}$ could reduce execution time and potentially the algorithm's complexity.
+}

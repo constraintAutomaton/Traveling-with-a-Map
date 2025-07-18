@@ -39,8 +39,9 @@ To further our analysis, we compare three temporal metrics: the arrival time of 
 We choose a 1 second threshold for waiting time based on research in responsive system design.
 These guidelines are derived from the field of neuropsychology and are considered stable over time for human users~\cite{uxtigersNeedSpeed, Nielsen1993}.
 A waiting time below 0.1 seconds is perceived as instantaneous, a delay of up to 1 second preserves a seamless flow of thought, while delays exceeding 10 seconds tend to cause user attention to drift~\cite{Nielsen1993}.
-We additionally computed the diefficiency metric in relation to time (\textit{dief@t})~\cite{acosta2017diefficiency}, at the previously mentioned time intervals: 0.1\,s, 1\,s, and 10\,s.
-Tables~\ref{tab:continuousPerf} and \ref{tab:dief}  in the \hyperref[sec:appendix]{Appendix} present the average results for the metrics presented above.
+We additionally computed the diefficiency metric in relation to time (\textit{dief@t})~\cite{Acosta2017}, at the previously mentioned time intervals: 0.1\,s, 1\,s, and the arrival time of the final result.
+We did not choose 10\,s as the threshold, since all queries that terminate complete in under 10\,s.
+Tables~\ref{tab:continuousPerf} and \ref{tab:dief} in the \hyperref[sec:appendix]{Appendix} present the average results for the metrics presented above.
 
 
 \begin{figure}
@@ -77,6 +78,7 @@ It shows that for queries where the execution time was improved and where the te
 the shape index approach can decrease significantly the termination time.
 In the case of queries from the template D6 and D7 the distribution have a similar shape but a longer tail.
 Particularly D7 which can approximatively take up to one second more to terminate.
+
 ... Let's find an explication......
 
 
@@ -99,20 +101,28 @@ A likely explanation for this increase is the additional time required to derefe
     \label{fig:dief_1}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_10}
-    \caption{At 10 seconds, the shape index approach tends to exhibit a similar or worse \textit{dief@10s} (\textbf{higher is better}), indicating that before the attention drift, the shape index approach performs comparably.}
-    \label{fig:dief_10}
-\end{figure}
-
-Figures~\ref{fig:dief_1} and~\ref{fig:dief_10} present the \textit{dief@t} values at 1 and 10 seconds, respectively.
+Figures~\ref{fig:dief_1} and~\ref{fig:dief_lr} show the \textit{dief@t} values measured at 1 second (\textit{dief@1s}) and at the time of the last result produced for all evaluated approaches (\textit{dief@lr}).~\footnote{This means that if, for a given query, the shape index approach produces the last result at 5~seconds and the type index at 5.10~seconds, then the \textit{dief@t} metric will be computed at 5.10~seconds.}
 The \textit{dief@1s} results indicate that the shape index approach generally produces a higher number of early results, except for queries from templates S4 and S5.
-In contrast, the \textit{dief@10s} values show that the shape index performs similarly to or worse than the type index approach, except for template D4, even in cases where the overall query execution time is significantly reduced.
+Which indicate that for fast result arrival the shape index approach performs better.
+This result is important in the context of social media applications where it is often not necessary to get fast complete results, but to get a fast relevant results to keep interactivity.
+
+
+
+In contrast, the \textit{dief@lr} values show that the shape index performs similarly than the type index approach exept for D4 where it performs better,
+
+except for template D4, even in cases where the overall query execution time is significantly reduced.
 One reason for the relative drop in performance from \textit{dief@1s} to \textit{dief@10s} is that all queries complete that finish before the timeout are executed  in less than 10 seconds.
 Since \textit{dief@t} measures the area under the curve of cumulative results over time, calculating it after the final result has been produced means both approaches tend to converge to similar values.
 As a result, differences between the methods diminish as $t$ increases beyond the query completion time.
 
+% Maybe we should plot dief@lastResultTime
+
+\begin{figure}
+    \centering
+    \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_lr}
+    \caption{At the time of the last result, the shape index approach tends to exhibit a similar \textit{dief@t} (\textbf{higher is better}).}
+    \label{fig:dief_lr}
+\end{figure}
 
 \subsection{Query-Shape Subsumption Evaluation} \label{sec:experimentAlgoSubsumption}
 
@@ -227,4 +237,4 @@ Queries from the S4 template typically require only 1 or 2 HTTP requests, so whe
 On the other hand, queries using the D6 and D7 templates, executed with the type index traversal algorithm, required 26, 23, and 129 HTTP requests.
 This significantly higher number of HTTP requests explains why the increase in HTTP requests had a greater impact on query execution time.
 
-LETS REVIEW THE HYPOTHESIS: Those results validate \textbf{H2} when there is a decrease in HTTP requests, however, with an increase, the results are more uncertain.
+These results partially validate \textbf{H6}, as a linear relationship is observed when there are a sufficient number of HTTP requests and a significant reduction ratio, taking concurrent requests into account.
