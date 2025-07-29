@@ -1,24 +1,24 @@
 \section{Discussion of Results}\label{sec:result}
 
-\subsubsection{Evaluation Against Other Approaches}
+%\subsubsection{Evaluation Against Other Approaches}
 
 \begin{figure}
     \centering
     % First figure
-    \begin{minipage}[t]{0.45\linewidth}
+    \begin{minipage}[t]{0.43\linewidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time_raw}
     \end{minipage}
     \hspace{0.05\textwidth}
     % Second figure
-    \begin{minipage}[t]{0.45\linewidth}
+    \begin{minipage}[t]{0.43\linewidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
     \end{minipage}
 
     % General caption
     \caption{
-    The left plot shows query execution times, while the plot on the right compares the type index approach against other methods.
+    The plot on the top shows query execution times, while the plot on the bottom compares the type index approach against other methods.
     The ratio represents how the execution time of each method compares to that of the type index. A ratio greater than $1$ indicates a slower execution time (\textbf{lower is better}).
     The shape index approach performs similarly or better than the other methods, except in the case of S4.
     }
@@ -46,7 +46,8 @@ Those results mostly validate \textbf{H1} however the shape index approach can d
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
 
-\subsubsection{Query-Shape Subsumption Evaluation}
+%\subsubsection{Query-Shape Subsumption Evaluation}
+
 The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
 The result tables are available in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
@@ -77,7 +78,7 @@ This result validated \textbf{H2}.
     \label{fig:http_req_exec_time_cor}
 \end{figure}
 
-\subsubsection{Relationship Between HTTP Request and Query Execution Time}
+%\subsubsection{Relationship Between HTTP Request and Query Execution Time}
 
 To determine the relationship between the reduction of HTTP requests and the query execution time, we evaluated their ratio using 
 the data of our experiments with the Solid Pod network optimal traversal algorithm results as the baseline.
@@ -112,7 +113,7 @@ Those results validate \textbf{H2} when there is a decrease in HTTP requests, ho
 \fi
 
 
-\subsubsection{Evaluation of the Resilience of the approach}
+%\subsubsection{Evaluation of the Resilience of the approach}
 
 The final part of the results analysis focuses on the resilience of the shape index approach.
 In this analysis, we examine the impact of reducing the shape index information in the network and compare the results with a network in which all pods are exposed to detailed, complete shape indexes.
