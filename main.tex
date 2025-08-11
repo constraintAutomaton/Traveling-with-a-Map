@@ -1,9 +1,11 @@
-% This is samplepaper.tex, a sample chapter demonstrating the
-% LLNCS macro package for Springer Computer Science proceedings;
-% Version 2.21 of 2022/01/12
-%
-\documentclass[runningheads]{llncs}
-%
+% sage_latex_guidelines.tex V1.20, 14 January 2017
+
+\documentclass[Afour,sageh,times]{sagej}
+
+\usepackage{moreverb,url}
+
+\usepackage[breaklinks=true, bookmarks=true, bookmarksdepth=3, colorlinks,bookmarksopen,bookmarksnumbered,citecolor=red,urlcolor=red]{hyperref}
+
 \usepackage[T1]{fontenc}
 % T1 fonts will be used to generate the final print and online PDFs,
 % so please use T1 fonts in your manuscript whenever possible.
@@ -20,7 +22,7 @@
 %\renewcommand\UrlFont{\color{blue}\rmfamily}
 %\urlstyle{rm}
 %
-\usepackage{biblatex}
+\usepackage[backend=biber]{biblatex}
 %% Declare bibliography sources (one \addbibresource command per source)
 \addbibresource{references.bib}
 
@@ -43,9 +45,12 @@
 \usepackage{subfig}
 \usepackage{placeins}
 \usepackage{nameref}
-\usepackage[breaklinks=true, bookmarks=true, bookmarksopen=true, bookmarksdepth=3]{hyperref}
+%\usepackage[breaklinks=true, bookmarks=true, bookmarksopen=true, bookmarksdepth=3]{hyperref}
 \usepackage{enumitem}
 \usepackage{multirow}
+\usepackage{amsthm}
+
+\newtheorem{definition}{Definition}[section] % numbered per section
 
 \newif\ifanonymous
 \anonymoustrue
@@ -58,39 +63,36 @@
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 
 
-\newtheorem{prop}{Proposition}
+\newcommand\BibTeX{{\rmfamily B\kern-.05em \textsc{i\kern-.025em b}\kern-.08em
+T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\def\volumeyear{2016}
 
 \begin{document}
 
-%
+\runninghead{B.-E. Tam et al.}
+
 \title{Traveling with a Map: Reducing the Search Space of Link Traversal Queries Using RDF Shapes}
-\titlerunning{Traveling with a Map}
-%
-%\titlerunning{Abbreviated paper title}
-% If the paper title is too long for the running head, you can set
-% an abbreviated paper title here
-%
-\ifanonymous
-    \author{Anonymous}
-\else
-    \author{Bryan-Elliott Tam\inst{1}\orcidID{0000-0003-3467-9755} \and
-    Ruben Taelman\inst{1}\orcidID{0000-0001-5118-256X} \and
-    Joachim Van Herwegen\inst{1}\orcidID{0000-0002-8215-1827} \and
-    Pieter Colpaert\inst{1}\orcidID{0000-0001-6917-2167}}
-    %
-    \authorrunning{B.-E. Tam et al.}
-    % First names are abbreviated in the running head.
-    % If there are more than two authors, 'et al.' is used.
-    %
-    \institute{Universiteit Gent, Ghent, Belgium \\
-    \email{\{firstname.lastname\}@ugent.be}}
-\fi
 
+\author{Bryan-Elliott Tam\affilnum{1}, Ruben Taelman\affilnum{1}, Joachim Van Herwegen\affilnum{1} and Pieter Colpaert\affilnum{1}}
 
-%
-\maketitle              % typeset the header of the contribution
-%
+\affiliation{\affilnum{1}Universiteit Gent, Ghent, Belgium}
+
+\corrauth{Bryan-Elliott Tam}
+
+\email{\{firstname.lastname\}@ugent.be}
+
 \input{section/abstract}
+
+\keywords{Linked Data,
+Link Traversal Query Processing,
+RDF data shapes,
+Decentralization,
+Data summarization
+}
+
+\maketitle
+
 
 \input{section/introduction}
 \input{section/related_work}
@@ -115,6 +117,4 @@
 \addcontentsline{toc}{section}{References}
 
 \input{section/annexe}
-
 \end{document}
-
