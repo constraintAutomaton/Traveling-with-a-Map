@@ -53,7 +53,7 @@
 \newtheorem{definition}{Definition}[section] % numbered per section
 
 \newif\ifanonymous
-\anonymoustrue
+%\anonymoustrue
 
 \setlength{\textfloatsep}{10pt plus 1.0pt minus 2.0pt}
 \setlength{\floatsep}{8pt plus 1.0pt minus 2.0pt}
@@ -73,14 +73,18 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \runninghead{Traveling with a Map: Reducing the Search Space of Link Traversal Queries Using RDF Shapes}
 
 \title{Traveling with a Map: Reducing the Search Space of Link Traversal Queries Using RDF Shapes}
+\ifanonymous
+      \author{Anonymous}
+    \else
+      \author{Bryan-Elliott Tam\affilnum{1}, Ruben Taelman\affilnum{1}, Joachim Van Herwegen\affilnum{1} and Pieter Colpaert\affilnum{1}}
 
-\author{Bryan-Elliott Tam\affilnum{1}, Ruben Taelman\affilnum{1}, Joachim Van Herwegen\affilnum{1} and Pieter Colpaert\affilnum{1}}
+      \affiliation{\affilnum{1}Universiteit Gent, Ghent, Belgium}
 
-\affiliation{\affilnum{1}Universiteit Gent, Ghent, Belgium}
+      \corrauth{Bryan-Elliott Tam}
 
-\corrauth{Bryan-Elliott Tam}
+      \email{\{firstname.lastname\}@ugent.be}
+   \fi 
 
-\email{\{firstname.lastname\}@ugent.be}
 
 \input{section/abstract}
 
