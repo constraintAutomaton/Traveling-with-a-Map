@@ -15,9 +15,8 @@
 \end{figure}
 
 Figure~\ref{fig:compApproach} shows that the shape index approach performs better or comparably to the state-of-the-art Solid Pod network traversal algorithms, for all query templates except S4.
-Figure~\ref{fig:compApproachRaw} in the \hyperref[sec:appendix]{Appendix} present the execution time of each method.
-An analysis of statistical significance is provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
-Moreover, the shape index approach allows for answering queries from the S7 template, which was not possible by the other approaches, due to large amount of HTTP requests resulting in timeouts.
+Figure~\ref{fig:compApproachRaw} in the \hyperref[sec:appendix]{Appendix} present the execution time of each method and Figure~\ref{tab:statSignificanceStateOfTheArt} present the statistical significance by query templates.
+The shape index approach allows for answering queries from the S7 template, which was not possible by the other approaches, due to large amount of HTTP requests resulting in timeouts.
 Queries can require as little as 13\% of the execution time (S1 being 7 times faster) of the type index.
 The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
 Table~\ref{tab:ratioUsefulResources} presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
@@ -25,7 +24,7 @@ Table~\ref{tab:ratioUsefulResources} presents the average percentage of query-re
 Queries from templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
 We notice that queries from template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
 This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the type index traversal algorithm achieves a ratio of useful resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
-The poor performance is due to the fact that the links acquired by the other approaches were selected based on reachability criteria that did not leverage the structural properties of the dataset, such as in the case of \texttt{Cmatch}~\cite{hartig2016walking} (a reachability criterion based on the structure of the query).
+The poor performance is due to the fact that the links acquired by the other approaches were selected based on reachability criteria that did not leverage the structural properties of the dataset, such as in the case of \texttt{Cmatch}~\cite{hartig2016walking},a reachability criterion based on the structure of the query.
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
 %It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
 However, those queries were already fast, with the type index traversal algorithm approach being executed in approximately 0.30\% of the maximum execution time allowed.
@@ -34,10 +33,9 @@ Those results mostly validate \textbf{H1} however the shape index approach can d
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
 
-
 To further our analysis, we compare three temporal metrics: the arrival time of the first results, the termination time, defined as the duration between the arrival of the last result and the end of query execution, and the waiting time, which we define as the accumulated time gaps exceeding one second between the reception of consecutive results.
 We choose a 1 second threshold for waiting time based on research in responsive system design.
-These guidelines are derived from the field of neuropsychology and are considered stable over time for human users~\cite{uxtigersNeedSpeed, Nielsen1993}.
+These waiting time guidelines are derived from the field of neuropsychology and are considered stable over time for human users~\cite{uxtigersNeedSpeed, Nielsen1993}.
 A waiting time below 0.1 seconds is perceived as instantaneous, a delay of up to 1 second preserves a seamless flow of thought, while delays exceeding 10 seconds tend to cause user attention to drift~\cite{Nielsen1993}.
 We additionally computed the diefficiency metric in relation to time (\textit{dief@t})~\cite{Acosta2017}, at the previously mentioned time intervals: 0.1\,s, 1\,s, and the arrival time of the final result.
 We did not choose 10\,s as the threshold, since all queries that terminate complete in under 10\,s.
@@ -56,14 +54,14 @@ The plot indicates that, for most queries, the shape index approach tends to pro
 Templates D1, D2, D5, and S1 exhibit the most significant improvements in first-result latency when using the shape index.
 However, as shown in Figure~\ref{fig:compApproach}, some instances of queries from templates D2 and D5 perform worse under the shape index compared to the type index approach.
 Nevertheless, particularly for D5, the overall distribution remains significantly lower.
-This suggests that, although the shape index does not explicitly prioritize early result generation, the pruning it performs may implicitly favor certain faster first results arrival with some query and network. 
+This suggests that, although the shape index does not explicitly prioritize early result generation, the pruning it performs may implicitly favor certain faster first results arrival with some queries and networks. 
 This implicit prioritization does not apply uniformly across all templates. 
-For example, queries from template D3 show faster overall execution times across most instances, yet in Figure~\ref{fig:first_res}, they exhibit a higher mean and a longer tail for the first result arrival time.
-Notably, the most prominent mode in the distribution under the type index lies at a lower first-result time compare to the shape index.
-This can be explained by the structure of the subwebs involved in D3 queries.
-In some cases, a result can be generated from a document that is only one link away from the seed document.
-The direct dereferencing used by the type index enables this early discovery.
-In contrast, the shape index may delay first result production due to its reliance on document discovery to perfrom the pruning operations.
+For example, queries from template D3 exhibit faster overall execution times across most instances when using the shape index.
+However, as shown in Figure \ref{fig:first_res}, the shape index also results in a higher mean and a longer tail for the time to first result.
+This difference arises from the structure of the subwebs targeted by D3 queries.
+In some cases, a result can be obtained from a document located one link away from the seed document.
+The direct dereferencing in the type index can exploit this proximity, enabling early result generation.
+In contrast, the shape index may delay first result production because it relies on discovering the shape index documents before exploring the rest of the subweb.
 
 
 \begin{figure}
@@ -73,13 +71,16 @@ In contrast, the shape index may delay first result production due to its relian
     \label{fig:termination_time}
 \end{figure}
 
-Figure~\ref{fig:termination_time} present the termination time for the query execution instances, grouped by templates.
-It shows that for queries where the execution time was improved and where the termination time was not close to 0 such has queries from the template D1, S1 and S5, 
-the shape index approach can decrease significantly the termination time.
-In the case of queries from the template D6 and D7 the distribution have a similar shape but a longer tail.
-Particularly D7 which can approximatively take up to one second more to terminate.
-
-... Let's find an explication......
+Figure~\ref{fig:termination_time} presents the termination times for the query execution instances, grouped by template. 
+For queries where execution time improved and termination time was non-zero, such as those from templates D1, S1, and S5, the shape index approach significantly reduces termination time. 
+This improvement aligns with the substantial increase in the percentage of query-relevant resources dereferenced when using the shape index, as shown in Table~\ref{tab:ratioUsefulResources}.
+A long termination time generally indicates that, toward the end of execution, a large number of non-query-relevant resources are still being dereferenced. 
+Although Table~\ref{tab:ratioUsefulResources} does not show the temporal progression of this percentage, the relative stability of the subweb data model suggests that the proportion of relevant resources should increase approximately linearly.
+For templates D5 and D6, the termination-time distributions have a similar overall shape but exhibit a longer tail, particularly D6, which can take up to one second longer to terminate. 
+In these cases, Table~\ref{tab:ratioUsefulResources} shows that the proportion of query-relevant resources dereferenced using the shape index is within $\pm$1\% of that obtained with the type index. 
+A similar situation is observed for template D3, although in this case the type index achieves a termination time of zero. 
+The longer termination times for D5 and D6 may be attributed to the additional dereferencing of shape index documents. 
+Notably, for template D6 in Figure~\ref{fig:compApproach}, an outlier query increases execution time by approximately a ration of 1.2, which could explain the extended tail and the additional second of termination time.
 
 
 \begin{figure}
@@ -90,9 +91,9 @@ Particularly D7 which can approximatively take up to one second more to terminat
 \end{figure}
 
 Figure~\ref{fig:waiting_time} presents the waiting time for the query instances, grouped by template. 
-With the exception of queries from dataset D1, which show a decrease in waiting time, the shape index approach generally increases the waiting time for queries that experience a delay before producing results. 
-A likely explanation for this increase is the additional time required to dereference documents related to the shape index, which may introduce a gap before the production of results, even though the total query execution time is reduced or remains unchanged.
-
+With the exception of queries from the D1 template, which show a decrease in waiting time, the shape index approach generally increases the waiting time for queries that experience a delay before producing results. 
+This increase is likely due to the additional dereferencing of shape index documents that must occur before relevant results can be generated. 
+Such dereferencing can introduce a gap before the first results appear, even when the total query execution time is reduced or remains unchanged.
 
 \begin{figure}
     \centering
@@ -108,13 +109,9 @@ This result is important in the context of social media applications where it is
 
 
 
-In contrast, the \textit{dief@lr} values show that the shape index performs similarly than the type index approach exept for D4 where it performs better,
+In contrast, the \textit{dief@lr} values show that the shape index performs similarly than the type index approach exept for D4 where it performs better.
 
-except for template D4, even in cases where the overall query execution time is significantly reduced.
-One reason for the relative drop in performance from \textit{dief@1s} to \textit{dief@10s} is that all queries complete that finish before the timeout are executed  in less than 10 seconds.
-Since \textit{dief@t} measures the area under the curve of cumulative results over time, calculating it after the final result has been produced means both approaches tend to converge to similar values.
-As a result, differences between the methods diminish as $t$ increases beyond the query completion time.
-
+One reason for the relative drop in performance from \textit{dief@1s} to \textit{dief@lr}
 % Maybe we should plot dief@lastResultTime
 
 \begin{figure}
@@ -182,14 +179,14 @@ Moreover, the completeness of shape indexes has a smaller impact on performance 
 \begin{figure}[htbp]
     \centering
     % First figure
-    \begin{minipage}[t]{0.45\linewidth}
+    \begin{minipage}[t]{1.0\linewidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/http_req_exec_time_relation/http_req_exec_time_cor_better}
         \label{fig:http_req_exec_time_cor_better}
     \end{minipage}
     \hspace{0.05\textwidth}
     % Second figure
-    \begin{minipage}[t]{0.45\linewidth}
+    \begin{minipage}[t]{1.0\linewidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/http_req_exec_time_relation/http_req_exec_time_cor_worse}
         \label{fig:http_req_exec_time_cor_worse}

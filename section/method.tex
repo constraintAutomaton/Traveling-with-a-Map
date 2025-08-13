@@ -184,7 +184,9 @@ The links to prune are identified by evaluating the shape index to find IRIs tha
 This is done by performing a query-shape subsumption check ($\sqsubseteq_{qs}$), defined later in Section~\ref{sec:containment}.
 
 We define
-$IRI_p = \left\{ \bigcup SI_i(s_j) | Q \sqsubseteq_{qs}  s_j = \mathrm{false} \land s_j \in \text{dom}(SI_i) \right\}$.
+$$
+IRI_p = \left\{ \bigcup SI_i(s_j) | Q \sqsubseteq_{qs}  s_j = \mathrm{false} \land s_j \in \text{dom}(SI_i) \right\}
+$$
 From this sets of links we define a pruning reachability criteria;
 \begin{equation}
        cp_{si}(t, iri, Q) = iri \notin IRI_p
