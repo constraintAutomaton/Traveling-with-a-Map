@@ -95,6 +95,14 @@ With the exception of queries from the D1 template, which show a decrease in wai
 This increase is likely due to the additional dereferencing of shape index documents that must occur before relevant results can be generated. 
 Such dereferencing can introduce a gap before the first results appear, even when the total query execution time is reduced or remains unchanged.
 
+
+\begin{figure}
+    \centering
+    \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_01}
+    \caption{At 0.1 second, the value is zero for every query template except S4. This is expected, as for all other templates the first result arrives after 0.1 seconds.}
+    \label{fig:dief_01}
+\end{figure}
+
 \begin{figure}
     \centering
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_1}
@@ -102,17 +110,6 @@ Such dereferencing can introduce a gap before the first results appear, even whe
     \label{fig:dief_1}
 \end{figure}
 
-Figures~\ref{fig:dief_1} and~\ref{fig:dief_lr} show the \textit{dief@t} values measured at 1 second (\textit{dief@1s}) and at the time of the last result produced for all evaluated approaches (\textit{dief@lr}).~\footnote{This means that if, for a given query, the shape index approach produces the last result at 5~seconds and the type index at 5.10~seconds, then the \textit{dief@t} metric will be computed at 5.10~seconds.}
-The \textit{dief@1s} results indicate that the shape index approach generally produces a higher number of early results, except for queries from templates S4 and S5.
-Which indicate that for fast result arrival the shape index approach performs better.
-This result is important in the context of social media applications where it is often not necessary to get fast complete results, but to get a fast relevant results to keep interactivity.
-
-
-
-In contrast, the \textit{dief@lr} values show that the shape index performs similarly than the type index approach exept for D4 where it performs better.
-
-One reason for the relative drop in performance from \textit{dief@1s} to \textit{dief@lr}
-% Maybe we should plot dief@lastResultTime
 
 \begin{figure}
     \centering
@@ -120,6 +117,16 @@ One reason for the relative drop in performance from \textit{dief@1s} to \textit
     \caption{At the time of the last result, the shape index approach tends to exhibit a similar \textit{dief@t} (\textbf{higher is better}).}
     \label{fig:dief_lr}
 \end{figure}
+
+Figures~\ref{fig:dief_01}, \ref{fig:dief_1}, and~\ref{fig:dief_lr} show the \textit{dief@t} values measured at 0.1 seconds (\textit{dief@0.1s}), 1 second (\textit{dief@1s}), and at the time of the last result (\textit{dief@lr}).\footnote{This means that if, for a given query, the shape index approach produces the last result at 5~seconds and the type index at 5.10~seconds, then the \textit{dief@t} metric will be computed at 5.10~seconds.}  
+The \textit{dief@0.1s} results show that, except for S4, no approach is able to produce instantaneous results, which aligns with the observations in Figure~\ref{fig:first_res}.  
+Overall, this indicates that, with the current approaches and benchmark, producing truly instantaneous results is not feasible.
+The \textit{dief@1s} results indicate that the shape index approach generally produces a higher number of early results, except for queries from templates S4 and S5.  
+This suggests that, for fast result arrival, the shape index approach performs better.  
+This finding is particularly relevant in the context of social media applications, where it is often more important to obtain fast, relevant results to maintain interactivity than to retrieve complete results immediately.  
+The \textit{dief@lr} show a similar behavior but with lesser performance gain compare to at \textit{dief@1s} (see Table~\ref{tab:dief} to compare the average values).
+
+% calculate ratio
 
 \subsection{Query-Shape Subsumption Evaluation} \label{sec:experimentAlgoSubsumption}
 
