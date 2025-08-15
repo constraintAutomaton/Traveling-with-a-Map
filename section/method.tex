@@ -51,9 +51,10 @@ We focus on maintaining the same result completeness, so when using $C^{\prime\p
    [\![ Q ]\!]^{G^{\prime\prime}} = [\![ Q ]\!]^{G^{\prime}}
 \end{equation}
 for any network $R$.
-Since $g \in G^{\prime\prime}$ can only be obtained by dereferencing resources $r \in R$, a smaller $G^\prime$ means fewer HTTP requests were performed to answer a query.  
-Generally, query execution is faster with a smaller KG instance, and HTTP requests, being slow and unpredictable~\cite{hartig2016walking}, significantly impact query execution time.  
-Thus, reducing HTTP requests provides a twofold benefit.
+Since each $g \in G^{\prime\prime}$ is obtained by dereferencing resources $r \in R$, a smaller $G^{\prime\prime}$ compared to $G^{\prime}$ implies that fewer HTTP requests were needed to answer the query. 
+Query execution is generally faster with a smaller KG instance, and HTTP requests, being slow and unpredictable~\cite{hartig2016walking}, can dominate execution time. 
+Therefore, reducing HTTP requests provides a twofold benefit, fewer resources to process and faster query execution.
+
 
 \subsection{Shape Index}
 
@@ -73,7 +74,7 @@ Thus, reducing HTTP requests provides a twofold benefit.
 
    % General caption
    \caption{
-      On the left, an example illustrates a shape index that maps a set of IRIs—represented using a URI template~\cite{ietf6570Template}—to a user shape, and a specific IRI to a post shape.
+      On the left, an example illustrates a shape index that maps a set of IRIs, represented using a URI template~\cite{ietf6570Template}, to a user shape, and a specific IRI to a post shape.
       On the right, an example illustrates of a graph star pattern where the main subject is \texttt{?comment} and is linked to the \texttt{?message} and \texttt{?forum} star patterns.}
    \label{fig:shapeIndex}
 \end{figure}
@@ -114,7 +115,7 @@ Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
    \begin{equation}
        BQ_{star}(s) = \left\{ tp_i \in Q \mid S(tp_i) = s \right\}
    \end{equation}
-   with $s \in \mathcal{I}\mathcal{B}\mathcal{V}$ then $Q_{star_s} = BQ_{star}(s)$.
+   with $s \in \mathcal{I}\mathcal{B}\mathcal{V}$ then $Q_{starG} = BQ_{star}(s)$.
    We define a GSP $Q_{starG}$ as the union between a root star pattern $Q_{star_s}$
    and the star patterns having as subject term an object term of another star pattern in $Q_{starG}$.
    We define a function 
@@ -144,13 +145,17 @@ Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
    
 \end{definition}
 
-The construction and maintenance of shape indexes are beyond the scope of this work.
-While not evaluated, shape indexes appear to require less effort to generate than VoID descriptions~\cite{Boehm2011}, as they do not include detailed statistics such as triple counts.
-Nonetheless, VoID descriptions have been successfully used for query optimization in federated queries~\cite{Montoya2017}.
-RDF data shapes can be either prescriptive or descriptive.
-For shape indexes with descriptive shapes, automatic RDF data shape generation methods~\cite{fernandez2023extracting} could facilitate their creation.
-Entries in shape indexes correspond to sets of IRIs, which could be structured using URI templates~\cite{ietf6570Template}, thereby reducing the need for exhaustive redefinition.
-For prescriptive shapes, contributions in shape-based data integration~\cite{LabraGayo2023} could help prevent the generation of invalid resources.
+The construction and maintenance of shape indexes are beyond the scope of this work. 
+Although not evaluated here, shape indexes seem to require less effort to generate than VoID descriptions~\cite{Boehm2011}, as they do not include detailed statistics such as triple counts. 
+Nonetheless, VoID descriptions have been successfully employed for query optimization in federated queries~\cite{Montoya2017}. 
+
+Exposed schemas can also enhance interoperability, which is important in many application domains~\cite{rowland2022interoperability, solidSolidApplication, binding2016improving, roller2015benefits}. 
+Thus, data publishers may have incentives to expose a shape index not only to improve query engine performance but also to satisfy other domain-specific requirements.
+
+RDF data shapes can be prescriptive or descriptive.
+For descriptive shape indexes, automatic RDF data shape generation methods~\cite{fernandez2023extracting} can facilitate their creation. 
+Entries in shape indexes correspond to sets of IRIs, which can be structured using URI templates~\cite{ietf6570Template}, reducing the need for exhaustive redefinition. 
+For prescriptive shapes, contributions in shape-based data integration~\cite{LabraGayo2023} can help prevent the generation of invalid resources.
 
 
 \subsection{Link Pruning Using Shape Indexes}\label{sec:sourceSelection}
@@ -181,7 +186,7 @@ To perform pruning in LTQP with shape indexes, an initial reachability criterion
 This criterion must include a discovery reachability criterion $cd_{\text{shape index}}$ that leads to a shape index document.  
 After dereferencing a shape index $SI_i$, the query engine creates a set of links $IRI_p$ containing the links to prune.  
 The links to prune are identified by evaluating the shape index to find IRIs that are not relevant to the query, such that Equation~\ref{eq:evalQueryStructuralAssumption} holds, given that $G^{\prime}$ is produced using $C_0$.  
-This is done by performing a query-shape subsumption check ($\sqsubseteq_{qs}$), defined later in Section~\ref{sec:containment}.
+This is done by performing a query-shape subsumption check ($\sqsubseteq_{qs}$), defined in the next section.
 
 We define
 $$
@@ -191,7 +196,7 @@ From this sets of links we define a pruning reachability criteria;
 \begin{equation}
        cp_{si}(t, iri, Q) = iri \notin IRI_p
 \end{equation}
-The new reachability $C^{\prime\prime}_i$ is created by taking the $Cd$ and $Cp$ of $C^{\prime\prime}_{i-1}$ and adding $cp_{si}$ to $Cp$.
+The new reachability $C_i$ is created by taking the $Cd$ and $Cp$ of $C_{i-1}$ and adding $cp_{si}$ to $Cp$.
 
 This approach has three main limitations.  
 First, it assumes that data providers maintain up-to-date shape indexes; outdated indexes may lead to incomplete results.
@@ -207,8 +212,10 @@ This problem involves determining whether a GSP in a query can produce at least 
 A common approach for validating shapes over an RDF graph is to translate shapes into SPARQL queries~\sepfootnote{sf:recursiveShape}~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, spapeExpressionConvert, delva2023}.
 We denote the transformation of a shape $S$ into a query as $T(S)$, which yields a query $Q_s$.
 We transform open shapes as queries over the entire KG, since they impose only the minimal constraints required of a KG.
-When the problem is expressed as $\text{GSP} \sqsubseteq_{qs} Q_s$ (considering a GPS to be a \texttt{SELECT} query), we say that a GSP is subsumed by $S$ if every result of the GSP can be extended to a result of $Q_s$, and every triple pattern in GSP are equivalent to or a specialization of those in the $Q_s$.
-Thus, the problem diverges from query containment and query subsumption~\cite{Spasi2023, Pichler2014}, because query-shape subsumption does not analyze whether the bag of solution mappings of one query is a subset of that of another query, independent of the KG.
+When the problem is expressed as $\text{GSP} \sqsubseteq_{qs} Q_s$ (considering a GPS to be a \texttt{SELECT} query), we say that a GSP is subsumed by $S$ if every result of the GSP can be extended to a result of $Q_s$, and every triple pattern in a GSP are equivalent to or a specialization of those in the $Q_s$.
+Thus, the problem diverges from traditional query containment and query subsumption~\cite{Spasi2023, Pichler2014} under set semantics. 
+Query-shape subsumption does not consider only the set of solution mappings but also the constraints of the queries.
+\footnote{In this sense, it bears some similarity to query containment under bag semantics, particularly through the notion of ``goals-onto'' containment mappings~\cite{Chaudhuri1993, Afrati2010}.} 
 The complexity of the problem is reduced by the fact that $Q_s$ has a GSP structure where predicates are always IRIs.
 This structure arises because shapes primarily describe predicate and object terms and are isomorphic to the specific KG.
 By exploiting this structure, it is possible to design an algorithm with polynomial-time complexity.
@@ -218,8 +225,9 @@ More formally, for a $S$ to subsumed a shape GSP, we consider the queries $Q$ an
 $$
 Q_i = Q_{\text{body}} \bowtie Q_{\text{unions}}
 $$
-$Q_{\text{body}}$ is the Basic Graph Pattern (BGP) of the query, and $Q_{\text{unions}} = \bigcup Q_u$ represents the Union Graph Patterns (UGP)~\cite{w3SPARQLQuery}, where $Q_u = q_0 \cup q_1$ and $q_i$ are BGPs.
-We assume that $q_i$ have no union statements.
+Let $Q_{\text{body}}$ denote the Basic Graph Pattern (BGP) of the query, and let 
+$Q_{\text{unions}} = \bigcup Q_u$ represent the Union Graph Patterns (UGPs)~\cite{w3SPARQLQuery} expressed in normal form. 
+Here, each $Q_u$ is of the form $q_0 \cup q_1$, where each $q_i$ is a BGP, and we assume that the $q_i$ contain no union statements themselves.
 
 \subsubsection{Algorithm}
 
