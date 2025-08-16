@@ -16,7 +16,7 @@ git submodule update --init --recursive
 ```
 The authors compiled the PDF version using `pdflatex` (you can use your favorite latex compiler).
 We created a `makefile` to facilitate the building of the PDF version.
-If `pdflatex` and the other dependencies of the [TeX Live](https://tug.org/texlive/) suite are installed on the machine of the user you can generate the PDF by running:
+If `pdflatex` and the other dependencies of the [TeX Live](https://tug.org/texlive/) suite and [`latexmk`](https://mgeier.github.io/latexmk.html) are installed on the machine of the user you can generate the PDF by running:
 
 ```bash
 make main.pdf
