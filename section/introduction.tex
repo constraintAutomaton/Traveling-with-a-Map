@@ -50,9 +50,15 @@ Finally, the engine dereferences all reachable resources outside the subwebs tha
     }
     \label{fig:dkg}
 \end{figure}
-
-Our contributions include (i) a link pruning approach using shape indexes for LTQP; (ii) a novel query-shape subsumption algorithm for assessing data source relevance, (iii) an open-source implementation in the 
-Comunica SPARQL query engine~\cite{taelman_iswc_resources_comunica_2018}, and (iv) an experimental evaluation using a synthetic benchmark.
+Our contributions are as follows:
+\begin{enumerate}[label=(\roman*)]
+    \item An introduction and formalization of \emph{link pruning} for LTQP 
+    \item A shape-based pruning approach for LTQP using RDF data shapes
+    \item A novel network abstractions of \emph{subwebs} and \emph{decentralized knowledge graphs} (DKGs) for LTQP,
+    \item A novel \emph{query-shape subsumption algorithm} for assessing data source relevance
+    \item An open-source implementation in the Comunica SPARQL query engine~\cite{taelman_iswc_resources_comunica_2018}
+    \item An extensive experimental evaluation using the SolidBench benchmark.
+\end{enumerate}
 
 Concretely in this work, we ask the following research question: 
 \textbf{Can LTQP use shape-based pruning in DKG networks to reduce query execution time while preserving result completeness?}
