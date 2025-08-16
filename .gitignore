@@ -30,3 +30,4 @@ svg-inkscape
 main.fdb_latexmk
 *.fls
 *.synctex.gz
+*.bcf-SAVE-ERROR

@@ -27,7 +27,7 @@ This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows
 The poor performance is due to the fact that the links acquired by the other approaches were selected based on reachability criteria that did not leverage the structural properties of the dataset, such as in the case of \texttt{Cmatch}~\cite{hartig2016walking}, a reachability criterion based on the structure of the query.
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
 %It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
-However, those queries were already fast, with the type index traversal algorithm approach being executed in approximately 0.30\% of the maximum execution time allowed.
+However, those queries were already efficient, with the type index traversal approach completing in only about 0.30\% of the maximum allowed execution time.
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
 Those results mostly validate \textbf{H1} however the shape index approach can drastically increase the execution time when the structural properties are not used.
 
@@ -39,7 +39,7 @@ These waiting time guidelines are derived from the field of neuropsychology and 
 A waiting time below 0.1 seconds is perceived as instantaneous, a delay of up to 1 second preserves a seamless flow of thought, while delays exceeding 10 seconds tend to cause user attention to drift~\cite{Nielsen1993}.
 We additionally computed the diefficiency metric in relation to time (\textit{dief@t})~\cite{Acosta2017}, at the previously mentioned time intervals: 0.1\,s, 1\,s, and the arrival time of the final result.
 We did not choose 10\,s as the threshold, because queries that terminate complete in under 10\,s.
-Tables~\ref{tab:continuousPerf} and \ref{tab:dief} in the \hyperref[sec:appendix]{Appendix} present the average results for the metrics presented above.
+Tables~\ref{tab:dief} and \ref{tab:continuousPerf} in the \hyperref[sec:appendix]{Appendix} present the average results for the metrics presented above.
 
 \begin{figure}
     \centering
@@ -75,7 +75,6 @@ A long termination time generally indicates that, toward the end of execution, a
 Although Table~\ref{tab:ratioUsefulResources} does not show the temporal progression of this percentage it still give us information about the quantity of non-query-relevant resources being dereferenced.
 For templates D5 and D6, the termination-time distributions for the shape index approach have a similar shape but exhibit a longer tail, particularly D6, which can take up to one second longer to terminate. 
 In these cases, Table~\ref{tab:ratioUsefulResources} shows that the proportion of query-relevant resources dereferenced using the shape index is within $\pm$1\% of that obtained with the type index.
-Additionally, Table~\ref{tab:statSignificanceStateOfTheArt} shows that there is in average an increase of 12\% of HTTP request
 A similar situation is observed for template D3, although in this case the type index achieves a termination time of zero. 
 The longer termination times for D5 and D6 may be attributed to the additional dereferencing of shape index documents. 
 Notably, for template D6 in Figure~\ref{fig:compApproach}, an outlier query increases execution time by approximately a ration of 1.2, which could explain the extended tail and the additional second of termination time.
@@ -116,12 +115,15 @@ Such dereferencing can introduce a gap before the first results appear, even whe
     \label{fig:dief_lr}
 \end{figure}
 
-Figures~\ref{fig:dief_01}, \ref{fig:dief_1}, and~\ref{fig:dief_lr} show the \textit{dief@t} values measured at 0.1 seconds (\textit{dief@0.1s}), 1 second (\textit{dief@1s}), and at the time of the last result (\textit{dief@lr}).\footnote{This means that if, for a given query, the shape index approach produces the last result at 5~seconds and the type index at 5.10~seconds, then the \textit{dief@t} metric will be computed at 5.10~seconds.}  
+Figures~\ref{fig:dief_01}, \ref{fig:dief_1}, and~\ref{fig:dief_lr} show the \textit{dief@t} values measured at 0.1 seconds (\textit{dief@0.1s}), 1 second (\textit{dief@1s}), and at the time of the last result (\textit{dief@lr}).\footnote{\label{fn:dief_lt}This means that if, for a given query, the shape index approach produces the last result at 5~seconds and the type index at 5.10~seconds, then the \textit{dief@t} metric will be computed at 5.10~seconds.}  
 The \textit{dief@0.1s} results show that, except for S4, no approach is able to produce instantaneous results, which aligns with the observations in Figure~\ref{fig:first_res}.  
 Overall, this indicates that, with the current approaches and benchmark, producing instantaneous results is not feasible.
-The \textit{dief@1s} results indicate that the shape index approach generally produces a higher number of early results, except for queries from templates S4 and S5.  
-This suggests that, for fast result arrival, the shape index approach performs better.  
-This finding is particularly relevant in the context of social media applications, where it is often more important to obtain fast, relevant results to maintain interactivity than to retrieve complete results immediately.  
+The \textit{dief@1s} results indicate that the shape index approach generally produces a higher number of early results, except for queries from templates S4 and S5.
+This result is expected for S4 as the performance with the shape index is drastically reduced as shown in Figure~\ref{fig:compApproach} however with S5 it is less expected as it is a query template that perform better with the shape index.
+It would be expected to see a performance improvement in terms of \textit{dief@t} at the last results for S5, however, the values are zero or close to zero.
+This is because these queries produce only a single result, so \textit{dief@t} naturally tends toward 0 unless there is a very large difference in execution time between the two approaches (see footnote~\ref{fn:dief_lt}).
+These results suggest that, for fast early result arrival, the shape index approach tend to performs better.
+This finding is particularly relevant in the context of social media applications, where it is often more important to obtain fast, relevant results to maintain interactivity than to retrieve complete results.  
 The \textit{dief@lr} show a similar behavior but with lesser performance gain compare to at \textit{dief@1s} (see Table~\ref{tab:dief} to compare the average values).
 
 % calculate ratio
@@ -200,7 +202,7 @@ Moreover, the completeness of shape indexes has a smaller impact on performance 
     % General caption
     \caption{
         The data show two regimes in the relation between the number of HTTP requests and the execution time, 
-        we see a more linear correlation on the left figure than on the right figure.
+        we see a more linear correlation on the up figure than on the down figure.
         }
     \label{fig:http_req_exec_time_cor}
 \end{figure}
@@ -212,17 +214,17 @@ To study the relationship between the number of HTTP request and the query execu
 calculated in relation to the type index approach.
 Figure~\ref{fig:http_req_exec_time_cor} present our analysis.
 The relationship between HTTP request and query execution time can be divided into two regimes.
-In the first regime (left figure), where the shape index approach reduces the number of HTTP requests, we notice a positive linear correlation with a Pearson correlation coefficient (PCC) of 0.84 and a high statistical significance ($< 0.01$).
+In the first regime (up figure), where the shape index approach reduces the number of HTTP requests, we notice a positive linear correlation with a Pearson correlation coefficient (PCC) of 0.84 and a high statistical significance ($< 0.01$).
 We can notice that toward the end, the curve appears to exhibit a more exponential behavior.
 Evaluating an $R^2$ score with an exponential best fit curve we get a score of 0.72 and 0.71 for a linear curve.
 Above a ratio of approximately 0.85 of HTTP requests, the shape index approach did not guarantee a reduction in query execution time.
 There can be multiple explanation for this behavior.
 First, the method have some overhead due to the query-shape subsumption algorithm and the state retention of the pruning reachability criteria.
-However, as shown in in section \ref{sec:experimentAlgoSubsumption} the query-shape subsumption algorithm execution time is negligeable for one execution and the state retentation has a polynomial time complexity thus it should not have a high impact on the execution time.
+However, as shown in in section~\ref{sec:experimentAlgoSubsumption} the query-shape subsumption algorithm execution time is negligeable for one execution and the state retentation has a polynomial time complexity thus it should not have a high impact on the execution time.
 Another explanation is the number of HTTP request that are performed in parallel.
-The LTQP version of comunica perform 10 HTTP requests in parallel, thus we would expect that with a low number and ratio of HTTP request perform that the performance would remain unchanged or a little bit worse which is what can be withness in the curve.
+The LTQP version of Comunica performs 10 HTTP requests in parallel, thus, we would expect that with a low number and ratio of HTTP requests, the performance would remain largely unchanged or slightly worse, which is what can be observed in the curve.
 
-In the second regime (right figure), the shape index increases the number of HTTP requests.
+In the second regime (down figure), the shape index increases the number of HTTP requests.
 We notice a moderate positive linear correlation with a PCC of 0.44.
 The overall correlation between reducing HTTP requests and query execution time is positively linear, with a moderate linear correlation with a PCC of 0.56 and a high statistical significance.
 The correlation is more linear than exponential with $R^2$ scores respectively of 0.31 and 0.24, however due to the low score it is difficult to determine the nature of the distribution.
