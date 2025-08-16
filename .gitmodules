@@ -1,7 +1,6 @@
 [submodule "analysis"]
 	path = analysis
 	url = https://github.com/shapeIndexComunicaExperiment/analysis.git
-	branch = main
 [submodule "time-complexity"]
 	path = time-complexity
 	url = https://github.com/shapeIndexComunicaExperiment/time-complexity.git
