@@ -38,18 +38,17 @@ The process begins with the engine dereferencing the shape index of subweb 3 and
 It then checks the shape index of subweb 1 due to the existing link towards it, where the subsumption check reveals no resources relevant to the query.  
 Next, it examines the shape index of subweb 2 and identifies resources containing comments (i.e., replies) which are relevant.  
 Finally, the engine dereferences all reachable resources outside the subwebs that are linked to these relevant comments.
-
-\begin{figure}
-   \centering
-   \includegraphics[width=1.0\linewidth]{figure/dkg.pdf}
-   \caption{
-      Given that the resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
-      The nodes represent RDF resources, while the edges represent IRIs linking one resource to another.
-      Each subweb has a shape index that maps shapes, represented by icons, to RDF resources by embedding the icon within the node.
-      The query engine starts its query at subweb 3, and the relevant query resources in a subweb are identified with a black node.
+\begin{figure*}
+    \centering
+    \includegraphics[width=1.0\linewidth]{figure/dkg.pdf}
+    \caption{
+    Given that the resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
+    The nodes represent RDF resources, while the edges represent IRIs linking one resource to another.
+    Each subweb has a shape index that maps shapes, represented by icons, to RDF resources by embedding the icon within the node.
+    The query engine starts its query at subweb 3, and the relevant query resources in a subweb are identified with a black node.
     }
     \label{fig:dkg}
-\end{figure}
+\end{figure*}
 Our contributions are as follows:
 \begin{enumerate}[label=(\roman*)]
     \item An introduction and formalization of \emph{link pruning} for LTQP 

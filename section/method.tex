@@ -58,16 +58,16 @@ Therefore, reducing HTTP requests provides a twofold benefit, fewer resources to
 
 \subsection{Shape Index}
 
-\begin{figure}
+\begin{figure*}
    \centering
    % First figure
-   \begin{minipage}[t]{0.55\linewidth}
+   \begin{minipage}[t]{0.45\linewidth}
       \centering
       \lstinputlisting[language=sh, basicstyle=\tiny]{code/shape_index.nq}
    \end{minipage}
    %\hspace{0.05\textwidth}
    % Second figure
-   \begin{minipage}[t]{0.40\linewidth}
+   \begin{minipage}[t]{0.45\linewidth}
       \centering
       \lstinputlisting[language=sh, basicstyle=\tiny]{code/gps.rq}
    \end{minipage}
@@ -77,7 +77,7 @@ Therefore, reducing HTTP requests provides a twofold benefit, fewer resources to
       On the left, an example illustrates a shape index that maps a set of IRIs, represented using a URI template~\cite{ietf6570Template}, to a user shape, and a specific IRI to a post shape.
       On the right, an example illustrates of a graph star pattern where the main subject is \texttt{?comment} and is linked to the \texttt{?message} and \texttt{?forum} star patterns.}
    \label{fig:shapeIndex}
-\end{figure}
+\end{figure*}
 
 Pruning in LTQP requires knowledge of the data models of dereferenced resources.  
 However, obtaining complete, up-to-date, and detailed information for each resource in a large decentralized network is impractical.  

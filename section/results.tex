@@ -2,8 +2,9 @@
     
 \subsection{Evaluation Against Other Approaches}
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.70\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
     % General caption
     \caption{
     Comparison of query execution time with the type index approach.
@@ -12,7 +13,7 @@
     The shape index approach performs similarly or better than the other methods, except in the case of S4.
     }
     \label{fig:compApproach}
-\end{figure}
+\end{figure*}
 
 Figure~\ref{fig:compApproach} shows that the shape index approach performs better or comparably to the state-of-the-art Solid Pod network traversal algorithms, for all query templates except S4.
 Figure~\ref{fig:compApproachRaw} in the \hyperref[sec:appendix]{Appendix} present the execution time of each method and Table~\ref{tab:statSignificanceStateOfTheArt} present the statistical significance by query templates.
@@ -44,7 +45,9 @@ Tables~\ref{tab:dief} and \ref{tab:continuousPerf} in the \hyperref[sec:appendix
 \begin{figure}
     \centering
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/first_result}
-    \caption{The shape index approach tends to produce the first results earlier than the type index approach, particularly for queries where the shape index achieves shorter total execution times.}
+    \caption{
+    \textbf{The first result distribution by query template.}    
+    The shape index approach tends to produce the first results earlier than the type index approach, particularly for queries where the shape index achieves shorter total execution times.}
     \label{fig:first_res}
 \end{figure}
 
@@ -64,7 +67,9 @@ In contrast, the shape index approach may delay first result production because 
 \begin{figure}
     \centering
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/termination_time}
-    \caption{With the exception of queries from templates D6 and D7, which have similar execution times, the shape index either maintains or improves query termination time.}
+    \caption{
+     \textbf{The termination time distribution by query template.}    
+    With the exception of queries from templates D6 and D7, which have similar execution times, the shape index either maintains or improves query termination time.}
     \label{fig:termination_time}
 \end{figure}
 
@@ -83,7 +88,9 @@ Notably, for template D6 in Figure~\ref{fig:compApproach}, an outlier query incr
 \begin{figure}
     \centering
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/waiting_time}
-    \caption{Except for queries from template D1, the shape index approach tends to either maintain or worsen the waiting time.}
+    \caption{
+    \textbf{The waiting time distribution by query template.}    
+    Except for queries from template D1, the shape index approach tends to either maintain or worsen the waiting time.}
     \label{fig:waiting_time}
 \end{figure}
 
@@ -96,14 +103,18 @@ Such dereferencing can introduce a gap before the first results appear, even whe
 \begin{figure}
     \centering
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_01}
-    \caption{At 0.1 second, the value is zero for every query template except S4. This is expected, as for all other templates the first result arrives after 0.1 seconds.}
+    \caption{
+    \textbf{The \textit{dief@0.1s} distribution by query template.}    
+    At 0.1 second, the value is zero for every query template except S4. This is expected, as for all other templates the first result arrives after 0.1 seconds.}
     \label{fig:dief_01}
 \end{figure}
 
 \begin{figure}
     \centering
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_1}
-    \caption{At 1 second, the shape index approach shows a higher \textit{dief@1s} (\textbf{higher is better}), indicating that more results are obtained while maintaining a seamless flow of thought.}
+    \caption{
+    \textbf{The \textit{dief@1s} distribution by query template.}    
+    At 1 second, the shape index approach shows a higher \textit{dief@1s} (\textbf{higher is better}), indicating that more results are obtained while maintaining a seamless flow of thought.}
     \label{fig:dief_1}
 \end{figure}
 
@@ -111,7 +122,9 @@ Such dereferencing can introduce a gap before the first results appear, even whe
 \begin{figure}
     \centering
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_lr}
-    \caption{At the time of the last result, the shape index approach tends to exhibit a similar \textit{dief@t} (\textbf{higher is better}).}
+    \caption{
+    \textbf{The \textit{dief@lr} distribution by query template.}    
+    At the time of the last result, the shape index approach tends to exhibit a similar \textit{dief@t} (\textbf{higher is better}).}
     \label{fig:dief_lr}
 \end{figure}
 
@@ -146,7 +159,7 @@ As expected, we observe that queries that performed better in Figure~\ref{fig:co
 %Queries that were unaffected by the shape index changes remain unaffected.
 
 
-\begin{figure}
+\begin{figure*}
     \centering
     \includegraphics[width=1\linewidth]{analysis/artefact/variation_shape_index_all/plot}
     \caption{
@@ -155,7 +168,7 @@ As expected, we observe that queries that performed better in Figure~\ref{fig:co
     %However, the utility of shape index information can vary depending on the specific queries and network characteristics.
     }
     \label{fig:adaptShapeIndex}
-\end{figure}
+\end{figure*}
 
 
 The plot in the middle shows the variation in the percentage of shape index entries using closed shapes.
@@ -183,17 +196,17 @@ Therefore, the outcome is dependent on both the query and the network.
 Moreover, the completeness of shape indexes has a smaller impact on performance than their presence or absence.
 \textbf{H5} is accepted; it is possible to retain performance gains even in networks with reduced shape-index information.
 
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
     \centering
     % First figure
-    \begin{minipage}[t]{1.0\linewidth}
+    \begin{minipage}[t]{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/http_req_exec_time_relation/http_req_exec_time_cor_better}
         \label{fig:http_req_exec_time_cor_better}
     \end{minipage}
     \hspace{0.05\textwidth}
     % Second figure
-    \begin{minipage}[t]{1.0\linewidth}
+    \begin{minipage}[t]{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{analysis/artefact/http_req_exec_time_relation/http_req_exec_time_cor_worse}
         \label{fig:http_req_exec_time_cor_worse}
@@ -205,7 +218,7 @@ Moreover, the completeness of shape indexes has a smaller impact on performance 
         we see a more linear correlation on the up figure than on the down figure.
         }
     \label{fig:http_req_exec_time_cor}
-\end{figure}
+\end{figure*}
 
 \subsection{Relationship Between HTTP Request and Query Execution Time}
 
