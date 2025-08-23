@@ -6,7 +6,7 @@ Our work focuses on the union of conjunctive queries over RDF knowledge graphs~(
 The fundamental building blocks of KGs and SPARQL queries are triples and triple patterns, respectively, as defined in Definition~\ref{def:triple} and Definition~\ref{def:triplePattern}.
 
 \begin{definition}[Triple]\label{def:triple}
-    RDF triple $t = (s,p,o)$ are tuples formed with three terms. A subject where $s \in \mathcal{I} \cup \mathcal{B}$, a predicate $p \in \mathcal{I}$ and an object $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$.
+    RDF triples $t = (s,p,o)$ are tuples formed with three terms. A subject where $s \in \mathcal{I} \cup \mathcal{B}$, a predicate $p \in \mathcal{I}$ and an object $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$.
     Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$,  are respectively the set of every possible IRI, blank node, literal.
     For simplicity, we denote the union of these sets by concatenating their symbols, so that $ \mathcal{I} \cup \mathcal{B}$ is written as $ \mathcal{I} \mathcal{B}$.
 \end{definition}
@@ -18,8 +18,8 @@ The fundamental building blocks of KGs and SPARQL queries are triples and triple
     %A triple pattern returns a solution sequence with solution mappings a single or multiple $tp$ forms a Basic Graph Pattern (BGP).
 \end{definition}
 
-We also define two access functions to get respectively the subject and object term of a triple pattern or a triple while ignoring literals,
-$ S:  (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$ and $O: (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$.
+We also define two access functions to respectively get the subject and object term of a triple or a triple pattern while ignoring literals,
+$ S:  (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V} \mathcal{L}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$ and $O: (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V} \mathcal{L}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$.
 We denote $[\![ Q ]\!]^{G}$ as the evaluation of a query $Q$ over a KG $G$~\cite{Angles2008}.
 
 \subsection{Reachability Criteria}
@@ -40,6 +40,7 @@ We define a DKG as a KG $G$ materialized in a network of resources $R$.
 A resource $r_i \in R$ is mapped to a KG $g_i \subseteq G$, which is a set of triples~\cite{w3ConceptsAbstract}.
 We denote this mapping $r_i \mapsto_{\mathcal{G}} g_i$.
 A resource is mapped and exposed by an IRI $iri_i$ denoted by $iri_i \mapsto_{\mathcal{R}} r_i$.
-The network forms a graph where the resources $r_i$ are the nodes and the $iri_j \in g_i$ are directed edges starting from $r_i$ to $r_j$.
-$G$ is formed by the union of all the $g \in \text{dom}(R)$. %, such that $G = \bigcup_{i=1}^{n}g_i$ given $n$ resources in the network.
-A subweb is a (sub)DKG defined by a set of IRIs controlled by a data provider.
+The network forms a graph where the resources $r_i$ are the nodes and the $iri_j$ are directed edges starting from $r_i$ to $r_j$.
+The $iri_j$ are RDF terms in the triples in $g_i$.
+$G$ is formed by the union of all the $g_i$ mapped to a resource in the network.
+A subweb is a (sub)DKG defined by the KG derived from a set of IRIs controlled by a data provider.

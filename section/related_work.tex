@@ -13,8 +13,12 @@ In summary, LDF methods such as Triple Pattern Fragments (TPF)~\cite{verborgh201
 
 The main challenge of LTQP is the Web's open-ended nature leading to large search spaces.
 Completeness in LTQP is defined by the traversal of a well-defined set of links~\cite{Hartig2012}.
-The first method employed to define this set was the reachability criteria~\cite{Hartig2012}, which are boolean functions that determine whether a link should be dereferenced.
-Building on this, the theoretical query language LDQL~\cite{hartigLDQL} was introduced, separating the traversal definition from the query definition.
+The first method used to define this set was the \emph{reachability criteria}~\cite{Hartig2012}, boolean functions that determine whether a given link should be dereferenced. 
+In practice, the query engine iterates over all triples in its internal data source and applies the reachability criteria to each IRI appearing in those triples. 
+These criteria are defined internally by the engine, giving designers considerable freedom in how they are implemented and which links are dereferenced. 
+However, there is currently no standard mechanism for users to specify them, nor for query engine developers to adopt a common approach.
+Building on this, the theoretical query language LDQL~\cite{hartigLDQL} was introduced, which separates the traversal definition from the query definition. 
+It provides a standard mechanism for query engines to define their traversal logic, while opening the possibility for users to provide a traversal policy alongside their queries.
 Further advancements include the Subweb Specifications Language (SWSL)~\cite{Bogaerts2021LinkTW}, which allows data providers to define how their DKG should be traversed.
 Inspired by SWSL, traversal-based querying has utilized the Linked Data Platform (LDP) and the Type Index specification~\cite{Taelman2023}.  
 LDP traversal follows all links within a data space, while Type Index traversal uses mappings from RDF types to relevant resources~\cite{solidTypeIndexes}, allowing queries to prioritize implicitly relevant data sources.
