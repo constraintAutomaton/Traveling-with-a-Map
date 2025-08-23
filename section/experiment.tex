@@ -46,7 +46,7 @@ We created an open-source module to generate shape indexes in SolidBench, based 
 The shape-annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
 The datasets are Solid Pods~\cite{sambra_solid_2016, dedecker2022s}.
 In this paper, we consider a Solid Pod as a web-based file system that follows the LDP specification~\cite{w3LinkedData}.
-Each Solid Pod, contains alongside its data, a shape index and separate resources for each shape definition.
+Each Solid Pod, alongside contains its data, a shape index and separate resources for each shape definition.
 Some shapes are nested within others. 
 For example, user profiles are associated with cities, and comments are associated with posts.
 Depending on the pod instance, certain data model objects are materialized in a single file, while others are distributed across multiple files.
@@ -58,14 +58,20 @@ The shape indexes contain 13 triples each, while the largest shapes have up to 1
 This can be considered insignificant, particularly because the number of triples does not scale with the size of the subwebs.
 The entire data model and query templates are available in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 
-To evaluate our approach, we conducted the following experiments: we first measured the execution time and results of our query-shape subsumption algorithm using the shapes from the study;
-We then compared our shape index approach to state-of-the-art Solid Pod network traversal algorithms: one leveraging the type index specification~\cite{Taelman2023}, and another using the LDP specification~\cite{Taelman2023}, in a network where each Solid Pod provides a complete shape index.
-It should be noted that the type index and shape index approach are extensions of the LDP approach.
-Subsequently, we analyze the relationship between the number of HTTP requests and query execution time, drawing on data collected across all experiments.
-Additionally, we assessed the resilience of our approach by gradually reducing the shape index information across the network.  
-We measured query execution time in networks where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.  
-We also varied the percentage of shape index entries using closed shapes, testing 20\%, 50\%, and 80\%.
-We finally evaluate a network having shapes that incorporate only data from the Solid Pods and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.
+To evaluate our approach, we conducted the following experiments: 
+\begin{itemize}
+   \item We measured the execution time and results of our query-shape subsumption algorithm using the shapes from the study.
+   \item We then compared our shape index approach to state-of-the-art Solid Pod network traversal algorithms: one leveraging the type index specification~\cite{Taelman2023}, and another using the LDP specification~\cite{Taelman2023}, in a network where each Solid Pod provides a complete shape index.~\footnote{It should be noted that the type index and shape index approach are extensions of the LDP approach.}
+   \item We analyze the relationship between the number of HTTP requests and query execution time, drawing on data collected across all experiments.
+\end{itemize}
+
+Subsequently, we assessed the resilience of our approach by gradually reducing the shape index information across the network by performing the following experience:
+
+\begin{itemize}
+   \item We measured query execution time in networks where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.
+   \item We measured query execution time in networks where 20\%, 50\%, and 80\% shape indexes are complete.
+   \item We measured query execution time in networks having shapes that incorporate only data from the Solid Pods and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.
+\end{itemize}
 
 We conducted the experiment using queries from five different instantiations of SolidBench query templates, varying the starting pods in a random yet reproducible manner.
 Experiments were repeated 50 times with a 2 minute timeout per query execution. 
