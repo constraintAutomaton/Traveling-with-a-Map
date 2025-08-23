@@ -16,11 +16,11 @@
 \end{figure*}
 
 Figure~\ref{fig:compApproach} shows that the shape index approach performs better or comparably to the state-of-the-art Solid Pod network traversal algorithms, for all query templates except S4.
-Figure~\ref{fig:compApproachRaw} in the \hyperref[sec:appendix]{Appendix} present the execution time of each method and Table~\ref{tab:statSignificanceStateOfTheArt} present the statistical significance by query templates.
+Figure~\ref{fig:compApproachRaw} in the \hyperref[sec:appendix]{Appendix} presents the execution times of each method and Table~\ref{tab:statSignificanceStateOfTheArt} presents the statistical significance by query templates.
 The shape index approach allows for answering queries from the S7 template, which was not possible by the other approaches, due to large amount of HTTP requests resulting in timeouts.
 Queries can require as little as 13\% of the execution time (S1 being 7 times faster) of the type index.
 The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
-Table~\ref{tab:ratioUsefulResources} presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
+This table presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
 %Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
 Queries from templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
 We notice that queries from template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
@@ -82,7 +82,7 @@ For templates D5 and D6, the termination-time distributions for the shape index 
 In these cases, Table~\ref{tab:ratioUsefulResources} shows that the proportion of query-relevant resources dereferenced using the shape index is within $\pm$1\% of that obtained with the type index.
 A similar situation is observed for template D3, although in this case the type index achieves a termination time of zero. 
 The longer termination times for D5 and D6 may be attributed to the additional dereferencing of shape index documents. 
-Notably, for template D6 in Figure~\ref{fig:compApproach}, an outlier query increases execution time by approximately a ration of 1.2, which could explain the extended tail and the additional second of termination time.
+Notably, for template D6 in Figure~\ref{fig:compApproach}, an outlier query increases execution time by approximately a ratio of 1.2, which could explain the extended tail and the additional second of termination time.
 
 
 \begin{figure}
@@ -134,17 +134,17 @@ Overall, this indicates that, with the current approaches and benchmark, produci
 The \textit{dief@1s} results indicate that the shape index approach generally produces a higher number of early results, except for queries from templates S4 and S5.
 This result is expected for S4 as the performance with the shape index is drastically reduced as shown in Figure~\ref{fig:compApproach} however with S5 it is less expected as it is a query template that perform better with the shape index.
 It would be expected to see a performance improvement in terms of \textit{dief@t} at the last results for S5, however, the values are zero or close to zero.
-This is because these queries produce only a single result, so \textit{dief@t} naturally tends toward 0 unless there is a very large difference in execution time between the two approaches (see footnote~\ref{fn:dief_lt}).
-These results suggest that, for fast early result arrival, the shape index approach tend to performs better.
+This is because these queries produce only a single result, so \textit{dief@t} naturally tends toward 0 unless there is a very large difference in execution time between the two approaches.~\ref{fn:dief_lt}
+These results suggest that, for fast early result arrival, the shape index approach tends to performs better.
 This finding is particularly relevant in the context of social media applications, where it is often more important to obtain fast, relevant results to maintain interactivity than to retrieve complete results.  
-The \textit{dief@lr} show a similar behavior but with lesser performance gain compare to at \textit{dief@1s} (see Table~\ref{tab:dief} to compare the average values).
+The \textit{dief@lr} show a similar behavior but with lesser performance gain compare to \textit{dief@1s} (see Table~\ref{tab:dief} to compare the average values).
 
 % calculate ratio
 
 \subsection{Query-Shape Subsumption Evaluation} \label{sec:experimentAlgoSubsumption}
 
 The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
-Table~\ref{tab:queryShapeContainmentEval} present does results.
+Table~\ref{tab:queryShapeContainmentEval} present these results.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
 This result validated \textbf{H2}.
 
@@ -173,7 +173,7 @@ As expected, we observe that queries that performed better in Figure~\ref{fig:co
 
 The plot in the middle shows the variation in the percentage of shape index entries using closed shapes.
 The results here are more nuanced.
-While there is a general trend for query evaluations with a lower percentage of closed shapes to behave similarly to the plot on the left, we also observe both performance gains for some query template and a drastic performance loss for the queries of S1 when 80\% of the shape entries are closed.
+While there is a general trend for query evaluations with a lower percentage of closed shapes to behave similarly to the plot on the left, we also observe both performance gains for some query templates and a drastic performance loss for the queries of S1 when 80\% of the shape entries are closed.
 The performance gain occurs because not every entry needs to be closed to prune the query irrelevant documents.
 Entries mapped to an open shape are always considered relevant because the shape translates to a query fetching the whole KG.
 If the subsumption check leads to the same conclusion, then, given a closed entry, the execution will be more expensive because 
@@ -225,19 +225,19 @@ Moreover, the completeness of shape indexes has a smaller impact on performance 
 
 To study the relationship between the number of HTTP request and the query execution time, the ratio of HTTP request of the different approaches and the ratio of query execution time was 
 calculated in relation to the type index approach.
-Figure~\ref{fig:http_req_exec_time_cor} present our analysis.
+Figure~\ref{fig:http_req_exec_time_cor} presents our analysis.
 The relationship between HTTP request and query execution time can be divided into two regimes.
-In the first regime (up figure), where the shape index approach reduces the number of HTTP requests, we notice a positive linear correlation with a Pearson correlation coefficient (PCC) of 0.84 and a high statistical significance ($< 0.01$).
+In the first regime (left figure), where the shape index approach reduces the number of HTTP requests, we notice a positive linear correlation with a Pearson correlation coefficient (PCC) of 0.84 and a high statistical significance ($< 0.01$).
 We can notice that toward the end, the curve appears to exhibit a more exponential behavior.
 Evaluating an $R^2$ score with an exponential best fit curve we get a score of 0.72 and 0.71 for a linear curve.
 Above a ratio of approximately 0.85 of HTTP requests, the shape index approach did not guarantee a reduction in query execution time.
-There can be multiple explanation for this behavior.
-First, the method have some overhead due to the query-shape subsumption algorithm and the state retention of the pruning reachability criteria.
-However, as shown in in section~\ref{sec:experimentAlgoSubsumption} the query-shape subsumption algorithm execution time is negligeable for one execution and the state retentation has a polynomial time complexity thus it should not have a high impact on the execution time.
-Another explanation is the number of HTTP request that are performed in parallel.
+There can be multiple explanations for this behavior.
+First, the methods have some overhead due to the query-shape subsumption algorithm and the state retention of the pruning reachability criteria.
+However, the query-shape subsumption algorithm execution time is negligeable for one execution and the state retentation has a polynomial time complexity, thus it should not have a high impact on the execution time.
+Another explanation is the number of HTTP requests that are performed in parallel.
 The LTQP version of Comunica performs 10 HTTP requests in parallel, thus, we would expect that with a low number and ratio of HTTP requests, the performance would remain largely unchanged or slightly worse, which is what can be observed in the curve.
 
-In the second regime (down figure), the shape index increases the number of HTTP requests.
+In the second regime (right figure), the shape index increases the number of HTTP requests.
 We notice a moderate positive linear correlation with a PCC of 0.44.
 The overall correlation between reducing HTTP requests and query execution time is positively linear, with a moderate linear correlation with a PCC of 0.56 and a high statistical significance.
 The correlation is more linear than exponential with $R^2$ scores respectively of 0.31 and 0.24, however due to the low score it is difficult to determine the nature of the distribution.
