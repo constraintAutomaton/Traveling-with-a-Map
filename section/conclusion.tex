@@ -3,7 +3,7 @@
 In this article, we introduced a pruning mechanism for LTQP, extending the concept of reachability criteria and leveraging shape indexes. 
 Using the SolidBench benchmark, we demonstrate that our approach significantly reduces the number of HTTP requests without degrading performance, particularly when queries exploit the structural properties of the dataset.
 In the best-case scenario, query execution time improved by up to 7 times, and a previously unexecutable query completed successfully.
-On average, performance increased by 1.76 times, although in the worst case, execution time rose by 2.8 times for a query that did not exploited the structure of the network. 
+On average, performance increased by 1.76 times, although in the worst case, execution time rose by 2.8 times for a query that did not exploit the structure of the network. 
 Our method also handles scenarios with partial or reduced shape index information in networks, making it relevant for decentralization efforts that allow third-party clients to efficiently query large, heterogeneous datasets.
 The approach imposes minimal overhead on servers, requiring only the serving of small static shape index files. 
 This work opens a new line of research in integrating data models directly into decentralized query execution, particularly for unindexed networks.
