@@ -2,6 +2,8 @@
     
 \subsection{Evaluation Against Other Approaches}
 
+\rt{This is a very long block of text, spanning multiple pages. Can you add some paragraph titles, summarizing the gist of each paragraph/finding?}
+
 \begin{figure*}
     \centering
     \includegraphics[width=0.70\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
@@ -33,6 +35,7 @@ Nonetheless, these results still highlight a category of queries and networks fo
 Those results mostly validate \textbf{H1} however the shape index approach can drastically increase the execution time when the structural properties are not used.
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
+\rt{When just looking at the table, it is not clear what this table shows. I recommend a slight tweak in the caption: "\textbf{The percentage of query-relevant resources}, which are low for most queries."}
 
 To further our analysis, we compare three temporal metrics: the arrival time of the first results, the termination time, defined as the duration between the arrival of the last result and the end of query execution, and the waiting time, which we define as the accumulated time gaps exceeding one second between the reception of consecutive results.
 We choose a 1 second threshold for waiting time based on research in responsive system design.
@@ -146,7 +149,7 @@ The \textit{dief@lr} show a similar behavior but with lesser performance gain co
 The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
 Table~\ref{tab:queryShapeContainmentEval} present these results.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
-This result validated \textbf{H2}.
+This result validates \textbf{H2}.
 
 
 \subsection{Evaluation of the Resilience of the approach}
