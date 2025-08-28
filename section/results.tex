@@ -2,8 +2,6 @@
     
 \subsection{Evaluation Against Other Approaches}
 
-\rt{This is a very long block of text, spanning multiple pages. Can you add some paragraph titles, summarizing the gist of each paragraph/finding?}
-
 \begin{figure*}
     \centering
     \includegraphics[width=0.70\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
@@ -17,6 +15,7 @@
     \label{fig:compApproach}
 \end{figure*}
 
+\subsubsection{Analysis of the Query Execution Time}
 Figure~\ref{fig:compApproach} shows that the shape index approach performs better or comparably to the state-of-the-art Solid Pod network traversal algorithms, for all query templates except S4.
 Figure~\ref{fig:compApproachRaw} in the \hyperref[sec:appendix]{Appendix} presents the execution times of each method and Table~\ref{tab:statSignificanceStateOfTheArt} presents the statistical significance by query templates.
 The shape index approach allows for answering queries from the S7 template, which was not possible by the other approaches, due to large amount of HTTP requests resulting in timeouts.
@@ -35,8 +34,8 @@ Nonetheless, these results still highlight a category of queries and networks fo
 Those results mostly validate \textbf{H1} however the shape index approach can drastically increase the execution time when the structural properties are not used.
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
-\rt{When just looking at the table, it is not clear what this table shows. I recommend a slight tweak in the caption: "\textbf{The percentage of query-relevant resources}, which are low for most queries."}
 
+\subsubsection{Temporal Analysis}
 To further our analysis, we compare three temporal metrics: the arrival time of the first results, the termination time, defined as the duration between the arrival of the last result and the end of query execution, and the waiting time, which we define as the accumulated time gaps exceeding one second between the reception of consecutive results.
 We choose a 1 second threshold for waiting time based on research in responsive system design.
 These waiting time guidelines are derived from the field of neuropsychology and are considered stable regardless of technological expectation for human users~\cite{uxtigersNeedSpeed, Nielsen1993}.
@@ -54,6 +53,7 @@ Tables~\ref{tab:dief} and \ref{tab:continuousPerf} in the \hyperref[sec:appendix
     \label{fig:first_res}
 \end{figure}
 
+\paragraph{For Most Queries, the Shape Index Approach Tends to Produce the First Results Faster}
 Figure~\ref{fig:first_res} presents the time of arrival of the first results for all query instances, grouped by query templates. 
 The plot indicates that, for most queries, the shape index approach tends to produce results faster, as shown by distributions concentrated around lower first result arrival times.
 Templates D1, D2, D5, and S1 exhibit the most significant improvements in first-result latency when using the shape index.
@@ -76,6 +76,7 @@ In contrast, the shape index approach may delay first result production because 
     \label{fig:termination_time}
 \end{figure}
 
+\paragraph{The Shape Index Approach Can Reduce the Termination Time}
 Figure~\ref{fig:termination_time} presents the termination times for the query execution instances, grouped by template. 
 For queries where execution time improved and termination time was non-zero, such as those from templates D1, S1, and S5, the shape index approach significantly reduces termination time. 
 This improvement aligns with the substantial increase in the percentage of query-relevant resources dereferenced when using the shape index, as shown in Table~\ref{tab:ratioUsefulResources}.
@@ -97,6 +98,7 @@ Notably, for template D6 in Figure~\ref{fig:compApproach}, an outlier query incr
     \label{fig:waiting_time}
 \end{figure}
 
+\paragraph{The Shape Index Approach Generally Increases the Waiting Time}
 Figure~\ref{fig:waiting_time} presents the waiting time for the query instances, grouped by template. 
 With the exception of queries from the D1 template, which show a decrease in waiting time, the shape index approach generally increases the waiting time for queries that experience a delay before producing results. 
 This increase is likely due to the additional dereferencing of shape index documents that must occur before relevant results can be generated. 
@@ -131,6 +133,7 @@ Such dereferencing can introduce a gap before the first results appear, even whe
     \label{fig:dief_lr}
 \end{figure}
 
+\paragraph{The Shape Index Approach Improve Can Improve the Diefficiency Metric}
 Figures~\ref{fig:dief_01}, \ref{fig:dief_1}, and~\ref{fig:dief_lr} show the \textit{dief@t} values measured at 0.1 seconds (\textit{dief@0.1s}), 1 second (\textit{dief@1s}), and at the time of the last result (\textit{dief@lr}).\footnote{\label{fn:dief_lt}This means that if, for a given query, the shape index approach produces the last result at 5~seconds and the type index at 5.10~seconds, then the \textit{dief@t} metric will be computed at 5.10~seconds.}  
 The \textit{dief@0.1s} results show that, except for S4, no approach is able to produce instantaneous results, which aligns with the observations in Figure~\ref{fig:first_res}.  
 Overall, this indicates that, with the current approaches and benchmark, producing instantaneous results is not feasible.

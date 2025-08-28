@@ -22,16 +22,13 @@ It provides a standard mechanism for query engines to define their traversal log
 Further advancements include the Subweb Specifications Language (SWSL)~\cite{Bogaerts2021LinkTW}, which allows data providers to define how their DKG should be traversed.
 Inspired by SWSL, traversal-based querying has utilized the Linked Data Platform (LDP) and the Type Index specification~\cite{Taelman2023}.  
 LDP traversal follows all links within a data space, while Type Index traversal uses mappings from RDF types to relevant resources~\cite{solidTypeIndexes}, allowing queries to prioritize implicitly relevant data sources.
+Link prioritization has also been studied, however, it has been shown to not improve query execution time~\cite{hartig2016walking}, even in DESPs~\cite{eschauzier_iswc_research_linkprioritization_2025}.
 These contributions are centered on guiding the engine in selecting links to follow in a discovery process.
 However, they do not explicitly address the restriction or pruning of links after the discovery process based on information acquired during traversal. 
 Such pruning could significantly reduce the query search domain when information about the DKG data model is available. 
 For instance, the structural properties of a subweb could inform the query engine that certain web sections follow a specific data model, allowing a set of IRIs to be pruned from those selected during discovery. 
 In contrast, when LTQP models DKGs as Linked Open Data, the web is not divided into subsections with structural properties; thus, data model information cannot be inferred. 
 To the best of our knowledge, no prior work has explored the use of a pruning mechanism to optimize LTQP, and it is this research gap that the present study aims to address.
-
-\rt{Let's also mention Ruben E's recently accepted ISWC paper on prioritization. You could include this in the narrative by saying that it has been shown that prioritization has been shown to not help improving performance (but on structural env and non-struct env), which makes your work even more important. And can then also be linked to your work, as I believe you will do some prioritization later in this paper.}
-
-
 
 \subsection{RDF Data Shapes}
 RDF data shapes (in this paper, we also refer to them as shapes) are used for validating, describing, and communicating data structures, as well as generating data and driving user interfaces~\cite{Gayo2018a,Gayo2018}.
