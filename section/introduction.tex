@@ -49,6 +49,7 @@ Finally, the engine dereferences all reachable resources outside the subwebs tha
     }
     \label{fig:dkg}
 \end{figure*}
+
 Our contributions are as follows:
 \begin{enumerate}[label=(\roman*)]
     \item An introduction and formalization of \emph{link pruning} for LTQP 
@@ -58,6 +59,7 @@ Our contributions are as follows:
     \item An open-source implementation in the Comunica SPARQL query engine~\cite{taelman_iswc_resources_comunica_2018}
     \item An extensive experimental evaluation using the SolidBench benchmark.
 \end{enumerate}
+\rt{I would also consider the shape index spec a contribution here. You indeed coined a high-level sketch of the idea before in another paper (that you correctly cite), but with this work, you make that idea/vision concrete.}
 
 Concretely in this work, we ask the following research question: 
 \textbf{Can LTQP use shape-based pruning in DKG networks to reduce query execution time while preserving result completeness?}
@@ -76,3 +78,5 @@ The remainder of this paper is organized as follows:
 we first review the \hyperref[sec:related_work]{related work} and introduce the \hyperref[sec:preliminaries]{preliminaries}. 
 Next, we present our \hyperref[sec:approach]{approach}, followed by a description of the \hyperref[sec:experiment]{experimental setup} and a \hyperref[sec:result]{discussion of the results}. 
 Finally, we conclude with the \hyperref[sec:conclusion]{conclusion}.
+
+\rt{No section numbers are present at all. Are you sure this is correct? In any case, this will make things very annoying for reviewers. So if that's really correct, I would consider enabling visible line numbers in the PDF during the review phase.}
