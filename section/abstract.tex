@@ -2,14 +2,26 @@
 % Context  
 The centralization of web information raises legal and ethical concerns, particularly in social, healthcare and education applications.
 % Need  
-Decentralized architectures offer a promising alternative, but efficient query processing remains a challenge.  
-Link Traversal Query Processing (LTQP) enables querying across decentralized networks but suffers from long execution times and high data transfer due to excessive HTTP requests.  
+Decentralized architectures offer a promising alternative
+by keeping data closer to its source,
+but efficient query processing remains a challenge.  
+Link Traversal Query Processing (LTQP) enables querying across decentralized networks, yet suffers from long execution times and high data transfer volumes due to a~substantial number of HTTP requests.  
 % Task  
-We propose a shape-based pruning approach that relies on \emph{shape indexes} and a \emph{query-shape subsumption} algorithm to reduce the search space, and consequently, the number of HTTP requests.
+We propose a shape-based pruning approach that relies on \emph{shape indexes} and a \emph{query-shape subsumption} algorithm to reduce the search space and, consequently, the number of HTTP requests.
 % Object  
 We formalize this approach as a link pruning mechanism for LTQP and evaluate its effectiveness on social media queries using the SolidBench benchmark across multiple evaluation metrics.
 % Findings  
-Our results show that shape-based pruning improves query execution time and reduces network usage up to 7 times compared to the state of the art, in exchange for a minor increase in the number of triples per shape-index instance.
+Our results show that shape-based pruning improves query execution time and reduces network usage up to 7 times compared to the state of the art,
+\rv{absolute numbers possible here?}
+in exchange for a minor increase in the number of triples per shape-index instance.
+\rv{be specific here}
+\rv{Suggestion to rephrase:
+Our results show that,
+if sources are willing to … in a~shape index,
+query processing time improves up to…
+}
 % Conclusion  
 This work demonstrates the potential of shape-based metadata for optimizing LTQP queries in decentralized knowledge graphs, going beyond its traditional use on data validation.
+\rv{validation? I don't get it, when was LTQP used for validation?}
+\rv{But that's not the conclusion, showing potential. The conclusion is what readers can now do as a result. So basically, more along the lines of: decentralized scenarios become more realistic, given that query times… (but also begs the question earlier on, the times 7 reduction, how far still from technical optimum of legally annoying centralization?}
 \end{abstract}
