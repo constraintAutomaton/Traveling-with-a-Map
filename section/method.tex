@@ -85,6 +85,14 @@ To address this, we introduce the \emph{shape index} as a mapping between RDF do
 Unlike triple statistics, shapes are independent of the KG's size or updates that remain compliant, making them a more cost-effective solution for use cases with stable data models. 
 
 We formalize a shape index as follows:
+\rv{the math typesetting is not proper, when writing $IRI$ it means I times R times I, use this instead (see source)
+$\mathit{IRI}$
+and you can make that easier with a~macro
+\newcommand{\mIRI}{\ensuremath{\mathit{IRI}}}
+so you just do
+$\mIRI$.
+Same with some other words.
+}
 \begin{equation}\label{eq:shapeIndex}
    SI = \left\{ s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n \right\}
 \end{equation}
@@ -109,6 +117,7 @@ Thus, the targets of the shapes in the shape index correspond to the subject of 
 Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
 
 
+\rv{split those in 3/4 definitions, hard to read atm}
 \begin{definition}[Graph Star Pattern (GSP) and Graph Star]\label{def:starPattern}
    Given a query $Q$, we define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
    given a builder function 
