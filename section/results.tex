@@ -12,15 +12,25 @@
     A ratio greater than $1$ indicates a slower execution time (\textbf{lower is better}).
     The shape index approach performs similarly or better than the other methods, except in the case of S4.
     }
+    \rv{Why the ratio? I find this a very weird visualization. It's not a competition. Show the performance of each of the techniques, in absolute values. Resort to logarithmic or interrupted bars (\url{https://tex.stackexchange.com/questions/83138/how-to-draw-interrupted-bar-charts-in-pgfplots}) if needed.}
+    \rv{Also I learn nothing from all of the flat orange lines; can't even see it.}
     \label{fig:compApproach}
 \end{figure*}
 
 \subsubsection{Analysis of the Query Execution Time}
-Figure~\ref{fig:compApproach} shows that the shape index approach performs better or comparably to the state-of-the-art Solid Pod network traversal algorithms, for all query templates except S4.
+Figure~\ref{fig:compApproach} shows that the shape index approach performs better or comparably
+\rv{be specific; what is \enquote{better}, what is \enquote{comparably}. Use exact words, and numbers where applicable.}
+to the state-of-the-art Solid Pod network traversal algorithms, for all query templates except S4.
 Figure~\ref{fig:compApproachRaw} in the \hyperref[sec:appendix]{Appendix} presents the execution times of each method and Table~\ref{tab:statSignificanceStateOfTheArt} presents the statistical significance by query templates.
-The shape index approach allows for answering queries from the S7 template, which was not possible by the other approaches, due to large amount of HTTP requests resulting in timeouts.
+The shape index approach allows for answering queries from the S7 template,
+\rv{Be specific and scientific here. It's not \enquote{answering}, it's obtaining results. The other approaches were \emph{able} to process the query, but not to produce the (non-zero) result~set within the timeout.}
+which was not possible by the other approaches, due to large number of HTTP requests resulting in timeouts.
+\rv{More specific, again: because a~large number of requests would be needed, and could not be completed within the chosen timeout.}
 Queries can require as little as 13\% of the execution time (S1 being 7 times faster) of the type index.
-The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
+\rv{Be more exact/precise. The \enquote{execution time of the type index} is not a thing.}
+The queries that perform the best are those in which the number of HTTP requests decreased the most,
+\rv{That we already knew before we started, what's new here?}
+as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
 This table presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
 %Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
 Queries from templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
@@ -34,6 +44,7 @@ Nonetheless, these results still highlight a category of queries and networks fo
 Those results mostly validate \textbf{H1} however the shape index approach can drastically increase the execution time when the structural properties are not used.
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
+\rv{This was too wild for me to read/understand. If you want to do the 3-numbers thing, use a graph. I can't read anything in this table.}
 
 \subsubsection{Temporal Analysis}
 To further our analysis, we compare three temporal metrics: the arrival time of the first results, the termination time, defined as the duration between the arrival of the last result and the end of query execution, and the waiting time, which we define as the accumulated time gaps exceeding one second between the reception of consecutive results.
@@ -51,6 +62,8 @@ Tables~\ref{tab:dief} and \ref{tab:continuousPerf} in the \hyperref[sec:appendix
     \textbf{The first result distribution by query template.}    
     The shape index approach tends to produce the first results earlier than the type index approach, particularly for queries where the shape index achieves shorter total execution times.}
     \label{fig:first_res}
+    \rv{Now this is an amazing figure and caption. Great work!}
+    \rv{(For increased beauty, remove the frame and gridlines. And in any case, remove the vertical gridlines and frame.)}
 \end{figure}
 
 \paragraph{For Most Queries, the Shape Index Approach Tends to Produce the First Results Faster}
@@ -120,6 +133,7 @@ Such dereferencing can introduce a gap before the first results appear, even whe
     \caption{
     \textbf{The \textit{dief@1s} distribution by query template.}    
     At 1 second, the shape index approach shows a higher \textit{dief@1s} (\textbf{higher is better}), indicating that more results are obtained while maintaining a seamless flow of thought.}
+  \rv{thought???}
     \label{fig:dief_1}
 \end{figure}
 
@@ -150,6 +164,7 @@ The \textit{dief@lr} show a similar behavior but with lesser performance gain co
 \subsection{Query-Shape Subsumption Evaluation} \label{sec:experimentAlgoSubsumption}
 
 The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
+\rv{Wow we're claiming a Nobel prize for measuring here. We can't reliably measure sub-ms, and it's not meaningful to express in percentage of timeout.}
 Table~\ref{tab:queryShapeContainmentEval} present these results.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
 This result validates \textbf{H2}.
@@ -174,6 +189,7 @@ As expected, we observe that queries that performed better in Figure~\ref{fig:co
     %However, the utility of shape index information can vary depending on the specific queries and network characteristics.
     }
     \label{fig:adaptShapeIndex}
+    \rv{Are ratios better here, not absolute values?}
 \end{figure*}
 
 
@@ -191,7 +207,7 @@ Since the shapes are closed in this experiment the level of detail was varied by
 Most queries tend to perform similarly or better, with the exception of those of S1.
 Upon analyzing the output of our query subsumption algorithm, we observe that the additional information to the shape provided in our base approach does not affect the algorithm's results.
 However, in the baseline shape index experiment, the engine must dereference more shapes, potentially increasing execution time.
-Queries of template S1 are the only ones where the added information can discriminate multiple parts of the datasets' domain leading to worse performane.
+Queries of template S1 are the only ones where the added information can discriminate multiple parts of the datasets' domain leading to worse performance.
 This indicates that in some situations, adding more information can be beneficial.
 This sensitivity of the quantity of the information in the index also helps explaining the results for S1 queries in the middle plot. 
 In that case, the engine still had to dereference shapes from each dataset, and the information available was likely insufficient to significantly discriminate between resources.
@@ -224,6 +240,8 @@ Moreover, the completeness of shape indexes has a smaller impact on performance 
         we see a more linear correlation on the up figure than on the down figure.
         }
     \label{fig:http_req_exec_time_cor}
+    \rv{Show the fitting linear regression (in another color)}
+    \rv{Start both axes at zero?}
 \end{figure*}
 
 \subsection{Relationship Between HTTP Request and Query Execution Time}
