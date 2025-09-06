@@ -1,5 +1,5 @@
 @prefix sw: <http://subweb/> .
-@prefix si: <https://shapeIndex.com#>.
+@prefix si: <https://shapeindex.com#>.
 
 sw:shapeIndex si:shapeIndexLocation si:shapeIndex;
     a si:ShapeIndex;

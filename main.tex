@@ -29,7 +29,10 @@
 %%
 \usepackage{listings}
 %% auto break lines
-\lstset{breaklines=true}
+\lstset{
+  breaklines=true,
+  basicstyle=\fontsize{8}{9}\selectfont\ttfamily,
+}
 \usepackage{xcolor} % For coloring text
 \newcommand{\pc}[1]{\textcolor{red}{Pieter: #1}}
 \newcommand{\rt}[1]{\textcolor{blue}{RT: #1}}
@@ -68,6 +71,9 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \def\volumeyear{2016}
 
+\usepackage{csquotes}
+\include{reviewing}
+
 \begin{document}
 \linenumbers
 \runninghead{Traveling with a Map: Reducing the Search Space of Link Traversal Queries Using RDF Shapes}
@@ -96,6 +102,15 @@ Data summarization
 }
 
 \maketitle
+
+\rv{Title: the phrase \enquote{traveling with a map} does not mean anything special. I think \enquote{traveling without a map} (as in original traversal) was a thing, but this one is not. How about \enquote{Traversing with a map}, which at least means something specific here?}
+\rv{Also, the queries themselves aren't traversal, but the processing is}
+
+\rv{Suggestion:\\*
+  Traversing with a Map: Reducing the Search Space of Link Traversal Query Processing with RDF Shapes
+}
+
+\rv{Suggestion to add Ruben Verborgh as co-author, given that the work traces back to an idea and grant that I conceptualized. Suggestion for order: Colpaert, Verborgh, Taelman}
 
 
 \input{section/introduction}
