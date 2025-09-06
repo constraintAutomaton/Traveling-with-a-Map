@@ -1,6 +1,4 @@
-\section{Discussion of Results}\label{sec:result}
-    
-\subsection{Evaluation Against Other Approaches}
+    \subsection{Evaluation Against Other Approaches}
 
 \begin{figure*}
     \centering
@@ -18,19 +16,11 @@
 \end{figure*}
 
 \subsubsection{Analysis of the Query Execution Time}
-Figure~\ref{fig:compApproach} shows that the shape index approach performs better or comparably
-\rv{be specific; what is \enquote{better}, what is \enquote{comparably}. Use exact words, and numbers where applicable.}
-to the state-of-the-art Solid Pod network traversal algorithms, for all query templates except S4.
+Figure~\ref{fig:compApproach} demonstrates that the shape index approach performs queries faster than or comparable to state-of-the-art Solid Pod network traversal algorithms across all query templates except S4.
 Figure~\ref{fig:compApproachRaw} in the \hyperref[sec:appendix]{Appendix} presents the execution times of each method and Table~\ref{tab:statSignificanceStateOfTheArt} presents the statistical significance by query templates.
-The shape index approach allows for answering queries from the S7 template,
-\rv{Be specific and scientific here. It's not \enquote{answering}, it's obtaining results. The other approaches were \emph{able} to process the query, but not to produce the (non-zero) result~set within the timeout.}
-which was not possible by the other approaches, due to large number of HTTP requests resulting in timeouts.
-\rv{More specific, again: because a~large number of requests would be needed, and could not be completed within the chosen timeout.}
-Queries can require as little as 13\% of the execution time (S1 being 7 times faster) of the type index.
-\rv{Be more exact/precise. The \enquote{execution time of the type index} is not a thing.}
-The queries that perform the best are those in which the number of HTTP requests decreased the most,
-\rv{That we already knew before we started, what's new here?}
-as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
+The shape index approach allows for successful termination of S7 template queries, which other approaches cannot complete due to timeouts resulting from an excessive number of HTTP requests.
+Query processing with the shape index approach requires as little as 13\% of the execution time needed by the type index approach, achieving up to 7-fold performance improvement for S1 queries.
+The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
 This table presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
 %Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
 Queries from templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
@@ -132,8 +122,7 @@ Such dereferencing can introduce a gap before the first results appear, even whe
     \includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_1}
     \caption{
     \textbf{The \textit{dief@1s} distribution by query template.}    
-    At 1 second, the shape index approach shows a higher \textit{dief@1s} (\textbf{higher is better}), indicating that more results are obtained while maintaining a seamless flow of thought.}
-  \rv{thought???}
+    At 1 second, the shape index approach shows a higher \textit{dief@1s} (\textbf{higher is better}), indicating that more results can be obtained by users while maintaining a seamless flow of thought.}
     \label{fig:dief_1}
 \end{figure}
 
@@ -163,8 +152,7 @@ The \textit{dief@lr} show a similar behavior but with lesser performance gain co
 
 \subsection{Query-Shape Subsumption Evaluation} \label{sec:experimentAlgoSubsumption}
 
-The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 4.655 ms (0.0039\% of the timeout).
-\rv{Wow we're claiming a Nobel prize for measuring here. We can't reliably measure sub-ms, and it's not meaningful to express in percentage of timeout.}
+The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 5ms (0.0039\% of the timeout).
 Table~\ref{tab:queryShapeContainmentEval} present these results.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
 This result validates \textbf{H2}.

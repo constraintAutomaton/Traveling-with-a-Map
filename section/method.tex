@@ -58,18 +58,21 @@ Therefore, reducing HTTP requests provides a twofold benefit: fewer resources to
 
 \subsection{Shape Index}
 
+\newcommand{\mIRI}{\ensuremath{\mathit{IRI}}}
+\newcommand{\miri}{\ensuremath{\mathit{iri}}}
+
 \begin{figure*}
    \centering
    % First figure
-   \begin{minipage}[t]{0.45\linewidth}
+   \begin{minipage}[t]{0.50\linewidth}
       \centering
-      \lstinputlisting[]{code/shape_index.nq}
+      \lstinputlisting[basicstyle=\normalsize\ttfamily]{code/shape_index.nq}
    \end{minipage}
    %\hspace{0.05\textwidth}
    % Second figure
    \begin{minipage}[t]{0.45\linewidth}
       \centering
-      \lstinputlisting[]{code/gps.rq}
+      \lstinputlisting[basicstyle=\normalsize\ttfamily]{code/gps.rq}
    \end{minipage}
 
    % General caption
@@ -85,24 +88,17 @@ To address this, we introduce the \emph{shape index} as a mapping between RDF do
 Unlike triple statistics, shapes are independent of the KG's size or updates that remain compliant, making them a more cost-effective solution for use cases with stable data models. 
 
 We formalize a shape index as follows:
-\rv{the math typesetting is not proper, when writing $IRI$ it means I times R times I, use this instead (see source)
-$\mathit{IRI}$
-and you can make that easier with a~macro
-\newcommand{\mIRI}{\ensuremath{\mathit{IRI}}}
-so you just do
-$\mIRI$.
-Same with some other words.
-}
+
 \begin{equation}\label{eq:shapeIndex}
-   SI = \left\{ s_1 \mapsto IRI_1, s_2 \mapsto IRI_2 \cdots, s_n \mapsto IRI_n \right\}
+   SI = \left\{ s_1 \mapsto \mIRI_1 s_2 \mapsto \mIRI_2 \cdots, s_n \mapsto \mIRI_n \right\}
 \end{equation}
-where $s_i$ is a shape and $IRI_i$ is a set of IRI given $n$ entries.
-The subweb described by the index is defined by $D_{SI} = \bigcup_{IRI \in \text{codomain}(SI)} IRI$.
+where $s_i$ is a shape and $\mIRI_i$ is a set of IRI given $n$ entries.
+The subweb described by the index is defined by $D_{SI} = \bigcup_{\mIRI \in \text{codomain}(SI)} \mIRI$.
 %A shape index \emph{must} map every resource in $D_{SI}$.
 We denote a shape index as \emph{complete} when every shape $s_i \in \text{dom}(SI)$ has a closed world assumption~\cite{Gayo2018b, Gayo2018}~\footnote{We also refer to those shapes as closed.} or \emph{incomplete} otherwise.
 A mapping between a shape and a set of IRIs has implications in the distribution of the data in $D_{SI}$.
-When a shape $s$ is mapped to an $IRI$, then the KG targeted by the mapping, $G = \left\{ g \mid \forall iri \in D_{SI} (iri \mapsto_{\mathcal{R}} r \land r \mapsto_{\mathcal{G}} g) \right\}$, satisfies $s$.
-Given that the shape is closed, then every set of triples in the resource mapped to an $iri \in D_{SI}$ satisfying the shape must be in a resource mapped to an $iri \in IRI$.
+When a shape $s$ is mapped to an $\mIRI$, then the KG targeted by the mapping, $G = \left\{ g \mid \forall iri \in D_{SI} (\miri \mapsto_{\mathcal{R}} r \land r \mapsto_{\mathcal{G}} g) \right\}$, satisfies $s$.
+Given that the shape is closed, then every set of triples in the resource mapped to an $\miri \in D_{SI}$ satisfying the shape must be in a resource mapped to an $\miri \in IRI$.
 We provide a complete description of the shape index in an online specification~\sepfootnote{sf:shapeIndexURL} and an example of serialization in Figure~\ref{fig:shapeIndex}.
 
 RDF data shapes use \emph{targets} to identify the set of nodes or entities in a KG to validate.  

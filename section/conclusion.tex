@@ -9,10 +9,7 @@ In the worst case, execution time increased by 2.8 times for a query that did no
 Our method also handles scenarios with partial or reduced shape index information in networks, making it relevant for decentralization efforts that allow third-party clients to efficiently query large, heterogeneous datasets.
 
 The approach imposes minimal overhead on servers, requiring only the serving of small static shape index files. 
-\rv{Relevance of \enquote{static}?}
-This has the potential to benefit the Solid ecosystem
-\rv{Write how}
-and support standardization efforts such as the Linked Web Storage Working Group.~\footnote{\url{https://www.w3.org/groups/wg/lws/}}.
+This approach has the potential to benefit linked data-driven decentralization efforts such as the Solid ecosystem and support standardization efforts such as the Linked Web Storage Working Group~\footnote{\url{https://www.w3.org/groups/wg/lws/}} by improving query processing throughout these networks without requiring the maintenance of large centralized indexes between data providers.
 This work opens a new line of research in integrating data models directly into decentralized query execution, particularly for non-indexed networks. 
 Future work could focus on enhancing query planning in LTQP~\cite{taelman2024towards} with RDF data shapes, 
 maintaining and developing shape indexes, and exploring other low-cost, low-maintenance indexing structures.
