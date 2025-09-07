@@ -58,9 +58,6 @@ Therefore, reducing HTTP requests provides a twofold benefit: fewer resources to
 
 \subsection{Shape Index}
 
-\newcommand{\mIRI}{\ensuremath{\mathit{IRI}}}
-\newcommand{\miri}{\ensuremath{\mathit{iri}}}
-
 \begin{figure*}
    \centering
    % First figure
@@ -112,15 +109,18 @@ For example, a user linking to their posts with recursive replies can be capture
 Thus, the targets of the shapes in the shape index correspond to the subject of each root star pattern when a KG is divided into graph stars with no shared partial graph stars.  
 Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
 
-
-\rv{split those in 3/4 definitions, hard to read atm}
-\begin{definition}[Graph Star Pattern (GSP) and Graph Star]\label{def:starPattern}
+\begin{definition}[Star Pattern]
    Given a query $Q$, we define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that 
    given a builder function 
    \begin{equation}
        BQ_{star}(s) = \left\{ tp_i \in Q \mid S(tp_i) = s \right\}
    \end{equation}
    with $s \in \mathcal{I}\mathcal{B}\mathcal{V}$ then $Q_{star} = BQ_{star}(s)$.
+
+\end{definition}
+
+\begin{definition}[Graph Star Pattern (GSP) and Graph Star]\label{def:starPattern}
+   
    We define a GSP $Q_{starG}$ as the union between a root star pattern $Q_{star_s}$
    and the star patterns having as subject term an object term of another star pattern in $Q_{starG}$.
    We define a function 
