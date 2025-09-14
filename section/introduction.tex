@@ -6,17 +6,7 @@
     \url{https://digital-strategy.ec.europa.eu/en/policies/strategy-data}
 }
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=1.0\linewidth]{figure/dkg.pdf}
-    \caption{
-    When resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
-    The nodes represent RDF resources, while the edges represent IRIs linking one resource to another.
-    Each subweb has a shape index that maps shapes, represented by icons, to RDF resources by embedding the icon within the node.
-    The query engine starts its query at Subweb~3, and the relevant query resources in a subweb are identified with a black node.
-    }
-    \label{fig:dkg}
-\end{figure*}
+
 
 Multiple studies have highlighted that social web applications relying on highly centralized data management systems give rise to problems of ownership, threats to democracy, reinforcement of inequality, and antagonism between users and owners~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
 Yet, several authors consider decentralizing data over the web an insufficient solution~\cite{9663788, Curran2016ch1}, although it is an integral component of initiatives focused on data sovereignty.
@@ -41,14 +31,13 @@ We apply this approach to enable link pruning within LTQP, removing links that a
 The analysis is performed by conducting a query-shape subsumption check to determine whether a resource conforming to a given shape is relevant to a query.
 Our approach assumes a DKG composed of subwebs, each hosted by data providers and containing shape indexes.
 A subweb that exposes a shape index enables the query engine to narrow its search domain by identifying resources that are certainly non-query-relevant.
-This is particularly useful when only a subset of a subwebs is relevant to a given query, for example, in social media applications where it is rare to query all information about a user.
-To illustrate this, we present the example in Figure~\ref{fig:dkg}, which depicts a network of three social media user subwebs, each with its own shape index, as well as resources located outside these subwebs.
-The feature query aims to retrieve posts from Subweb~3, along with all associated replies.
-Our pruning strategy allows the query engine to explore only the relevant parts of the network, guided by the shapes associated with the resources and the structure of the query.
-The process begins with the engine dereferencing the shape index of Subweb~3 and performing a query-shape subsumption check, which determines that only resources containing posts needs to be accessed in this subweb.  
-It then checks the shape index of Subweb~1 due to the existing link towards it, where the subsumption check reveals no resources relevant to the query.  
-Next, it examines the shape index of Subweb~2 and identifies resources containing comments (i.e., replies) which are relevant.  
-Finally, the engine dereferences all reachable resources outside the subwebs that are linked to these relevant comments.
+\textbf{This is particularly useful when only a subset of a subwebs is relevant to a given query, for example, in social media applications where it is rare to query all information about a user.}
+An example of such a query is one that requests messages within a user's subweb over a specified date range, while also incorporating contextual information from outside the subweb.
+We describe this category of network-tied queries as \emph{data-model selective}.  
+This designation goes beyond simple query categorization, since a subweb may organize its data such that multiple data model objects are materialized within the same resources.  
+In such cases, even if a query retrieves a small percentage of a subweb's data model objects, we do not regard it as data-model selective.  
+In this work, we do not aim to optimize queries that retrieve a large proportion of a subweb's data model objects.  
+For instance, queries that request all user information together with all content published after a given date are outside the scope of our optimization; however, we attempt to ensure that the performance of such queries is not degraded.  
 
 Our contributions are as follows:
 \begin{enumerate}[label=(\roman*)]
@@ -66,12 +55,13 @@ In this work, we ask the following research question:
 To address this question, we propose the following hypotheses:  
 
 \begin{itemize}
-    \item[\textbf{H1}] Shape indexes reduce the number of non-contributing data sources retrieved and the query execution time, while preserving result completeness.
-    \item[\textbf{H2}] The execution time of a query-shape subsumption algorithm is negligible compare to the query execution.
-    \item[\textbf{H3}] Stricter shape constraints lead to a greater reduction in HTTP requests.
-    \item[\textbf{H4}] Querying a network with more \emph{complete} shape indexes results in faster query execution.
-    \item[\textbf{H5}] Performance gains can be achieved even in networks with partial shape index coverage, demonstrating that the method provides significant improvements without requiring all network participants to adopt shape indexes.
-    \item[\textbf{H6}] There is a linear relationship between the reduction in the number of HTTP requests and the decrease in query execution time.
+    \item[\textbf{H1}] The shape indexes approach reduce the number of non-contributing data sources retrieved and the query execution time of \emph{data-model selective} queries, while preserving result completeness.
+    \item[\textbf{H2}] The shape indexes approach does not affect the query execution time of \emph{non-data-model selective} queries.
+    \item[\textbf{H3}] The execution time of a query-shape subsumption algorithm is negligible compare to the query execution.
+    \item[\textbf{H4}] Stricter shape constraints lead to a greater reduction in HTTP requests.
+    \item[\textbf{H5}] Querying a network with more \emph{complete} shape indexes results in faster query execution.
+    \item[\textbf{H6}] Performance gains can be achieved even in networks with partial shape index coverage, demonstrating that the method provides significant improvements without requiring all network participants to adopt shape indexes.
+    \item[\textbf{H7}] There is a linear relationship between the reduction in the number of HTTP requests and the decrease in query execution time.
 \end{itemize}
 
 The remainder of this paper is organized as follows: 

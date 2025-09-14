@@ -5,14 +5,18 @@
 \addcontentsline{toc}{section}{Appendix}
 \FloatBarrier
 
-\begin{figure}[H]
+\begin{figure*}
     \centering
-    \includegraphics[width=\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time_raw}
+    \includegraphics[width=0.70\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
+    % General caption
     \caption{
-    The query execution time of the different approaches grouped by query template.
+    Comparison of query execution time with the type index approach.
+    The ratio represents how the execution time of each method compares to that of the type index. 
+    A ratio greater than $1$ indicates a slower execution time (\textbf{lower is better}).
+    The shape index approach performs similarly or better than the other methods, except in the case of S4.
     }
-    \label{fig:compApproachRaw}
-\end{figure}
+    \label{fig:ratioApproaches}
+\end{figure*}
 
 
 \input{analysis/artefact/statistical_significance/comparaisonStateOfTheArt}

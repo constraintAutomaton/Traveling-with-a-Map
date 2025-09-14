@@ -36,6 +36,25 @@
 
 This section defines result-based completeness in LTQP, introduces shape indexes, and shows how they enable pruning via a query-shape subsumption algorithm.
 
+To illustrate this approach, we present the example in Figure~\ref{fig:dkg}, which depicts a network of three social media user subwebs, each with its own shape index, as well as resources located outside these subwebs.
+The feature query aims to retrieve posts from Subweb~3, along with all associated replies.
+Our pruning strategy allows the query engine to explore only the relevant parts of the network, guided by the shapes associated with the resources and the structure of the query.
+The process begins with the engine dereferencing the shape index of Subweb~3 and performing a query-shape subsumption check, which determines that only resources containing posts needs to be accessed in this subweb.  
+It then checks the shape index of Subweb~1 due to the existing link towards it, where the subsumption check reveals no resources relevant to the query.  
+Next, it examines the shape index of Subweb~2 and identifies resources containing comments (i.e., replies) which are relevant.  
+Finally, the engine dereferences all reachable resources outside the subwebs that are linked to these relevant comments.
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=1.0\linewidth]{figure/dkg.pdf}
+    \caption{
+    When resources of a DKG are indexed with a shape index, a query engine can dereference a subset of the network.
+    The nodes represent RDF resources, while the edges represent IRIs linking one resource to another.
+    Each subweb has a shape index that maps shapes, represented by icons, to RDF resources by embedding the icon within the node.
+    The query engine starts its query at Subweb~3, and the relevant query resources in a subweb are identified with a black node.
+    }
+    \label{fig:dkg}
+\end{figure*}
 
 \subsection{Result-Based Completeness in LTQP}\label{sec:slde}
 

@@ -1,40 +1,75 @@
-    \subsection{Evaluation Against Other Approaches}
+\subsection{Evaluation Against Other Approaches}
 
 \begin{figure*}
     \centering
-    \includegraphics[width=0.70\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time}
+     \includegraphics[width=\linewidth]{analysis/artefact/variation_approach/reduction_query_execution_time_raw}
     % General caption
     \caption{
-    Comparison of query execution time with the type index approach.
-    The ratio represents how the execution time of each method compares to that of the type index. 
-    A ratio greater than $1$ indicates a slower execution time (\textbf{lower is better}).
-    The shape index approach performs similarly or better than the other methods, except in the case of S4.
+    Performance comparison of different methods for query execution.
+    The shape index performs better than both the type index and LDP for data-model selective queries.
+    The shape index is also able to answer a query from template S7 which was not possible with the other approaches.
+    For non-data-model selective queries, execution time differences are not statistically significant, as shown in Table~\ref{tab:statSignificanceStateOfTheArt}.
+    An exception occurs with queries of template S4, which do not leverage the structure of the publication environment.
+    Results are presented by query template, leading to a multimodal distribution; therefore, variance analysis does not indicate statistical significance.
     }
-    \rv{Why the ratio? I find this a very weird visualization. It's not a competition. Show the performance of each of the techniques, in absolute values. Resort to logarithmic or interrupted bars (\url{https://tex.stackexchange.com/questions/83138/how-to-draw-interrupted-bar-charts-in-pgfplots}) if needed.}
-    \rv{Also I learn nothing from all of the flat orange lines; can't even see it.}
     \label{fig:compApproach}
 \end{figure*}
 
+\begin{figure}
+    \includesvg[width=\linewidth]{analysis/artefact/variation_approach/d1_violon_plots}
+    \caption{
+        Distribution of query execution times (sample size: 50) for queries derived from the D1 template. 
+        The results show that the execution time of data-model selective queries is significantly reduced when using the shape index approach.
+    }
+    \label{fig:violonD1}
+\end{figure}
+
+
+\begin{figure}
+    \includesvg[width=\linewidth]{analysis/artefact/variation_approach/d7_violon_plots}
+    \caption{
+        Distribution of query execution times (sample size: 50) for queries derived from the D7 template. 
+        The results show that the execution time of non-data-model selective queries is not significantly affected by the shape index approach.
+    }
+    \label{fig:violonD7}
+\end{figure}
+
+
+\begin{figure}
+    \includesvg[width=\linewidth]{analysis/artefact/variation_approach/s4_violon_plots}
+    \caption{
+        Distribution of query execution times (sample size: 50) for queries derived from the S4 template.
+        Queries that do not exploit the structural properties of the dataset are significantly negatively impacted by the shape index approach.
+    }
+    \label{fig:violonS4}
+\end{figure}
+
+
+
 \subsubsection{Analysis of the Query Execution Time}
 Figure~\ref{fig:compApproach} demonstrates that the shape index approach performs queries faster than or comparable to state-of-the-art Solid Pod network traversal algorithms across all query templates except S4.
-Figure~\ref{fig:compApproachRaw} in the \hyperref[sec:appendix]{Appendix} presents the execution times of each method and Table~\ref{tab:statSignificanceStateOfTheArt} presents the statistical significance by query templates.
+Table~\ref{tab:statSignificanceStateOfTheArt} presents the statistical significance by query templates.
 The shape index approach allows for successful termination of S7 template queries, which other approaches cannot complete due to timeouts resulting from an excessive number of HTTP requests.
 Query processing with the shape index approach requires as little as 13\% of the execution time needed by the type index approach, achieving up to 7-fold performance improvement for S1 queries.
 The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
 This table presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
-%Table~\ref{tab:statSignificanceStateOfTheArt} presents an analysis of the statistical significance of the query template and its relation to the ratio of HTTP requests performed.
-Queries from templates D6 and D7 show no reduction because they require nearly every document in the dataset to be processed by the engine, making our approach ineffective in these cases.
-We notice that queries from template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times.
+Queries with a high decrease of the number of HTTP request are known to be data-model selective due to the query-shape subsumption algorithm.
+In our context, a query that requests a single data model is classified as data-model-selective, since in our benchmark the subwebs contain at most three distinct data model objects.
+From the analysis of the queries, those derived from templates D1, D4, S1, and S3 (!!!with the new data we have results!!) are identified as data-model-selective and, as expected, exhibit a reduction in both the number of HTTP requests and the query execution time.
+Figure~\ref{fig:violonD1} shows the distribution of query execution times for each instance of the D1 query template.
+The distributions for all query templates are provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
+Queries from templates D6 and D7 show no reduction because they require nearly every data model objects in the datasets to be processed by the engine, making our approach ineffective in these cases.
+Figure~\ref{fig:violonD7} shows the distribution of query execution times of queries of the D7 templates.
+We notice that queries from template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times as shown in Figure~\ref{fig:violonS4}.
 This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the type index traversal algorithm achieves a ratio of query-relevant resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
 The poor performance is due to the fact that the links acquired by the other approaches were selected based on reachability criteria that did not leverage the structural properties of the dataset, such as in the case of \texttt{Cmatch}~\cite{hartig2016walking}, a reachability criterion based on the structure of the query.
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional HTTP requests and increased processing time.
 %It has to be highlighted that our formalization assumes that structural assumptions are always used and that the shape index, if present, will be part of the traversal, see section~\ref{sec:sourceSelection}.
 However, those queries were already efficient, with the type index traversal approach completing in only about 0.30\% of the maximum allowed execution time.
 Nonetheless, these results still highlight a category of queries and networks for which our approach is not well-suited.
-Those results mostly validate \textbf{H1} however the shape index approach can drastically increase the execution time when the structural properties are not used.
+Those results mostly validate \textbf{H1} and \textbf{H2} however the shape index approach can drastically increase the execution time when the structural properties are not used.
 
 \input{analysis/artefact/ratio_useful_resources/table_ratio_useful_resources_summary} 
-\rv{This was too wild for me to read/understand. If you want to do the 3-numbers thing, use a graph. I can't read anything in this table.}
 
 \subsubsection{Temporal Analysis}
 To further our analysis, we compare three temporal metrics: the arrival time of the first results, the termination time, defined as the duration between the arrival of the last result and the end of query execution, and the waiting time, which we define as the accumulated time gaps exceeding one second between the reception of consecutive results.
@@ -52,8 +87,6 @@ Tables~\ref{tab:dief} and \ref{tab:continuousPerf} in the \hyperref[sec:appendix
     \textbf{The first result distribution by query template.}    
     The shape index approach tends to produce the first results earlier than the type index approach, particularly for queries where the shape index achieves shorter total execution times.}
     \label{fig:first_res}
-    \rv{Now this is an amazing figure and caption. Great work!}
-    \rv{(For increased beauty, remove the frame and gridlines. And in any case, remove the vertical gridlines and frame.)}
 \end{figure}
 
 \paragraph{For Most Queries, the Shape Index Approach Tends to Produce the First Results Faster}
@@ -155,7 +188,7 @@ The \textit{dief@lr} show a similar behavior but with lesser performance gain co
 The empirical evaluation of the query-shape subsumption algorithm shows that its execution time with the more detailed shapes from our experiment is negligible, with a maximum execution time of 5ms (0.0039\% of the timeout).
 Table~\ref{tab:queryShapeContainmentEval} present these results.
 This outcome is expected, as the algorithm has polynomial time complexity, and the shapes and queries in the experiments are small and not deeply nested.
-This result validates \textbf{H2}.
+This result validates \textbf{H3}.
 
 
 \subsection{Evaluation of the Resilience of the approach}
@@ -177,7 +210,6 @@ As expected, we observe that queries that performed better in Figure~\ref{fig:co
     %However, the utility of shape index information can vary depending on the specific queries and network characteristics.
     }
     \label{fig:adaptShapeIndex}
-    \rv{Are ratios better here, not absolute values?}
 \end{figure*}
 
 
@@ -192,19 +224,19 @@ For the queries of S1, with 80\% of closed shape entries, the performance lost w
 
 The right plot shows the variation in the level of detail of the shapes by reducing their detail.
 Since the shapes are closed in this experiment the level of detail was varied by changing the constraint of the object terms.
-Most queries tend to perform similarly or better, with the exception of those of S1.
+Most queries tend to perform similarly or better, except for those of S1.
 Upon analyzing the output of our query subsumption algorithm, we observe that the additional information to the shape provided in our base approach does not affect the algorithm's results.
 However, in the baseline shape index experiment, the engine must dereference more shapes, potentially increasing execution time.
 Queries of template S1 are the only ones where the added information can discriminate multiple parts of the datasets' domain leading to worse performance.
 This indicates that in some situations, adding more information can be beneficial.
-This sensitivity of the quantity of the information in the index also helps explaining the results for S1 queries in the middle plot. 
+This sensitivity of the quantity of the information in the index also helps to explain the results for S1 queries in the middle plot. 
 In that case, the engine still had to dereference shapes from each dataset, and the information available was likely insufficient to significantly discriminate between resources.
 
-These results show that \textbf{H3} and \textbf{H4} are rejected: reducing information is not always detrimental to query execution.
+These results show that \textbf{H4} and \textbf{H5} are rejected: reducing information is not always detrimental to query execution.
 It becomes detrimental only when the omitted information is critical for determining the query relevance of resources. 
 Therefore, the outcome is dependent on both the query and the network. 
 Moreover, the completeness of shape indexes has a smaller impact on performance than their presence or absence.
-\textbf{H5} is accepted; it is possible to retain performance gains even in networks with reduced shape-index information.
+\textbf{H6} is accepted; it is possible to retain performance gains even in networks with reduced shape-index information.
 
 \begin{figure*}[htbp]
     \centering
@@ -265,4 +297,4 @@ Queries from the S4 template typically require only 1 or 2 HTTP requests, so whe
 On the other hand, queries using the D6 and D7 templates, executed with the type index traversal algorithm, required 26, 23, and 129 HTTP requests.
 This significantly higher number of HTTP requests explains why the increase in HTTP requests had a greater impact on query execution time.
 
-These results partially validate \textbf{H6}, as a linear relationship is observed when there are a sufficient number of HTTP requests and a significant reduction ratio, taking concurrent requests into account.
+These results partially validate \textbf{H7}, as a linear relationship is observed when there are a sufficient number of HTTP requests and a significant reduction ratio, taking concurrent requests into account.

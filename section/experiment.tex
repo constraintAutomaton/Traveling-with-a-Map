@@ -51,8 +51,7 @@ Some shapes are nested within others.
 For example, user profiles are associated with cities, and comments are associated with posts.
 Depending on the pod instance, certain data model objects are materialized in a single file, while others are distributed across multiple files.
 The benchmark provides queries that simulate typical read actions in social media use cases, such as retrieving replies to posts or identifying users connected to a given user. 
-Some queries are highly selective, while others return larger result sets. 
-Additionally, some queries request many data model elements (e.g., profiles, comments, cities), whereas others request only a few.
+Queries may range from being highly selective with small result sets to broad with larger result sets, and in some cases can also be characterized as \emph{data-model selective}.
 The datasets contained approximately 4,200,000 triples and 1,528 subwebs, which, in this context, are Solid Pods.
 The shape indexes contain 13 triples each, while the largest shapes have up to 150 triples. 
 This can be considered insignificant, particularly because the number of triples does not scale with the size of the subwebs.
