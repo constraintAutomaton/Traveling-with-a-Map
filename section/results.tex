@@ -16,12 +16,12 @@
 \end{figure*}
 
 \begin{figure}
-    \includesvg[width=\linewidth]{analysis/artefact/variation_approach/d1_violon_plots}
+    \includesvg[width=\linewidth]{analysis/artefact/variation_approach/s1_violon_plots}
     \caption{
-        Distribution of query execution times (sample size: 50) for queries derived from the D1 template. 
+        Distribution of query execution times (sample size: 50) for queries derived from the S1 template. 
         The results show that the execution time of data-model selective queries is significantly reduced when using the shape index approach.
     }
-    \label{fig:violonD1}
+    \label{fig:violonS1}
 \end{figure}
 
 
@@ -54,9 +54,9 @@ Query processing with the shape index approach requires as little as 13\% of the
 The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
 This table presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
 Queries with a high decrease of the number of HTTP request are known to be data-model selective due to the query-shape subsumption algorithm.
-In our context, a query that requests a single data model is classified as data-model-selective, since in our benchmark the subwebs contain at most three distinct data model objects.
-From the analysis of the queries, those derived from templates D1, D4, S1, and S3 (!!!with the new data we have results!!) are identified as data-model-selective and, as expected, exhibit a reduction in both the number of HTTP requests and the query execution time.
-Figure~\ref{fig:violonD1} shows the distribution of query execution times for each instance of the D1 query template.
+In our context, a query that requests a single data model object is classified as data-model-selective, since in our benchmark the subwebs contain at most three distinct data model objects.
+From the analysis of the queries, those derived from templates D1, D4, S1, and S3 (S3 is a template that cannot complete the execution before the timeout) are identified as data-model-selective and, as expected, exhibit a reduction in both the number of HTTP requests and the query execution time.
+Figure~\ref{fig:violonS1} shows the distribution of query execution times for each instance of the S1 query template.
 The distributions for all query templates are provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 Queries from templates D6 and D7 show no reduction because they require nearly every data model objects in the datasets to be processed by the engine, making our approach ineffective in these cases.
 Figure~\ref{fig:violonD7} shows the distribution of query execution times of queries of the D7 templates.
@@ -260,8 +260,8 @@ Moreover, the completeness of shape indexes has a smaller impact on performance 
         we see a more linear correlation on the up figure than on the down figure.
         }
     \label{fig:http_req_exec_time_cor}
-    \rv{Show the fitting linear regression (in another color)}
-    \rv{Start both axes at zero?}
+    %\rv{Show the fitting linear regression (in another color)}
+    %\rv{Start both axes at zero?}
 \end{figure*}
 
 \subsection{Relationship Between HTTP Request and Query Execution Time}

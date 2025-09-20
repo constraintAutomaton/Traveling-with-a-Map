@@ -23,8 +23,20 @@ Structural properties ensure data discoverability, which in turn helps guarantee
 In practice, DESPs emerge in various contexts, such as social networks~\cite{Taelman2023}, the publication of sensor data~\cite{tam_iswc_traversalsensortree_2024}, among others.
 The work on the topic of DESPs for LTQP~\cite{Taelman2023, Bogaerts2021LinkTW} suggests that various optimizations are feasible for LTQP in decentralized environments with structural properties, in contrast to the more pessimistic conclusion of \citeauthor{hartig2016walking}~\cite{hartig2016walking}.
 
+\begin{figure}
+    \centering
+    \includesvg[width=1.0\linewidth]{figure/network.svg}
+    \caption{
+    The traversal query engine dereferences a large proportion of query-irrelevant resources. 
+    In the figure, green circles represent dereferenced resources, with those marked by a check indicating query-relevant ones. 
+    White circles represent resources that are not dereferenced by the engine.
+    }
+    \label{fig:situation}
+\end{figure}
+
 In general, data on the World Wide Web lack a structure that query engines can exploit for optimization.  
-Any document can be published anywhere, with no standard index or trust mechanism to guide discovery.  
+Any document can be published anywhere, with no standard index or trust mechanism to guide discovery.
+Thus, for the vast majority of queries, traversal query engines dereferences a large proportion of resources that are not query-relevant, as depicted in Figure~\ref{fig:situation}.
 However, within specific \emph{subwebs}, defined as subsections of the web controlled by particular data providers, implicit or explicit data structures may emerge, which query engines can leverage~\cite{Bogaerts2021LinkTW}.
 In this work, we extend a dataset summarization approach for decentralized environments known as the \emph{shape index}~\cite{tam2024opportunitiesshapebasedoptimizationlink}.
 We apply this approach to enable link pruning within LTQP, removing links that are not relevant to the query, based on an analysis of RDF data shapes and the user's query.
@@ -33,9 +45,10 @@ Our approach assumes a DKG composed of subwebs, each hosted by data providers an
 A subweb that exposes a shape index enables the query engine to narrow its search domain by identifying resources that are certainly non-query-relevant.
 \textbf{This is particularly useful when only a subset of a subwebs is relevant to a given query, for example, in social media applications where it is rare to query all information about a user.}
 An example of such a query is one that requests messages within a user's subweb over a specified date range, while also incorporating contextual information from outside the subweb.
-We describe this category of network-tied queries as \emph{data-model selective}.  
-This designation goes beyond simple query categorization, since a subweb may organize its data such that multiple data model objects are materialized within the same resources.  
-In such cases, even if a query retrieves a small percentage of a subweb's data model objects, we do not regard it as data-model selective.  
+We describe informally this category of network-tied queries as \emph{data-model selective}.
+In the context of this paper, we define a \emph{data-model selective query} as a query that requests less than 50\% of the data-model objects.
+%This designation goes beyond simple query categorization, since a subweb may organize its data such that multiple data model objects are materialized within the same resources.  
+%In such cases, even if a query retrieves a small percentage of triples, we do not regard it as data-model selective.  
 In this work, we do not aim to optimize queries that retrieve a large proportion of a subweb's data model objects.  
 For instance, queries that request all user information together with all content published after a given date are outside the scope of our optimization; however, we attempt to ensure that the performance of such queries is not degraded.  
 
