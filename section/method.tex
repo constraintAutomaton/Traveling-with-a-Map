@@ -336,24 +336,3 @@ $n_{Q_{star_{max}}}$ is the maximum number of $Q_{star}$ patterns in any $Q_{sta
 $n_{Q_{starG}}$ is the number of Graph Pattern Structures (GPS) in the query $Q$.\footnote{
     Sharing the evaluation results $Eval_{star}$ from $subsums_{\mathrm{graph star}}$ could reduce execution time and potentially the algorithm's complexity.
 }
-
-\subsection{Data-model Selectiveness}
-Data-model selectiveness is an ordering of queries over networks. 
-In this work, we assume that data-model objects are represented by shapes, however, they could also be represented by vocabularies or other formalisms.
-We define $DM$ as the set of all shapes present in the networks.
-We define a function to determine all the relevant data-model objects for a given query:
-\begin{equation}
-   P(Q) = \{ S \mid Q_{\star} \in Q \sqsubseteq_{qs} S \in DM \}.
-\end{equation}
-A query $Q_i$ is more data-model selective than another query $Q_j$ if and only if 
-\begin{equation}
-    \left| P(Q_i) \right| > \left| P(Q_j) \right|.
-\end{equation}
-
-For practical use cases, we may consider only the shapes present in subwebs of a network and replace $DM$ by $DM^s$,
-with the associated function becoming $P^s(Q)$.
-Furthermore, for practical designation, we say that a query is \emph{data-model selective} (in absolute terms) if 
-\begin{equation}
-    \frac{\left| P^s(Q) \right|}{\left| DM^s \right|} \leq 0.5,
-\end{equation}
-that is, if fewer than 50\% of the data-model objects are potentially relevant to the query.
