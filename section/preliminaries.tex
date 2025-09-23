@@ -47,8 +47,9 @@ A subweb is a (sub)DKG defined by the KG derived from a set of IRIs controlled b
 
 \subsection{Data-model Selectiveness}
 Data-model selectiveness is an ordering of queries over networks. 
-In this work, we assume that data-model objects are represented by shapes, however, they could also be represented by vocabularies or other formalisms.
-We define $DM$ as the set of the data model present in the networks.
+A \emph{data-model object} is defined as a template for to the largest connected subgraph of a KG, where the root is the resource (IRI) being described. 
+In this work, we assume that data-model objects are described using shapes, however, they could also be described using vocabularies or other formalisms.
+We define $DM$ as the set of the data-model objects present in the networks.
 We define a function to determine all the relevant data-model objects for a given query:
 \begin{equation}
    P(Q) = \{ D \mid (D \in DM) \text{ \textbf{is query relevant for} } Q \}.
@@ -62,6 +63,6 @@ For practical use cases, we may consider only the data models present in subwebs
 with the associated function becoming $P^s(Q)$.
 Furthermore, for practical designation, we say that a query is \emph{data-model selective} (in absolute terms) if 
 \begin{equation}
-    \frac{\left| P^s(Q) \right|}{\left| DM^s \right|} \leq 0.5,
+    \frac{\left| P^s(Q) \right|}{\left| DM^s \right|} \leq 0.2,
 \end{equation}
-that is, if fewer than 50\% of the data-model objects are potentially relevant to the query.
+that is, if fewer than 20\% of the data-model objects are potentially relevant to the query.

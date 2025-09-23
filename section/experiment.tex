@@ -43,7 +43,7 @@ All implementations are open-source and are provided in the \hyperref[sec:supple
 Similarly to other LTQP studies, we used SolidBench~\cite{Taelman2023}, which is based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution.
 Furthermore, SolidBench was developed because no LTQP benchmark existed prior to its creation~\cite{hartig2018linked, Taelman2023}, and, to the best of our knowledge, no other benchmarks have been introduced since.
 We created an open-source module to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
-The shape-annotated portion of the data model includes posts, comments on posts, user profiles, cities, and likes.
+The shape-annotated portion of the data model includes posts, comments on posts, user profiles, user settings, varia data (unstructured data), cities, and likes.
 The datasets are Solid Pods~\cite{sambra_solid_2016, dedecker2022s}.
 In this paper, we consider a Solid Pod as a web-based file system that follows the LDP specification~\cite{w3LinkedData}.
 Each Solid Pod, alongside contains its data, a shape index and separate resources for each shape definition.
@@ -51,7 +51,7 @@ Some shapes are nested within others.
 For example, user profiles are associated with cities, and comments are associated with posts.
 Depending on the pod instance, certain data model objects are materialized in a single file, while others are distributed across multiple files.
 The benchmark provides queries that simulate typical read actions in social media use cases, such as retrieving replies to posts or identifying users connected to a given user. 
-Queries may range from being highly selective with small result sets to broad with larger result sets, and in some cases can also be characterized as \emph{data-model selective}.
+Queries may range from being highly selective with small result sets to broad with larger result sets, and in some cases can also be characterized as data-model selective.
 The datasets contained approximately 4,200,000 triples and 1,528 subwebs, which, in this context, are Solid Pods.
 The shape indexes contain 13 triples each, while the largest shapes have up to 150 triples. 
 This can be considered insignificant, particularly because the number of triples does not scale with the size of the subwebs.

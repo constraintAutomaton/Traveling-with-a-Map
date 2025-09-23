@@ -54,7 +54,7 @@ Query processing with the shape index approach requires as little as 13\% of the
 The queries that perform the best are those in which the number of HTTP requests decreased the most, as can be inferred from the analysis of Table~\ref{tab:ratioUsefulResources}.
 This table presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of HTTP requests. 
 Queries with a high decrease of the number of HTTP request are known to be data-model selective due to the query-shape subsumption algorithm.
-In our context, a query that requests a single data model object is classified as data-model-selective, since in our benchmark the subwebs contain at most three distinct data model objects.
+In our context, a query that requests a single data model object is classified as data-model-selective, since in our benchmark the subwebs contain at most five distinct data model objects.
 From the analysis of the queries, those derived from templates D1, D4, S1, and S3 (S3 is a template that cannot complete the execution before the timeout) are identified as data-model-selective and, as expected, exhibit a reduction in both the number of HTTP requests and the query execution time.
 Figure~\ref{fig:violonS1} shows the distribution of query execution times for each instance of the S1 query template.
 The distributions for all query templates are provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
