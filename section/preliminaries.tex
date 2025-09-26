@@ -47,8 +47,9 @@ A subweb is a (sub)DKG defined by the KG derived from a set of IRIs controlled b
 
 \subsection{Data-model Selectiveness}
 Data-model selectiveness is an ordering of queries over networks. 
-A \emph{data-model object} is defined as a template for to the largest connected subgraph of a KG, where the root is the resource (IRI) being described. 
-In this work, we assume that data-model objects are described using shapes, however, they could also be described using vocabularies or other formalisms.
+A \emph{data-model object} is a well-defined template of sub-KGs. 
+By \emph{well-defined}, we mean that there exist explicit rules which deterministically specify the constraints on the triples within the data-model object, as well as its boundary within a larger KG.  
+In this work, we assume that data-model objects are described using RDF data shapes, however, they could also be described using vocabularies or other formalisms.
 We define $DM$ as the set of the data-model objects present in the networks.
 We define a function to determine all the relevant data-model objects for a given query:
 \begin{equation}

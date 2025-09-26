@@ -1,11 +1,8 @@
 \section{Introduction}
-\sepfootnotecontent{sf:webID}{
-    \url{https://www.w3.org/wiki/WebID}
-}
-\sepfootnotecontent{sf:dataSovereignty}{
-    \url{https://digital-strategy.ec.europa.eu/en/policies/strategy-data}
-}
 
+\sepfootnotecontent{sf:formalDataModelSelective}{
+    A formal definition is provided in the \hyperref[sec:preliminaries]{preliminaries}
+}
 
 
 Multiple studies have highlighted that social web applications relying on highly centralized data management systems give rise to problems of ownership, threats to democracy, reinforcement of inequality, and antagonism between users and owners~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
@@ -45,8 +42,12 @@ Our approach assumes a DKG composed of subwebs, each hosted by data providers an
 A subweb that exposes a shape index enables the query engine to narrow its search domain by identifying resources that are certainly non-query-relevant.
 \textbf{This is particularly useful when only a subset of a subwebs is relevant to a given query, for example, in social media applications where it is rare to query all information about a user.}
 An example of such a query is one that requests messages within a user's subweb over a specified date range, while also incorporating contextual information from outside the subweb.
-We describe this category of network-tied queries as \emph{data-model selective}.
-In the context of this paper, we define a \emph{data-model selective query} as a query whose evaluation requires fewer than 20\% of the data-model objects within the network.
+We describe this category of network-tied queries as \emph{data-model selective}. 
+In this context, \emph{data-model objects} are templates of concepts represented in RDF, 
+such as messages, posts, or proteins. 
+Accordingly, we consider RDF data shapes to be formal descriptions of these data-model objects. 
+For the purposes of this paper, we define a \emph{data-model selective query} 
+as a query whose evaluation requires fewer than 20\% of the data-model objects within the network.
 %This designation goes beyond simple query categorization, since a subweb may organize its data such that multiple data model objects are materialized within the same resources.  
 %In such cases, even if a query retrieves a small percentage of triples, we do not regard it as data-model selective.  
 In this work, we do not aim to optimize queries that retrieve a large proportion of a subweb's data model objects.  
