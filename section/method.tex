@@ -219,7 +219,7 @@ This is done by performing a query-shape subsumption check ($\sqsubseteq_{qs}$),
 
 We define, given a query $Q$,
 $$
-IRI_p = \left\{ \bigcup SI_i(s_j) | Q \sqsubseteq_{qs}  s_j = \mathrm{false} \land s_j \in \text{dom}(SI_i) \right\}
+IRI_p = \left\{ \bigcup SI_i(s_j) | Q \not\sqsubseteq_{qs}  s_j \land s_j \in \text{dom}(SI_i) \right\}
 $$
 From this sets of links we define a pruning reachability criteria;
 \begin{equation}
@@ -296,7 +296,7 @@ In such cases, the algorithm recursively explores the corresponding partial Grap
 
 
 \paragraph{Tree Traversal Argument}
-Although $Q_{starG_i}$ is a graph, the algorithm avoids cycles due to `caching', once a node $Q_{star}$ is evaluated, its result is stored in $Eval_{star}$.
+Although $Q_{starG_i}$ is a graph, the algorithm avoids cycles due to ``caching'', once a node $Q_{star}$ is evaluated, its result is stored in $Eval_{star}$.
 Therefore, each node is visited at most once, and the overall traversal is equivalent to a tree traversal of size $n_{qstar} \leq |Q_{starG_i}|$.
 
 \paragraph{Total Complexity}
