@@ -62,7 +62,7 @@
 
 ## Figures
 - [ ] Redesign **Figure 1** to make the idea legible: show a query coming in, how the network responds, and contrast the *original/baseline* behaviour vs. the *expected/optimised* behaviour.
-- [ ] Improve **Figure 2**: explain clearly what a **node** represents in this context. *(Overlaps with Reviewer 1's Figure 2 request — fix once.)*
+- [ ] Improve **Figure 2**: explain clearly what a **node** represents in this context. *(Overlaps with Reviewer 1's Figure 2 request — fix once.*
 
 ## Results
 - [ ] For queries that yield no benefit (or even slow down, e.g. **S4** template), define what the **D6, D7, and S4** query templates are so readers can understand why.
