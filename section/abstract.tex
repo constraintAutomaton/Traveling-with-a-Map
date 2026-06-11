@@ -3,19 +3,19 @@
 The centralization of web information raises legal and ethical concerns, particularly in social, healthcare, and education applications.  
 % Need  
 Decentralized architectures offer a promising alternative by keeping data closer to its source, yet efficient query processing remains a significant challenge.  
-Link Traversal Query Processing (LTQP) enables querying across decentralized networks, however, it often suffers from long execution times and high data transfer costs due to the large number of HTTP requests involved.  
+\ac{LTQP} enables querying across decentralized networks, however, it often suffers from long execution times and high data transfer costs due to the large number of \ac{HTTP} requests involved.
 In many scenarios, queries are highly selective with respect to the data model objects distributed across the network.
 For example, in a social media application where users store heterogeneous data, a query may focus solely on the posts and comments created by users, without requiring any of their additional user information.
 We refer to such queries as \emph{data-model selective}.
 % Task  
-We propose a shape-based pruning approach that relies on \emph{shape indexes} and a \emph{query-shape subsumption} algorithm to reduce the search space and, consequently, the number of HTTP requests for such queries.  
+We propose a shape-based pruning approach that relies on \emph{shape indexes} and a \emph{query-shape subsumption} algorithm to reduce the search space and, consequently, the number of \ac{HTTP} requests for such queries.
 % Object  
-We formalize this approach as a link pruning mechanism for LTQP and evaluate its effectiveness on social media queries using the SolidBench benchmark across multiple evaluation metrics.  
+We formalize this approach as a link pruning mechanism for \ac{LTQP} and evaluate its effectiveness on social media queries using the SolidBench benchmark across multiple evaluation metrics.
 % Findings  
 Our results show that shape-based pruning substantially improves query execution time, first-result arrival time, diefficiency, and network usage for data-model selective queries, while having unsignificative impact on non-selective data-model queries.  
 These gains come at the cost of only a minor increase in the number of triples per shape-index instance.  
 Moreover, our approach is resilient, retaining performance benefits even in networks where some data providers do not supply shape-index information.  
 % Conclusion  
-This work demonstrates that shape-based metadata can significantly optimize LTQP in decentralized knowledge graphs for an important class of queries.  
+This work demonstrates that shape-based metadata can significantly optimize \ac{LTQP} in decentralized knowledge graphs for an important class of queries.
 By exposing such metadata, data providers not only enhance data quality and interoperability but also improve the efficiency of traversal-based query processing.  
 \end{abstract}

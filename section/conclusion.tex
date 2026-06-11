@@ -1,7 +1,7 @@
 \section{Conclusion}\label{sec:conclusion}
 
-In this article, we introduced a pruning mechanism for LTQP, extending the concept of reachability criteria and leveraging shape indexes. 
-Using the SolidBench benchmark, we demonstrate that our approach significantly reduces the number of HTTP requests without degrading performance, particularly when queries exploit the structural properties of the dataset.
+In this article, we introduced a pruning mechanism for \ac{LTQP}, extending the concept of reachability criteria and leveraging shape indexes.
+Using the SolidBench benchmark, we demonstrate that our approach significantly reduces the number of \ac{HTTP} requests without degrading performance, particularly when queries exploit the structural properties of the dataset.
 In the best-case scenario, query execution time improved by up to 7 times, and a previously unexecutable query completed successfully.
 On average, performance improved by a factor of 1.76.
 In the worst case, execution time increased by 2.8 times for a query that did not exploit the network structure; however, this query was already highly efficient, consuming only 0.30\% of the maximum allowed execution time.
@@ -10,7 +10,7 @@ Our method also handles scenarios with partial or reduced shape index informatio
 The approach imposes minimal overhead on servers, requiring only the serving of small static shape index files. 
 This approach has the potential to benefit linked data-driven decentralization efforts such as the Solid ecosystem and support standardization efforts such as the Linked Web Storage Working Group~\footnote{\url{https://www.w3.org/groups/wg/lws/}} by improving query processing throughout these networks without requiring the maintenance of large centralized indexes between data providers.
 This work opens a new line of research in integrating data models directly into decentralized query execution, particularly for non-indexed networks. 
-Future work could focus on supporting filter expressions in the query-subsumption algorithm, enhancing query planning in LTQP~\cite{taelman2024towards} with RDF data shapes, 
+Future work could focus on supporting filter expressions in the query-subsumption algorithm, enhancing query planning in \ac{LTQP}~\cite{taelman2024towards} with \ac{RDF} data shapes,
 maintaining and developing shape indexes, and exploring other low-cost, low-maintenance indexing structures.
 
 

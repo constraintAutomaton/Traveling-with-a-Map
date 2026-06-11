@@ -51,7 +51,13 @@
 \usepackage{enumitem}
 \usepackage{multirow}
 \usepackage{amsthm}
-\usepackage[mathlines, switch, pagewise]{lineno}
+\usepackage[mathlines]{lineno}
+% Two-column line numbers in the OUTER margins (left col -> left, right col ->
+% right) so they never land in the narrow gutter and collide with text.
+\makeatletter
+\newcommand*\@LN@outerlinenumber{%
+  \if@firstcolumn \makeLineNumberLeft \else \makeLineNumberRight \fi}
+\makeatother
 
 \newtheorem{definition}{Definition}
 
@@ -74,10 +80,15 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \def\volumeyear{2016}
 
 \usepackage{csquotes}
+\usepackage{acro}
+\input{acronyms}
 \include{reviewing}
 
 \begin{document}
-\pagewiselinenumbers
+\ifreview
+  \linenumbers
+  \makeatletter\let\makeLineNumber\@LN@outerlinenumber\makeatother
+\fi
 \runninghead{Traveling with a Map: Reducing the Search Space of Link Traversal Queries Using RDF Shapes}
 
 \title{Traveling with a Map: Reducing the Search Space of Link Traversal Queries Using RDF Shapes}
@@ -104,6 +115,10 @@ Data summarization
 }
 
 \maketitle
+
+\acresetall
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\setcounter{footnote}{1}
 
 \input{section/introduction}
 \input{section/related_work}

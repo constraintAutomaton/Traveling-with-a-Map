@@ -21,3 +21,24 @@
 \newcommand\remove{\bgroup\markoverwith{\textcolor{red}{\rule[0.5ex]{2pt}{0.4pt}}}\ULon}
 \newcommand\insertion{\bgroup\markoverwith{\textcolor{Green}{\rule[-0.5ex]{2pt}{0.6pt}}}\ULon}
 \makeatother
+
+% ---- Review mode ----------------------------------------------------------
+% Master switch for review artefacts (line numbers + reviewer colors).
+% Flip to \reviewfalse (or comment \reviewtrue) for the camera-ready version.
+\newif\ifreview
+\reviewtrue
+
+% Reviewer revision colors (shown only while review mode is on)
+\colorlet{revone}{NavyBlue}      % Reviewer 1
+\colorlet{revtwo}{BurntOrange}   % Reviewer 2
+\colorlet{revboth}{Purple}       % Both reviewers
+
+% Inline: keep the text either way, color it only in review mode
+\newcommand{\rone}[1]{\ifreview\textcolor{revone}{#1}\else#1\fi}
+\newcommand{\rtwo}[1]{\ifreview\textcolor{revtwo}{#1}\else#1\fi}
+\newcommand{\rboth}[1]{\ifreview\textcolor{revboth}{#1}\else#1\fi}
+
+% Block (multi-paragraph). Capital-R names so they don't collide with \rone etc.
+\newenvironment{Rone}{\ifreview\color{revone}\fi}{}
+\newenvironment{Rtwo}{\ifreview\color{revtwo}\fi}{}
+\newenvironment{Rboth}{\ifreview\color{revboth}\fi}{}

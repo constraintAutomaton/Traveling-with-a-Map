@@ -1,14 +1,14 @@
 \section{Experimental Evaluation}\label{sec:experiment}
 
-We implemented our approach using the LTQP version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}.
-We chose Comunica due to its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several LTQP studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
+We implemented our approach using the \ac{LTQP} version of the Comunica query engine~\cite{taelman_iswc_resources_comunica_2018}.
+We chose Comunica due to its modularity~\cite{taelman_swj_componentsjs_2022} and its established use in several \ac{LTQP} studies~\cite{Bogaerts2021LinkTW, Taelman2023, eschauzier_quweda_linkqueue_2023, Hanski2024, eschauzier_amw_rcubemetric_2024, tam2024opportunitiesshapebasedoptimizationlink}.
 All implementations are open-source and are provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
-Similarly to other LTQP studies, we used SolidBench~\cite{Taelman2023}, which is based on the LDBC social network benchmark~\cite{Angles2020}, to evaluate our contribution.
-Furthermore, SolidBench was developed because no LTQP benchmark existed prior to its creation~\cite{hartig2018linked, Taelman2023}, and, to the best of our knowledge, no other benchmarks have been introduced since.
-We created an open-source module to generate shape indexes in SolidBench, based on user-provided mappings between ShEx shapes and data model objects.
+Similarly to other \ac{LTQP} studies, we used SolidBench~\cite{Taelman2023}, which is based on the \ac{LDBC} social network benchmark~\cite{Angles2020}, to evaluate our contribution.
+Furthermore, SolidBench was developed because no \ac{LTQP} benchmark existed prior to its creation~\cite{hartig2018linked, Taelman2023}, and, to the best of our knowledge, no other benchmarks have been introduced since.
+We created an open-source module to generate shape indexes in SolidBench, based on user-provided mappings between \ac{ShEx} shapes and data model objects.
 The shape-annotated portion of the data model includes posts, comments on posts, user profiles, user settings, varia data (unstructured data), cities, and likes.
 The datasets are Solid Pods~\cite{sambra_solid_2016, dedecker2022s}.
-In this paper, we consider a Solid Pod as a web-based file system that follows the LDP specification~\cite{w3LinkedData}.
+In this paper, we consider a Solid Pod as a web-based file system that follows the \ac{LDP} specification~\cite{w3LinkedData}.
 Each Solid Pod, alongside contains its data, a shape index and separate resources for each shape definition.
 Some shapes are nested within others. 
 For example, user profiles are associated with cities, and comments are associated with posts.
@@ -23,8 +23,8 @@ The entire data model and query templates are available in the \hyperref[sec:sup
 To evaluate our approach, we conducted the following experiments: 
 \begin{itemize}
    \item We measured the execution time and results of our query-shape subsumption algorithm using the shapes from the study.
-   \item We then compared our shape index approach to state-of-the-art Solid Pod network traversal algorithms: one leveraging the type index specification~\cite{Taelman2023}, and another using the LDP specification~\cite{Taelman2023}, in a network where each Solid Pod provides a complete shape index.~\footnote{It should be noted that the type index and shape index approach are extensions of the LDP approach.}
-   \item We analyze the relationship between the number of HTTP requests and query execution time, drawing on data collected across all experiments.
+   \item We then compared our shape index approach to state-of-the-art Solid Pod network traversal algorithms: one leveraging the type index specification~\cite{Taelman2023}, and another using the \ac{LDP} specification~\cite{Taelman2023}, in a network where each Solid Pod provides a complete shape index.~\footnote{It should be noted that the type index and shape index approach are extensions of the \ac{LDP} approach.}
+   \item We analyze the relationship between the number of \ac{HTTP} requests and query execution time, drawing on data collected across all experiments.
 \end{itemize}
 
 Subsequently, we assessed the resilience of our approach by gradually reducing the shape index information across the network by performing the following experience:
@@ -32,7 +32,7 @@ Subsequently, we assessed the resilience of our approach by gradually reducing t
 \begin{itemize}
    \item We measured query execution time in networks where 0\%, 20\%, 50\%, and 80\% of Solid Pods expose a shape index.
    \item We measured query execution time in networks where 20\%, 50\%, and 80\% shape indexes are complete.
-   \item We measured query execution time in networks having shapes that incorporate only data from the Solid Pods and shapes providing a minimal dataset description where the object constraints are always an IRI or a literal.
+   \item We measured query execution time in networks having shapes that incorporate only data from the Solid Pods and shapes providing a minimal dataset description where the object constraints are always an \ac{IRI} or a literal.
 \end{itemize}
 
 We conducted the experiment using queries from five different instantiations of SolidBench query templates, varying the starting pods in a random yet reproducible manner.

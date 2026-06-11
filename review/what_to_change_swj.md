@@ -57,8 +57,8 @@
 # Reviewer 2
 
 ## Grammar / Writing
-- [ ] Define **IRI** before first use (lines 16–19).
-- [ ] Fix the grammar issue at lines 268–269.
+- [x] Define **IRI** before first use (lines 16–19).
+- [x] Fix the grammar issue at lines 268–269.
 
 ## Figures
 - [ ] Redesign **Figure 1** to make the idea legible: show a query coming in, how the network responds, and contrast the *original/baseline* behaviour vs. the *expected/optimised* behaviour.

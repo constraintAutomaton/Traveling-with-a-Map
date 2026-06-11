@@ -1,54 +1,54 @@
 \section{Related Work}\label{sec:related_work}
 
-In this section, we review related work on LTQP, RDF data shapes, and source selection in decentralized querying.
+In this section, we review related work on \ac{LTQP}, \ac{RDF} data shapes, and source selection in decentralized querying.
 
 \subsection{Link Traversal Query Processing}
-LTQP is a SPARQL querying paradigm that answers queries by exploring the Web using the \textit{follow-your-nose} principle~\cite{hartig2016walking}.
+\ac{LTQP} is a SPARQL querying paradigm that answers queries by exploring the Web using the \textit{follow-your-nose} principle~\cite{hartig2016walking}.
 It belongs to the family of decentralized SPARQL querying paradigms.
-LTQP fundamentally differs from federated querying because the ``federation'' is formed during querying and it expands dynamically as the query is processed.
-Thus, many optimization techniques used in federated querying either do not work in the context of LTQP or remain unexplored.
-LTQP also differs from querying Linked Data Fragments (LDF) interfaces~\cite{azzam2020smart,azzam2021wisekg,DBLP:journals/corr/HartigA16}, as LDF operates over fragments of a known, local, finite KG, whereas LTQP dynamically discovers new, remote KGs during query processing. 
-In summary, LDF methods such as Triple Pattern Fragments (TPF)~\cite{verborgh2016triple} focus on the efficient partitioning of a known dataset, while LTQP focuses on the efficient discovery of an unknown dataset.
+\ac{LTQP} fundamentally differs from federated querying because the ``federation'' is formed during querying and it expands dynamically as the query is processed.
+Thus, many optimization techniques used in federated querying either do not work in the context of \ac{LTQP} or remain unexplored.
+\ac{LTQP} also differs from querying \ac{LDF} interfaces~\cite{azzam2020smart,azzam2021wisekg,DBLP:journals/corr/HartigA16}, as \ac{LDF} operates over fragments of a known, local, finite \ac{KG}, whereas \ac{LTQP} dynamically discovers new, remote \acp{KG} during query processing.
+In summary, \ac{LDF} methods such as \ac{TPF}~\cite{verborgh2016triple} focus on the efficient partitioning of a known dataset, while \ac{LTQP} focuses on the efficient discovery of an unknown dataset.
 
 
-The main challenge of LTQP is the Web's open-ended nature leading to large search spaces.
-Completeness in LTQP is defined by the traversal of a well-defined set of links~\cite{Hartig2012}.
-The first method used to define this set was the \emph{reachability criteria}~\cite{Hartig2012}, boolean functions that determine whether a given link should be dereferenced. 
-In practice, the query engine iterates over all triples in its internal data source and applies the reachability criteria to each IRI appearing in those triples. 
+The main challenge of \ac{LTQP} is the Web's open-ended nature leading to large search spaces.
+Completeness in \ac{LTQP} is defined by the traversal of a well-defined set of links~\cite{Hartig2012}.
+The first method used to define this set was the \emph{reachability criteria}~\cite{Hartig2012}, boolean functions that determine whether a given link should be dereferenced.
+In practice, the query engine iterates over all triples in its internal data source and applies the reachability criteria to each \ac{IRI} appearing in those triples.
 These criteria are defined internally by the engine, giving designers considerable freedom in how they are implemented and which links are dereferenced. 
 However, there is currently no standard mechanism for users to specify them, nor for query engine developers to adopt a common approach.
-Building on this, the theoretical query language LDQL~\cite{hartigLDQL} was introduced, which separates the traversal definition from the query definition. 
+Building on this, the theoretical query language \ac{LDQL}~\cite{hartigLDQL} was introduced, which separates the traversal definition from the query definition.
 It provides a standard mechanism for query engines to define their traversal logic, while opening the possibility for users to provide a traversal policy alongside their queries.
-Further advancements include the Subweb Specifications Language (SWSL)~\cite{Bogaerts2021LinkTW}, which allows data providers to define how their DKG should be traversed.
-Inspired by SWSL, traversal-based querying has utilized the Linked Data Platform (LDP) and the Type Index specification~\cite{Taelman2023}.  
-LDP traversal follows all links within a data space, while Type Index traversal uses mappings from RDF types to relevant resources~\cite{solidTypeIndexes}, allowing queries to prioritize implicitly relevant data sources.
-Link prioritization has also been studied, however, it has been shown to not improve query execution time~\cite{hartig2016walking}, even in DESPs~\cite{eschauzier_iswc_research_linkprioritization_2025}.
+Further advancements include the \ac{SWSL}~\cite{Bogaerts2021LinkTW}, which allows data providers to define how their \ac{DKG} should be traversed.
+Inspired by \ac{SWSL}, traversal-based querying has utilized the \ac{LDP} and the Type Index specification~\cite{Taelman2023}.
+\ac{LDP} traversal follows all links within a data space, while Type Index traversal uses mappings from \ac{RDF} types to relevant resources~\cite{solidTypeIndexes}, allowing queries to prioritize implicitly relevant data sources.
+Link prioritization has also been studied, however, it has been shown to not improve query execution time~\cite{hartig2016walking}, even in \acp{DESP}~\cite{eschauzier_iswc_research_linkprioritization_2025}.
 These contributions are centered on guiding the engine in selecting links to follow in a discovery process.
 However, they do not explicitly address the restriction or pruning of links after the discovery process based on information acquired during traversal. 
-Such pruning could significantly reduce the query search domain when information about the DKG data model is available. 
-For instance, the structural properties of a subweb could inform the query engine that certain web sections follow a specific data model, allowing a set of IRIs to be pruned from those selected during discovery. 
-In contrast, when LTQP models DKGs as Linked Open Data, the web is not divided into subsections with structural properties; thus, data model information cannot be inferred. 
-To the best of our knowledge, no prior work has explored the use of a pruning mechanism to optimize LTQP, and it is this research gap that the present study aims to address.
+Such pruning could significantly reduce the query search domain when information about the \ac{DKG} data model is available.
+For instance, the structural properties of a subweb could inform the query engine that certain web sections follow a specific data model, allowing a set of \acp{IRI} to be pruned from those selected during discovery.
+In contrast, when \ac{LTQP} models \acp{DKG} as Linked Open Data, the web is not divided into subsections with structural properties; thus, data model information cannot be inferred.
+To the best of our knowledge, no prior work has explored the use of a pruning mechanism to optimize \ac{LTQP}, and it is this research gap that the present study aims to address.
 
 \subsection{RDF Data Shapes}
-RDF data shapes (in this paper, we also refer to them as shapes) are used for validating, describing, and communicating data structures, as well as generating data and driving user interfaces~\cite{Gayo2018a,Gayo2018}.
-The two most well known RDF data shape formalisms are SHACL~\cite{Gayo2018b} and ShEx~\cite{Gayo2018}.
+\ac{RDF} data shapes (in this paper, we also refer to them as shapes) are used for validating, describing, and communicating data structures, as well as generating data and driving user interfaces~\cite{Gayo2018a,Gayo2018}.
+The two most well known \ac{RDF} data shape formalisms are \ac{SHACL}~\cite{Gayo2018b} and \ac{ShEx}~\cite{Gayo2018}.
 %Both describe RDF data but differ in focus: ShEx emphasizes graph structure, while SHACL targets constraints.
 For common use cases, they are equally expressive and interchangeable~\cite{Gayo2018c}.
-RDF data shapes have already been used in the literature for querying centralized KGs~\cite{kashif2021, delva2023}.
-Shape Trees~\cite{shapetreesShapeTrees} are an index structure for validating and organizing decentralized knowledge graphs (DKGs).
-However, to the best of our knowledge Shape Trees have not been used for query optimization. 
-Due to their \emph{virtual hierarchy}~\cite{shapetreesShapeTrees}, it can be challenging for a query engine to efficiently capture the relationship between a resource IRI and its corresponding shape. 
-Moreover, Shape Trees are not yet widely adopted; therefore, for the purposes of this work, we use the Shape Index specification~\cite{tam2024opportunitiesshapebasedoptimizationlink} to facilitate the mapping between shapes and knowledge graphs. 
-Additionally, automatic generation of RDF data shapes from KGs~\cite{fernandez2023extracting} and shape-based data integration~\cite{LabraGayo2023} have been studied and can support shape-based summary approaches for DKGs.
+\ac{RDF} data shapes have already been used in the literature for querying centralized \acp{KG}~\cite{kashif2021, delva2023}.
+Shape Trees~\cite{shapetreesShapeTrees} are an index structure for validating and organizing \acp{DKG}.
+However, to the best of our knowledge Shape Trees have not been used for query optimization.
+Due to their \emph{virtual hierarchy}~\cite{shapetreesShapeTrees}, it can be challenging for a query engine to efficiently capture the relationship between a resource \ac{IRI} and its corresponding shape.
+Moreover, Shape Trees are not yet widely adopted; therefore, for the purposes of this work, we use the Shape Index specification~\cite{tam2024opportunitiesshapebasedoptimizationlink} to facilitate the mapping between shapes and \acp{KG}.
+Additionally, automatic generation of \ac{RDF} data shapes from \acp{KG}~\cite{fernandez2023extracting} and shape-based data integration~\cite{LabraGayo2023} have been studied and can support shape-based summary approaches for \acp{DKG}.
 
 \subsection{Source Selection}
 Source selection is a crucial challenge in decentralized querying~\cite{hose2012towards, Harth2010}. 
-Link pruning in LTQP is closely related to source selection, as it can be viewed as a dynamic form of source selection.
-Methods such as basic statistics on triple counts, VoID descriptions, and histogram techniques have been explored in the context of federated querying~\cite{hose2012towards, Harth2010, Montoya2017}.
-However, most of those source selection methods face the limitation of assuming a small number of data sources~\cite{Harth2010}, leaving their suitability for LTQP uncertain.
-Bloom filters~\cite{dia2018fast} are also a mechanism that has shown success for federated DKGs, yet in the context of LTQP, it has been show that bloom filters have little effect on performance~\cite{Hanski2024}.
+Link pruning in \ac{LTQP} is closely related to source selection, as it can be viewed as a dynamic form of source selection.
+Methods such as basic statistics on triple counts, \ac{VoID} descriptions, and histogram techniques have been explored in the context of federated querying~\cite{hose2012towards, Harth2010, Montoya2017}.
+However, most of those source selection methods face the limitation of assuming a small number of data sources~\cite{Harth2010}, leaving their suitability for \ac{LTQP} uncertain.
+Bloom filters~\cite{dia2018fast} are also a mechanism that has shown success for federated \acp{DKG}, yet in the context of \ac{LTQP}, it has been show that bloom filters have little effect on performance~\cite{Hanski2024}.
 Schema-based indexing using ontologies~\cite{Stuckenschmidt2004} has also been explored for source selection of SPARQL queries.
-It has been shown that this approach is sensitive to the high reuse of vocabulary terms in RDF~\cite{Harth2010}, which is exacerbated in the context of LTQP.
-The use of implicit RDF schemas for query optimization has been explored through the concept of characteristic sets~\cite{Neumann2011CharacteristicSA, Meimaris2017ExtendedCS, Montoya2017}. 
-However, their applicability to LTQP has not been investigated, and they assume that the entire dataset resides in memory, which is not the case for LTQP.
+It has been shown that this approach is sensitive to the high reuse of vocabulary terms in \ac{RDF}~\cite{Harth2010}, which is exacerbated in the context of \ac{LTQP}.
+The use of implicit \ac{RDF} schemas for query optimization has been explored through the concept of characteristic sets~\cite{Neumann2011CharacteristicSA, Meimaris2017ExtendedCS, Montoya2017}.
+However, their applicability to \ac{LTQP} has not been investigated, and they assume that the entire dataset resides in memory, which is not the case for \ac{LTQP}.
