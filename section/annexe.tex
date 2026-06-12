@@ -26,3 +26,52 @@
 \input{analysis/artefact/continuous_performance/table_continuous_performance}
 
 \input{analysis/artefact/query_containment_execution_time/fully_bounded/table_query_shape_containment_exec}
+
+\begin{table}[h]
+    \centering
+    \ifreview\color{revtwo}\fi
+    \begin{tabular}{|c|l|c|}
+        \hline
+        \textbf{Template} & \textbf{Description} & \textbf{Data-model selective} \\
+        \hline
+        D1 & All posts created by a person, with their content and creation date. & Yes \\
+        \hline
+        D2 & All messages (posts and comments) created by a person, with their content and creation date. & No \\
+        \hline
+        D3 & The tags attached to a person's messages, ranked by how often each occurs. & No \\
+        \hline
+        D4 & The locations of a person's comments, ranked by how often each occurs. & Yes \\
+        \hline
+        D5 & The distinct IP addresses a person has sent messages from. & No \\
+        \hline
+        D6 & The forums that contain a message created by a person. & No \\
+        \hline
+        D7 & The moderators of the forums that contain a message created by a person. & No \\
+        \hline
+        S1 & The profile of a person (name, gender, birthday, location, browser, creation date). & Yes \\
+        \hline
+        S3 & The friends of a person and the date each friendship was created. & Yes \\
+        \hline
+        S4 & The content (or image) and creation date of a message. & No \\
+        \hline
+        S5 & The creator of a message. & No \\
+        \hline
+        S7 & The comments that directly reply to a message, with their authors. & Yes \\
+        \hline
+    \end{tabular}
+    \caption{\rtwo{Description of the query templates used in the evaluation. A \emph{message} denotes either a post or a comment; the words \emph{post} and \emph{comment} are used when a template targets that type specifically.}}
+    \label{tab:queryTemplateDescription}
+\end{table}
+\FloatBarrier
+
+\begin{Rtwo}
+\lstinputlisting[style=sparql,caption={The S4 (interactive-short-4) query template.},label={lst:s4}]{code/interactive-short-4.rq}
+\end{Rtwo}
+
+\begin{Rtwo}
+\lstinputlisting[style=sparql,caption={The D6 (interactive-discover-6) query template.},label={lst:d6}]{code/interactive-discover-6.rq}
+\end{Rtwo}
+
+\begin{Rtwo}
+\lstinputlisting[style=sparql,caption={The D7 (interactive-discover-7) query template.},label={lst:d7}]{code/interactive-discover-7.rq}
+\end{Rtwo}

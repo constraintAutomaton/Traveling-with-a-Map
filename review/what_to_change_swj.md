@@ -65,10 +65,10 @@
 - [ ] Improve **Figure 2**: explain clearly what a **node** represents in this context. *(Overlaps with Reviewer 1's Figure 2 request)*
 
 ## Results
-- [ ] For queries that yield no benefit (or even slow down, e.g. **S4** template), define what the **D6, D7, and S4** query templates are so readers can understand why.
+- [X] For queries that yield no benefit (or even slow down, e.g. **S4** template), define what the **D6, D7, and S4** query templates are so readers can understand why.
 
 ## Contributions
-- [ ] Re-tier the 7-item contributions list (introduction.tex:56–65) into three levels instead of one flat enumeration at mixed granularity:
-  - [ ] **Architecture / method** — headline contribution: shape-based pruning + subweb/DKG model as one coherent method (folds in current items i, iii, iv).
-  - [ ] **Components** — the pieces that realize it: shape index web spec, query-shape subsumption algorithm, Comunica implementation (items ii, v, vi).
-  - [ ] **Evaluation results** — state *what the evaluation showed*, not just that one was done (item vii).
+- [X] Re-tier the 7-item contributions list (introduction.tex:56–65) into three levels instead of one flat enumeration at mixed granularity:
+  - [X] **Architecture / method** — headline contribution: shape-based pruning + subweb/DKG model as one coherent method (folds in current items i, iii, iv).
+  - [X] **Components** — the pieces that realize it: shape index web spec, query-shape subsumption algorithm, Comunica implementation (items ii, v, vi).
+  - [X] **Evaluation results** — state *what the evaluation showed*, not just that one was done (item vii).

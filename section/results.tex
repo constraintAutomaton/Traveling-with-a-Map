@@ -56,12 +56,14 @@ The queries that perform the best are those in which the number of \ac{HTTP} req
 This table presents the average percentage of query-relevant resources per query template, derived from the where-provenance~\cite{buneman2001and} of the query results and the number of \ac{HTTP} requests.
 Queries with a high decrease of the number of \ac{HTTP} request are known to be data-model selective due to the query-shape subsumption algorithm.
 In our context, a query that requests a single data model object is classified as data-model-selective, since in our benchmark the subwebs contain at most five distinct data model objects.
-From the analysis of the queries, those derived from templates D1, D4, S1, and S3 (S3 is a template that cannot complete the execution before the timeout) are identified as data-model-selective and, as expected, exhibit a reduction in both the number of \ac{HTTP} requests and the query execution time.
+From the analysis of the queries, those derived from templates D1, D4, S1, S3, and S7 (S3 is a template that cannot complete the execution before the timeout, while S7 can only be executed successfully with the shape index) are identified as data-model-selective and, as expected, exhibit a reduction in both the number of \ac{HTTP} requests and the query execution time.
 Figure~\ref{fig:violonS1} shows the distribution of query execution times for each instance of the S1 query template.
 The distributions for all query templates are provided in the \hyperref[sec:supplementalMaterial]{supplementary material}.
 Queries from templates D6 and D7 show no reduction because they require nearly every data model objects in the datasets to be processed by the engine, making our approach ineffective in these cases.
+\rtwo{The D6 and D7 templates are presented in Listings~\ref{lst:d6} and~\ref{lst:d7}.}
 Figure~\ref{fig:violonD7} shows the distribution of query execution times of queries of the D7 templates.
 We notice that queries from template S4 with the shape index performed worse in every instance, with an increase in query execution time of up to 2.80 times as shown in Figure~\ref{fig:violonS4}.
+\rtwo{The S4 template is presented in Listing~\ref{lst:s4}.}
 This is further illustrated in Table~\ref{tab:ratioUsefulResources}, which shows that for these queries, the type index traversal algorithm achieves a ratio of query-relevant resources dereferenced of 100\% or 50\%, compared to only 6\% with the shape index approach.
 The poor performance is due to the fact that the links acquired by the other approaches were selected based on reachability criteria that did not leverage the structural properties of the dataset, such as in the case of \texttt{Cmatch}~\cite{hartig2016walking}, a reachability criterion based on the structure of the query.
 In contrast, the shape index approach always enforces the use of these properties, resulting in additional \ac{HTTP} requests and increased processing time.

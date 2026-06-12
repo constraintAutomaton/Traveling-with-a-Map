@@ -1,0 +1,21 @@
+\definecolor{sparqlKeyword}{RGB}{0,0,170}
+\definecolor{sparqlIri}{RGB}{0,128,0}
+
+\lstdefinelanguage{SPARQL}{
+  morekeywords={SELECT,CONSTRUCT,ASK,DESCRIBE,WHERE,PREFIX,BASE,DISTINCT,REDUCED,FROM,NAMED,UNION,OPTIONAL,FILTER,GRAPH,GROUP,ORDER,BY,HAVING,LIMIT,OFFSET,DESC,ASC,AS,BIND,VALUES,SERVICE,MINUS,COALESCE,UNDEF,a},
+  sensitive=true,
+  morestring=[b]",
+  moredelim=[s][\color{sparqlIri}]{<}{>},
+}
+
+\lstdefinestyle{sparql}{
+  language=SPARQL,
+  keywordstyle=\color{sparqlKeyword}\bfseries,
+  stringstyle=\color{sparqlIri},
+  frame=single,
+  framesep=5pt,
+  xleftmargin=8pt,
+  xrightmargin=8pt,
+  aboveskip=1em,
+  belowskip=1em,
+}
