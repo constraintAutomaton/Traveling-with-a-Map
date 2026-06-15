@@ -1,7 +1,7 @@
 # Reviewer 1
 
 ## General
-- [ ] Clarify the conceptual distinction between **pruning** (this work) and **discovery/reachability-based link selection** — reviewer notes that selecting a predefined link set via reachability can also be read as a form of pruning, so the novelty needs sharpening.
+- [x] Clarify the conceptual distinction between **pruning** (this work) and **discovery/reachability-based link selection** — reviewer notes that selecting a predefined link set via reachability can also be read as a form of pruning, so the novelty needs sharpening.
 - [ ] Add early definitions / examples (ideally in Preliminaries) for:
   - [ ] dereferencing
   - [ ] structural properties
@@ -11,17 +11,17 @@
 - [ ] (Optional) Address that only one dataset is available/used in the evaluation.
 
 ## Introduction (minor)
-- [ ] Fix the flow of the first paragraph (centralised → decentralised → Linked Data/KGs feels disjointed).
-- [ ] Define **DESPs** when first introduced.
-- [ ] Remove or clarify the "pessimistic solution" sentence.
-- [ ] Group the seven contributions/hypotheses into broader themes or give context for their origin (currently too dense).
-- [ ] Use consistent punctuation for the (i)–(vii) enumeration.
+- [x] Fix the flow of the first paragraph (centralised → decentralised → Linked Data/KGs feels disjointed).
+- [x] Define **DESPs** when first introduced.
+- [x] Remove or clarify the "pessimistic solution" sentence.
+- [x] Group the seven contributions/hypotheses into broader themes or give context for their origin (currently too dense).
+- [X] Use consistent punctuation for the (i)–(vii) enumeration.
 
 ## Related Work
-- [ ] Define / briefly explain:
-  - [ ] LDF interface
-  - [ ] Federation
-- [ ] Clarify the definition of **completeness** in LTQP — is traversal complete if it goes through all links in the predefined link set?
+- [x] Define / briefly explain:
+  - [x] LDF interface
+  - [x] Federation
+- [x] Clarify the definition of **completeness** in LTQP — is traversal complete if it goes through all links in the predefined link set?
 - [ ] Better motivate adopting the **shape index** spec — explain the transition from "shape trees not widely adopted" to "selecting shape indexes."
 - [ ] In the **Source Selection** subsection: give a concise definition of source selection and an example of VoID descriptions (since they're used later in comparison).
 
@@ -45,13 +45,13 @@
   - [ ] Clearer annotation
   - [ ] Additional explanation
   - [ ] Make clear what each subweb contains.
-- [ ] Introduce **Figure 3** earlier.
+- [x] Introduce **Figure 3** earlier.
 - [ ] Add examples for each definition / conceptual step.
 - [ ] Add a brief discussion in the **conclusion** about construction/maintenance of shape indexes (currently stated as "beyond the scope").
 
 ## Experimental Evaluation
 - [ ] Improve readability of **Figures 5 & 6** (overlapping colors).
-- [ ] Add a summary table listing each hypothesis and whether it is supported or rejected.
+- [x] Add a summary table listing each hypothesis and whether it is supported or rejected.
 - [ ] (Minor) Fix layout on page 10 — the 2×2 lines appear visually misplaced among figures/tables.
 
 # Reviewer 2

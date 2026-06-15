@@ -43,6 +43,7 @@ The process begins with the engine dereferencing the shape index of Subweb~3 and
 It then checks the shape index of Subweb~1 due to the existing link towards it, where the subsumption check reveals no resources relevant to the query.  
 Next, it examines the shape index of Subweb~2 and identifies resources containing comments (i.e., replies) which are relevant.  
 Finally, the engine dereferences all reachable resources outside the subwebs that are linked to these relevant comments.
+\rone{Figure~\ref{fig:shapeIndex} illustrates an example of a shape index alongside a query pattern that our approach analyzes; both are formalized in the following subsections.}
 
 \begin{figure*}
     \centering
@@ -210,6 +211,9 @@ where $Cd$ is the set of every $cd_i(t, iri, Q)$ and $Cp$ the set of every $cp_i
 \begin{equation}\label{eq:cReachabilityCriteria}
    C(t, iri, Q) = \bigvee_{cd \in Cd} cd(t, iri, Q) \mathrel{\land} \bigwedge_{cp \in Cp} \, cp(t, iri, Q)
 \end{equation}
+
+\rone{This structure reflects the distinction between discovery and pruning: discovery criteria are combined disjunctively, so any one of them suffices to assert that a link is reachable, whereas pruning criteria are combined conjunctively, so a single pruning criterion blocks a link regardless of how many discovery criteria assert it.
+Here the closed-world knowledge that licenses pruning is supplied by the closed shapes of a shape index, which let the engine soundly conclude that a region of the web cannot contribute to the query results.}
 
 To perform pruning in \ac{LTQP} with shape indexes, an initial reachability criterion $C_0$ is defined.
 This criterion must include a discovery reachability criterion $cd_{\text{shape index}}$ that leads to a shape index document.  

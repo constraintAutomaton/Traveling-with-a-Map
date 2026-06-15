@@ -6,19 +6,20 @@
 
 
 Multiple studies have highlighted that social web applications relying on highly centralized data management systems give rise to problems of ownership, threats to democracy, reinforcement of inequality, and antagonism between users and owners~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
-Yet, several authors consider decentralizing data over the web an insufficient solution~\cite{9663788, Curran2016ch1}, although it is an integral component of initiatives focused on data sovereignty.
-Linked Data and \acp{KG}~\cite{heath2011} can be considered technical contributions toward the development of a decentralized web of data.
+\rone{Decentralizing data over the web is a response to these problems and an integral component of initiatives focused on data sovereignty, even if several authors consider it an insufficient solution on its own~\cite{9663788, Curran2016ch1}.
+Linked Data and \acp{KG}~\cite{heath2011} are technical contributions toward such a decentralized web of data.}
 However, SPARQL, the standard query language for \ac{RDF} knowledge graphs, is predominantly performed in centralized environments, partly due to the more mature understanding of query optimization in such settings.
-
+rify o
 \ac{LTQP}~\cite{Hartig2012} is a query paradigm designed for querying non-indexed, \acp{DKG} on the web, by leveraging the descriptive power of \rtwo{\ac{IRI}}\footnote{\rtwo{An \ac{IRI}~\cite{ietf3987IRI} is a unique sequence of characters that identifies a resource on the web; it generalizes the \ac{URI}~\cite{ietf2396URI} by additionally permitting characters from the Unicode set.}} dereferencing.
 \ac{LTQP} involves recursively dereferencing \acp{IRI}, dynamically discovering and storing triples from the documents associated with those \acp{IRI} in an internal triple store, thereby expanding the engine’s underlying knowledge base during query execution.
 The main difficulty of \ac{LTQP} is the large domain of exploration, which leads to a high number of \ac{HTTP} requests as demonstrated by \citeauthor{hartig2016walking}~\cite{hartig2016walking}.
 From another perspective, it has been shown that in \acp{DESP}, it is possible to attain query completeness for various types of practical queries with acceptable execution times for the context of social media applications~\cite{Taelman2023, nielsen1993response}.
+\rone{Such environments are decentralized networks in which data providers expose implicit or explicit data structures, referred to as \emph{structural properties}, that query engines can leverage during traversal.}
 %Moreover, they showed that query planning could significantly influence the execution time.
 Structural properties ensure data discoverability, which in turn helps guarantee result completeness.
 
 In practice, \acp{DESP} emerge in various contexts, such as social networks~\cite{Taelman2023} and the publication of sensor data~\cite{tam_iswc_traversalsensortree_2024}, among others.
-The work on the topic of \acp{DESP} for \ac{LTQP}~\cite{Taelman2023, Bogaerts2021LinkTW} suggests that various optimizations are feasible for \ac{LTQP} in decentralized environments with structural properties, in contrast to the more pessimistic conclusion of \citeauthor{hartig2016walking}~\cite{hartig2016walking}.
+The work on the topic of \acp{DESP} for \ac{LTQP}~\cite{Taelman2023, Bogaerts2021LinkTW} suggests that various optimizations are feasible for \ac{LTQP} in such environments, \rone{in contrast to \citeauthor{hartig2016walking}~\cite{hartig2016walking}, who concluded that the large search space of \ac{LTQP} offers limited opportunities for optimization.}
 
 \begin{figure}
     \centering
@@ -31,29 +32,30 @@ The work on the topic of \acp{DESP} for \ac{LTQP}~\cite{Taelman2023, Bogaerts202
     \label{fig:situation}
 \end{figure}
 
-In general, data on the World Wide Web lack a structure that query engines can exploit for optimization.  
+In general, data on the World Wide Web lack a structure that query engines can exploit for optimization.
 Any document can be published anywhere, with no standard index or trust mechanism to guide discovery.
 Thus, for the vast majority of queries, traversal query engines dereferences a large proportion of resources that are not query-relevant, as depicted in Figure~\ref{fig:situation}.
 However, within specific \emph{subwebs}, defined as subsections of the web controlled by particular data providers, implicit or explicit data structures may emerge, which query engines can leverage~\cite{Bogaerts2021LinkTW}.
 In this work, we extend a dataset summarization approach for decentralized environments known as the \emph{shape index}~\cite{tam2024opportunitiesshapebasedoptimizationlink}.
 We apply this approach to enable link pruning within \ac{LTQP}, removing links that are not relevant to the query, based on an analysis of \ac{RDF} data shapes and the user's query.
+\rone{Whereas existing traversal methods focus on discovering which links to follow, our method prunes links that can be proven irrelevant, removing even a discovered link when the data shapes show it cannot contribute to the query results.}
 The analysis is performed by conducting a query-shape subsumption check to determine whether a resource conforming to a given shape is relevant to a query.
 Our approach assumes a \ac{DKG} composed of subwebs, each hosted by data providers and containing shape indexes.
 A subweb that exposes a shape index enables the query engine to narrow its search domain by identifying resources that are certainly non-query-relevant.
 \textbf{This is particularly useful when only a subset of a subwebs is relevant to a given query, for example, in social media applications where it is rare to query all information about a user.}
 An example of such a query is one that requests messages within a user's subweb over a specified date range, while also incorporating contextual information from outside the subweb.
-We describe this category of network-tied queries as \emph{data-model selective}. 
+We describe this category of network-tied queries as \emph{data-model selective}.
 In this context, \emph{data-model objects} are templates of concepts represented in \ac{RDF},
 such as messages, posts, or proteins.
 Accordingly, we consider \ac{RDF} data shapes to be formal descriptions of these data-model objects.
-For the purposes of this paper, we define a \emph{data-model selective query} 
+For the purposes of this paper, we define a \emph{data-model selective query}
 as a query whose evaluation requires fewer than 20\% of the data-model objects within the network.
-%This designation goes beyond simple query categorization, since a subweb may organize its data such that multiple data model objects are materialized within the same resources.  
-%In such cases, even if a query retrieves a small percentage of triples, we do not regard it as data-model selective.  
-In this work, we do not aim to optimize queries that retrieve a large proportion of a subweb's data model objects.  
-For instance, queries that request all user information published after a given date are outside the scope of our optimization; however, we attempt to ensure that the performance of such queries is not degraded.  
+%This designation goes beyond simple query categorization, since a subweb may organize its data such that multiple data model objects are materialized within the same resources.
+%In such cases, even if a query retrieves a small percentage of triples, we do not regard it as data-model selective.
+In this work, we do not aim to optimize queries that retrieve a large proportion of a subweb's data model objects.
+For instance, queries that request all user information published after a given date are outside the scope of our optimization; however, we attempt to ensure that the performance of such queries is not degraded.
 
-\begin{Rtwo}
+\begin{Rboth}
 Our contributions are threefold:
 \begin{description}
     \item[Method.] A novel shape-based pruning method for \ac{LTQP} that introduces the following new notions:
@@ -76,23 +78,36 @@ Our contributions are threefold:
         \item a resilience study under partial and reduced shape-index coverage, showing that the performance gains persist even when not all data providers expose a shape index.
     \end{enumerate}
 \end{description}
-\end{Rtwo}
+\end{Rboth}
 
-In this work, we ask the following research question: 
+In this work, we ask the following research question:
 \textbf{Can \ac{LTQP} use shape-based pruning in \ac{DKG} networks to reduce query execution time while preserving result completeness?}
-To address this question, we propose the following hypotheses:  
+\begin{Rone}
+To address this question, we decompose it along the four axes that structure our evaluation:
+\begin{description}
+    \item[Effectiveness.] Whether pruning improves performance for the targeted queries without harming the others:
+    \begin{itemize}
+        \item[\textbf{H1}] The shape indexes approach reduce the number of non-contributing data sources retrieved and the query execution time of \emph{data-model selective} queries, while preserving result completeness.
+        \item[\textbf{H2}] The shape indexes approach does not affect the query execution time of \emph{non-data-model selective} queries.
+    \end{itemize}
+    \item[Cost.] Whether the pruning mechanism is itself inexpensive:
+    \begin{itemize}
+        \item[\textbf{H3}] The execution time of a query-shape subsumption algorithm is negligible compare to the query execution.
+    \end{itemize}
+    \item[Robustness.] How the amount of shape-index information across the network affects the performance:
+    \begin{itemize}
+        \item[\textbf{H4}] Stricter shape constraints lead to a greater reduction in \ac{HTTP} requests.
+        \item[\textbf{H5}] Querying a network with more \emph{complete} shape indexes results in faster query execution.
+        \item[\textbf{H6}] Performance gains can be achieved even in networks with partial shape index coverage, demonstrating that the method provides significant improvements without requiring all network participants to adopt shape indexes.
+    \end{itemize}
+    \item[Explainability.] What relationship explains the observed gains:
+    \begin{itemize}
+        \item[\textbf{H7}] There is a linear relationship between the reduction in the number of \ac{HTTP} requests and the decrease in query execution time.
+    \end{itemize}
+\end{description}
+\end{Rone}
 
-\begin{itemize}
-    \item[\textbf{H1}] The shape indexes approach reduce the number of non-contributing data sources retrieved and the query execution time of \emph{data-model selective} queries, while preserving result completeness.
-    \item[\textbf{H2}] The shape indexes approach does not affect the query execution time of \emph{non-data-model selective} queries.
-    \item[\textbf{H3}] The execution time of a query-shape subsumption algorithm is negligible compare to the query execution.
-    \item[\textbf{H4}] Stricter shape constraints lead to a greater reduction in \ac{HTTP} requests.
-    \item[\textbf{H5}] Querying a network with more \emph{complete} shape indexes results in faster query execution.
-    \item[\textbf{H6}] Performance gains can be achieved even in networks with partial shape index coverage, demonstrating that the method provides significant improvements without requiring all network participants to adopt shape indexes.
-    \item[\textbf{H7}] There is a linear relationship between the reduction in the number of \ac{HTTP} requests and the decrease in query execution time.
-\end{itemize}
-
-The remainder of this paper is organized as follows: 
-we first review the \hyperref[sec:related_work]{related work} and introduce the \hyperref[sec:preliminaries]{preliminaries}. 
-Next, we present our \hyperref[sec:approach]{approach}, followed by a description of the \hyperref[sec:experiment]{experimental setup} and a \hyperref[sec:result]{discussion of the results}. 
+The remainder of this paper is organized as follows:
+we first review the \hyperref[sec:related_work]{related work} and introduce the \hyperref[sec:preliminaries]{preliminaries}.
+Next, we present our \hyperref[sec:approach]{approach}, followed by a description of the \hyperref[sec:experiment]{experimental setup} and a \hyperref[sec:result]{discussion of the results}.
 Finally, we \hyperref[sec:conclusion]{conclude the paper}.

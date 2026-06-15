@@ -6,13 +6,16 @@ In this section, we review related work on \ac{LTQP}, \ac{RDF} data shapes, and 
 \ac{LTQP} is a SPARQL querying paradigm that answers queries by exploring the Web using the \textit{follow-your-nose} principle~\cite{hartig2016walking}.
 It belongs to the family of decentralized SPARQL querying paradigms.
 \ac{LTQP} fundamentally differs from federated querying because the ``federation'' is formed during querying and it expands dynamically as the query is processed.
+\rone{A federation is a set of queryable \ac{RDF} sources, typically SPARQL endpoints, that is fixed and known prior to query execution.}
 Thus, many optimization techniques used in federated querying either do not work in the context of \ac{LTQP} or remain unexplored.
 \ac{LTQP} also differs from querying \ac{LDF} interfaces~\cite{azzam2020smart,azzam2021wisekg,DBLP:journals/corr/HartigA16}, as \ac{LDF} operates over fragments of a known, local, finite \ac{KG}, whereas \ac{LTQP} dynamically discovers new, remote \acp{KG} during query processing.
 In summary, \ac{LDF} methods such as \ac{TPF}~\cite{verborgh2016triple} focus on the efficient partitioning of a known dataset, while \ac{LTQP} focuses on the efficient discovery of an unknown dataset.
+\rone{More generally, an \ac{LDF} interface publishes a dataset as a set of queryable fragments over the Web, balancing query-processing effort between the server and the client~\cite{verborgh2014web}.}
 
 
 The main challenge of \ac{LTQP} is the Web's open-ended nature leading to large search spaces.
 Completeness in \ac{LTQP} is defined by the traversal of a well-defined set of links~\cite{Hartig2012}.
+\rone{A traversal is complete when it dereferences every link in this set, so that the query is answered completely over the subgraph those links induce; completeness in \ac{LTQP} is therefore relative to the set of reachable links rather than to the entire Web, whose search space is too large to traverse exhaustively.}
 The first method used to define this set was the \emph{reachability criteria}~\cite{Hartig2012}, boolean functions that determine whether a given link should be dereferenced.
 In practice, the query engine iterates over all triples in its internal data source and applies the reachability criteria to each \ac{IRI} appearing in those triples.
 These criteria are defined internally by the engine, giving designers considerable freedom in how they are implemented and which links are dereferenced. 
@@ -24,7 +27,10 @@ Inspired by \ac{SWSL}, traversal-based querying has utilized the \ac{LDP} and th
 \ac{LDP} traversal follows all links within a data space, while Type Index traversal uses mappings from \ac{RDF} types to relevant resources~\cite{solidTypeIndexes}, allowing queries to prioritize implicitly relevant data sources.
 Link prioritization has also been studied, however, it has been shown to not improve query execution time~\cite{hartig2016walking}, even in \acp{DESP}~\cite{eschauzier_iswc_research_linkprioritization_2025}.
 These contributions are centered on guiding the engine in selecting links to follow in a discovery process.
-However, they do not explicitly address the restriction or pruning of links after the discovery process based on information acquired during traversal. 
+However, they do not explicitly address the restriction or pruning of links after the discovery process based on information acquired during traversal.
+\rone{We distinguish discovery from pruning as assertion differs from negation: a discovery criterion expresses that a link should be explored, whereas a pruning criterion expresses that it should not, and the latter takes precedence, so a pruned link is not followed even when a discovery criterion would select it.
+Discovery builds the search domain of an \ac{LTQP} query, whereas pruning carves holes into that domain.
+Although both can be described as retaining a subset of links, only inclusion is sound under the open-world assumption of the web, since a missing link is no evidence that relevant data is absent; excluding links soundly requires closed-world knowledge about a region of the web.}
 Such pruning could significantly reduce the query search domain when information about the \ac{DKG} data model is available.
 For instance, the structural properties of a subweb could inform the query engine that certain web sections follow a specific data model, allowing a set of \acp{IRI} to be pruned from those selected during discovery.
 In contrast, when \ac{LTQP} models \acp{DKG} as Linked Open Data, the web is not divided into subsections with structural properties; thus, data model information cannot be inferred.

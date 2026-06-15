@@ -301,3 +301,31 @@ On the other hand, queries using the D6 and D7 templates, executed with the type
 This significantly higher number of \ac{HTTP} requests explains why the increase in \ac{HTTP} requests had a greater impact on query execution time.
 
 These results partially validate \textbf{H7}, as a linear relationship is observed when there are a sufficient number of \ac{HTTP} requests and a significant reduction ratio, taking concurrent requests into account.
+
+\subsection{\rone{Summary of Findings}}
+
+\rone{Across the evaluation, the shape index approach reduced both the number of retrieved sources and the query execution time for data-model selective queries while preserving result completeness, but it degraded performance for queries that do not exploit the structural properties of the network, such as those of template S4.
+The query-shape subsumption algorithm introduced negligible overhead.
+Reducing the amount of shape index information was not consistently detrimental: neither stricter constraints nor more complete indexes guaranteed better performance, yet the approach retained its gains even under partial coverage.
+Finally, the reduction in \ac{HTTP} requests correlated with the decrease in execution time only when a sufficient number of requests were involved.
+Table~\ref{tab:hypothesisSummary} summarizes, for each hypothesis, whether the evaluation supports it.}
+
+\begin{table*}[htbp]
+    \centering
+    \ifreview\color{revone}\fi
+    \begin{tabular}{|c|l|c|}
+        \hline
+        \textbf{Hypothesis} & \textbf{Summary} & \textbf{Outcome} \\
+        \hline
+        H1 & Reduces sources and execution time for data-model selective queries & Supported \\
+        H2 & No effect on non-data-model selective queries & Partially supported \\
+        H3 & Negligible query-shape subsumption overhead & Supported \\
+        H4 & Stricter shape constraints reduce \ac{HTTP} requests more & Rejected \\
+        H5 & More complete shape indexes give faster execution & Rejected \\
+        H6 & Gains hold under partial shape-index coverage & Supported \\
+        H7 & Linear \ac{HTTP}-request / execution-time relationship & Partially supported \\
+        \hline
+    \end{tabular}
+    \caption{\rone{Summary of the hypotheses and whether the evaluation supports them.}}
+    \label{tab:hypothesisSummary}
+\end{table*}
