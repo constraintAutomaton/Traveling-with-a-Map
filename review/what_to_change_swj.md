@@ -22,23 +22,23 @@
   - [x] LDF interface
   - [x] Federation
 - [x] Clarify the definition of **completeness** in LTQP — is traversal complete if it goes through all links in the predefined link set?
-- [ ] Better motivate adopting the **shape index** spec — explain the transition from "shape trees not widely adopted" to "selecting shape indexes."
-- [ ] In the **Source Selection** subsection: give a concise definition of source selection and an example of VoID descriptions (since they're used later in comparison).
+- [x] Better motivate adopting the **shape index** spec — explain the transition from "shape trees not widely adopted" to "selecting shape indexes."
+- [x] In the **Source Selection** subsection: give a concise definition of source selection and an example of VoID descriptions (since they're used later in comparison).
 
 ## Preliminaries
-- [ ] State both domain/range **and** input/output for functions defined by only one (precision).
-- [ ] Clarify the access functions for triples — how are **literals** handled (e.g., S((s,p,o))=s, O((s,p,o))=o)?
-- [ ] Clarify the definition of a triple pattern as "a set of possible variables."
+- [X] State both domain/range **and** input/output for functions defined by only one (precision).
+- [X] Clarify the access functions for triples — how are **literals** handled (e.g., S((s,p,o))=s, O((s,p,o))=o)?
+- [X] Clarify the definition of a triple pattern as "a set of possible variables."
 - [ ] Add a running example + small visualisation to help internalise the definitions.
-- [ ] Clarify the "Decentralized Knowledge Graphs and Subweb" subsection:
-  - [ ] Is *G* a single KG or a set of KGs?
-  - [ ] What is the precise distinction between a resource and an IRI?
-  - [ ] Can a resource map to multiple KGs?
-- [ ] Clarify "Data-model Selectiveness":
-  - [ ] What it means for *D* to be "query relevant for *Q*."
-  - [ ] How the notation (e.g., *P^s(Q)*, *Dm^s*) relates to subwebs.
-  - [ ] Rationale behind the 20% threshold in Eq. 4.
-  - [ ] Does one "data-model object" correspond to one data type (e.g., user or post)?
+- [X] Clarify the "Decentralized Knowledge Graphs and Subweb" subsection:
+  - [X] Is *G* a single KG or a set of KGs?
+  - [X] What is the precise distinction between a resource and an IRI?
+  - [X] Can a resource map to multiple KGs?
+- [X] Clarify "Data-model Selectiveness":
+  - [X] What it means for *D* to be "query relevant for *Q*."
+  - [X] How the notation (e.g., *P^s(Q)*, *Dm^s*) relates to subwebs.
+  - [X] Rationale behind the 20% threshold in Eq. 4.
+  - [X] Does one "data-model object" correspond to one data type (e.g., user or post)?
 
 ## Approach
 - [ ] Improve **Figure 2** (dense, unclear):
@@ -47,7 +47,7 @@
   - [ ] Make clear what each subweb contains.
 - [x] Introduce **Figure 3** earlier.
 - [ ] Add examples for each definition / conceptual step.
-- [ ] Add a brief discussion in the **conclusion** about construction/maintenance of shape indexes (currently stated as "beyond the scope").
+- [X] Add a brief discussion in the **conclusion** about construction/maintenance of shape indexes (currently stated as "beyond the scope").
 
 ## Experimental Evaluation
 - [ ] Improve readability of **Figures 5 & 6** (overlapping colors).

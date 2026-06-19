@@ -6,20 +6,19 @@ Our work focuses on the union of conjunctive queries over \ac{RDF} \acp{KG} usin
 The fundamental building blocks of \acp{KG} and SPARQL queries are triples and triple patterns, respectively, as defined in Definition~\ref{def:triple} and Definition~\ref{def:triplePattern}.
 
 \begin{definition}[Triple]\label{def:triple}
-    \ac{RDF} triples $t = (s,p,o)$ are tuples formed with three terms. A subject where $s \in \mathcal{I} \cup \mathcal{B}$, a predicate $p \in \mathcal{I}$ and an object $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$.
-    Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$,  are respectively the set of every possible \ac{IRI}, blank node, literal.
-    For simplicity, we denote the union of these sets by concatenating their symbols, so that $ \mathcal{I} \cup \mathcal{B}$ is written as $ \mathcal{I} \mathcal{B}$.
+	\ac{RDF} triples $t = (s,p,o)$ are tuples formed with three terms. A subject where $s \in \mathcal{I} \cup \mathcal{B}$, a predicate $p \in \mathcal{I}$ and an object $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$.
+	Where $\mathcal{I}$, $\mathcal{B}$, $\mathcal{L}$,  are respectively the set of every possible \ac{IRI}, blank node, literal.
+	For simplicity, we denote the union of these sets by concatenating their symbols, so that $ \mathcal{I} \cup \mathcal{B}$ is written as $ \mathcal{I} \mathcal{B}$.
 \end{definition}
 
 \begin{definition}[Triple pattern]\label{def:triplePattern}
-    Triple patterns $tp = (s_{tp}, p_{tp}, o_{tp})$ are similar to triples, where $s_{tp} \in \mathcal{I} \mathcal{B} \mathcal{V}$,
-    $p_{tp} \in \mathcal{I} \mathcal{V}$ and an object term  $o_{tp} \in \mathcal{I} \mathcal{B} \mathcal{V} \mathcal{L}$.
-    Where $\mathcal{V}$ is the set of every possible variable.
-    %A triple pattern returns a solution sequence with solution mappings a single or multiple $tp$ forms a Basic Graph Pattern (BGP).
+	Triple patterns $tp = (s_{tp}, p_{tp}, o_{tp})$ are similar to triples, \rone{except that any of the three positions may additionally be a variable from $\mathcal{V}$, the set of every possible variable,} where $s_{tp} \in \mathcal{I} \mathcal{B} \mathcal{V}$,
+	$p_{tp} \in \mathcal{I} \mathcal{V}$ and an object term  $o_{tp} \in \mathcal{I} \mathcal{B} \mathcal{V} \mathcal{L}$.
+	%A triple pattern returns a solution sequence with solution mappings a single or multiple $tp$ forms a Basic Graph Pattern (BGP).
 \end{definition}
 
 We also define two access functions to respectively get the subject and object term of a triple or a triple pattern while ignoring literals,
-$ S:  (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V} \mathcal{L}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$ and $O: (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V} \mathcal{L}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$.
+$ S:  (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V} \mathcal{L}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$ and $O: (\mathcal{I} \mathcal{B} \mathcal{V}, \mathcal{I} \mathcal{V}, \mathcal{I} \mathcal{B} \mathcal{V} \mathcal{L}) \rightarrow \mathcal{I} \mathcal{B} \mathcal{V}$\rone{, such that for a triple or triple pattern $(s, p, o)$, $S((s,p,o)) = s$ and $O((s,p,o)) = o$ when $o \in \mathcal{I}\mathcal{B}\mathcal{V}$, while $O$ returns nothing when $o$ is a literal}.
 We denote $[\![ Q ]\!]^{G}$ as the evaluation of a query $Q$ over a \ac{KG} $G$~\cite{Angles2008}.
 
 \subsection{Reachability Criteria}
@@ -28,42 +27,43 @@ We denote $[\![ Q ]\!]^{G}$ as the evaluation of a query $Q$ over a \ac{KG} $G$~
 To formalize the completeness of queries, \emph{Reachability criteria}~\cite{Hartig2012} have been formalized.
 Reachability criteria are boolean functions ($c_i$) restricting the dereferencing of links from the internal data source of the query engine.
 \rtwo{They take three parameters: an \ac{RDF} triple $t$ from an internal triple store, a dereferenceable \ac{IRI} $iri$ occurring in $t$, and a union of conjunctive queries $Q$.}
+\rone{Their domain and range are $c_i: \big((\mathcal{I}\mathcal{B}, \mathcal{I}, \mathcal{I}\mathcal{B}\mathcal{L}),\ \mathcal{I},\ \mathcal{Q}\big) \rightarrow \left\{ \mathrm{true}, \mathrm{false} \right\}$, where $\mathcal{Q}$ is the set of unions of conjunctive queries.}
 If $c_i$ returns $true$, the query engine must dereference $iri$.
 More formally
 \begin{equation}\label{eq:reachabilityCriteria}
-c_i(t, iri, Q) \rightarrow \left\{ \mathrm{true}, \mathrm{false} \right\}
+	c_i(t, iri, Q) \rightarrow \left\{ \mathrm{true}, \mathrm{false} \right\}
 \end{equation}
 
 \subsection{Decentralized Knowledge Graphs and Subweb}\label{sec:dkg}
 
-We define a \ac{DKG} as a \ac{KG} $G$ materialized in a network of resources $R$.
-A resource $r_i \in R$ is mapped to a \ac{KG} $g_i \subseteq G$, which is a set of triples~\cite{w3ConceptsAbstract}.
+We define a \ac{DKG} as a \rone{single} \ac{KG} $G$ materialized in a network of resources $R$.
+A resource $r_i \in R$ \rone{is a document that materializes exactly one} \ac{KG} $g_i \subseteq G$, which is a set of triples~\cite{w3ConceptsAbstract}.
 We denote this mapping $r_i \mapsto_{\mathcal{G}} g_i$.
-A resource is mapped and exposed by an \ac{IRI} $iri_i$ denoted by $iri_i \mapsto_{\mathcal{R}} r_i$.
+\rone{A resource is exposed by an \ac{IRI} $iri_i$, an identifier pointing to it, denoted by $iri_i \mapsto_{\mathcal{R}} r_i$; the resource is thus distinct from the \ac{IRI} that identifies it.}
 The network forms a graph where the resources $r_i$ are the nodes and the $iri_j$ are directed edges starting from $r_i$ to $r_j$.
 The $iri_j$ are \ac{RDF} terms in the triples in $g_i$.
 $G$ is formed by the union of all the $g_i$ mapped to a resource in the network.
 A subweb is a (sub)\ac{DKG} defined by the \ac{KG} derived from a set of \acp{IRI} controlled by a data provider.
 
 \subsection{Data-model Selectiveness}
-Data-model selectiveness is an ordering of queries over networks. 
-A \emph{data-model object} is a well-defined template of sub-\acp{KG}.
+Data-model selectiveness is an ordering of queries over networks.
+A \emph{data-model object} is a well-defined template of sub-\acp{KG} \rone{that corresponds to a single data type, such as a user or a post}.
 By \emph{well-defined}, we mean that there exist explicit rules which deterministically specify the constraints on the triples within the data-model object, as well as its boundary within a larger \ac{KG}.
 In this work, we assume that data-model objects are described using \ac{RDF} data shapes, however, they could also be described using vocabularies or other formalisms.
 We define $DM$ as the set of the data-model objects present in the networks.
 We define a function to determine all the relevant data-model objects for a given query:
 \begin{equation}
-   P(Q) = \{ D \mid (D \in DM) \text{ \textbf{is query relevant for} } Q \}.
+	P(Q) = \{ D \mid (D \in DM) \text{ \textbf{is query relevant for} } Q \}.
 \end{equation}
-A query $Q_i$ is more data-model selective than another query $Q_j$ if and only if 
+\rone{A data-model object $D$ is query relevant for $Q$ when at least one conjunct of $Q$ can be answered by a \ac{KG} derived from $D$.}
+A query $Q_i$ is more data-model selective than another query $Q_j$ if and only if
 \begin{equation}
-    \left| P(Q_i) \right| < \left| P(Q_j) \right|.
+	\left| P(Q_i) \right| < \left| P(Q_j) \right|.
 \end{equation}
 
-For practical use cases, we may consider only the data models present in subwebs of a network and replace $DM$ by $DM^s$,
-with the associated function becoming $P^s(Q)$.
-Furthermore, for practical designation, we say that a query is \emph{data-model selective} (in absolute terms) if 
+For practical use cases, we may consider only the data-model objects present in a single subweb $s$ rather than the whole \ac{DKG}, \rone{replacing $DM$ by $DM^s$, the set of data-model objects in subweb $s$, and $P$ by the corresponding function $P^s(Q)$}.
+Furthermore, for practical designation, we say that a query is \emph{data-model selective} (in absolute terms) if
 \begin{equation}
-    \frac{\left| P^s(Q) \right|}{\left| DM^s \right|} \leq 0.2,
+	\frac{\left| P^s(Q) \right|}{\left| DM^s \right|} \leq 0.2,
 \end{equation}
-that is, if fewer than 20\% of the data-model objects are potentially relevant to the query.
+that is, if at most 20\% of the data-model objects are potentially relevant to the query.\footnote{\rone{The $0.2$ threshold is arbitrary. There is no objective criterion for choosing such a value, so we picked it solely for this practical designation.}}

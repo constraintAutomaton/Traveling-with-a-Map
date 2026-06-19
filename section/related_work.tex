@@ -42,16 +42,25 @@ The two most well known \ac{RDF} data shape formalisms are \ac{SHACL}~\cite{Gayo
 %Both describe RDF data but differ in focus: ShEx emphasizes graph structure, while SHACL targets constraints.
 For common use cases, they are equally expressive and interchangeable~\cite{Gayo2018c}.
 \ac{RDF} data shapes have already been used in the literature for querying centralized \acp{KG}~\cite{kashif2021, delva2023}.
-Shape Trees~\cite{shapetreesShapeTrees} are an index structure for validating and organizing \acp{DKG}.
-However, to the best of our knowledge Shape Trees have not been used for query optimization.
-Due to their \emph{virtual hierarchy}~\cite{shapetreesShapeTrees}, it can be challenging for a query engine to efficiently capture the relationship between a resource \ac{IRI} and its corresponding shape.
-Moreover, Shape Trees are not yet widely adopted; therefore, for the purposes of this work, we use the Shape Index specification~\cite{tam2024opportunitiesshapebasedoptimizationlink} to facilitate the mapping between shapes and \acp{KG}.
+Shape Trees~\cite{shapetreesShapeTrees} are an index structure for validating and organizing \acp{DKG}; \rone{however, to the best of our knowledge, they have not been used for query optimization, and their \emph{virtual hierarchy}~\cite{shapetreesShapeTrees} makes it challenging for a query engine to efficiently capture the relationship between a resource \ac{IRI} and its corresponding shape.
+Beyond this conceptual mismatch, Shape Trees were not yet practical to build upon at the time of this study: the specification is not widely adopted, and its supporting documentation and tooling were not sufficiently mature or stable.
+We therefore conduct our investigation using the Shape Index specification~\cite{tam2024opportunitiesshapebasedoptimizationlink} to map shapes to \acp{KG}.
+Importantly, our findings are not tied to this particular summary: our approach relies in essence on a mapping between shapes and sets of \acp{IRI}, so any structure providing such a mapping---including a more mature Shape Trees---could serve as the underlying summary instead.}
 Additionally, automatic generation of \ac{RDF} data shapes from \acp{KG}~\cite{fernandez2023extracting} and shape-based data integration~\cite{LabraGayo2023} have been studied and can support shape-based summary approaches for \acp{DKG}.
 
 \subsection{Source Selection}
-Source selection is a crucial challenge in decentralized querying~\cite{hose2012towards, Harth2010}. 
+Source selection is a crucial challenge in decentralized querying~\cite{hose2012towards, Harth2010}.
+\rone{It is the process of determining, before or during query execution, which of the available data sources can contribute to the result of a query, so that sources that cannot are not accessed.}
 Link pruning in \ac{LTQP} is closely related to source selection, as it can be viewed as a dynamic form of source selection.
 Methods such as basic statistics on triple counts, \ac{VoID} descriptions, and histogram techniques have been explored in the context of federated querying~\cite{hose2012towards, Harth2010, Montoya2017}.
+\rone{A \ac{VoID} description is an \ac{RDF} document that summarizes a dataset, reporting, among other things, its total number of triples and the set of predicates it uses. Figure~\ref{fig:void} shows such a description for the \texttt{sw:posts} dataset of our running example.}
+
+\begin{figure}
+   \centering
+   \lstinputlisting[basicstyle=\footnotesize\ttfamily]{code/void.ttl}
+   \caption{\rone{A short \ac{VoID} description of the \texttt{sw:posts} dataset from the running example of Figure~\ref{fig:shapeIndex}, describing $160$ posts that together amount to $480$ triples, partitioned over the \texttt{ex:creator}, \texttt{ex:content}, and \texttt{ex:reply} predicates.}}
+   \label{fig:void}
+\end{figure}
 However, most of those source selection methods face the limitation of assuming a small number of data sources~\cite{Harth2010}, leaving their suitability for \ac{LTQP} uncertain.
 Bloom filters~\cite{dia2018fast} are also a mechanism that has shown success for federated \acp{DKG}, yet in the context of \ac{LTQP}, it has been show that bloom filters have little effect on performance~\cite{Hanski2024}.
 Schema-based indexing using ontologies~\cite{Stuckenschmidt2004} has also been explored for source selection of SPARQL queries.

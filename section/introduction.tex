@@ -1,15 +1,14 @@
 \section{Introduction}
 
 \sepfootnotecontent{sf:formalDataModelSelective}{
-    A formal definition is provided in the \hyperref[sec:preliminaries]{preliminaries}
+	A formal definition is provided in the \hyperref[sec:preliminaries]{preliminaries}
 }
 
 
 Multiple studies have highlighted that social web applications relying on highly centralized data management systems give rise to problems of ownership, threats to democracy, reinforcement of inequality, and antagonism between users and owners~\cite{Terranova2000FreeLP, Curran2016ch1, Sevignani2013, 9663788}.
 \rone{Decentralizing data over the web is a response to these problems and an integral component of initiatives focused on data sovereignty, even if several authors consider it an insufficient solution on its own~\cite{9663788, Curran2016ch1}.
-Linked Data and \acp{KG}~\cite{heath2011} are technical contributions toward such a decentralized web of data.}
+	Linked Data and \acp{KG}~\cite{heath2011} are technical contributions toward such a decentralized web of data.}
 However, SPARQL, the standard query language for \ac{RDF} knowledge graphs, is predominantly performed in centralized environments, partly due to the more mature understanding of query optimization in such settings.
-rify o
 \ac{LTQP}~\cite{Hartig2012} is a query paradigm designed for querying non-indexed, \acp{DKG} on the web, by leveraging the descriptive power of \rtwo{\ac{IRI}}\footnote{\rtwo{An \ac{IRI}~\cite{ietf3987IRI} is a unique sequence of characters that identifies a resource on the web; it generalizes the \ac{URI}~\cite{ietf2396URI} by additionally permitting characters from the Unicode set.}} dereferencing.
 \ac{LTQP} involves recursively dereferencing \acp{IRI}, dynamically discovering and storing triples from the documents associated with those \acp{IRI} in an internal triple store, thereby expanding the engine’s underlying knowledge base during query execution.
 The main difficulty of \ac{LTQP} is the large domain of exploration, which leads to a high number of \ac{HTTP} requests as demonstrated by \citeauthor{hartig2016walking}~\cite{hartig2016walking}.
@@ -22,14 +21,14 @@ In practice, \acp{DESP} emerge in various contexts, such as social networks~\cit
 The work on the topic of \acp{DESP} for \ac{LTQP}~\cite{Taelman2023, Bogaerts2021LinkTW} suggests that various optimizations are feasible for \ac{LTQP} in such environments, \rone{in contrast to \citeauthor{hartig2016walking}~\cite{hartig2016walking}, who concluded that the large search space of \ac{LTQP} offers limited opportunities for optimization.}
 
 \begin{figure}
-    \centering
-    \includesvg[width=1.0\linewidth]{figure/network.svg}
-    \caption{
-    The goal of our work is to minimize the number of query-irrelevant sources (unchecked green circle) that are dereferenced by a link traversal query engine.
-    White circles represent resources that are not dereferenced by the engine.
-    Checked green circles are followed and query-relevant.
-    }
-    \label{fig:situation}
+	\centering
+	\includesvg[width=1.0\linewidth]{figure/network.svg}
+	\caption{
+		The goal of our work is to minimize the number of query-irrelevant sources (unchecked green circle) that are dereferenced by a link traversal query engine.
+		White circles represent resources that are not dereferenced by the engine.
+		Checked green circles are followed and query-relevant.
+	}
+	\label{fig:situation}
 \end{figure}
 
 In general, data on the World Wide Web lack a structure that query engines can exploit for optimization.
@@ -56,55 +55,55 @@ In this work, we do not aim to optimize queries that retrieve a large proportion
 For instance, queries that request all user information published after a given date are outside the scope of our optimization; however, we attempt to ensure that the performance of such queries is not degraded.
 
 \begin{Rboth}
-Our contributions are threefold:
-\begin{description}
-    \item[Method.] A novel shape-based pruning method for \ac{LTQP} that introduces the following new notions:
-    \begin{enumerate}[label=(\roman*)]
-        \item \emph{result-based completeness}, formalized as a search-space minimization problem;
-        \item \emph{composite reachability criteria} that combine link discovery and pruning;
-        \item a network abstraction of \emph{subwebs} and \acp{DKG}; and
-        \item \emph{shape-based link pruning}, which uses \ac{RDF} data shapes to discard sources that cannot contribute to the query results while preserving result completeness.
-    \end{enumerate}
-    \item[Software components.] Three artifacts\footnote{\rtwo{The shape index specification and the open-source implementations of all software components are available online: \ifanonymous\url{https://anonymous.4open.science/w/shape-index-specification-707E} and \url{https://anonymous.4open.science/r/documentation-1A65}\else\url{https://constraintautomaton.github.io/shape-index-specification/} and \url{https://github.com/shapeIndexComunicaExperiment/documentation}\fi.}} realize the method:
-    \begin{enumerate}[label=(\roman*)]
-        \item a web specification for the \emph{shape index} data summary;
-        \item a \emph{query-shape subsumption algorithm} for assessing data source relevance;
-        \item an open-source implementation in the Comunica SPARQL query engine~\cite{taelman_iswc_resources_comunica_2018}.
-    \end{enumerate}
-    \item[Evaluation.] An extensive evaluation on the SolidBench benchmark, across multiple metrics (query execution time, first-result arrival time, diefficiency, and number of \ac{HTTP} requests), comprising:
-    \begin{enumerate}[label=(\roman*)]
-        \item a comparison against state-of-the-art \ac{LTQP} traversal (the type index and \ac{LDP} approaches), showing that shape-based pruning reduces the number of \ac{HTTP} requests and improves query execution time for data-model-selective queries, and even enables a query that no prior approach could complete, while leaving non-selective queries essentially unaffected;
-        \item a cost analysis of the query-shape subsumption algorithm, showing that its overhead is negligible relative to query execution;
-        \item a resilience study under partial and reduced shape-index coverage, showing that the performance gains persist even when not all data providers expose a shape index.
-    \end{enumerate}
-\end{description}
+	Our contributions are threefold:
+	\begin{description}
+		\item[Method.] A novel shape-based pruning method for \ac{LTQP} that introduces the following new notions:
+		      \begin{enumerate}[label=(\roman*)]
+			      \item \emph{result-based completeness}, formalized as a search-space minimization problem;
+			      \item \emph{composite reachability criteria} that combine link discovery and pruning;
+			      \item a network abstraction of \emph{subwebs} and \acp{DKG}; and
+			      \item \emph{shape-based link pruning}, which uses \ac{RDF} data shapes to discard sources that cannot contribute to the query results while preserving result completeness.
+		      \end{enumerate}
+		\item[Software components.] Three artifacts\footnote{\rtwo{The shape index specification and the open-source implementations of all software components are available online: \ifanonymous\url{https://anonymous.4open.science/w/shape-index-specification-707E} and \url{https://anonymous.4open.science/r/documentation-1A65}\else\url{https://constraintautomaton.github.io/shape-index-specification/} and \url{https://github.com/shapeIndexComunicaExperiment/documentation}\fi.}} realize the method:
+		      \begin{enumerate}[label=(\roman*)]
+			      \item a web specification for the \emph{shape index} data summary;
+			      \item a \emph{query-shape subsumption algorithm} for assessing data source relevance;
+			      \item an open-source implementation in the Comunica SPARQL query engine~\cite{taelman_iswc_resources_comunica_2018}.
+		      \end{enumerate}
+		\item[Evaluation.] An extensive evaluation on the SolidBench benchmark, across multiple metrics (query execution time, first-result arrival time, diefficiency, and number of \ac{HTTP} requests), comprising:
+		      \begin{enumerate}[label=(\roman*)]
+			      \item a comparison against state-of-the-art \ac{LTQP} traversal (the type index and \ac{LDP} approaches), showing that shape-based pruning reduces the number of \ac{HTTP} requests and improves query execution time for data-model-selective queries, and even enables a query that no prior approach could complete, while leaving non-selective queries essentially unaffected;
+			      \item a cost analysis of the query-shape subsumption algorithm, showing that its overhead is negligible relative to query execution;
+			      \item a resilience study under partial and reduced shape-index coverage, showing that the performance gains persist even when not all data providers expose a shape index.
+		      \end{enumerate}
+	\end{description}
 \end{Rboth}
 
 In this work, we ask the following research question:
 \textbf{Can \ac{LTQP} use shape-based pruning in \ac{DKG} networks to reduce query execution time while preserving result completeness?}
 \begin{Rone}
-To address this question, we decompose it along the four axes that structure our evaluation:
-\begin{description}
-    \item[Effectiveness.] Whether pruning improves performance for the targeted queries without harming the others:
-    \begin{itemize}
-        \item[\textbf{H1}] The shape indexes approach reduce the number of non-contributing data sources retrieved and the query execution time of \emph{data-model selective} queries, while preserving result completeness.
-        \item[\textbf{H2}] The shape indexes approach does not affect the query execution time of \emph{non-data-model selective} queries.
-    \end{itemize}
-    \item[Cost.] Whether the pruning mechanism is itself inexpensive:
-    \begin{itemize}
-        \item[\textbf{H3}] The execution time of a query-shape subsumption algorithm is negligible compare to the query execution.
-    \end{itemize}
-    \item[Robustness.] How the amount of shape-index information across the network affects the performance:
-    \begin{itemize}
-        \item[\textbf{H4}] Stricter shape constraints lead to a greater reduction in \ac{HTTP} requests.
-        \item[\textbf{H5}] Querying a network with more \emph{complete} shape indexes results in faster query execution.
-        \item[\textbf{H6}] Performance gains can be achieved even in networks with partial shape index coverage, demonstrating that the method provides significant improvements without requiring all network participants to adopt shape indexes.
-    \end{itemize}
-    \item[Explainability.] What relationship explains the observed gains:
-    \begin{itemize}
-        \item[\textbf{H7}] There is a linear relationship between the reduction in the number of \ac{HTTP} requests and the decrease in query execution time.
-    \end{itemize}
-\end{description}
+	To address this question, we decompose it along the four axes that structure our evaluation:
+	\begin{description}
+		\item[Effectiveness.] Whether pruning improves performance for the targeted queries without harming the others:
+		      \begin{itemize}
+			      \item[\textbf{H1}] The shape indexes approach reduce the number of non-contributing data sources retrieved and the query execution time of \emph{data-model selective} queries, while preserving result completeness.
+			      \item[\textbf{H2}] The shape indexes approach does not affect the query execution time of \emph{non-data-model selective} queries.
+		      \end{itemize}
+		\item[Cost.] Whether the pruning mechanism is itself inexpensive:
+		      \begin{itemize}
+			      \item[\textbf{H3}] The execution time of a query-shape subsumption algorithm is negligible compare to the query execution.
+		      \end{itemize}
+		\item[Robustness.] How the amount of shape-index information across the network affects the performance:
+		      \begin{itemize}
+			      \item[\textbf{H4}] Stricter shape constraints lead to a greater reduction in \ac{HTTP} requests.
+			      \item[\textbf{H5}] Querying a network with more \emph{complete} shape indexes results in faster query execution.
+			      \item[\textbf{H6}] Performance gains can be achieved even in networks with partial shape index coverage, demonstrating that the method provides significant improvements without requiring all network participants to adopt shape indexes.
+		      \end{itemize}
+		\item[Explainability.] What relationship explains the observed gains:
+		      \begin{itemize}
+			      \item[\textbf{H7}] There is a linear relationship between the reduction in the number of \ac{HTTP} requests and the decrease in query execution time.
+		      \end{itemize}
+	\end{description}
 \end{Rone}
 
 The remainder of this paper is organized as follows:

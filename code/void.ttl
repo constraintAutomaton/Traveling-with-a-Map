@@ -1,0 +1,16 @@
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix ex:   <http://example.com/> .
+@prefix sw:   <http://subweb/> .
+
+sw:posts a void:Dataset ;
+    void:entities 160 ;
+    void:triples 480 ;
+    void:propertyPartition [
+        void:property ex:creator ;
+        void:triples 160 ] ;
+    void:propertyPartition [
+        void:property ex:content ;
+        void:triples 160 ] ;
+    void:propertyPartition [
+        void:property ex:reply ;
+        void:triples 160 ] .
