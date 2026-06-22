@@ -75,6 +75,14 @@ Since each $g \in G^{\prime\prime}$ is obtained by dereferencing resources $r \i
 Query execution is generally faster with a smaller \ac{KG} instance, and \ac{HTTP} requests, being slow and unpredictable~\cite{hartig2016walking}, can dominate execution time.
 Therefore, reducing \ac{HTTP} requests provides a twofold benefit: fewer resources to process and faster query execution.
 
+\rone{
+\paragraph{Example}
+In Figure~\ref{fig:dkg}, the feature query starts at the seed document of Subweb~3.
+The discovery criterion $C^{\prime}$ follows every edge reachable from that document and therefore traverses the whole network ($17$ links).
+The more selective $C^{\prime\prime}$ follows only the edges leading to posts and their replies, traversing a subset of the network ($4$ links).
+The two criteria build different graphs $G^{\prime}$ and $G^{\prime\prime}$, yet report the same answer to $Q$ (Equation~\ref{eq:evalQueryStructuralAssumption} holds), needing only $4$ dereferences instead of $17$.
+}
+
 
 \subsection{Shape Index}
 
@@ -231,7 +239,16 @@ From this sets of links we define a pruning reachability criteria;
 \end{equation}
 The new reachability $C_i$ is created by taking the $Cd$ and $Cp$ of $C_{i-1}$ and adding $cp_{si}$ to $Cp$.
 
-This approach has three main limitations.  
+\rone{
+\paragraph{Example}
+In Figure~\ref{fig:dkg}, the engine's criterion $C$ combines a discovery criterion $cd_{\text{shape index}}$ that follows the links to each subweb's shape index (taken disjunctively) with a pruning criterion $cp_{si}$ (taken conjunctively).
+The shape index of Subweb~3 maps the post, user, and like shapes.
+The query subsumes the post shape but neither the user nor the like shape, so $IRI_p$ collects the user and like resources; $cp_{si}$ prunes exactly those, while the post resources, for which every $cp$ holds and at least one $cd$ holds, stay reachable.
+The same check prunes all of Subweb~1, whose like and user shapes are not subsumed, and in Subweb~2 every resource except the comments that reply to the posts.
+}
+
+\paragraph{Limitations}
+This approach has three main limitations.
 First, it assumes that data providers maintain up-to-date shape indexes; outdated indexes may lead to incomplete results.
 A similar criticism could be leveraged against the method exploiting \ac{VoID} descriptions~\cite{Montoya2017}.
 Second, if the query-shape subsumption check requires dereferencing all documents, it becomes ineffective and may slow down query execution.  
@@ -260,6 +277,13 @@ $$
 where $Q_{\text{body}}$ denote the \ac{BGP} of the query, and
 $Q_{\text{unions}} = \bigcup Q_u$ represent the Union Graph Patterns (UGPs)~\cite{w3SPARQLQuery} expressed in normal form, meaning
 each $Q_u$ is of the form $q_i \cup q_j$, where each $q$ is a \ac{BGP} contain no union statements.
+
+\rone{
+\paragraph{Example}
+The query in Figure~\ref{fig:dkg} has two graph star patterns.
+The \texttt{?message} star captures a subset of a post's predicates (\texttt{snvoc:hasCreator}, \texttt{snvoc:content}) and requires \texttt{rdf:type}~\texttt{snvoc:Post}; to decide $Q \sqsubseteq_{qs} S$ for the post shape of Subweb~3, that shape is translated into $Q_s = T(S)$, and every triple pattern of the \texttt{?message} star is equivalent to or a specialization of a pattern in $Q_s$ while each solution extends to one of $Q_s$, so the star is subsumed and the post resources are query-relevant.
+The \texttt{?linkedMessage} star captures a comment that must reply to a post (\texttt{snvoc:reply}~\texttt{?message}) and be of \texttt{rdf:type}~\texttt{snvoc:Comment}; it is subsumed analogously by the comment shape of Subweb~2.
+}
 
 \subsubsection{Algorithm}
 

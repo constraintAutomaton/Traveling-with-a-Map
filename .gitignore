@@ -32,3 +32,4 @@ main.fdb_latexmk
 *.synctex.gz
 *.bcf-SAVE-ERROR
 repos
+review/letter.docx

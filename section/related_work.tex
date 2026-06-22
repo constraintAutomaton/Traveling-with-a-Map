@@ -3,7 +3,7 @@
 In this section, we review related work on \ac{LTQP}, \ac{RDF} data shapes, and source selection in decentralized querying.
 
 \subsection{Link Traversal Query Processing}
-\ac{LTQP} is a SPARQL querying paradigm that answers queries by exploring the Web using the \textit{follow-your-nose} principle~\cite{hartig2016walking}.
+\ac{LTQP} is a SPARQL querying paradigm that answers queries by exploring the Web using the \textit{follow-your-nose} principle\rone{, whereby the engine dereferences the \acp{IRI} found in retrieved documents to discover further documents to query}~\cite{hartig2016walking}.
 It belongs to the family of decentralized SPARQL querying paradigms.
 \ac{LTQP} fundamentally differs from federated querying because the ``federation'' is formed during querying and it expands dynamically as the query is processed.
 \rone{A federation is a set of queryable \ac{RDF} sources, typically SPARQL endpoints, that is fixed and known prior to query execution.}

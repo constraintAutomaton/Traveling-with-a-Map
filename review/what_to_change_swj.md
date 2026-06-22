@@ -3,11 +3,11 @@
 ## General
 - [x] Clarify the conceptual distinction between **pruning** (this work) and **discovery/reachability-based link selection** — reviewer notes that selecting a predefined link set via reachability can also be read as a form of pruning, so the novelty needs sharpening.
 - [ ] Add early definitions / examples (ideally in Preliminaries) for:
-  - [ ] dereferencing
-  - [ ] structural properties
-  - [ ] DESPs
+  - [X] dereferencing
+  - [X] structural properties
+  - [X] DESPs
   - [ ] follow-your-nose
-  - [ ] VoID descriptions
+  - [X] VoID descriptions
 - [ ] (Optional) Address that only one dataset is available/used in the evaluation.
 
 ## Introduction (minor)
@@ -45,8 +45,8 @@
   - [ ] Clearer annotation
   - [ ] Additional explanation
   - [ ] Make clear what each subweb contains.
-- [x] Introduce **Figure 3** earlier.
-- [ ] Add examples for each definition / conceptual step.
+- [X] Introduce **Figure 3** earlier.
+- [X] Add examples for each definition / conceptual step.
 - [X] Add a brief discussion in the **conclusion** about construction/maintenance of shape indexes (currently stated as "beyond the scope").
 
 ## Experimental Evaluation

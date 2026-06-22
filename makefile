@@ -8,5 +8,8 @@ main.pdf: $(SOURCE)
 watch:
 	latexmk -pdf -pvc -shell-escape main.tex
 
+review/letter.docx: review/letter.md
+	pandoc review/letter.md -o review/letter.docx
+
 clean:
-	rm -f *.log *.bcf-SAVE-ERROR *.xmpi *.xmpdata *.abs *.aux main.pdf *.out *.text.bbl main.*.blg *.blg *.bbl *.fls *.fdb_latexmk main.log *.synctex.gz section/*.aux *.bcf *-blx.bib *.run.xml svg-inkscape/*
+	rm -f *.log *.bcf-SAVE-ERROR *.xmpi *.xmpdata *.abs *.aux main.pdf *.out *.text.bbl main.*.blg *.blg *.bbl *.fls *.fdb_latexmk main.log *.synctex.gz section/*.aux *.bcf *-blx.bib *.run.xml svg-inkscape/* review/letter.docx

@@ -29,6 +29,7 @@ Reachability criteria are boolean functions ($c_i$) restricting the dereferencin
 \rtwo{They take three parameters: an \ac{RDF} triple $t$ from an internal triple store, a dereferenceable \ac{IRI} $iri$ occurring in $t$, and a union of conjunctive queries $Q$.}
 \rone{Their domain and range are $c_i: \big((\mathcal{I}\mathcal{B}, \mathcal{I}, \mathcal{I}\mathcal{B}\mathcal{L}),\ \mathcal{I},\ \mathcal{Q}\big) \rightarrow \left\{ \mathrm{true}, \mathrm{false} \right\}$, where $\mathcal{Q}$ is the set of unions of conjunctive queries.}
 If $c_i$ returns $true$, the query engine must dereference $iri$.
+\rone{Dereferencing an \ac{IRI} means issuing an \ac{HTTP} request to it to retrieve a resource.}
 More formally
 \begin{equation}\label{eq:reachabilityCriteria}
 	c_i(t, iri, Q) \rightarrow \left\{ \mathrm{true}, \mathrm{false} \right\}
