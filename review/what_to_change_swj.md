@@ -6,7 +6,7 @@
   - [X] dereferencing
   - [X] structural properties
   - [X] DESPs
-  - [ ] follow-your-nose
+  - [X] follow-your-nose
   - [X] VoID descriptions
 - [ ] (Optional) Address that only one dataset is available/used in the evaluation.
 
@@ -41,16 +41,16 @@
   - [X] Does one "data-model object" correspond to one data type (e.g., user or post)?
 
 ## Approach
-- [ ] Improve **Figure 2** (dense, unclear):
-  - [ ] Clearer annotation
-  - [ ] Additional explanation
-  - [ ] Make clear what each subweb contains.
+- [X] Improve **Figure 2** (dense, unclear):
+  - [X] Clearer annotation
+  - [X] Additional explanation
+  - [X] Make clear what each subweb contains.
 - [X] Introduce **Figure 3** earlier.
 - [X] Add examples for each definition / conceptual step.
 - [X] Add a brief discussion in the **conclusion** about construction/maintenance of shape indexes (currently stated as "beyond the scope").
 
 ## Experimental Evaluation
-- [ ] Improve readability of **Figures 5 & 6** (overlapping colors).
+- [X] Improve readability of **Figures 5 & 6** (overlapping colors).
 - [x] Add a summary table listing each hypothesis and whether it is supported or rejected.
 - [ ] (Minor) Fix layout on page 10 — the 2×2 lines appear visually misplaced among figures/tables.
 
@@ -61,8 +61,8 @@
 - [x] Fix the grammar issue at lines 268–269.
 
 ## Figures
-- [ ] Redesign **Figure 1** to make the idea legible: show a query coming in, how the network responds, and contrast the *original/baseline* behaviour vs. the *expected/optimised* behaviour.
-- [ ] Improve **Figure 2**: explain clearly what a **node** represents in this context. *(Overlaps with Reviewer 1's Figure 2 request)*
+- [X] Redesign **Figure 1** to make the idea legible: show a query coming in, how the network responds, and contrast the *original/baseline* behaviour vs. the *expected/optimised* behaviour.
+- [X] Improve **Figure 2**: explain clearly what a **node** represents in this context. *(Overlaps with Reviewer 1's Figure 2 request)*
 
 ## Results
 - [X] For queries that yield no benefit (or even slow down, e.g. **S4** template), define what the **D6, D7, and S4** query templates are so readers can understand why.

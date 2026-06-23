@@ -47,12 +47,14 @@ Finally, the engine dereferences all reachable resources outside the subwebs tha
 
 \begin{figure*}
     \centering
-    \includegraphics[width=1.0\linewidth]{figure/dkg.pdf}
+    \includesvg[width=1.0\linewidth,inkscapelatex=false]{figure/dkg.svg}
     \caption{
     When resources of a \ac{DKG} are indexed with a shape index, a query engine can dereference a subset of the network.
-    The nodes represent \ac{RDF} resources, while the edges represent \acp{IRI} linking one resource to another.
-    Each subweb has a shape index that maps shapes, represented by icons, to \ac{RDF} resources by embedding the icon within the node.
-    The query engine starts its query at Subweb~3, and the relevant query resources in a subweb are identified with a black node.
+    \rboth{Each node is an \ac{RDF} resource, a document identified by an \ac{IRI}, and each edge is an \ac{IRI} in one resource that links to another.
+    The icon embedded in a node indicates the shape, and thus the data type such as a post, comment, or user, that the resource conforms to; the legend at the bottom of the figure defines these icons.
+    Each subweb publishes a shape index, drawn as a folder, that maps the shapes its resources conform to, so Subweb~1 contains user and like resources, Subweb~2 user, comment, and image resources, and Subweb~3 post, user, and like resources.
+    Documents outside the subwebs are resources from the open web and are thus not bound by any shape.}
+    The query engine starts its query at Subweb~3\rboth{, and the coloured documents are those relevant to the query shown on the left: red for posts and green for comments}.
     }
     \label{fig:dkg}
 \end{figure*}

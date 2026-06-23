@@ -1,8 +1,34 @@
+# Response to Reviewers
+
+Dear Dr. Maleshkova, dear Reviewers,
+
+Thank you for handling our submission and for the constructive and detailed feedback.
+We are grateful for the time and care the reviewers invested; their comments have helped us improve the clarity, precision, and presentation of the manuscript considerably.
+
+We have carefully addressed all the comments.
+Below we provide a point-by-point response, organized by reviewer. 
+For each comment we describe our **Response** (our position or reasoning, where relevant) and the corresponding **Change** to the manuscript.
+
+To make the revisions easy to locate, all changes are colour-coded in the revised manuscript:
+
+- **Reviewer 1** changes are shown in **blue**;
+- **Reviewer 2** changes are shown in **orange**;
+- changes addressing **both reviewers** are shown in **purple**.
+
+We hope that the revised version meets the expectations of the reviewers and the journal.
+
+With kind regards,
+
+Bryan-Elliott Tam, Joachim Van Herwegen, Pieter Colpaert, Ruben Verborgh, and Ruben Taelman
+
+---
+
 ## Reviewer 1
 
 ### Clarify the conceptual distinction between pruning (this work) and discovery/reachability-based link selection.
 
-**Response:** We consider pruning to be more akin to logical negation, whereas discovery is more akin to assertion. Pruning is about definitively stating that a part of the search domain should not be explored, whereas discovery is about building the search domain and stating that a part of it may contain relevant information.
+**Response:** We consider pruning to be more akin to logical negation, whereas discovery is more akin to assertion.
+Pruning is about definitively stating that a part of the search domain should not be explored, whereas discovery is about building the search domain and stating that a part of it may contain relevant information.
 
 **Change:** We added the clarification in the introduction, the related work section, and the Link Pruning Using Shape Indexes section.
 
@@ -32,9 +58,8 @@
 
 ### Group the seven contributions/hypotheses into broader themes or give context for their origin (currently too dense).
 
-**Response:** Following Reviewer 2's suggestion, we grouped the contributions into three themes: Methods, Software Components, and Evaluations.
-
-**Change:** We divided our hypotheses into themes — Effectiveness (whether pruning improves performance for the targeted queries without harming the others), Cost (whether the pruning mechanism is itself inexpensive), Robustness (how the amount of shape-index information across the network affects performance), and Explainability (what relationship explains the observed gains).
+**Change:** Following Reviewer 2's suggestion, we grouped the contributions into three themes: Methods, Software Components, and Evaluations.
+We divided our hypotheses into themes — Effectiveness (whether pruning improves performance for the targeted queries without harming the others), Cost (whether the pruning mechanism is itself inexpensive), Robustness (how the amount of shape-index information across the network affects performance), and Explainability (what relationship explains the observed gains).
 
 ### Define briefly the LDF interface and Federation.
 
@@ -46,7 +71,8 @@
 
 ### The motivation for adopting the shape index specification is not entirely clear; the transition from shape trees being "not widely adopted" to selecting shape indexes would benefit from additional explanation.
 
-**Response:** We distinguished a conceptual reason from a practical one. Conceptually, shape trees target validation and organization rather than the query-time resolution of the relationship between a resource IRI and its shape, and their virtual hierarchy makes this relationship difficult for a query engine to capture efficiently. Practically, at the time of the study the specification was not widely adopted and its documentation and tooling were not sufficiently mature or stable. We also clarified that our findings are not tied to shape indexes: any structure providing a mapping between shapes and sets of IRIs — including a more mature shape trees — could serve as the underlying summary.
+**Response:** We distinguished a conceptual reason from a practical one. Conceptually, shape trees target validation and organization rather than the query-time resolution of the relationship between a resource IRI and its shape, and their virtual hierarchy makes this relationship difficult for a query engine to capture efficiently. Practically, at the time of the study the specification was not widely adopted and its documentation and tooling were not sufficiently mature or stable (for instance the website was often offline the primer was not in sync with the specification).
+We also clarified that our findings are not tied to shape indexes: any structure providing a mapping between shapes and sets of IRIs — including a more mature shape trees — could serve as the underlying summary.
 
 **Change:** We reworked the relevant paragraph of the Related Work section (RDF Data Shapes subsection).
 
@@ -78,6 +104,22 @@
 
 **Change:** We added worked examples, all grounded in the running example of Figure 2, to the result-based completeness, link pruning, and query-shape subsumption steps.
 
+### Improve Figure 2 (dense and unclear): clearer annotation, additional explanation, and make clear what each subweb contains.
+
+**Change:** We added a legend to the figure mapping each icon to the shape it denotes, and expanded the caption to explain that the icon embedded in a node indicates the shape (and thus the data type) the resource conforms to, and to state what each subweb contains (Subweb 1: users and likes; Subweb 2: users, comments, and images; Subweb 3: posts, users, and likes). We also clarified that documents outside the subwebs are open-web resources not bound by any shape, and that the coloured documents mark those relevant to the query (red for posts, green for comments).
+
+### Improve the readability of the violin plots with overlapping colors.
+
+**Change:** We adjusted the transparency of the overlapping violin plots so that the stacked distributions can be told apart.
+
+### Use consistent punctuation for the (i)–(vii) enumeration.
+
+**Change:** We harmonized the punctuation across the enumerated contributions and hypotheses.
+
+### Clarify the access functions for triples, including how literals are handled.
+
+**Change:** We specified the behaviour of the subject and object access functions, stating that for a triple or triple pattern (s, p, o), S((s,p,o)) = s and O((s,p,o)) = o when o is not a literal, while O returns nothing when o is a literal.
+
 ## Reviewer 2
 
 ### Define IRI before first use (lines 16–19).
@@ -95,3 +137,11 @@
 ### Improvements to Contributions: provide a comprehensive contribution that goes beyond listing components. It should have three parts: overall architecture and method contributions; detailed descriptions of each component; and comprehensive evaluation results.
 
 **Change:** In the introduction we divided our contributions into three parts: Methods, Software Components, and Evaluations.
+
+### Change of Figure 1: make it more explainable — show a query coming in, how the network responds, and contrast the baseline vs. the expected/optimised behaviour.
+
+**Change:** We redesigned Figure 1 as a two-panel before/after. The same query enters the network in both panels: (a) a baseline link-traversal engine dereferences many sources while only a few are query-relevant, wasting requests; (b) our shape-index pruning dereferences only the entry point and the query-relevant sources, leaving provably irrelevant ones not dereferenced. A legend defines the three node states (dereferenced, query-relevant, not dereferenced).
+
+### Change of Figure 2: better explain what a node represents.
+
+**Change:** We clarified in the caption that each node is an RDF resource — a document identified by an IRI — and that the edges are the IRIs linking one resource to another, with the embedded icon indicating the shape the resource conforms to. A legend added to the figure defines all icons.
