@@ -1,4 +1,4 @@
-\section{Results and Discuss}\label{sec:result}
+\section{Results and Discussion}\label{sec:result}
 \subsection{Evaluation Against Other Approaches}
 
 \begin{figure*}
@@ -173,7 +173,7 @@ Such dereferencing can introduce a gap before the first results appear, even whe
 	\label{fig:dief_lr}
 \end{figure}
 
-\paragraph{The Shape Index Approach Improve Can Improve the Diefficiency Metric}
+\paragraph{The Shape Index Approach Can Improve the Diefficiency Metric}
 Figures~\ref{fig:dief_01}, \ref{fig:dief_1}, and~\ref{fig:dief_lr} show the \textit{dief@t} values measured at 0.1 seconds (\textit{dief@0.1s}), 1 second (\textit{dief@1s}), and at the time of the last result (\textit{dief@lr}).\footnote{\label{fn:dief_lt}This means that if, for a given query, the shape index approach produces the last result at 5~seconds and the type index at 5.10~seconds, then the \textit{dief@t} metric will be computed at 5.10~seconds.}
 The \textit{dief@0.1s} results show that, except for S4, no approach is able to produce instantaneous results, which aligns with the observations in Figure~\ref{fig:first_res}.
 Overall, this indicates that, with the current approaches and benchmark, producing instantaneous results is not feasible.
@@ -183,7 +183,7 @@ It would be expected to see a performance improvement in terms of \textit{dief@t
 This is because these queries produce only a single result, so \textit{dief@t} naturally tends toward 0 unless there is a very large difference in execution time between the two approaches.~\ref{fn:dief_lt}
 These results suggest that, for fast early result arrival, the shape index approach tends to performs better.
 This finding is particularly relevant in the context of social media applications, where it is often more important to obtain fast, relevant results to maintain interactivity than to retrieve complete results.
-The \textit{dief@lr} show a similar behavior but with lesser performance gain compare to \textit{dief@1s} (see Table~\ref{tab:dief} to compare the average values).
+The \textit{dief@lr} show a similar behavior but with lesser performance gain compared to \textit{dief@1s} (see Table~\ref{tab:dief} to compare the average values).
 
 % calculate ratio
 
@@ -281,7 +281,7 @@ Evaluating an $R^2$ score with an exponential best fit curve we get a score of 0
 Above a ratio of approximately 0.85 of \ac{HTTP} requests, the shape index approach did not guarantee a reduction in query execution time.
 There can be multiple explanations for this behavior.
 First, the methods have some overhead due to the query-shape subsumption algorithm and the state retention of the pruning reachability criteria.
-However, the query-shape subsumption algorithm execution time is negligeable for one execution and the state retentation has a polynomial time complexity, thus it should not have a high impact on the execution time.
+However, the query-shape subsumption algorithm execution time is negligible for one execution and the state retention has a polynomial time complexity, thus it should not have a high impact on the execution time.
 Another explanation is the number of \ac{HTTP} requests that are performed in parallel.
 The \ac{LTQP} version of Comunica performs 10 \ac{HTTP} requests in parallel, thus, we would expect that with a low number and ratio of \ac{HTTP} requests, the performance would remain largely unchanged or slightly worse, which is what can be observed in the curve.
 

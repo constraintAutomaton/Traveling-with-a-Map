@@ -9,7 +9,7 @@ We have carefully addressed all the comments.
 Below we provide a point-by-point response, organized by reviewer. 
 For each comment we describe our **Response** (our position or reasoning, where relevant) and the corresponding **Change** to the manuscript.
 
-To make the revisions easy to locate, all changes are colour-coded in the revised manuscript:
+To make the revisions easy to locate, all changes are color-coded in the revised manuscript:
 
 - **Reviewer 1** changes are shown in **blue**;
 - **Reviewer 2** changes are shown in **orange**;
@@ -71,8 +71,8 @@ We divided our hypotheses into themes — Effectiveness (whether pruning improve
 
 ### The motivation for adopting the shape index specification is not entirely clear; the transition from shape trees being "not widely adopted" to selecting shape indexes would benefit from additional explanation.
 
-**Response:** We distinguished a conceptual reason from a practical one. Conceptually, shape trees target validation and organization rather than the query-time resolution of the relationship between a resource IRI and its shape, and their virtual hierarchy makes this relationship difficult for a query engine to capture efficiently. Practically, at the time of the study the specification was not widely adopted and its documentation and tooling were not sufficiently mature or stable (for instance the website was often offline the primer was not in sync with the specification).
-We also clarified that our findings are not tied to shape indexes: any structure providing a mapping between shapes and sets of IRIs — including a more mature shape trees — could serve as the underlying summary.
+**Response:** We distinguished a conceptual reason from a practical one. Conceptually, shape trees target validation and organization rather than the query-time resolution of the relationship between a resource IRI and its shape, and their virtual hierarchy makes this relationship difficult for a query engine to capture efficiently. Practically, at the time of the study the specification was not widely adopted and its documentation and tooling were not sufficiently mature or stable (for instance, the website was often offline, and the primer was not in sync with the specification).
+We also clarified that our findings are not tied to shape indexes: any structure providing a mapping between shapes and sets of IRIs — including a more mature version of shape trees — could serve as the underlying summary.
 
 **Change:** We reworked the relevant paragraph of the Related Work section (RDF Data Shapes subsection).
 
@@ -98,7 +98,7 @@ We also clarified that our findings are not tied to shape indexes: any structure
 
 ### Add a brief discussion in the conclusion about construction/maintenance of shape indexes (currently stated as "beyond the scope").
 
-**Change:** We added a brief discussion in the conclusion noting that, although construction and maintenance were beyond this work's scope, shape indexes are lightweight and low-cost to produce and maintain, with descriptive ones generatable automatically.
+**Change:** We added a brief discussion in the conclusion noting that, although construction and maintenance were beyond this work's scope, shape indexes are lightweight and low-cost to produce and maintain, with descriptive ones that can be generated automatically.
 
 ### Add examples for each definition or conceptual step in the Approach section.
 
@@ -106,7 +106,7 @@ We also clarified that our findings are not tied to shape indexes: any structure
 
 ### Improve Figure 2 (dense and unclear): clearer annotation, additional explanation, and make clear what each subweb contains.
 
-**Change:** We added a legend to the figure mapping each icon to the shape it denotes, and expanded the caption to explain that the icon embedded in a node indicates the shape (and thus the data type) the resource conforms to, and to state what each subweb contains (Subweb 1: users and likes; Subweb 2: users, comments, and images; Subweb 3: posts, users, and likes). We also clarified that documents outside the subwebs are open-web resources not bound by any shape, and that the coloured documents mark those relevant to the query (red for posts, green for comments).
+**Change:** We added a legend to the figure mapping each icon to the shape it denotes, and expanded the caption to explain that the icon embedded in a node indicates the shape (and thus the data type) the resource conforms to, and to state what each subweb contains (Subweb 1: users and likes; Subweb 2: users, comments, and images; Subweb 3: posts, users, and likes). We also clarified that documents outside the subwebs are open-web resources not bound by any shape, and that the colored documents mark those relevant to the query (red for posts, green for comments).
 
 ### Improve the readability of the violin plots with overlapping colors.
 
