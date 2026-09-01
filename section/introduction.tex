@@ -12,7 +12,7 @@ However, SPARQL, the standard query language for \ac{RDF} knowledge graphs, is p
 \ac{LTQP}~\cite{Hartig2012} is a query paradigm designed for querying non-indexed, \acp{DKG} on the web, by leveraging the descriptive power of \rtwo{\ac{IRI}}\footnote{\rtwo{An \ac{IRI}~\cite{ietf3987IRI} is a unique sequence of characters that identifies a resource on the web; it generalizes the \ac{URI}~\cite{ietf2396URI} by additionally permitting characters from the Unicode set.}} dereferencing.
 \ac{LTQP} involves recursively dereferencing \acp{IRI}, dynamically discovering and storing triples from the documents associated with those \acp{IRI} in an internal triple store, thereby expanding the engine’s underlying knowledge base during query execution.
 The main difficulty of \ac{LTQP} is the large domain of exploration, which leads to a high number of \ac{HTTP} requests as demonstrated by \citeauthor{hartig2016walking}~\cite{hartig2016walking}.
-From another perspective, it has been shown that in \acp{DESP}, it is possible to attain query completeness for various types of practical queries with acceptable execution times for the context of social media applications~\cite{Taelman2023, nielsen1993response}.
+From another perspective, it has been shown that in \acp{DESP}, it is possible to attain query completeness for various types of practical queries with acceptable execution times for the context of social media applications~\cite{Taelman2023}.
 \rone{Such environments are decentralized networks in which data providers expose implicit or explicit data structures, referred to as \emph{structural properties}, that query engines can leverage during traversal.}
 %Moreover, they showed that query planning could significantly influence the execution time.
 Structural properties ensure data discoverability, which in turn helps guarantee result completeness.
@@ -25,7 +25,7 @@ The work on the topic of \acp{DESP} for \ac{LTQP}~\cite{Taelman2023, Bogaerts202
 	\includesvg[width=1.0\linewidth]{figure/network.svg}
 	\caption{
 		\rtwo{The same query $Q$ is issued to a network under two strategies.
-		(a)~A baseline link-traversal engine dereferences many sources (green) even though only a few are query-relevant (blue check), wasting requests on irrelevant ones.
+		(a)~A baseline link-traversal engine dereferences many sources (green) even though only a few are query-relevant (blue check).
 		(b)~Our shape-index pruning dereferences only the entry point and the query-relevant sources, leaving the sources that are provably irrelevant not dereferenced (white).
 		The goal of our work is to minimize the number of query-irrelevant sources that are dereferenced by a link traversal query engine.}
 	}
@@ -34,15 +34,15 @@ The work on the topic of \acp{DESP} for \ac{LTQP}~\cite{Taelman2023, Bogaerts202
 
 In general, data on the World Wide Web lack a structure that query engines can exploit for optimization.
 Any document can be published anywhere, with no standard index or trust mechanism to guide discovery.
-Thus, for the vast majority of queries, traversal query engines dereferences a large proportion of resources that are not query-relevant, as depicted in Figure~\ref{fig:situation}.
-However, within specific \emph{subwebs}, defined as subsections of the web controlled by particular data providers, implicit or explicit data structures may emerge, which query engines can leverage~\cite{Bogaerts2021LinkTW}.
+Thus, for the vast majority of queries, traversal query engines dereference a large proportion of resources that are not query-relevant, as depicted in Figure~\ref{fig:situation}.
+However, within specific \emph{subwebs}, that is, subsections of the web controlled by a single data provider, the data often exhibits implicit or explicit structure that query engines can exploit~\cite{Bogaerts2021LinkTW}.
 In this work, we extend a dataset summarization approach for decentralized environments known as the \emph{shape index}~\cite{tam2024opportunitiesshapebasedoptimizationlink}.
 We apply this approach to enable link pruning within \ac{LTQP}, removing links that are not relevant to the query, based on an analysis of \ac{RDF} data shapes and the user's query.
 \rone{Whereas existing traversal methods focus on discovering which links to follow, our method prunes links that can be proven irrelevant, removing even a discovered link when the data shapes show it cannot contribute to the query results.}
 The analysis is performed by conducting a query-shape subsumption check to determine whether a resource conforming to a given shape is relevant to a query.
 Our approach assumes a \ac{DKG} composed of subwebs, each hosted by data providers and containing shape indexes.
 A subweb that exposes a shape index enables the query engine to narrow its search domain by identifying resources that are certainly non-query-relevant.
-\textbf{This is particularly useful when only a subset of a subwebs is relevant to a given query, for example, in social media applications where it is rare to query all information about a user.}
+\textbf{This is particularly useful when only a subset of a subweb is relevant to a given query, for example, in social media applications where it is rare to query all information about a user.}
 An example of such a query is one that requests messages within a user's subweb over a specified date range, while also incorporating contextual information from outside the subweb.
 We describe this category of network-tied queries as \emph{data-model selective}.
 In this context, \emph{data-model objects} are templates of concepts represented in \ac{RDF},
@@ -83,7 +83,7 @@ For instance, queries that request all user information published after a given 
 In this work, we ask the following research question:
 \textbf{Can \ac{LTQP} use shape-based pruning in \ac{DKG} networks to reduce query execution time while preserving result completeness?}
 \begin{Rone}
-	To address this question, we decompose it along the four axes that structure our evaluation:
+	To address this question, we formulate hypotheses along the four axes that structure our evaluation:
 	\begin{description}
 		\item[Effectiveness.] Whether pruning improves performance for the targeted queries without harming the others:
 		      \begin{itemize}

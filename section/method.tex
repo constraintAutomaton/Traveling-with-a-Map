@@ -7,30 +7,8 @@
 }
 
 \sepfootnotecontent{sf:recursiveShape}{
-	\iffalse
-		In this paper we ignore ``inverse constraints'' such as
-		inverse triple constraint in ShEx
-		%\url{https://shex.io/shex-primer/index.html\#inverse-properties}
-		and SHACL Inverse Paths
-		%\url{https://www.w3.org/TR/shacl\#property-path-inverse}
-		to avoid recursive
-		shape schemas~\cite{Corman2019}.
-		We also ignore negative statement.
-	\fi
 	We only consider shapes that can be transformed into a single \texttt{SELECT} SPARQL query~\cite{Corman2019}.
 }
-
-\sepfootnotecontent{sf:subwebsep}{
-	We assume an implicit conversion between the subweb specification and the formalization of reachability criteria.
-	Space constraints prevent us from detailing the conversion.
-}
-
-\sepfootnotecontent{sf:ssf_project}{
-	The paper \citetitle{delva2023} additional material also proposes a script to convert SHACL shapes into SPARQL queries.
-	\url{https://github.com/MaximeJakubowski/ssf_project}
-	\rt{This footnote seems unnecessary, since delva2023 is already cited.}
-}
-
 
 \section{Approach}\label{sec:approach}
 
@@ -39,7 +17,7 @@ This section defines result-based completeness in \ac{LTQP}, introduces shape in
 To illustrate this approach, we present the example in Figure~\ref{fig:dkg}, which depicts a network of three social media user subwebs, each with its own shape index, as well as resources located outside these subwebs.
 The feature query aims to retrieve posts from Subweb~3, along with all associated replies.
 Our pruning strategy allows the query engine to explore only the relevant parts of the network, guided by the shapes associated with the resources and the structure of the query.
-The process begins with the engine dereferencing the shape index of Subweb~3 and performing a query-shape subsumption check, which determines that only resources containing posts needs to be accessed in this subweb.
+The process begins with the engine dereferencing the shape index of Subweb~3 and performing a query-shape subsumption check, which determines that only resources containing posts need to be accessed in this subweb.
 It then checks the shape index of Subweb~1 due to the existing link towards it, where the subsumption check reveals no resources relevant to the query.
 Next, it examines the shape index of Subweb~2 and identifies resources containing comments (i.e., replies) which are relevant.
 Finally, the engine dereferences all reachable resources outside the subwebs that are linked to these relevant comments.
@@ -105,7 +83,7 @@ Therefore, reducing \ac{HTTP} requests provides a twofold benefit: fewer resourc
 	% General caption
 	\caption{
 		On the left, an example illustrates a shape index that maps a set of \acp{IRI}, represented using a \ac{URI} template~\cite{ietf6570Template}, to a user shape, and a specific \ac{IRI} to a post shape.
-		On the right, an example illustrates of a graph star pattern where the main subject is \texttt{?comment} and is linked to the \texttt{?message} and \texttt{?forum} star patterns.}
+		On the right, an example illustrates a \ac{GSP} where the main subject is \texttt{?comment} and is linked to the \texttt{?message} and \texttt{?forum} star patterns.}
 	\label{fig:shapeIndex}
 \end{figure*}
 
@@ -117,7 +95,7 @@ Unlike triple statistics, shapes are independent of the \ac{KG}'s size or update
 We formalize a shape index as follows:
 
 \begin{equation}\label{eq:shapeIndex}
-	SI = \left\{ s_1 \mapsto \mIRI_1 s_2 \mapsto \mIRI_2 \cdots, s_n \mapsto \mIRI_n \right\}
+	SI = \left\{ s_1 \mapsto \mIRI_1, s_2 \mapsto \mIRI_2, \cdots, s_n \mapsto \mIRI_n \right\}
 \end{equation}
 where $s_i$ is a shape and $\mIRI_i$ is a set of \ac{IRI} given $n$ entries.
 The subweb described by the index is defined by $D_{SI} = \bigcup_{\mIRI \in \text{codomain}(SI)} \mIRI$.
@@ -137,7 +115,7 @@ Star patterns consist of triples with the same subject.
 We extend this concept by linking star patterns such that the objects of triples in one star pattern act as subjects in others, forming a graph structure.
 For example, a user linking to their posts with recursive replies can be captured with a root star pattern for the user and nested patterns for the posts and replies.
 Thus, the targets of the shapes in the shape index correspond to the subject of each root star pattern when a \ac{KG} is divided into graph stars with no shared partial graph stars.
-Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
+Figure~\ref{fig:shapeIndex} illustrates an example of a \ac{GSP}.
 
 \begin{definition}[Star Pattern]
 	Given a query $Q$, we define a star pattern $Q_{star}$ as a set of $tp \in Q$~\cite{Karim2020} with the same subject such that
@@ -151,13 +129,13 @@ Figure~\ref{fig:shapeIndex} illustrates an example of a graph star pattern.
 
 \begin{definition}[Graph Star Pattern (GSP) and Graph Star]\label{def:starPattern}
 
-	We define a GSP $Q_{starG}$ as the union between a root star pattern $Q_{star_s}$
+	We define a \ac{GSP} $Q_{starG}$ as the union between a root star pattern $Q_{star_s}$
 	and the star patterns having as subject term an object term of another star pattern in $Q_{starG}$.
 	We define a function
 	$O_{star}: q \in Q \rightarrow  (\mathcal{I}\mathcal{B}\mathcal{V})^2$
 	that returns every non-literal object terms of a star pattern.
 
-	We then define $Q_{starG}$ given a  set of partial GSP $Q_{starGT}$
+	We then define $Q_{starG}$ given a  set of partial \acp{GSP} $Q_{starGT}$
 	\begin{equation}
 		Q_{starG} = \bigcup_{q \in Q_{starGT}} q
 	\end{equation}
@@ -206,13 +184,6 @@ In our method, rather than traversing the entire \ac{DKG} $D$ associated with a 
 Our approach involves dynamically constructing new reachability criteria during traversal that are more selective as we discover and analyze shape indexes.
 These criteria are designed so that they will always produce the same completeness of results as the one that was defined at the beginning of the traversal.
 
-\iffalse
-	\rt{I still think introducing time here is a really bad idea. I'm almost certain that reviewers will shoot the paper down because of this. In the formalization, let's just assume prior knowledge of all shape indexes and corresponding reachability criteria. Combining them during query execution is an implementation detail.}
-	More formally, let us introduce time $t$ as a factor for our reachability criteria $C_t$.
-	The query execution begins with an initial reachability criterion $C_0$.
-	At any time $t$, Equation~\ref{eq:evalQueryStructuralAssumption} must hold if we consider $C_t = C_{t+1} = C_{t+2} \dots = C_{tf}$ until the end of the execution $tf$, given that $G^{\prime}$ is produced using $C_0$.
-\fi
-
 To define more selective reachabilities, we propose extending the reachability criteria by formalizing a chain of criteria in a concept called \emph{composite reachability criteria}.
 In this form, a reachability criterion $cp_i$ is said to \emph{prune} links, and $cd_i$ is said to \emph{discover} links.
 Equation~\ref{eq:cReachabilityCriteria} formalizes a composite reachability criterion $C$.
@@ -233,9 +204,9 @@ This is done by performing a query-shape subsumption check ($\sqsubseteq_{qs}$),
 
 We define, given a query $Q$,
 $$
-	IRI_p = \left\{ \bigcup SI_i(s_j) | Q \not\sqsubseteq_{qs}  s_j \land s_j \in \text{dom}(SI_i) \right\}
+	IRI_p = \left\{ \bigcup SI_i(s_j) \mid Q \not\sqsubseteq_{qs}  s_j \land s_j \in \text{dom}(SI_i) \right\}
 $$
-From this sets of links we define a pruning reachability criteria;
+From these sets of links we define a pruning reachability criterion.
 \begin{equation}
 	cp_{si}(t, iri, Q) = iri \notin IRI_p
 \end{equation}
@@ -263,26 +234,26 @@ To determine whether the contents of a resource conforming to a shape is query-r
 A common approach for validating shapes over an \ac{RDF} graph is to translate shapes into SPARQL queries~\sepfootnote{sf:recursiveShape}~\cite{labragayo2017validatingdescribinglinkeddata, Corman2019, spapeExpressionConvert, delva2023}.
 We denote the transformation of a shape $S$ into a query as $T(S)$, which yields a query $Q_s$.
 We transform open shapes as queries over the entire \ac{KG}, since they impose only the minimal constraints required of a \ac{KG}.
-When the problem is expressed as $\text{GSP} \sqsubseteq_{qs} Q_s$, we say that a GSP is subsumed by $S$ if every result of the GSP can be extended to a result of $Q_s$, and every triple pattern in a GSP is equivalent to or a specialization of those in the $Q_s$.
+When the problem is expressed as $\text{GSP} \sqsubseteq_{qs} Q_s$, we say that a \ac{GSP} is subsumed by $S$ if every result of the \ac{GSP} can be extended to a result of $Q_s$, and every triple pattern in a \ac{GSP} is equivalent to or a specialization of those in the $Q_s$.
 Thus, the problem diverges from traditional query containment and query subsumption~\cite{Spasi2023, Pichler2014} under set semantics.
 Query-shape subsumption does not consider only the set of solution mappings but also the constraints of the queries.
 \footnote{In this sense, it bears some similarity to query containment under bag semantics, particularly through the notion of ``goals-onto'' containment mappings~\cite{Chaudhuri1993, Afrati2010}.}
-The complexity of the problem is reduced by the fact that $Q_s$ has a GSP structure where predicates are always \acp{IRI}.
-This structure arises because shapes describe constraints on predicate and object terms of sets of triple.
+The complexity of the problem is reduced by the fact that $Q_s$ has a \ac{GSP} structure where predicates are always \acp{IRI}.
+This structure arises because shapes describe constraints on the predicate and object terms of sets of triples.
 By exploiting this structure, it is possible to design an algorithm with polynomial-time complexity.
 Moreover, empirical studies suggest that real-world queries tend to be relatively small~\cite{Doan2012, Bonifati2019}, making this algorithm applicable in practice.
 
-More formally, for a $S$ to subsume a shape GSP, we consider the queries $Q$ and $Q_s$, where $Q_s$ is the query translated from $S$, and both are of the form
+More formally, for a $S$ to subsume a shape \ac{GSP}, we consider the queries $Q$ and $Q_s$, where $Q_s$ is the query translated from $S$, and both are of the form
 $$
 	Q_i = Q_{\text{body}} \bowtie Q_{\text{unions}}
 $$
 where $Q_{\text{body}}$ denote the \ac{BGP} of the query, and
-$Q_{\text{unions}} = \bigcup Q_u$ represent the Union Graph Patterns (UGPs)~\cite{w3SPARQLQuery} expressed in normal form, meaning
+$Q_{\text{unions}} = \bigcup Q_u$ represent the \acp{UGP}~\cite{w3SPARQLQuery} expressed in normal form, meaning
 each $Q_u$ is of the form $q_i \cup q_j$, where each $q$ is a \ac{BGP} contain no union statements.
 
 \rone{
 	\paragraph{Example}
-	The query in Figure~\ref{fig:dkg} has two graph star patterns.
+	The query in Figure~\ref{fig:dkg} has two \acp{GSP}.
 	The \texttt{?message} star captures a subset of a post's predicates (\texttt{snvoc:hasCreator}, \texttt{snvoc:content}) and requires \texttt{rdf:type}~\texttt{snvoc:Post}; to decide $Q \sqsubseteq_{qs} S$ for the post shape of Subweb~3, that shape is translated into $Q_s = T(S)$, and every triple pattern of the \texttt{?message} star is equivalent to or a specialization of a pattern in $Q_s$ while each solution extends to one of $Q_s$, so the star is subsumed and the post resources are query-relevant.
 	The \texttt{?linkedMessage} star captures a comment that must reply to a post (\texttt{snvoc:reply}~\texttt{?message}) and be of \texttt{rdf:type}~\texttt{snvoc:Comment}; it is subsumed analogously by the comment shape of Subweb~2.
 }
@@ -291,19 +262,15 @@ each $Q_u$ is of the form $q_i \cup q_j$, where each $q$ is a \ac{BGP} contain n
 
 \input{time-complexity/algorithm/subsums_q_star}
 
-We define the function $subsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a GSP with a root star pattern $Q_{star_i}$ from $Q_{starG_i}$ is sumbsumed by $Q_s$.
-The algorithm also takes a set $Eval_{star}$ to track which partial graph star patterns have already been evaluated.
+We define the function $subsums_{\text{graph star}}$ in Algorithm~\ref{alg:containmentTree} to evaluate whether a \ac{GSP} with a root star pattern $Q_{star_i}$ from $Q_{starG_i}$ is subsumed by $Q_s$.
+The algorithm also takes a set $Eval_{star}$ to track which partial \acp{GSP} have already been evaluated.
 The algorithm iterates over each triple pattern in the root star pattern $Q_{star_i}$ and uses the $match$ function to check if there exists a triple pattern in the \ac{BGP} of $Q_s$ whose domain of matched triples is a superset of that of the current pattern.
-If the triple pattern cannot be found in the \ac{BGP}, the algorithm then looks into the UGPs of $Q_s$.
+If the triple pattern cannot be found in the \ac{BGP}, the algorithm then looks into the \acp{UGP} of $Q_s$.
 %Since we assume that the union statements are not nested, this limits the number of recursive calls.
-If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial graph star pattern in $Q_{starG_i}$.
-In this case, the algorithm recursively applies the same procedure to this partial GSP.
+If an equivalent triple pattern is found, the algorithm checks whether the object of the triple pattern is the subject of a partial \ac{GSP} in $Q_{starG_i}$.
+In this case, the algorithm recursively applies the same procedure to this partial \ac{GSP}.
 To avoid cycles and redundant evaluations we maintain a set of evaluated answers in $Eval_{star}$.
-\iffalse
-	We notice that the complexity of Algorithm~\ref{alg:containmentTree} is $O(n_{tp}^2 \cdot n_{sunion})$
-	where $n_{tp}$ is the number of triple patterns of $Q_{starG_i}$ and $n_{sunion}$ the number of UGP in $Q_s$.
-\fi
-To solve $Q \sqsubseteq_{qs} S$, we need to consider the number of GSP from the \ac{BGP} with their number of segments in the UGP and the number of \acp{BGP} in the UGPs.
+To solve $Q \sqsubseteq_{qs} S$, we need to consider the number of \acp{GSP} from the \ac{BGP} with their number of segments in the \ac{UGP} and the number of \acp{BGP} in the \acp{UGP}.
 This procedure is detailed in Algorithm~\ref{alg:containmentQuery}.
 %This operation results again in a polynomial time complexity algorithm.
 The following paragraphs analyze the time complexity of the algorithm.
@@ -318,11 +285,11 @@ The following paragraphs analyze the time complexity of the algorithm.
 Let $n_{qstar}$ denote the number of distinct $Q_{star} \in Q_{starG_i}$.
 For each node $Q_{star}$, the algorithm iterates over its triple patterns (line 4 to 25), resulting in a time complexity of $O(n_{tp_{Q_{star}}})$.
 For each triple pattern that does not match the shape body ($Q_{s\mathrm{body}}$), the algorithm iterates over all union branches in $Q_{sunion}$ (line 7 to 11), making at most $n_{sunion}$ recursive calls.
-The algorithm traverses the $q_{us}$ graph however each $q_{us} \in Q_{sunion}$ cannot contain a Union Graph Pattern (UGP), and is therefore always of the form $Q_s = Q_{s\mathrm{body}}$, making this
+The algorithm traverses the $q_{us}$ graph however each $q_{us} \in Q_{sunion}$ cannot contain a \ac{UGP}, and is therefore always of the form $Q_s = Q_{s\mathrm{body}}$, making this
 branch (line 5 to 15) of the algorithm after a first execution not the worst case with a complexity of $O(n_{tp_{Q_{star}}}^{2} \cdot n_{sunion})$.
 
 After the first execution, the worst-case scenario becomes one in which the triple patterns matches a pattern in $Q_{s\mathrm{body}}$, and the condition $O(tp) \in S_{star}(Q_{starG_i})$ holds (line 17 to 22).
-In such cases, the algorithm recursively explores the corresponding partial Graph Star Pattern (GSP) by executing $subsums_{\mathrm{graph star}}$, following a graph traversal paradigm.
+In such cases, the algorithm recursively explores the corresponding partial \ac{GSP} by executing $subsums_{\mathrm{graph star}}$, following a graph traversal paradigm.
 
 
 \paragraph{Tree Traversal Argument}
@@ -356,13 +323,13 @@ $$
 
 \input{time-complexity/algorithm/subsums_Q}
 
-The time complexity of the $subsums_{\mathrm{Q}}$ algorithm is straightforward to derive, as it consists of iterating over the GSP of the query and applying the $subsums_{\mathrm{graph star}}$ algorithm. Thus, the time complexity is given by:
+The time complexity of the $subsums_{\mathrm{Q}}$ algorithm is straightforward to derive, as it consists of iterating over the \acp{GSP} of the query and applying the $subsums_{\mathrm{graph star}}$ algorithm. Thus, the time complexity is given by:
 \begin{equation}
 	O\left(n_{sunion} \cdot n_{tp_{max}}^{2} \cdot n_{Q_{star_{max}}} \cdot n_{Q_{starG}}\right)
 \end{equation}
 
 Where, $n_{tp_{max}}$ is the maximum number of triple patterns in any $Q_{starG}$,
 $n_{Q_{star_{max}}}$ is the maximum number of $Q_{star}$ patterns in any $Q_{starG}$, and
-$n_{Q_{starG}}$ is the number of Graph Pattern Structures (GPS) in the query $Q$.\footnote{
+$n_{Q_{starG}}$ is the number of \acp{GSP} in the query $Q$.\footnote{
 	Sharing the evaluation results $Eval_{star}$ from $subsums_{\mathrm{graph star}}$ could reduce execution time and potentially the algorithm's complexity.
 }

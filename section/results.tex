@@ -142,7 +142,7 @@ Notably, for template D6 in Figure~\ref{fig:compApproach}, an outlier query incr
 Figure~\ref{fig:waiting_time} presents the waiting time for the query instances, grouped by template.
 With the exception of queries from the D1 template, which show a decrease in waiting time, the shape index approach generally increases the waiting time for queries that experience a delay before producing results.
 This increase is likely due to the additional dereferencing of shape index documents that must occur before relevant results can be generated.
-Such dereferencing can introduce a gap before the first results appear, even when the total query execution time is reduced or remains unchanged.
+The shape index must also be retrieved whenever traversal reaches a new subweb, which can stall the engine between two consecutive results and widen the gaps counted as waiting time, even when the total query execution time is reduced or remains unchanged.
 
 
 \begin{figure}
@@ -260,12 +260,10 @@ Moreover, the completeness of shape indexes has a smaller impact on performance 
 
 	% General caption
 	\caption{
-		The data show two regimes in the relation between the number of \ac{HTTP} requests and the execution time,
-		we see a more linear correlation on the up figure than on the down figure.
+		The data show two regimes in the relation between the number of \ac{HTTP} requests and the execution time.
+		The correlation is more linear in the left figure than in the right figure.
 	}
 	\label{fig:http_req_exec_time_cor}
-	%\rv{Show the fitting linear regression (in another color)}
-	%\rv{Start both axes at zero?}
 \end{figure*}
 
 \subsection{Relationship Between HTTP Request and Query Execution Time}
