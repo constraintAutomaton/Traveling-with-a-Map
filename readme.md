@@ -5,7 +5,7 @@ The centralization of web information raises legal and ethical concerns, particu
 
 ## Camera-ready PDF
 
-The camera-ready version is available here: https://github.com/constraintAutomaton/Traveling-with-a-Map/releases/download/v1.0-camera-ready/main.pdf
+The camera-ready version is available here: https://github.com/constraintAutomaton/Traveling-with-a-Map/releases/download/v1.1-camera-ready/main.pdf
 
 ## Building a PDF
 The repository uses [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) for the figures.

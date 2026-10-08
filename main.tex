@@ -1,6 +1,16 @@
 % sage_latex_guidelines.tex V1.20, 14 January 2017
 
+% arXiv builds in DVI mode by default and then looks for .eps figures instead
+% of the pre-rendered .pdf we ship. This forces pdfLaTeX.
+\pdfoutput=1
+
 \documentclass[Afour,sageh,times]{sagej}
+
+% Build mode. `make swj-submission` and `make arxiv-submission` each ship a buildmode.tex in their
+% zip (\arxivfalse / \arxivtrue). In the bare repo the file is absent, so the
+% default is the journal build.
+\newif\ifarxiv
+\InputIfFileExists{buildmode.tex}{}{}
 
 \usepackage{moreverb,url}
 
@@ -38,7 +48,10 @@
 \newcommand{\pc}[1]{\textcolor{red}{Pieter: #1}}
 \newcommand{\rt}[1]{\textcolor{blue}{RT: #1}}
 \newcommand{\jr}[1]{\textcolor{orange}{JR: #1}}
-\usepackage{svg}
+% SVG figures are rendered by `make` into build/figures/: <name>.pdf, or for
+% figures with LaTeX text the inkscape text overlay <name>.tex, which loads
+% its graphic <name>-img.pdf by bare name (hence the graphicspath).
+\graphicspath{{build/figures/}}
 \usepackage{sepfootnotes}
 \usepackage{amsmath}
 \usepackage{stmaryrd}
@@ -52,13 +65,6 @@
 \usepackage{enumitem}
 \usepackage{multirow}
 \usepackage{amsthm}
-\usepackage[mathlines]{lineno}
-% Two-column line numbers in the OUTER margins (left col -> left, right col ->
-% right) so they never land in the narrow gutter and collide with text.
-\makeatletter
-\newcommand*\@LN@outerlinenumber{%
-  \if@firstcolumn \makeLineNumberLeft \else \makeLineNumberRight \fi}
-\makeatother
 
 \newtheorem{definition}{Definition}
 
@@ -78,13 +84,30 @@
 \newcommand\BibTeX{{\rmfamily B\kern-.05em \textsc{i\kern-.025em b}\kern-.08em
 T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
-\def\volumeyear{2026}
-\def\journalname{Semantic Web journal}
+\ifarxiv
+  \def\volumeyear{\the\year}
+  \def\journalname{Preprint}
+\else
+  \def\volumeyear{2026}
+  \def\journalname{Semantic Web journal}
+\fi
 
 \usepackage{csquotes}
 \usepackage{acro}
 \input{acronyms}
 \include{reviewing}
+
+% Line numbers only in review mode: lineno v5.5 (2025/05/13) drops the
+% running head on odd pages.
+\ifreview
+  \usepackage[mathlines]{lineno}
+  % Two-column line numbers in the OUTER margins (left col -> left, right col ->
+  % right) so they never land in the narrow gutter and collide with text.
+  \makeatletter
+  \newcommand*\@LN@outerlinenumber{%
+    \if@firstcolumn \makeLineNumberLeft \else \makeLineNumberRight \fi}
+  \makeatother
+\fi
 
 \begin{document}
 \ifreview
@@ -97,7 +120,7 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \ifanonymous
       \author{Anonymous}
     \else
-      \author{Bryan-Elliott Tam\affilnum{1}, Joachim Van Herwegen\affilnum{1}, Pieter Colpaert\affilnum{1}, Ruben Verborgh\affilnum{1} and Ruben Taelman\affilnum{1}}
+      \author{Bryan-Elliott Tam\affilnum{1}, Joanna Van Herwegen\affilnum{1}, Pieter Colpaert\affilnum{1}, Ruben Verborgh\affilnum{1} and Ruben Taelman\affilnum{1}}
 
       \affiliation{\affilnum{1}Department of Electronics and Information Systems, Ghent University – imec}
 

@@ -17,7 +17,8 @@
 \end{figure*}
 
 \begin{figure}
-	\includesvg[width=\linewidth]{analysis/artefact/variation_approach/s1_violon_plots}
+	\def\svgwidth{\linewidth}
+	\input{build/figures/s1_violon_plots.tex}
 	\caption{
 		Distribution of query execution times (sample size: 50) for queries derived from the S1 template.
 		The results show that the execution time of data-model selective queries is significantly reduced when using the shape index approach.
@@ -27,7 +28,8 @@
 
 
 \begin{figure}
-	\includesvg[width=\linewidth]{analysis/artefact/variation_approach/d7_violon_plots}
+	\def\svgwidth{\linewidth}
+	\input{build/figures/d7_violon_plots.tex}
 	\caption{
 		Distribution of query execution times (sample size: 50) for queries derived from the D7 template.
 		The results show that the execution time of non-data-model selective queries is not significantly affected by the shape index approach.
@@ -37,7 +39,8 @@
 
 
 \begin{figure}
-	\includesvg[width=\linewidth]{analysis/artefact/variation_approach/s4_violon_plots}
+	\def\svgwidth{\linewidth}
+	\input{build/figures/s4_violon_plots.tex}
 	\caption{
 		Distribution of query execution times (sample size: 50) for queries derived from the S4 template.
 		Queries that do not exploit the structural properties of the dataset are significantly negatively impacted by the shape index approach.
@@ -86,7 +89,8 @@ Tables~\ref{tab:dief} and \ref{tab:continuousPerf} in the \hyperref[sec:appendix
 
 \begin{figure}
 	\centering
-	\includesvg[width=\linewidth]{analysis/artefact/continuous_performance/first_result}
+	\def\svgwidth{\linewidth}
+	\input{build/figures/first_result.tex}
 	\caption{
 		\textbf{The first result distribution by query template.}
 		The shape index approach tends to produce the first results earlier than the type index approach, particularly for queries where the shape index achieves shorter total execution times.}
@@ -109,7 +113,8 @@ In contrast, the shape index approach may delay first result production because 
 
 \begin{figure}
 	\centering
-	\includesvg[width=\linewidth]{analysis/artefact/continuous_performance/termination_time}
+	\def\svgwidth{\linewidth}
+	\input{build/figures/termination_time.tex}
 	\caption{
 		\textbf{The termination time distribution by query template.}
 		With the exception of queries from templates D6 and D7, which have similar execution times, the shape index either maintains or improves query termination time.}
@@ -131,7 +136,8 @@ Notably, for template D6 in Figure~\ref{fig:compApproach}, an outlier query incr
 
 \begin{figure}
 	\centering
-	\includesvg[width=\linewidth]{analysis/artefact/continuous_performance/waiting_time}
+	\def\svgwidth{\linewidth}
+	\input{build/figures/waiting_time.tex}
 	\caption{
 		\textbf{The waiting time distribution by query template.}
 		Except for queries from template D1, the shape index approach tends to either maintain or worsen the waiting time.}
@@ -147,7 +153,8 @@ The shape index must also be retrieved whenever traversal reaches a new subweb, 
 
 \begin{figure}
 	\centering
-	\includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_01}
+	\def\svgwidth{\linewidth}
+	\input{build/figures/dief_01.tex}
 	\caption{
 		\textbf{The \textit{dief@0.1s} distribution by query template.}
 		At 0.1 second, the value is zero for every query template except S4. This is expected, as for all other templates the first result arrives after 0.1 seconds.}
@@ -156,7 +163,8 @@ The shape index must also be retrieved whenever traversal reaches a new subweb, 
 
 \begin{figure}
 	\centering
-	\includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_1}
+	\def\svgwidth{\linewidth}
+	\input{build/figures/dief_1.tex}
 	\caption{
 		\textbf{The \textit{dief@1s} distribution by query template.}
 		At 1 second, the shape index approach shows a higher \textit{dief@1s} (\textbf{higher is better}), indicating that more results can be obtained by users while maintaining a seamless flow of thought.}
@@ -166,7 +174,8 @@ The shape index must also be retrieved whenever traversal reaches a new subweb, 
 
 \begin{figure}
 	\centering
-	\includesvg[width=\linewidth]{analysis/artefact/continuous_performance/dief_lr}
+	\def\svgwidth{\linewidth}
+	\input{build/figures/dief_lr.tex}
 	\caption{
 		\textbf{The \textit{dief@lr} distribution by query template.}
 		At the time of the last result, the shape index approach tends to exhibit a similar \textit{dief@t} (\textbf{higher is better}).}

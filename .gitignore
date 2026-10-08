@@ -33,3 +33,4 @@ main.fdb_latexmk
 *.bcf-SAVE-ERROR
 repos
 review/letter.docx
+build
